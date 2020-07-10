@@ -26,13 +26,13 @@ class ViewController: UIViewController {
     }
     
     func chooseLanguage() {
-        let vc = storyboard?.instantiateViewController(identifier: "ChooseLanguageController") as! ChooseLanguageController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ChooseLanguageController") as! ChooseLanguageController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
     
     func sentToTrending() {
-        let vc = storyboard?.instantiateViewController(identifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }

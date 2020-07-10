@@ -8,6 +8,9 @@
 
 import UIKit
 
+import Firebase
+import GoogleSignIn
+
 class LoginAndSignUpViewController: UIViewController {
 
     @IBOutlet weak var signInWithGoogle: UIButton!
@@ -53,9 +56,34 @@ class LoginAndSignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        FirebaseApp.configure()
+
+        GIDSignIn.sharedInstance().clientID = "581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().delegate = self
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
     
         signInWithGoogle.layer.cornerRadius = 10.0
     
         continueWithMobile.layer.cornerRadius = 10.0
     }
+    
+    
+    @IBAction func googleSignIn(_ sender: Any) {
+        GIDSignIn.sharedInstance().signIn()
+    }
+}
+
+extension LoginAndSignUpViewController : GIDSignInDelegate {
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        print("User Profile \(user.profile.email ?? "No Email") \(user.authentication.idToken ?? "")")
+    }
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance().handle(url)
+    }
+    
 }

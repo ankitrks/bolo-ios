@@ -47,24 +47,24 @@ class DiscoverViewController: UIViewController {
     }
     
     func goToNotification() {
-        let vc = storyboard?.instantiateViewController(identifier: "NotificationViewController") as! NotificationViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "NotificationViewController") as! NotificationViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
     
     func goToCurrentUSerProfile() {
-        let vc = storyboard?.instantiateViewController(identifier: "CurrentUserViewController") as! CurrentUserViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CurrentUserViewController") as! CurrentUserViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
     
     func goToHomePage() {
-        let vc = storyboard?.instantiateViewController(identifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController;       vc.modalPresentationStyle = .fullScreen
+        let vc = storyboard?.instantiateViewController(withIdentifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController;       vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
     
     func goToLoginPage() {
-       let vc = storyboard?.instantiateViewController(identifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
+       let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }

@@ -25,7 +25,7 @@ class ChooseLanguageController: UIViewController {
     }
     
     func sentToTrending() {
-        let vc = storyboard?.instantiateViewController(identifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
