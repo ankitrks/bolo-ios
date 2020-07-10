@@ -1,20 +1,16 @@
 //
-//  ViewController.swift
+//  OtpVerifyViewController.swift
 //  BoloIndya
 //
-//  Created by apple on 7/9/20.
+//  Created by apple on 7/10/20.
 //  Copyright © 2020 Synergybyte Media Private Limited. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class OtpVerifyViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
-
