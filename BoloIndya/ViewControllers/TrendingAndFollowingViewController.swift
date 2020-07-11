@@ -10,12 +10,6 @@ import UIKit
 
 class TrendingAndFollowingViewController: UIViewController {
     
-    @IBOutlet weak var profile: UIButton!
-    
-    @IBOutlet weak var notification: UIButton!
-    
-    @IBOutlet weak var discover: UIButton!
-    
     @IBOutlet weak var trendingView: UITableView!
     
     var videos: [Topic] = []
@@ -34,47 +28,12 @@ class TrendingAndFollowingViewController: UIViewController {
     
     @IBAction func goToNextScreens(_ sender: UIButton) {
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        switch(sender) {
-        case profile:
-            if (isLoggedIn) {
-            goToCurrentUSerProfile()
-            } else {
-                goToLoginPage()
-            }
-            break
-        case notification:
-            if (isLoggedIn) {
-                goToNotification()
-            } else {
-                goToLoginPage()
-            }
-            break
-        case discover:
-            goToDiscoverPage()
-            break
-        default:
-            break
+
+        if (!isLoggedIn) {
+            goToLoginPage()
         }
     }
-    
-    func goToNotification() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "NotificationViewController") as! NotificationViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
-    }
-    
-    func goToCurrentUSerProfile() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "CurrentUserViewController") as! CurrentUserViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
-    }
-    
-    func goToDiscoverPage() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "DiscoverViewController") as! DiscoverViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
-    }
-    
+
     func goToLoginPage() {
        let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
         vc.modalPresentationStyle = .fullScreen

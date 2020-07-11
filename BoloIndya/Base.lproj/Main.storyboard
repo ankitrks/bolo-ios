@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -30,13 +31,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Pee-OJ-Fn9">
-                                <rect key="frame" x="10" y="333" width="394" height="230"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Pee-OJ-Fn9">
+                                <rect key="frame" x="10" y="293" width="394" height="310.5"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Language to Start" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cH-LE-Dr8">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Den-0H-ypS">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="40"/>
+                                        <rect key="frame" x="0.0" y="30.5" width="394" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CY1-rr-0T1">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CY1-rr-0T1" customClass="ActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="fTY-8o-Tci"/>
@@ -46,7 +53,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="j3I-XH-3Ym"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUe-Qc-teS">
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUe-Qc-teS" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="qMB-h2-qwY"/>
@@ -59,9 +66,9 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jVi-bH-YdO">
-                                        <rect key="frame" x="0.0" y="40" width="394" height="30"/>
+                                        <rect key="frame" x="0.0" y="80.5" width="394" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tji-T5-9bu">
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tji-T5-9bu" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="FxY-HQ-3U6"/>
@@ -71,7 +78,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="pEC-8c-6dJ"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cP-pv-Hcl">
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cP-pv-Hcl" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="30"/>
                                                 <state key="normal" title="ಕನ್ನಡ"/>
                                                 <connections>
@@ -81,9 +88,9 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FkB-x1-TDr">
-                                        <rect key="frame" x="0.0" y="70" width="394" height="40"/>
+                                        <rect key="frame" x="0.0" y="120.5" width="394" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DcF-Cq-Ha5">
+                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DcF-Cq-Ha5" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="E87-Vr-U8b"/>
@@ -93,7 +100,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="GVH-0h-xR2"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-ek-Nen">
+                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-ek-Nen" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="e4N-L6-Nrb"/>
@@ -106,9 +113,9 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="byf-DJ-5db">
-                                        <rect key="frame" x="0.0" y="110" width="394" height="40"/>
+                                        <rect key="frame" x="0.0" y="170.5" width="394" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-QE-PeP">
+                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-QE-PeP" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="y7W-Lf-Z4H"/>
@@ -118,7 +125,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="wiY-aw-EEr"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gj-Gc-bCx">
+                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gj-Gc-bCx" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="Nft-NQ-aHF"/>
@@ -131,9 +138,9 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dUE-AM-0An">
-                                        <rect key="frame" x="0.0" y="150" width="394" height="40"/>
+                                        <rect key="frame" x="0.0" y="220.5" width="394" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wH7-RB-MNl">
+                                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wH7-RB-MNl" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="wfd-7C-40A"/>
@@ -143,7 +150,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="Zyo-Ec-Cv1"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-4J-6fK">
+                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-4J-6fK" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="HWP-La-0Y6"/>
@@ -156,9 +163,9 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iJY-xK-yt9">
-                                        <rect key="frame" x="0.0" y="190" width="394" height="40"/>
+                                        <rect key="frame" x="0.0" y="270.5" width="394" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTR-wp-CFI">
+                                            <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTR-wp-CFI" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="RPa-0Y-0lL"/>
@@ -168,7 +175,7 @@
                                                     <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="EZT-YY-aj9"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFw-lx-imO">
+                                            <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFw-lx-imO" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
                                                 <rect key="frame" x="202" y="0.0" width="192" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="GRH-3I-iPp"/>
@@ -196,7 +203,7 @@
             </objects>
             <point key="canvasLocation" x="410.14492753623193" y="-248.4375"/>
         </scene>
-        <!--Current User View Controller-->
+        <!--Item-->
         <scene sceneID="LWz-4B-5Ao">
             <objects>
                 <viewController restorationIdentifier="CurrentUserViewController" storyboardIdentifier="CurrentUserViewController" id="XMT-4K-sc9" customClass="CurrentUserViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
@@ -206,12 +213,34 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="0AW-cA-orr"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="tE6-el-E1H"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfI-kd-JB7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1178" y="-238"/>
+            <point key="canvasLocation" x="2565" y="1118"/>
         </scene>
-        <!--Trending And Following View Controller-->
+        <!--Main View Controller-->
+        <scene sceneID="4bQ-4u-JD8">
+            <objects>
+                <tabBarController restorationIdentifier="MainViewController" storyboardIdentifier="MainViewController" id="l6U-lJ-p5v" customClass="MainViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="w5W-UW-lpp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Hyp-EE-lTC" kind="relationship" relationship="viewControllers" id="CRH-Wu-VK7"/>
+                        <segue destination="93C-dW-PRC" kind="relationship" relationship="viewControllers" id="JZE-Cp-wmV"/>
+                        <segue destination="qYv-fu-rie" kind="relationship" relationship="viewControllers" id="nz2-I2-2N3"/>
+                        <segue destination="wIJ-56-qf1" kind="relationship" relationship="viewControllers" id="g1f-Gz-pVH"/>
+                        <segue destination="XMT-4K-sc9" kind="relationship" relationship="viewControllers" id="JVE-2z-6Fh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4g4-Vt-VHT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="410" y="455"/>
+        </scene>
+        <!--Item-->
         <scene sceneID="mrb-Pe-Oa0">
             <objects>
                 <viewController restorationIdentifier="TrendingAndFollowingViewController" storyboardIdentifier="TrendingAndFollowingViewController" id="Hyp-EE-lTC" customClass="TrendingAndFollowingViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
@@ -220,7 +249,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2Uc-Fh-6jK">
-                                <rect key="frame" x="0.0" y="64" width="414" height="768"/>
+                                <rect key="frame" x="0.0" y="66" width="414" height="768"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -244,73 +273,21 @@
                                     <outlet property="delegate" destination="Hyp-EE-lTC" id="UFt-0e-soN"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QDR-H4-Stl">
-                                <rect key="frame" x="0.0" y="792" width="414" height="70"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwM-Ib-9E9">
-                                        <rect key="frame" x="0.0" y="0.0" width="83" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                                        <state key="normal" title="Button" image="house" catalog="system"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k1S-ZL-Rns">
-                                        <rect key="frame" x="83" y="0.0" width="82.5" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                                        <state key="normal" title="Button" image="magnifyingglass" catalog="system"/>
-                                        <connections>
-                                            <action selector="goToNextScreens:" destination="Hyp-EE-lTC" eventType="touchUpInside" id="va2-rB-Svq"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lzR-54-m47">
-                                        <rect key="frame" x="165.5" y="0.0" width="83" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                                        <state key="normal" title="Button" image="plus.rectangle.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="goToNextScreens:" destination="Hyp-EE-lTC" eventType="touchUpInside" id="gQZ-fA-VZh"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ii8-Zv-cMW">
-                                        <rect key="frame" x="248.5" y="0.0" width="82.5" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                                        <state key="normal" title="Button" image="bell" catalog="system"/>
-                                        <connections>
-                                            <action selector="goToNextScreens:" destination="Hyp-EE-lTC" eventType="touchUpInside" id="enM-bR-tXF"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-GL-mLS">
-                                        <rect key="frame" x="331" y="0.0" width="83" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                                        <state key="normal" title="Button" image="person.circle.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="goToNextScreens:" destination="Hyp-EE-lTC" eventType="touchUpInside" id="ekP-pG-BEy"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="3st-3D-FeH"/>
-                                </constraints>
-                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="QDR-H4-Stl" secondAttribute="trailing" id="BBY-HC-P6i"/>
-                            <constraint firstItem="lEr-WQ-j3o" firstAttribute="bottom" secondItem="QDR-H4-Stl" secondAttribute="bottom" id="HSx-6K-VMe"/>
-                            <constraint firstItem="QDR-H4-Stl" firstAttribute="leading" secondItem="lEr-WQ-j3o" secondAttribute="leading" id="ibV-Be-8zF"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="lEr-WQ-j3o"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="TiW-aR-f4z"/>
                     <connections>
-                        <outlet property="discover" destination="k1S-ZL-Rns" id="KTo-Yp-U3z"/>
-                        <outlet property="notification" destination="ii8-Zv-cMW" id="vm8-Fx-MUc"/>
-                        <outlet property="profile" destination="i8w-GL-mLS" id="1G6-41-XUR"/>
                         <outlet property="trendingView" destination="2Uc-Fh-6jK" id="5f8-h8-N5y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TZa-26-0YZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="U3H-wV-TFD"/>
             </objects>
-            <point key="canvasLocation" x="410" y="446"/>
+            <point key="canvasLocation" x="-323" y="1104"/>
         </scene>
-        <!--Notification View Controller-->
+        <!--Item-->
         <scene sceneID="9B2-Hn-HZV">
             <objects>
                 <viewController restorationIdentifier="NotificationViewController" storyboardIdentifier="NotificationViewController" id="wIJ-56-qf1" customClass="NotificationViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
@@ -320,10 +297,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="ZL1-ig-cVh"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" image="notification" id="240-oM-BKZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gH-nW-4lB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1170" y="455"/>
+            <point key="canvasLocation" x="1874" y="1118"/>
         </scene>
         <!--Login And Sign Up View Controller-->
         <scene sceneID="kbj-aZ-DwP">
@@ -373,27 +351,53 @@
                                     <constraint firstItem="JjO-Ts-K2M" firstAttribute="leading" secondItem="iN9-v3-dKQ" secondAttribute="leading" id="SDc-ZA-U4d"/>
                                 </constraints>
                             </stackView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="MYn-yH-0WS">
+                                <rect key="frame" x="10" y="406" width="394" height="84"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ppc-Yz-w3q">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Epf-rP-MAx">
+                                        <rect key="frame" x="0.0" y="54" width="394" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Verify">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="verifyOTP:" destination="ItB-2c-c5G" eventType="touchUpInside" id="Usw-RN-itD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="abh-1W-i0L" secondAttribute="leading" constant="10" id="32u-fF-N72"/>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="HJI-d5-6Gb" secondAttribute="leading" constant="10" id="PNr-V7-OEc"/>
+                            <constraint firstAttribute="trailing" secondItem="MYn-yH-0WS" secondAttribute="trailing" constant="10" id="Pcq-Mm-irT"/>
                             <constraint firstItem="abh-1W-i0L" firstAttribute="trailing" secondItem="iN9-v3-dKQ" secondAttribute="trailing" constant="10" id="Prz-7g-ISe"/>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="centerY" secondItem="HJI-d5-6Gb" secondAttribute="centerY" id="T6I-kK-2VD"/>
+                            <constraint firstItem="MYn-yH-0WS" firstAttribute="centerY" secondItem="HJI-d5-6Gb" secondAttribute="centerY" id="TmB-6y-HDI"/>
+                            <constraint firstItem="MYn-yH-0WS" firstAttribute="leading" secondItem="HJI-d5-6Gb" secondAttribute="leading" constant="10" id="aSX-fV-dig"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="abh-1W-i0L"/>
                     </view>
                     <connections>
                         <outlet property="continueWithMobile" destination="3vV-GA-iNU" id="Prk-WX-qKy"/>
                         <outlet property="mobile_no" destination="di6-PD-vmC" id="vkX-nl-gVD"/>
+                        <outlet property="number_and_google_login_view" destination="iN9-v3-dKQ" id="idl-oX-rJM"/>
+                        <outlet property="otp" destination="Ppc-Yz-w3q" id="fH8-X3-uYM"/>
+                        <outlet property="otp_view" destination="MYn-yH-0WS" id="8dF-gn-VCl"/>
                         <outlet property="signInWithGoogle" destination="rKm-tN-nzv" id="Mea-zz-bZg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbC-IM-F7P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="406" y="1129"/>
+            <point key="canvasLocation" x="1135" y="455"/>
         </scene>
-        <!--Discover View Controller-->
+        <!--Item-->
         <scene sceneID="eU4-4L-zJU">
             <objects>
                 <viewController restorationIdentifier="DiscoverViewController" storyboardIdentifier="DiscoverViewController" id="93C-dW-PRC" customClass="DiscoverViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
@@ -458,6 +462,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YTz-Jl-zV7"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="1e9-NK-BaQ"/>
                     <connections>
                         <outlet property="home" destination="rBi-K9-7gf" id="Nt0-fe-xae"/>
                         <outlet property="notification" destination="wJ0-dU-wk1" id="RFI-Rm-JG4"/>
@@ -466,13 +471,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDU-t3-36F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1199" y="1125"/>
+            <point key="canvasLocation" x="439" y="1118"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="VIN-5l-HrF">
+            <objects>
+                <viewController restorationIdentifier="CreateVideoViewController" storyboardIdentifier="CreateVideoViewController" id="qYv-fu-rie" customClass="CreateVideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Zq-Y1-oo9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="xJs-ah-fnG"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="KNL-jq-Fg1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cWd-If-DmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136" y="1118"/>
         </scene>
     </scenes>
     <resources>
         <image name="bell" catalog="system" width="128" height="124"/>
         <image name="house" catalog="system" width="128" height="110"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="notification" width="24" height="24"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus.rectangle.fill" catalog="system" width="128" height="93"/>

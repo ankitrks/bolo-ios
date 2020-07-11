@@ -14,6 +14,16 @@ class NotificationViewController: UIViewController {
         super.viewDidLoad()
         print("Notification")
         // Do any additional setup after loading the view.
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+            goToLoginPage()
+        }
+    }
+    
+    func goToLoginPage() {
+       let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: false)
     }
 
 }

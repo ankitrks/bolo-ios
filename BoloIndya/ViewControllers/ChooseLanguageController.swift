@@ -10,13 +10,10 @@ import UIKit
 
 class ChooseLanguageController: UIViewController {
     
-    let defaults = UserDefaults.standard
-    
     @IBAction func chooseLanguage(_ sender: UIButton) {
         UserDefaults.standard.setValueForLanguageId(value: sender.tag)
         sentToTrending()
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +22,7 @@ class ChooseLanguageController: UIViewController {
     }
     
     func sentToTrending() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
