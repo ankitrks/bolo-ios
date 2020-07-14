@@ -12,6 +12,7 @@ class Topic {
     var title: String
     var thumbnail: String
     var duration: String
+    var video_url: String
     var id: String
     var view_count: String
     var comment_count: String
@@ -24,6 +25,7 @@ class Topic {
         self.id = ""
         self.view_count = ""
         self.comment_count = ""
+        self.video_url = ""
         self.user = user
     }
     

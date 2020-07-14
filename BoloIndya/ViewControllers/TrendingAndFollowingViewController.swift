@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import AVFoundation
 
 class TrendingAndFollowingViewController: UIViewController {
     
@@ -17,12 +18,34 @@ class TrendingAndFollowingViewController: UIViewController {
     var videos: [Topic] = []
     var page: Int = 1
     var isLoading: Bool = false
+    var selected_position = 0
+    
+    var current_video_cell: VideoCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Trending")
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         fetchData()
         setTrendingViewDelegate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+        if current_video_cell != nil {
+            current_video_cell.player.player?.play()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+        }
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func setTrendingViewDelegate() {
@@ -78,13 +101,24 @@ class TrendingAndFollowingViewController: UIViewController {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["topics"] as? [[String:Any]] {
                             for each in content {
+                                print(each)
                                 let user = User()
                                 let user_obj = each["user"] as? [String:Any]
-                                
+                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
+                                user.setId(id: (user_obj?["id"] as? Int ?? 0))
                                 user.setUserName(username: user_obj?["username"] as? String ?? "")
+                                
+                                user.setName(name: user_profile_obj?["name"] as? String ?? "")
+                                user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
+                                user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
+                                user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+                                
                                 let topic = Topic(user: user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
+                                
+                                topic.video_url = each["question_video"] as? String ?? ""
+                                
                                 self.videos.append(topic)
                             }
                             self.isLoading = false
@@ -101,6 +135,13 @@ class TrendingAndFollowingViewController: UIViewController {
                     self.isLoading = false
                     print(error)
                 }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ProfileViewController {
+            let vc = segue.destination as? ProfileViewController
+            vc?.user = videos[selected_position].user
         }
     }
 }
@@ -131,6 +172,25 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
             self.fetchData()
         }
+
+        let video_cell = cell as! VideoCell
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+        }
         
+        current_video_cell = video_cell
+        
+        let videoUrl = NSURL(string: videos[indexPath.row].video_url)
+        let avPlayer = AVPlayer(url: videoUrl! as URL)
+
+        video_cell.player.playerLayer.player = avPlayer
+        video_cell.player.player?.play()
+
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selected_position = indexPath.row
+        self.performSegue(withIdentifier: "ProfileView", sender: self)
+        self.tabBarController?.tabBar.isHidden = true
     }
 }

@@ -16,12 +16,16 @@ class VideoCell: UITableViewCell {
     
     var video_image =  UIImageView()
     
+    var player = PlayerViewClass()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(video_image)
+        addSubview(player)
         addSubview(title)
         addSubview(username)
         
+        setPlayer()
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
@@ -71,5 +75,15 @@ class VideoCell: UITableViewCell {
         video_image.contentMode = .scaleAspectFit
         video_image.clipsToBounds = true
         video_image.backgroundColor = .black
+    }
+    
+    func setPlayer() {
+        player.translatesAutoresizingMaskIntoConstraints = false
+        player.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+        player.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        player.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        player.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        player.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
     }
 } 

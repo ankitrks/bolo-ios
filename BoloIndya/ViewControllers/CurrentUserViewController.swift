@@ -38,11 +38,24 @@ class CurrentUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Current User")
+        self.navigationController?.isNavigationBarHidden = true
         setUserData()
         setTableView()
         setUserVideoView()
         fetchData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
 
     func setUserData() {
         if (!(UserDefaults.standard.getCoverPic() ?? "").isEmpty) {
@@ -64,7 +77,7 @@ class CurrentUserViewController: UIViewController {
         let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 120)
+        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: (screenSize.width/3.4) * 1.5)
         userVideoView.collectionViewLayout = layout
         
         userVideoView.delegate = self
@@ -73,7 +86,7 @@ class CurrentUserViewController: UIViewController {
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(userVideoView)
         
-        self.userVideoView.frame = CGRect(x: 0, y: 340, width: screenSize.width, height: screenSize.height-((self.tabBarController?.tabBar.frame.size.height ?? 49.0)+298))
+        self.userVideoView.frame = CGRect(x: 0, y: 310, width: screenSize.width, height: screenSize.height-((self.tabBarController?.tabBar.frame.size.height ?? 49.0)+298))
     }
     
     func setTableView() {
@@ -184,15 +197,19 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         self.onClickTransparentView()
         switch indexPath.row {
         case 2:
+            self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "updateInterset", sender: self)
             break
         case 3:
+            self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "chooseLanguage", sender: self)
             break
         case 4:
-           performSegue(withIdentifier: "feedbackUser", sender: self)
-           break
+            self.tabBarController?.tabBar.isHidden = true
+            performSegue(withIdentifier: "feedbackUser", sender: self)
+            break
         case 5:
+            self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "termsPages", sender: self)
             break
         case 6:
@@ -232,7 +249,7 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: 120)
+        return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

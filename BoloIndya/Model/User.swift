@@ -10,19 +10,44 @@ import Foundation
 
 class User {
     
-    var id: String
+    var id: Int
     var username: String
+    var name: String
+    var bio: String
+    var cover_pic: String
+    var profile_pic: String
     
     init() {
-        self.id = ""
+        self.id = 0
         self.username = ""
+        self.name = ""
+        self.bio = ""
+        self.cover_pic = ""
+        self.profile_pic = ""
     }
     
-    func setId(id: String) {
+    func setId(id: Int) {
         self.id = id
     }
     
     func setUserName(username: String) {
         self.username = username
     }
+    
+    func setName(name: String) {
+        self.name = name
+    }
+    
+    func setBio(bio: String) {
+        self.bio = bio
+    }
+    
+    func setCoverPic(cover_pic: String) {
+        self.cover_pic = cover_pic
+    }
+    
+    func setProfilePic(profile_pic: String) {
+        self.profile_pic = profile_pic
+    }
+    
 }
