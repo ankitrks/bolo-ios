@@ -24,6 +24,7 @@ class CurrentUserViewController: UIViewController {
     var isLoading: Bool = false
     var page: Int = 1
     var topics: [Topic] = []
+    var selected_position: Int = 0
     var isFinished: Bool = false
 
     var transparentView = UIView()
@@ -120,6 +121,14 @@ class CurrentUserViewController: UIViewController {
         self.tableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: self.height)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is VideoViewController {
+            let vc = segue.destination as? VideoViewController
+            vc?.videos = topics
+            vc?.selected_position = selected_position
+        }
+    }
+    
     func fetchData() {
 
         if (isLoading || isFinished) {
@@ -156,6 +165,7 @@ class CurrentUserViewController: UIViewController {
                                 let topic = Topic(user: user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
+                                topic.video_url = each["question_video"] as? String ?? ""
                                 self.topics.append(topic)
                             }
                             self.isLoading = false
@@ -231,6 +241,8 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
 extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.tabBarController?.tabBar.isHidden = true
+        performSegue(withIdentifier: "VideoView", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
@@ -257,5 +269,6 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
                 self.fetchData()
         }
     }
+    
 }
 

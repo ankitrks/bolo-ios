@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     
     var user = User()
             
+    var selected_position: Int = 0
     var isLoading: Bool = false
     var page: Int = 1
     var topics: [Topic] = []
@@ -32,7 +33,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUserVideoView()
-        fetchData()
+        fetchUserData()
     }
     
     func setUserVideoView() {
@@ -92,13 +93,13 @@ class ProfileViewController: UIViewController {
                                 return
                             }
                             for each in content {
-                                let user = User()
                                 let user_obj = each["user"] as? [String:Any]
-                                
-                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                let topic = Topic(user: user)
+                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
+                            
+                                let topic = Topic(user: self.user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
+                                topic.video_url = each["question_video"] as? String ?? ""
                                 self.topics.append(topic)
                             }
                             self.isLoading = false
@@ -118,11 +119,72 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func fetchUserData() {
+        
+        if (isLoading) {
+            return
+        }
+        
+        isLoading = true
+        
+        let paramters: [String: Any] = [
+            "user_id": "\(user.id)"
+        ]
+        
+        let url = "https://www.boloindya.com/api/v1/get_userprofile/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
+            .responseString  { (responseData) in
+                print(responseData)
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                    
+                    do {
+                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                        if let result = json_object?["result"] as? [String:Any] {
+                            let user_profile_obj = result["userprofile"] as? [String:Any]
+                            self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
+                                
+                            self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
+                            self.user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
+                            self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
+                            self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+                                
+                            self.isLoading = false
+                            self.fetchData()
+                        }
+                    }
+                    catch {
+                        self.isLoading = false
+                        self.fetchData()
+                        print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    self.isLoading = false
+                    self.fetchData()
+                    print(error)
+                }
+        }
+    }
+    
+    
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if segue.destination is VideoViewController {
+          let vc = segue.destination as? VideoViewController
+          vc?.videos = topics
+          vc?.selected_position = selected_position
+      }
+  }
+    
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selected_position = indexPath.row
+        performSegue(withIdentifier: "VideoViewOtherUser", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     

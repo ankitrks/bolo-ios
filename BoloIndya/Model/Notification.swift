@@ -12,18 +12,20 @@ import UIKit
 class Notification {
     
     var id: Int
+    var instance_id: Int
     var title: String
     var read_status: Int
     var notification_type: String
     var actor_profile_pic: String
     var created_at: String
     
-    init(id: Int, title: String, read_status: Int, notification_type: String, actor_profile_pic: String, created_at: String) {
+    init(id: Int, title: String, read_status: Int, notification_type: String, actor_profile_pic: String, created_at: String, instance_id: Int) {
         self.id = id
         self.title = title
         self.read_status = read_status
         self.notification_type = notification_type
         self.actor_profile_pic = actor_profile_pic
         self.created_at = created_at
+        self.instance_id = instance_id
     }
 }

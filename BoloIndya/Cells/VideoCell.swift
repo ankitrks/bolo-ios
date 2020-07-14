@@ -65,8 +65,8 @@ class VideoCell: UITableViewCell {
     
     func setImageView() {
         video_image.translatesAutoresizingMaskIntoConstraints = false
-        video_image.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-        video_image.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+//        video_image.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+//        video_image.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         video_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         video_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         video_image.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
@@ -79,8 +79,8 @@ class VideoCell: UITableViewCell {
     
     func setPlayer() {
         player.translatesAutoresizingMaskIntoConstraints = false
-        player.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-        player.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+//        player.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+//        player.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         player.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         player.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true

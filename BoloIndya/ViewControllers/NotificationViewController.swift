@@ -16,12 +16,13 @@ class NotificationViewController: UIViewController {
     var next_offset = "0"
 
     var notifications: [Notification] = []
-    
+    var selected_position: Int = 0
     var isLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Notification")
+        self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
@@ -31,6 +32,17 @@ class NotificationViewController: UIViewController {
             fetchNotifications()
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           self.navigationController?.isNavigationBarHidden = true
+           self.tabBarController?.tabBar.isHidden = false
+       }
+       
+       override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           self.navigationController?.isNavigationBarHidden = false
+       }
     
     func goToLoginPage() {
        let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
@@ -72,7 +84,7 @@ class NotificationViewController: UIViewController {
                         
                         if let content = json_object?["notification_data"] as? [[String:Any]] {
                             for each in content {
-                                let notification = Notification(id: each["id"] as! Int, title: each["title"] as! String, read_status: each["read_status"] as! Int, notification_type: each["notification_type"] as! String, actor_profile_pic: each["actor_profile_pic"] as! String, created_at: each["created_at"] as! String)
+                                let notification = Notification(id: each["id"] as! Int, title: each["title"] as! String, read_status: each["read_status"] as! Int, notification_type: each["notification_type"] as! String, actor_profile_pic: each["actor_profile_pic"] as! String, created_at: each["created_at"] as! String, instance_id: each["instance_id"] as! Int)
                                 self.notifications.append(notification)
                             }
                             self.notificationView.reloadData()
@@ -95,6 +107,15 @@ class NotificationViewController: UIViewController {
         notificationView.delegate = self
         notificationView.dataSource = self
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       if segue.destination is ProfileViewController {
+            let vc = segue.destination as? ProfileViewController
+            let user = User()
+            user.id = notifications[selected_position].instance_id
+            vc?.user = user
+       }
+   }
 }
 
 extension NotificationViewController : UITableViewDelegate, UITableViewDataSource {
@@ -116,6 +137,12 @@ extension NotificationViewController : UITableViewDelegate, UITableViewDataSourc
         if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
             fetchNotifications()
         }
-        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selected_position = indexPath.row
+        self.tabBarController?.tabBar.isHidden = true
+        performSegue(withIdentifier: "ProfileNotification", sender: self)
     }
 }
+
