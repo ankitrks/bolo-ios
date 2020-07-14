@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.9.0)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -54,6 +55,9 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
     - nanopb/encode (= 1.30905.0)
@@ -62,11 +66,14 @@ PODS:
   - PromisesObjC (1.2.9)
 
 DEPENDENCIES:
+  - Alamofire
   - Firebase/Auth
   - GoogleSignIn
+  - Kingfisher
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - AppAuth
     - Firebase
     - FirebaseAuth
@@ -78,10 +85,12 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - Kingfisher
     - nanopb
     - PromisesObjC
 
 SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Firebase: 919186c8e119dd9372a45fd1dd17a8a942bc1892
   FirebaseAuth: b85c064e0ac60f82486728d50a4803f235687302
@@ -93,9 +102,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
 
-PODFILE CHECKSUM: d55132fc7c705ff74d605dbefb97fa0d0978627f
+PODFILE CHECKSUM: 8789066309b255eb4776aa7f645a854e1c5d2f54
 
 COCOAPODS: 1.9.3

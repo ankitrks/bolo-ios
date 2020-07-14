@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         if let languageId = UserDefaults.standard.getValueForLanguageId(), languageId == 0 {
             chooseLanguage()
         } else {
-            chooseLanguage()
+            sentToTrending()
         }
     }
     
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }
     
     func sentToTrending() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "TrendingAndFollowingViewController") as! TrendingAndFollowingViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }

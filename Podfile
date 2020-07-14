@@ -6,5 +6,6 @@ target 'BoloIndya' do
   use_frameworks!
 pod 'Firebase/Auth'
 pod 'GoogleSignIn'
-
+pod 'Alamofire'
+pod 'Kingfisher'
 end
