@@ -332,7 +332,6 @@
         <!--Navigation Controller-->
         <scene sceneID="LcJ-Q9-1E3">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cwb-x2-1Qm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="BQn-33-69N" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="notification" id="bV5-7Z-HVA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mGR-gw-Ue2">
@@ -343,6 +342,7 @@
                         <segue destination="wIJ-56-qf1" kind="relationship" relationship="rootViewController" id="4mE-Ig-Vxv"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cwb-x2-1Qm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1893" y="1118"/>
         </scene>

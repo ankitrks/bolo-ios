@@ -89,8 +89,6 @@ class TrendingAndFollowingViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
         
-        print(url)
-        
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
@@ -101,7 +99,6 @@ class TrendingAndFollowingViewController: UIViewController {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["topics"] as? [[String:Any]] {
                             for each in content {
-                                print(each)
                                 let user = User()
                                 let user_obj = each["user"] as? [String:Any]
                                 let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
@@ -117,8 +114,8 @@ class TrendingAndFollowingViewController: UIViewController {
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
                                 
-                                topic.video_url = each["question_video"] as? String ?? ""
-                                
+                                topic.video_url = each["video_cdn"] as? String ?? ""
+                                print(topic.video_url)
                                 self.videos.append(topic)
                             }
                             self.isLoading = false
@@ -157,7 +154,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         let url = URL(string: videos[indexPath.row].thumbnail)
         video_cell.video_image.kf.setImage(with: url)
         video_cell.username.text = "@"+videos[indexPath.row].user.username
-        
+        video_cell.play_and_pause_image.image = UIImage(named: "play")
         if selected_position == indexPath.row {
            if current_video_cell != nil {
                current_video_cell.player.player?.pause()
@@ -169,8 +166,15 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 
            video_cell.player.playerLayer.player = avPlayer
            video_cell.player.player?.play()
+           current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+        }
+        if (!videos[indexPath.row].user.profile_pic.isEmpty) {
+            let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
+            video_cell.user_image.kf.setImage(with: pic_url)
         }
         video_cell.tag = indexPath.row
+        video_cell.selected_postion = indexPath.row
+        video_cell.delegate = self
         return video_cell
     }
     
@@ -186,6 +190,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 
         current_video_cell.player.playerLayer.player = avPlayer
         current_video_cell.player.player?.play()
+        current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -204,7 +209,14 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selected_position = indexPath.row
+    }
+}
+
+extension TrendingAndFollowingViewController: VideoCellDelegate {
+    func goToProfile(with selected_postion: Int) {
+        self.selected_position = selected_postion
         self.performSegue(withIdentifier: "ProfileView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
     }
+    
 }

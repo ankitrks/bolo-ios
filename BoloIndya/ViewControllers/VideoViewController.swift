@@ -101,3 +101,11 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }
+
+extension VideoViewController: VideoCellDelegate {
+    
+    func goToProfile(with selected_postion: Int) {
+        self.selected_position = selected_postion
+    }
+
+}

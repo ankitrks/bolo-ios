@@ -61,8 +61,12 @@ class ProfileViewController: UIViewController {
             name.text = user.name
             bio.text = user.bio
             
-            let url = URL(string: user.profile_pic)
-            profile_pic.kf.setImage(with: url)
+            if !user.profile_pic.isEmpty {
+                let url = URL(string: user.profile_pic)
+                profile_pic.kf.setImage(with: url)
+            } else {
+                profile_pic.image = UIImage(named: "user")
+            }
             
             let url1 = URL(string: user.cover_pic)
             cover_pic.kf.setImage(with: url1)
@@ -135,7 +139,6 @@ class ProfileViewController: UIViewController {
         
         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
-                print(responseData)
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
