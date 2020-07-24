@@ -10,6 +10,10 @@ import UIKit
 
 protocol VideoCellDelegate {
     func goToProfile(with selected_postion: Int)
+    
+    func renderComments(with selected_postion: Int)
+    
+    func downloadAndShareVideoWhatsapp(with selected_postion: Int)
 }
 
 class VideoCell: UITableViewCell {
@@ -78,11 +82,14 @@ class VideoCell: UITableViewCell {
         
         username.isUserInteractionEnabled = true
         user_image.isUserInteractionEnabled = true
+        comment_image.isUserInteractionEnabled = true
         play_and_pause_image.isUserInteractionEnabled = true
         like_image.isUserInteractionEnabled = true
+        whatsapp_share_image.isUserInteractionEnabled = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        username.addGestureRecognizer(tapGesture)
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        username.addGestureRecognizer(tapGesture1)
         user_image.addGestureRecognizer(tapGesture)
                 
         let pauseGesture = UITapGestureRecognizer(target: self, action: #selector(pausePlayer(_:)))
@@ -90,10 +97,24 @@ class VideoCell: UITableViewCell {
         
         let likeGesture = UITapGestureRecognizer(target: self, action: #selector(tapLike(_:)))
         like_image.addGestureRecognizer(likeGesture)
+        
+        let commentGesture = UITapGestureRecognizer(target: self, action: #selector(renderComments))
+        comment_image.addGestureRecognizer(commentGesture)
+        
+        let whatsappGesture = UITapGestureRecognizer(target: self, action: #selector(downloadAndShareVideoWhatsapp))
+        whatsapp_share_image.addGestureRecognizer(whatsappGesture)
     }
     
     @objc func goToProfile(_ sender: UITapGestureRecognizer) {
         delegate?.goToProfile(with: selected_postion)
+    }
+    
+    @objc func renderComments(_ sender: UITapGestureRecognizer) {
+        delegate?.renderComments(with: selected_postion)
+    }
+    
+    @objc func downloadAndShareVideoWhatsapp(_ sender: UITapGestureRecognizer) {
+        delegate?.downloadAndShareVideoWhatsapp(with: selected_postion)
     }
     
     @objc func pausePlayer(_ sender: UITapGestureRecognizer) {
@@ -142,8 +163,8 @@ class VideoCell: UITableViewCell {
        let screenSize = UIScreen.main.bounds.size
        username.translatesAutoresizingMaskIntoConstraints = false
        username.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-        username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
+       username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+       username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
        
        username.font = UIFont.boldSystemFont(ofSize: 14.0)
        username.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -187,8 +208,8 @@ class VideoCell: UITableViewCell {
         play_and_pause_image.translatesAutoresizingMaskIntoConstraints = false
         play_and_pause_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         play_and_pause_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+        play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         play_and_pause_image.image = UIImage(named: "play")
     }
     

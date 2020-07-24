@@ -32,8 +32,14 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
+        cover_pic.backgroundColor = UIColor.gray
         setUserVideoView()
         fetchUserData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func setUserVideoView() {
@@ -49,7 +55,7 @@ class ProfileViewController: UIViewController {
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(userVideoView)
         
-        self.userVideoView.frame = CGRect(x: 0, y: 340, width: screenSize.width, height: screenSize.height-((self.tabBarController?.tabBar.frame.size.height ?? 49.0)+298))
+        self.userVideoView.frame = CGRect(x: 0, y: 250, width: screenSize.width, height: screenSize.height-250)
     }
     
     func fetchData() {
@@ -102,6 +108,7 @@ class ProfileViewController: UIViewController {
                             
                                 let topic = Topic(user: self.user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
+                                topic.id = "\(each["id"] as! Int)"
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
                                 topic.video_url = each["question_video"] as? String ?? ""
                                 self.topics.append(topic)
@@ -213,5 +220,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if indexPath.row == topics.count - 1 {
                 self.fetchData()
         }
+    }
+    
+    @IBAction func backPressed(_ sender: Any) {
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }

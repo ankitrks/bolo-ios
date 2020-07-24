@@ -20,7 +20,10 @@ extension UserDefaults {
     }
     
     func getValueForLanguageId() -> Int? {
-       return value(forKey: "language_id") as? Int
+        guard let id = value(forKey: "language_id") as? Int else {
+            return 2
+        }
+        return id
    }
     
     func setLoggedIn(value: Bool?) {
@@ -44,7 +47,7 @@ extension UserDefaults {
     }
     
     func getAuthToken() -> String? {
-        return value(forKey: "auth_key") as? String
+        return value(forKey: "auth_key") as? String ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MzkzNDIsImp0aSI6IjJhMzIyMDE0ZTIyZTRhYjA5OWE2MzI2MGFlY2QzYmI3IiwiZXhwIjoxNjgxODg4ODA4fQ.kUtCaxVY_MoiqhR-MteV9iRt1TC0TYxOFSbgOrciY94"
     }
     
     func setUsername(value: String?) {
@@ -83,7 +86,10 @@ extension UserDefaults {
     }
     
     func getUserId() -> Int? {
-        return value(forKey: "user_id") as? Int
+        guard let id = value(forKey: "user_id") as? Int else {
+            return 41
+        }
+        return id
     }
     
     func setCoverPic(value: String?) {

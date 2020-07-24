@@ -13,33 +13,62 @@ class VideoViewController: UIViewController {
 
     var videos: [Topic] = []
     var videoView = UITableView()
+    var go_back =  UIImageView()
     
     var selected_position = 0
+    var isLoaded: Bool = false
     
     var current_video_cell: VideoCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         setVideoViewDelegate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     func setVideoViewDelegate() {
+        view.addSubview(videoView)
+        view.addSubview(go_back)
+        
+        videoView.translatesAutoresizingMaskIntoConstraints = false
+        videoView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        videoView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        videoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        
         videoView.isScrollEnabled = true
         videoView.isPagingEnabled = true
         videoView.delegate = self
         videoView.dataSource = self
         videoView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
-    
-        view.addSubview(videoView)
         
-        let screenSize = UIScreen.main.bounds.size
+        go_back.translatesAutoresizingMaskIntoConstraints = false
+        go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         
-        self.videoView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        go_back.image = UIImage(named: "close")
+        go_back.tintColor = UIColor.white
+        
+        go_back.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
+        go_back.addGestureRecognizer(tapGesture)
     }
     
     func fetchData() {
         
     }
+    
+    @objc func goBack(_ sender: UITapGestureRecognizer) {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
@@ -53,7 +82,6 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
         let url = URL(string: videos[indexPath.row].thumbnail)
         video_cell.video_image.kf.setImage(with: url)
         video_cell.username.text = "@"+videos[indexPath.row].user.username
-        
         if selected_position == indexPath.row {
            if current_video_cell != nil {
                current_video_cell.player.player?.pause()
@@ -66,8 +94,17 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
            video_cell.player.playerLayer.player = avPlayer
            video_cell.player.player?.play()
         }
+        if (!self.isLoaded && indexPath.row < selected_position) {
+            if (indexPath.row == selected_position) {
+                self.isLoaded = true
+            }
+            self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row + 1 , section: 0), at: .none, animated: false)
+        }
         video_cell.tag = indexPath.row
         return video_cell
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -77,6 +114,7 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
         }
         current_video_cell = video_cell
         selected_position = video_cell?.tag ?? 0
+        print(videos[video_cell?.tag ?? 0].video_url)
         let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
         let avPlayer = AVPlayer(url: videoUrl! as URL)
 
@@ -89,7 +127,6 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         
@@ -103,9 +140,15 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension VideoViewController: VideoCellDelegate {
+    func renderComments(with selected_postion: Int) {
+        
+    }
     
     func goToProfile(with selected_postion: Int) {
         self.selected_position = selected_postion
     }
 
+    func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
+           
+    }
 }

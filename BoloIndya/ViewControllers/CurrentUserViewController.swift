@@ -40,6 +40,7 @@ class CurrentUserViewController: UIViewController {
         super.viewDidLoad()
         print("Current User")
         self.navigationController?.isNavigationBarHidden = true
+        cover_pic.backgroundColor = UIColor.gray
         setUserData()
         setTableView()
         setUserVideoView()
@@ -163,6 +164,7 @@ class CurrentUserViewController: UIViewController {
                                 
                                 user.setUserName(username: user_obj?["username"] as? String ?? "")
                                 let topic = Topic(user: user)
+                                topic.id = "\(each["id"] as! Int)"
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
                                 topic.video_url = each["question_video"] as? String ?? ""
@@ -242,6 +244,7 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.tabBarController?.tabBar.isHidden = true
+        selected_position = indexPath.row
         performSegue(withIdentifier: "VideoView", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
