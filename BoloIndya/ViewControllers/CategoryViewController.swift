@@ -23,6 +23,7 @@ class CategoryViewController: UIViewController {
     var category_label =  UILabel()
     var category_videos =  UILabel()
     var category_image =  UIImageView()
+    var follow_button = UIButton()
     var progress = UIActivityIndicatorView()
     
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -33,6 +34,7 @@ class CategoryViewController: UIViewController {
         self.view.addSubview(category_label)
         self.view.addSubview(category_videos)
         self.view.addSubview(category_image)
+        self.view.addSubview(follow_button)
         view.addSubview(progress)
         
         let screenSize = UIScreen.main.bounds.size
@@ -50,8 +52,8 @@ class CategoryViewController: UIViewController {
         category_videos.topAnchor.constraint(equalTo: category_label.bottomAnchor, constant: 5).isActive = true
         
         category_image.translatesAutoresizingMaskIntoConstraints = false
-        category_image.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        category_image.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        category_image.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        category_image.heightAnchor.constraint(equalToConstant: 90).isActive = true
         category_image.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         category_image.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
         
@@ -65,6 +67,18 @@ class CategoryViewController: UIViewController {
         category_label.textColor = UIColor.black
         
         category_videos.textColor = UIColor.black
+        
+        follow_button.translatesAutoresizingMaskIntoConstraints = false
+        follow_button.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        follow_button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        follow_button.leftAnchor.constraint(equalTo: category_image.rightAnchor, constant: 10).isActive = true
+        follow_button.topAnchor.constraint(equalTo: category_videos.bottomAnchor, constant: 5).isActive = true
+        
+        follow_button.setTitle("Follow", for: .normal)
+        
+        follow_button.layer.cornerRadius = 10.0
+        follow_button.layer.backgroundColor = UIColor.red.cgColor
+        follow_button.setTitleColor(.white, for: .normal)
         
         setUserVideoView()
         fetchCategory()
@@ -90,7 +104,7 @@ class CategoryViewController: UIViewController {
         videoView.translatesAutoresizingMaskIntoConstraints = false
         videoView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         videoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-        videoView.topAnchor.constraint(equalTo: category_videos.bottomAnchor, constant: 5).isActive = true
+        videoView.topAnchor.constraint(equalTo: category_image.bottomAnchor, constant: 5).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     
     }

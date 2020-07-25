@@ -94,11 +94,17 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
            video_cell.player.playerLayer.player = avPlayer
            video_cell.player.player?.play()
         }
-        if (!self.isLoaded && indexPath.row < selected_position) {
+        if (!videos[indexPath.row].user.profile_pic.isEmpty) {
+            let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
+            video_cell.user_image.kf.setImage(with: pic_url)
+        }
+        if (!self.isLoaded && indexPath.row <= selected_position) {
             if (indexPath.row == selected_position) {
                 self.isLoaded = true
+                self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
+            } else {
+                self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row + 1 , section: 0), at: .none, animated: false)
             }
-            self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row + 1 , section: 0), at: .none, animated: false)
         }
         video_cell.tag = indexPath.row
         return video_cell

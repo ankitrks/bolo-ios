@@ -17,15 +17,15 @@ class ViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        if let languageId = UserDefaults.standard.getValueForLanguageId(), languageId == 0 {
-            chooseLanguage()
-        } else {
+        if (UserDefaults.standard.isLanguageSet() ?? false) {
             sentToTrending()
+        } else {
+            chooseLanguage()
         }
     }
     
     func chooseLanguage() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "ChooseLanguageController") as! ChooseLanguageController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ChooseLanguageFirstViewController") as! ChooseLanguageFirstViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }

@@ -8,4 +8,5 @@ pod 'Firebase/Auth'
 pod 'GoogleSignIn'
 pod 'Alamofire'
 pod 'Kingfisher'
+pod 'SwiftyCam'
 end

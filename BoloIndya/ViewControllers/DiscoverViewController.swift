@@ -353,7 +353,7 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
     func setVideo(hash_tag: HashTag) {
         self.hash_tag = hash_tag
-        title.text = self.hash_tag.title
+        title.text = "#"+self.hash_tag.title
     
         title.isUserInteractionEnabled = true
         
@@ -414,7 +414,7 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         title.numberOfLines = 4
         title.textColor = UIColor.black
         
-        title.text = self.hash_tag.title
+        title.text = "#"+self.hash_tag.title
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

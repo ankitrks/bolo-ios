@@ -21,6 +21,7 @@ class HashTagViewController: UIViewController {
     var hash_tag_label =  UILabel()
     var views_and_videos =  UILabel()
     var hash_image =  UIImageView()
+    var share_button = UIButton()
     
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
@@ -31,6 +32,7 @@ class HashTagViewController: UIViewController {
         self.view.addSubview(hash_tag_label)
         self.view.addSubview(views_and_videos)
         self.view.addSubview(hash_image)
+        self.view.addSubview(share_button)
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -47,10 +49,16 @@ class HashTagViewController: UIViewController {
         views_and_videos.topAnchor.constraint(equalTo: hash_tag_label.bottomAnchor, constant: 5).isActive = true
         
         hash_image.translatesAutoresizingMaskIntoConstraints = false
-        hash_image.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        hash_image.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        hash_image.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        hash_image.heightAnchor.constraint(equalToConstant: 90).isActive = true
         hash_image.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         hash_image.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
+        
+        share_button.translatesAutoresizingMaskIntoConstraints = false
+        share_button.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        share_button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        share_button.leftAnchor.constraint(equalTo: hash_image.rightAnchor, constant: 10).isActive = true
+        share_button.topAnchor.constraint(equalTo: views_and_videos.bottomAnchor, constant: 5).isActive = true
         
         hash_image.image = UIImage(named: "hash")
         
@@ -59,8 +67,31 @@ class HashTagViewController: UIViewController {
         
         views_and_videos.textColor = UIColor.black
         
+        share_button.setTitle("Share", for: .normal)
+               
+        share_button.layer.cornerRadius = 10.0
+        share_button.layer.backgroundColor = UIColor.blue.cgColor
+        share_button.setTitleColor(.white, for: .normal)
+        
+        share_button.addTarget(self, action: #selector(shareHash), for: .touchUpInside)
+        
         setUserVideoView()
         fetchHashTag()
+    }
+    
+    @objc func shareHash(_ sender: UITapGestureRecognizer) {
+        let destinationUrl = "https://www.boloindya.com/trending/"+hash_tag.title
+       let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+       activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+           if completed {
+               print("completed")
+           } else {
+               print("error")
+           }
+       }
+       self.present(activityController, animated: true) {
+           print("Done")
+       }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +114,7 @@ class HashTagViewController: UIViewController {
         videoView.translatesAutoresizingMaskIntoConstraints = false
         videoView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         videoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-        videoView.topAnchor.constraint(equalTo: views_and_videos.bottomAnchor, constant: 5).isActive = true
+        videoView.topAnchor.constraint(equalTo: hash_image.bottomAnchor, constant: 5).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     
     }

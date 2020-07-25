@@ -64,12 +64,14 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.9)
+  - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
   - Alamofire
   - Firebase/Auth
   - GoogleSignIn
   - Kingfisher
+  - SwiftyCam
 
 SPEC REPOS:
   trunk:
@@ -88,6 +90,7 @@ SPEC REPOS:
     - Kingfisher
     - nanopb
     - PromisesObjC
+    - SwiftyCam
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
@@ -105,7 +108,8 @@ SPEC CHECKSUMS:
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
+  SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 8789066309b255eb4776aa7f645a854e1c5d2f54
+PODFILE CHECKSUM: 8f729ed8cf7131436bc0eb382d11d99d841fe033
 
 COCOAPODS: 1.9.3

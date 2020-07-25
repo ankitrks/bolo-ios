@@ -28,6 +28,7 @@
 		187DA65224B8A36D005522FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 187DA65024B8A36D005522FB /* Main.storyboard */; };
 		187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187F42E224BC934E00AC32ED /* CategoryViewCell.swift */; };
 		18A7D48924B8F23C0068086E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A7D48824B8F23C0068086E /* GoogleService-Info.plist */; };
+		18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */; };
 		18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B56B5024CB49BB00CE7DE8 /* Comment.swift */; };
 		18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B56B5224CB58E600CE7DE8 /* CommentViewCell.swift */; };
 		18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B72A7A24BDF217001E4D42 /* PlayerViewClass.swift */; };
@@ -71,6 +72,7 @@
 		187DA65124B8A36D005522FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		187F42E224BC934E00AC32ED /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageFirstViewController.swift; sourceTree = "<group>"; };
 		18B56B5024CB49BB00CE7DE8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		18B56B5224CB58E600CE7DE8 /* CommentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
 		18B72A7A24BDF217001E4D42 /* PlayerViewClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewClass.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				18FD085B24BE25A1007E55D6 /* VideoViewController.swift */,
 				18C771B024CAD3A8007E3AC2 /* HashTagViewController.swift */,
 				18C771B224CB05AD007E3AC2 /* CategoryViewController.swift */,
+				18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */,
 				1871C4A324BB233400285DEC /* Notification.swift in Sources */,
 				18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */,
+				18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */,
 				1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */,
 				18F93B3124B71D1C006621DB /* ViewController.swift in Sources */,
 				18C771B524CB2F20007E3AC2 /* Category.swift in Sources */,

@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profile_pic: UIImageView!
     
     @IBOutlet weak var cover_pic: UIImageView!
+
+    var follow_button = UIButton()
     
     var user = User()
             
@@ -43,7 +45,24 @@ class ProfileViewController: UIViewController {
     }
     
     func setUserVideoView() {
+        
+        view.addSubview(follow_button)
+        
         let screenSize = UIScreen.main.bounds.size
+        
+        follow_button.translatesAutoresizingMaskIntoConstraints = false
+        follow_button.widthAnchor.constraint(equalToConstant: screenSize.width - 40).isActive = true
+        follow_button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        follow_button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        follow_button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
+        follow_button.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10).isActive = true
+        
+        follow_button.setTitle("Follow", for: .normal)
+        
+        follow_button.layer.cornerRadius = 10.0
+        follow_button.layer.backgroundColor = UIColor.red.cgColor
+        follow_button.setTitleColor(.white, for: .normal)
+        
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 120)
@@ -55,7 +74,11 @@ class ProfileViewController: UIViewController {
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(userVideoView)
         
-        self.userVideoView.frame = CGRect(x: 0, y: 250, width: screenSize.width, height: screenSize.height-250)
+        userVideoView.translatesAutoresizingMaskIntoConstraints = false
+        userVideoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        userVideoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        userVideoView.topAnchor.constraint(equalTo: follow_button.bottomAnchor, constant: 10).isActive = true
+        userVideoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
     }
     
     func fetchData() {
@@ -154,6 +177,7 @@ class ProfileViewController: UIViewController {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let result = json_object?["result"] as? [String:Any] {
                             let user_profile_obj = result["userprofile"] as? [String:Any]
+                            self.user.id = user_profile_obj?["user"] as! Int
                             self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
                                 
                             self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
@@ -224,5 +248,20 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     @IBAction func backPressed(_ sender: Any) {
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func shareProfile(_ sender: Any) {
+        let destinationUrl = "https://www.boloindya.com/user/\(user.id)/"+user.username
+            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+           activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+               if completed {
+                   print("completed")
+               } else {
+                   print("error")
+               }
+           }
+           self.present(activityController, animated: true) {
+               print("Done")
+        }
     }
 }

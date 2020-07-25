@@ -33,7 +33,19 @@ extension UserDefaults {
             removeObject(forKey: "is_logged_in")
         }
     }
+    
+    func setLanguageSet(value: Bool?) {
+        if value != nil {
+            set(value, forKey: "is_language_set")
+       } else {
+           removeObject(forKey: "is_language_set")
+       }
+   }
 
+    func isLanguageSet() -> Bool? {
+        return value(forKey: "is_language_set") as? Bool ?? false
+    }
+    
     func isLoggedIn() -> Bool? {
        return value(forKey: "is_logged_in") as? Bool ?? false
     }
