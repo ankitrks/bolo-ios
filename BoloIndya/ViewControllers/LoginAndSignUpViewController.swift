@@ -26,6 +26,8 @@ class LoginAndSignUpViewController: UIViewController {
     
     @IBOutlet weak var otp_view: UIStackView!
     
+    var go_back =  UIImageView()
+    
     @IBAction func continueWithNumber(_ sender: UIButton) {
     
         let parameters: [String: Any] = [
@@ -50,7 +52,29 @@ class LoginAndSignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        FirebaseApp.configure()
+        view.addSubview(go_back)
+        
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        
+        go_back.translatesAutoresizingMaskIntoConstraints = false
+        go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        
+        go_back.image = UIImage(named: "close")
+        go_back.tintColor = UIColor.white
+        
+        go_back.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
+        go_back.addGestureRecognizer(tapGesture)
+        
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
 
         GIDSignIn.sharedInstance().clientID = "581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
@@ -63,6 +87,9 @@ class LoginAndSignUpViewController: UIViewController {
         
     }
     
+    @objc func goBack(_ sender: UITapGestureRecognizer) {
+        self.tabBarController?.selectedIndex = 0
+    }
     
     @IBAction func googleSignIn(_ sender: Any) {
         GIDSignIn.sharedInstance().signIn()

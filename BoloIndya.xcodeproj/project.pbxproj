@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1811310724D6C51F009DDB54 /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811310624D6C51F009DDB54 /* Languages.swift */; };
+		1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811310824D6C637009DDB54 /* LanguageCollectionViewCell.swift */; };
 		182D541924B9CAB000B33ACE /* CreateVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182D541824B9CAB000B33ACE /* CreateVideoViewController.swift */; };
 		182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182D541C24B9CFF900B33ACE /* MainViewController.swift */; };
 		183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183B4BA924B86954003EC6D7 /* Topic.swift */; };
@@ -51,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1811310624D6C51F009DDB54 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		1811310824D6C637009DDB54 /* LanguageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCollectionViewCell.swift; sourceTree = "<group>"; };
 		182D541824B9CAB000B33ACE /* CreateVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoViewController.swift; sourceTree = "<group>"; };
 		182D541C24B9CFF900B33ACE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		183B4BA924B86954003EC6D7 /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 				18CE0DC324C0DFBE003B0E51 /* HashTag.swift */,
 				18C771B424CB2F20007E3AC2 /* Category.swift */,
 				18B56B5024CB49BB00CE7DE8 /* Comment.swift */,
+				1811310624D6C51F009DDB54 /* Languages.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 				1856DDC824BD014900DE8539 /* UserVideoCollectionViewCell.swift */,
 				18C771B624CB31FA007E3AC2 /* CategoryCollectionViewCell.swift */,
 				18B56B5224CB58E600CE7DE8 /* CommentViewCell.swift */,
+				1811310824D6C637009DDB54 /* LanguageCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -382,10 +388,12 @@
 				182D541924B9CAB000B33ACE /* CreateVideoViewController.swift in Sources */,
 				183BDCC824B7BD8400ACF912 /* NotificationViewController.swift in Sources */,
 				1853A39924BDB78F00EE2595 /* ProfileViewController.swift in Sources */,
+				1811310724D6C51F009DDB54 /* Languages.swift in Sources */,
 				1871C4B324BB41C600285DEC /* NotificationCell.swift in Sources */,
 				187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */,
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
+				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,

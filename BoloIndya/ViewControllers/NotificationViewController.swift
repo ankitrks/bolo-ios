@@ -25,22 +25,21 @@ class NotificationViewController: UIViewController {
         print("Notification")
         self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
-        view.addSubview(progress)
-        
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
-        
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
             goToLoginPage()
         } else {
+            view.addSubview(progress)
+            
+            progress.translatesAutoresizingMaskIntoConstraints = false
+            progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+            progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+            
             setNotificationViewDelegate()
             fetchNotifications()
         }
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,13 +50,13 @@ class NotificationViewController: UIViewController {
        
        override func viewWillDisappear(_ animated: Bool) {
            super.viewWillDisappear(animated)
-           self.navigationController?.isNavigationBarHidden = false
+           self.navigationController?.isNavigationBarHidden = true
        }
     
     func goToLoginPage() {
-       let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        performSegue(withIdentifier: "notificationLogin", sender: self)
     }
 
     func fetchNotifications() {

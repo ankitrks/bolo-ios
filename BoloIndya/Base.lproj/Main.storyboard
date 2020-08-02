@@ -30,182 +30,7 @@
                     <view key="view" contentMode="scaleToFill" id="cw2-8z-IIM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Pee-OJ-Fn9">
-                                <rect key="frame" x="10" y="268" width="394" height="360.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Language to Start" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cH-LE-Dr8">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Den-0H-ypS">
-                                        <rect key="frame" x="0.0" y="30.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CY1-rr-0T1" customClass="ActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="fTY-8o-Tci"/>
-                                                </constraints>
-                                                <state key="normal" title="हिन्दी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="j3I-XH-3Ym"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUe-Qc-teS" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="qMB-h2-qwY"/>
-                                                </constraints>
-                                                <state key="normal" title="தமிழ்"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="Zdr-Kb-a52"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jVi-bH-YdO">
-                                        <rect key="frame" x="0.0" y="80.5" width="394" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tji-T5-9bu" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="FxY-HQ-3U6"/>
-                                                </constraints>
-                                                <state key="normal" title="తెలుగు"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="pEC-8c-6dJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cP-pv-Hcl" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="30"/>
-                                                <state key="normal" title="ಕನ್ನಡ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="Wks-am-WR4"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FkB-x1-TDr">
-                                        <rect key="frame" x="0.0" y="120.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DcF-Cq-Ha5" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="E87-Vr-U8b"/>
-                                                </constraints>
-                                                <state key="normal" title="বাংলা"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="GVH-0h-xR2"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-ek-Nen" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="e4N-L6-Nrb"/>
-                                                </constraints>
-                                                <state key="normal" title="मराठी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="TzE-H2-fmh"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="byf-DJ-5db">
-                                        <rect key="frame" x="0.0" y="170.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-QE-PeP" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="y7W-Lf-Z4H"/>
-                                                </constraints>
-                                                <state key="normal" title="ગુજરાતી"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="wiY-aw-EEr"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gj-Gc-bCx" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="Nft-NQ-aHF"/>
-                                                </constraints>
-                                                <state key="normal" title="മലയാളം"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="iTl-PQ-sLV"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dUE-AM-0An">
-                                        <rect key="frame" x="0.0" y="220.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wH7-RB-MNl" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="wfd-7C-40A"/>
-                                                </constraints>
-                                                <state key="normal" title="ਪੰਜਾਬੀ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="Zyo-Ec-Cv1"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-4J-6fK" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="HWP-La-0Y6"/>
-                                                </constraints>
-                                                <state key="normal" title="ଓଡ଼ିଆ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="W0q-4C-m1p"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iJY-xK-yt9">
-                                        <rect key="frame" x="0.0" y="270.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTR-wp-CFI" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="RPa-0Y-0lL"/>
-                                                </constraints>
-                                                <state key="normal" title="भोजपुरी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="EZT-YY-aj9"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFw-lx-imO" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="GRH-3I-iPp"/>
-                                                </constraints>
-                                                <state key="normal" title="हरियाणवी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="d1c-pO-N9r"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ja4-uA-hG3" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="320.5" width="394" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="1P2-Tq-i85"/>
-                                        </constraints>
-                                        <state key="normal" title="English"/>
-                                        <connections>
-                                            <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="wN4-Sz-6rC"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Pee-OJ-Fn9" firstAttribute="centerY" secondItem="cw2-8z-IIM" secondAttribute="centerY" id="2nS-X1-3Xn"/>
-                            <constraint firstItem="HJW-We-jg5" firstAttribute="trailing" secondItem="Pee-OJ-Fn9" secondAttribute="trailing" constant="10" id="c8i-JE-y9C"/>
-                            <constraint firstItem="Pee-OJ-Fn9" firstAttribute="leading" secondItem="HJW-We-jg5" secondAttribute="leading" constant="10" id="ujw-IY-yXs"/>
-                        </constraints>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="HJW-We-jg5"/>
                     </view>
                     <navigationItem key="navigationItem" id="F2j-kt-mRD"/>
@@ -497,11 +322,12 @@
                         <segue destination="deA-3d-qbE" kind="show" identifier="updateInterset" id="Kds-Zb-Hcq"/>
                         <segue destination="SA3-tU-c8V" kind="show" identifier="termsPages" id="kAZ-Gh-86o"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoView" id="d8T-lC-yEV"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="signUpCurrentUser" id="AcQ-9e-iDp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfI-kd-JB7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2603" y="1809"/>
+            <point key="canvasLocation" x="2849" y="332"/>
         </scene>
         <!--Feed Back View Controller-->
         <scene sceneID="Ech-I4-Pv4">
@@ -526,7 +352,7 @@
                     <view key="view" contentMode="scaleToFill" id="pPv-pA-A0I">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Rsw-P3-R5h"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tp0-NV-Ggq"/>
@@ -545,7 +371,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="wIJ-56-qf1" kind="relationship" relationship="rootViewController" id="4mE-Ig-Vxv"/>
+                        <segue destination="wIJ-56-qf1" kind="relationship" relationship="rootViewController" id="GW4-Hr-LBv"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwb-x2-1Qm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -625,12 +451,13 @@
             <objects>
                 <navigationController id="X8F-9f-jun" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="user" id="gZr-ho-hOy"/>
+                    <navigationItem key="navigationItem" id="eEb-iY-dep"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JkE-ku-9O3">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="XMT-4K-sc9" kind="relationship" relationship="rootViewController" id="Rpi-Zg-sUL"/>
+                        <segue destination="XMT-4K-sc9" kind="relationship" relationship="rootViewController" id="wER-JH-EHG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1qL-Oe-bJK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -649,7 +476,7 @@
                     <connections>
                         <segue destination="Lrf-nz-3YI" kind="relationship" relationship="viewControllers" id="TLu-Uy-sWH"/>
                         <segue destination="jHa-1K-xiT" kind="relationship" relationship="viewControllers" id="oP1-Jl-ekD"/>
-                        <segue destination="qYv-fu-rie" kind="relationship" relationship="viewControllers" id="nz2-I2-2N3"/>
+                        <segue destination="gZC-aX-H8t" kind="relationship" relationship="viewControllers" id="2FF-s2-J5r"/>
                         <segue destination="BQn-33-69N" kind="relationship" relationship="viewControllers" id="cQc-uc-hcJ"/>
                         <segue destination="X8F-9f-jun" kind="relationship" relationship="viewControllers" id="fOD-Tw-FT7"/>
                     </connections>
@@ -674,6 +501,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tHZ-kM-OWf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-272" y="1118"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Oon-J1-KOo">
+            <objects>
+                <navigationController id="gZC-aX-H8t" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="add" id="rvm-py-ecf"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="A4N-hu-UO0">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qYv-fu-rie" kind="relationship" relationship="rootViewController" id="fJn-6y-Ycb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mXt-W3-J83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1125" y="1118"/>
         </scene>
         <!--Trending And Following View Controller-->
         <scene sceneID="mrb-Pe-Oa0">
@@ -800,6 +644,7 @@
                     <connections>
                         <outlet property="notificationView" destination="VX6-IM-ZwR" id="Btv-ac-nf9"/>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileNotification" id="l2F-fa-1O0"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="notificationLogin" id="fqs-FO-mCm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gH-nW-4lB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -815,21 +660,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="orn-Yn-ohJ">
-                                <rect key="frame" x="0.0" y="18" width="414" height="725"/>
+                                <rect key="frame" x="2" y="20" width="414" height="725"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Lmu-fM-Gt1">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vb-Nm-sui">
-                                                <rect key="frame" x="10" y="9" width="100" height="22"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vb-Nm-sui">
+                                                <rect key="frame" x="10" y="5" width="30" height="30"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="chevron.left" catalog="system"/>
+                                                <state key="normal" image="back"/>
                                                 <connections>
                                                     <action selector="backPressed:" destination="MZO-Yo-i62" eventType="touchUpInside" id="67c-Sx-f1d"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMC-Lb-k4q">
+                                                <rect key="frame" x="50" y="20" width="0.0" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" id="Mzt-UO-PHs">
                                                 <rect key="frame" x="298.99999999999955" y="5.1907789108327052" width="70" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -843,7 +694,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xqp-H0-k9A">
                                                         <rect key="frame" x="40" y="0.0" width="30" height="30"/>
-                                                        <state key="normal" image="more"/>
+                                                        <state key="normal" image="more_vertical"/>
                                                         <connections>
                                                             <action selector="onMoreOptionClick:" destination="XMT-4K-sc9" eventType="touchUpInside" id="vgX-Sf-oiI"/>
                                                         </connections>
@@ -851,36 +702,16 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="kMC-Lb-k4q" firstAttribute="leading" secondItem="2Vb-Nm-sui" secondAttribute="trailing" constant="10" id="L6l-vT-EOb"/>
+                                            <constraint firstItem="kMC-Lb-k4q" firstAttribute="centerY" secondItem="Lmu-fM-Gt1" secondAttribute="centerY" id="NAw-FV-7sR"/>
                                             <constraint firstItem="2Vb-Nm-sui" firstAttribute="leading" secondItem="Lmu-fM-Gt1" secondAttribute="leading" constant="10" id="oh7-mn-RyY"/>
                                             <constraint firstItem="2Vb-Nm-sui" firstAttribute="centerY" secondItem="Lmu-fM-Gt1" secondAttribute="centerY" id="t0k-lL-Jvi"/>
                                         </constraints>
                                     </view>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MLU-YI-Lp3">
-                                        <rect key="frame" x="0.0" y="40" width="414" height="130"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="CNP-FB-eXu">
-                                        <rect key="frame" x="145" y="95" width="90" height="90"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g0i-fi-Gya">
-                                        <rect key="frame" x="-15" y="190" width="414" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XhN-Mn-1hK">
-                                        <rect key="frame" x="-15" y="210" width="414" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -888,10 +719,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="QpE-3O-Ews"/>
                     <connections>
-                        <outlet property="bio" destination="XhN-Mn-1hK" id="3nX-fJ-qia"/>
-                        <outlet property="cover_pic" destination="MLU-YI-Lp3" id="wH5-6t-LAI"/>
-                        <outlet property="name" destination="g0i-fi-Gya" id="Mlu-g5-oT4"/>
-                        <outlet property="profile_pic" destination="CNP-FB-eXu" id="WdE-Li-n5r"/>
+                        <outlet property="upper_tab" destination="Lmu-fM-Gt1" id="j0m-rJ-3ic"/>
+                        <outlet property="user_name" destination="kMC-Lb-k4q" id="0Sd-k9-Gmq"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoViewOtherUser" id="tDC-fX-6PB"/>
                     </connections>
                 </viewController>
@@ -980,6 +809,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="abh-1W-i0L"/>
                     </view>
+                    <navigationItem key="navigationItem" id="yuB-zh-R7J"/>
                     <connections>
                         <outlet property="continueWithMobile" destination="3vV-GA-iNU" id="Prk-WX-qKy"/>
                         <outlet property="mobile_no" destination="di6-PD-vmC" id="vkX-nl-gVD"/>
@@ -1024,22 +854,27 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="xJs-ah-fnG"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="add" id="KNL-jq-Fg1"/>
+                    <navigationItem key="navigationItem" id="xfy-K9-nvc"/>
+                    <connections>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="createLogin" id="W1O-hl-136"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cWd-If-DmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1136" y="1118"/>
+            <point key="canvasLocation" x="1135" y="1809"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Xyc-tg-wB7"/>
-        <segue reference="d8T-lC-yEV"/>
+        <segue reference="AcQ-9e-iDp"/>
+        <segue reference="l2F-fa-1O0"/>
+        <segue reference="ihG-lq-j9X"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>
+        <image name="back" width="30" height="30"/>
         <image name="boloindya_b" width="30" height="30"/>
-        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="more" width="30" height="30"/>
+        <image name="more_vertical" width="30" height="30"/>
         <image name="notification" width="24" height="24"/>
         <image name="search" width="30" height="30"/>
         <image name="share" width="30" height="30"/>

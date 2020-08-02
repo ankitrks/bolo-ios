@@ -55,11 +55,18 @@ class CurrentUserViewController: UIViewController {
         super.viewDidLoad()
         print("Current User")
         self.navigationController?.isNavigationBarHidden = true
-        cover_pic.backgroundColor = UIColor.gray
-        setUserData()
-        setTableView()
-        setUserVideoView()
-        fetchData()
+        
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+            self.tabBarController?.tabBar.isHidden = true
+            performSegue(withIdentifier: "signUpCurrentUser", sender: self)
+        } else {
+            cover_pic.backgroundColor = UIColor.gray
+            setUserData()
+            setTableView()
+            setUserVideoView()
+            fetchData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

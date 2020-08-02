@@ -11,9 +11,9 @@ import Alamofire
 
 class UpdateIntersetViewController: UIViewController {
 
-    var names: [String] = []
+    var category: [Category] = []
     
-    var categoryView =  UITableView()
+    var categoryView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +21,22 @@ class UpdateIntersetViewController: UIViewController {
         categoryView.isScrollEnabled = true
         categoryView.delegate = self
         categoryView.dataSource = self
-        categoryView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        categoryView.register(CategoryViewCell.self, forCellReuseIdentifier: "Cell")
+        categoryView.backgroundColor = UIColor.clear
+        
+        let screenSize = UIScreen.main.bounds.size
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: (screenSize.width/3.4) * 1.2)
+        categoryView.collectionViewLayout = layout
+        
+        categoryView.register(CategoryViewCell.self, forCellWithReuseIdentifier: "Cell")
     
         view.addSubview(categoryView)
         
-        let screenSize = UIScreen.main.bounds.size
-        self.categoryView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        categoryView.translatesAutoresizingMaskIntoConstraints = false
+        categoryView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        categoryView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        categoryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         fetchNotifications()
     }
 
@@ -43,8 +52,11 @@ class UpdateIntersetViewController: UIViewController {
                         
                         if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
                         for each in json_object {
-                            self.self.names.append(each["title"] as! String)
-                        }
+                            let each_categroy = Category()
+                            each_categroy.title = each["title"] as! String
+                            each_categroy.image = each["dark_category_image"] as! String
+                            self.category.append(each_categroy)
+                            }
                         }
                         
                         self.categoryView.reloadData()
@@ -60,16 +72,27 @@ class UpdateIntersetViewController: UIViewController {
     }
 }
 
-extension UpdateIntersetViewController : UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let category_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CategoryViewCell
-        category_cell.name.setTitle(names[indexPath.row], for: .normal)
-        return category_cell
+extension UpdateIntersetViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return category.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryViewCell
+        cell.configure(with: category[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.2)
+    }
 }
 

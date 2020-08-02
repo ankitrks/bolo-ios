@@ -12,14 +12,18 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var name: UILabel!
+    var name = UILabel()
     
-    @IBOutlet weak var bio: UILabel!
+    var bio = UILabel()
     
-    @IBOutlet weak var profile_pic: UIImageView!
+    var profile_pic =  UIImageView()
     
-    @IBOutlet weak var cover_pic: UIImageView!
-
+    var cover_pic = UIImageView()
+    
+    @IBOutlet weak var upper_tab: UIView!
+    
+    @IBOutlet weak var user_name: UILabel!
+    
     var follow_button = UIButton()
     
     var user = User()
@@ -45,16 +49,64 @@ class ProfileViewController: UIViewController {
     }
     
     func setUserVideoView() {
+
+        let screenSize = UIScreen.main.bounds.size
         
+        view.addSubview(cover_pic)
+        
+        cover_pic.translatesAutoresizingMaskIntoConstraints = false
+        cover_pic.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        cover_pic.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        cover_pic.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
+        
+        cover_pic.clipsToBounds = true
+        
+        view.addSubview(profile_pic)
+        
+        profile_pic.translatesAutoresizingMaskIntoConstraints = false
+        profile_pic.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        profile_pic.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        profile_pic.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        profile_pic.topAnchor.constraint(equalTo: cover_pic.bottomAnchor, constant: -55).isActive = true
+        
+        profile_pic.clipsToBounds = true
+        
+        view.addSubview(name)
+        
+        name.translatesAutoresizingMaskIntoConstraints = false
+        name.widthAnchor.constraint(equalToConstant: screenSize.width - 20).isActive = true
+        name.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        name.topAnchor.constraint(equalTo: profile_pic.bottomAnchor, constant: 10).isActive = true
+        
+        name.textColor = UIColor.white
+        name.textAlignment = .center
+        name.font = UIFont.boldSystemFont(ofSize: 13.0)
+        
+        view.addSubview(bio)
+        
+        bio.translatesAutoresizingMaskIntoConstraints = false
+        bio.widthAnchor.constraint(equalToConstant: screenSize.width - 20).isActive = true
+        bio.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        bio.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 10).isActive = true
+        
+        bio.textColor = UIColor.white
+        bio.textAlignment = .center
+        bio.font = UIFont.boldSystemFont(ofSize: 13.0)
+        
+        setFollowButton();
+                
+        setUserVideos();
+    }
+    
+    func setFollowButton() {
         view.addSubview(follow_button)
         
         let screenSize = UIScreen.main.bounds.size
         
         follow_button.translatesAutoresizingMaskIntoConstraints = false
-        follow_button.widthAnchor.constraint(equalToConstant: screenSize.width - 40).isActive = true
+        follow_button.widthAnchor.constraint(equalToConstant: screenSize.width-20).isActive = true
         follow_button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        follow_button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        follow_button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
+        follow_button.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         follow_button.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10).isActive = true
         
         follow_button.setTitle("Follow", for: .normal)
@@ -62,18 +114,23 @@ class ProfileViewController: UIViewController {
         follow_button.layer.cornerRadius = 10.0
         follow_button.layer.backgroundColor = UIColor.red.cgColor
         follow_button.setTitleColor(.white, for: .normal)
+    }
+    
+    func setUserVideos() {
         
+        let screenSize = UIScreen.main.bounds.size
+               
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 120)
+        layout.itemSize = CGSize(width: (screenSize.width/3) - 10, height: 120)
         userVideoView.collectionViewLayout = layout
-        
+
         userVideoView.delegate = self
         userVideoView.dataSource = self
-        userVideoView.backgroundColor = UIColor.clear
+        userVideoView.backgroundColor = UIColor.black
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(userVideoView)
-        
+
         userVideoView.translatesAutoresizingMaskIntoConstraints = false
         userVideoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         userVideoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
@@ -84,7 +141,6 @@ class ProfileViewController: UIViewController {
     func fetchData() {
         
         if page == 1 {
-            
             profile_pic.layer.cornerRadius = (profile_pic.frame.height / 2)
             
             name.text = user.name
@@ -96,9 +152,11 @@ class ProfileViewController: UIViewController {
             } else {
                 profile_pic.image = UIImage(named: "user")
             }
-            
+            user_name.text = "@"+user.username
             let url1 = URL(string: user.cover_pic)
             cover_pic.kf.setImage(with: url1)
+            profile_pic.contentMode = .scaleAspectFill
+            cover_pic.contentMode = .scaleAspectFill
         }
         
         if (isLoading || isFinished) {
@@ -237,7 +295,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.5)
+        return CGSize(width: (collectionView.frame.width/3) - 10, height: ((collectionView.frame.width/3) - 10) * 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

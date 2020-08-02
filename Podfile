@@ -9,4 +9,5 @@ pod 'GoogleSignIn'
 pod 'Alamofire'
 pod 'Kingfisher'
 pod 'SwiftyCam'
+pod 'YPImagePicker'
 end
