@@ -40,7 +40,7 @@ class UserVideoCollectionViewCell: UICollectionViewCell {
         video_image.layer.cornerRadius = 2.0
         video_image.contentMode = .scaleAspectFill
         video_image.clipsToBounds = true
-        video_image.backgroundColor = .white
+        video_image.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
     }
     
     func setVideoTitle() {

@@ -9,13 +9,14 @@
 import UIKit
 import Alamofire
 
-class DiscoverViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, CategoryCellDelegate {
+class DiscoverViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, CategoryCellDelegate, UICollectionViewDelegateFlowLayout {
     
     func goToCategory(with category: Category) {
         category_name = category.title
         category_id = category.id
         self.performSegue(withIdentifier: "CategoryView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     
@@ -29,7 +30,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         if (indexPath.row == 0) {
             cell.name.textColor = UIColor.red
         } else {
-            cell.name.textColor = UIColor.gray
+            cell.name.textColor = UIColor.white
         }
         cell.delegate = self
         return cell
@@ -38,6 +39,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let label = UILabel(frame: CGRect.zero)
         label.text = categories[indexPath.row].title
+        label.font = UIFont.boldSystemFont(ofSize: 13.0)
         label.sizeToFit()
         return CGSize(width: label.frame.width, height: 20)
     }
@@ -54,7 +56,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 160
     }
     
     var discoverView = UITableView()
@@ -83,7 +85,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         discoverView.delegate = self
         discoverView.dataSource = self
         discoverView.register(SectionCell.self, forCellReuseIdentifier: "Cell")
-        
+        discoverView.backgroundColor = .clear
         
         let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
@@ -179,10 +181,11 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["results"] as? [[String:Any]] {
                             for each in content {
-                                let each_data = each["tongue_twister"] as? [String:Any]
                                 let hash = HashTag()
-                                hash.id = each_data?["id"] as? Int ?? 0
-                                hash.title = each_data?["hash_tag"] as? String ?? ""
+                                hash.total_views = each["total_views"] as! String
+                                let each_data = each["tongue_twister"] as? [String:Any]
+                                hash.id = each_data?["id"] as! Int
+                                hash.title = each_data?["hash_tag"] as! String
                                 self.hash_tag.append(hash)
                             }
 
@@ -249,11 +252,9 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
                     do {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["results"] as? [[String:Any]] {
-                            
                             for each in content {
                                 for i in 0...(self.hash_tag.count-1) {
                                     if self.hash_tag[i].id == (each["id"] as? Int ?? 0) {
@@ -315,6 +316,10 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
 }
 
 
@@ -343,12 +348,14 @@ protocol SectionCellDelegate {
 class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var title = UILabel()
+    var front_image = UIImageView()
+    var views = UILabel()
     var hash_tag: HashTag = HashTag()
 
     var delegate: SectionCellDelegate?
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.hash_tag.videos.count
+        return self.hash_tag.videos.count == 0 ? 5 : self.hash_tag.videos.count
     }
     
     func setVideo(hash_tag: HashTag) {
@@ -359,6 +366,13 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToHashTag(_:)))
         title.addGestureRecognizer(tapGesture)
+        views.text = self.hash_tag.total_views
+        
+        views.isUserInteractionEnabled = true
+        
+        let tapGestureViews = UITapGestureRecognizer(target: self, action: #selector(goToHashTag(_:)))
+        views.addGestureRecognizer(tapGestureViews)
+        
         userVideoView.reloadData()
     }
     
@@ -368,7 +382,9 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! UserVideoCollectionViewCell
-        cell.configure(with: hash_tag.videos[indexPath.row])
+        if (indexPath.row < hash_tag.videos.count) {
+            cell.configure(with: hash_tag.videos[indexPath.row])
+        }
         return cell
     }
     
@@ -377,24 +393,28 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.backgroundColor = UIColor.black
+        
         addSubview(userVideoView)
         addSubview(title)
+        addSubview(front_image)
+        addSubview(views)
         
+        setOtherViews()
         setTitleAttribute()
         
         let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 120)
+        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 110)
         userVideoView.collectionViewLayout = layout
-        userVideoView.frame = CGRect(x: 0, y: 20, width: screenSize.width, height: 130)
+        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: 110)
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
-        userVideoView.backgroundColor = .clear
         userVideoView.delegate = self
         userVideoView.dataSource = self
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -407,14 +427,32 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
         title.translatesAutoresizingMaskIntoConstraints = false
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        title.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        title.rightAnchor.constraint(equalTo: views.leftAnchor, constant: -10).isActive = true
         title.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
         title.font = UIFont.boldSystemFont(ofSize: 14.0)
         title.lineBreakMode = NSLineBreakMode.byWordWrapping
-        title.numberOfLines = 4
-        title.textColor = UIColor.black
-        
+        title.numberOfLines = 1
+        title.textColor = UIColor.white
         title.text = "#"+self.hash_tag.title
+    }
+    
+    func setOtherViews() {
+        
+        front_image.translatesAutoresizingMaskIntoConstraints = false
+        front_image.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        front_image.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        front_image.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        front_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        front_image.image = UIImage(named: "forward")
+        front_image.contentMode = .scaleAspectFit
+        
+        views.translatesAutoresizingMaskIntoConstraints = false
+        views.rightAnchor.constraint(equalTo: front_image.leftAnchor, constant: -5).isActive = true
+        views.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        views.textAlignment = .right
+        views.font = UIFont.boldSystemFont(ofSize: 14.0)
+        views.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        views.textColor = UIColor.white
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

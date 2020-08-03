@@ -26,6 +26,8 @@ class LoginAndSignUpViewController: UIViewController {
     
     @IBOutlet weak var otp_view: UIStackView!
     
+    var selected_tab: Int = 1
+    
     var go_back =  UIImageView()
     
     @IBAction func continueWithNumber(_ sender: UIButton) {
@@ -49,6 +51,10 @@ class LoginAndSignUpViewController: UIViewController {
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,7 +70,7 @@ class LoginAndSignUpViewController: UIViewController {
         go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
         go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         
-        go_back.image = UIImage(named: "close")
+        go_back.image = UIImage(named: "close_white")
         go_back.tintColor = UIColor.white
         
         go_back.isUserInteractionEnabled = true
@@ -88,7 +94,17 @@ class LoginAndSignUpViewController: UIViewController {
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
-        self.tabBarController?.selectedIndex = 0
+        if (selected_tab == 0) {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.tabBarController?.selectedIndex = 0
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     @IBAction func googleSignIn(_ sender: Any) {

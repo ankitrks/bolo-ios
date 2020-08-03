@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ViewController: UIViewController {
     
@@ -15,10 +16,9 @@ class ViewController: UIViewController {
         print("Main")
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         if (UserDefaults.standard.isLanguageSet() ?? false) {
-            sentToTrending()
+            chooseLanguage()
         } else {
             chooseLanguage()
         }

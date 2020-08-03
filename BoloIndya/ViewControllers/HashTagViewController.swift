@@ -23,11 +23,50 @@ class HashTagViewController: UIViewController {
     var hash_image =  UIImageView()
     var share_button = UIButton()
     
+    var upper_tab = UIView()
+    var back_image = UIImageView()
+    var label = UILabel()
+    
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
+        
+        upper_tab.addSubview(back_image)
+        upper_tab.addSubview(label)
+        
+        view.addSubview(upper_tab)
+        
+        upper_tab.translatesAutoresizingMaskIntoConstraints = false
+        upper_tab.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
+        upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
+        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        
+        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        
+        back_image.translatesAutoresizingMaskIntoConstraints = false
+        back_image.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        back_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        back_image.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
+        back_image.leftAnchor.constraint(equalTo: upper_tab.leftAnchor,constant: 10).isActive = true
+        
+        back_image.image = UIImage(named: "back")
+        back_image.contentMode = .scaleAspectFit
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        label.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
+        label.leftAnchor.constraint(equalTo: back_image.rightAnchor,constant: 10).isActive = true
+        label.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -10).isActive = true
+        
+        label.text = ""
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        
+        back_image.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
+        back_image.addGestureRecognizer(tapGesture)
         
         self.view.addSubview(hash_tag_label)
         self.view.addSubview(views_and_videos)
@@ -63,9 +102,9 @@ class HashTagViewController: UIViewController {
         hash_image.image = UIImage(named: "hash")
         
         hash_tag_label.text = "#"+hash_tag.title
-        hash_tag_label.textColor = UIColor.black
+        hash_tag_label.textColor = UIColor.white
         
-        views_and_videos.textColor = UIColor.black
+        views_and_videos.textColor = UIColor.white
         
         share_button.setTitle("Share", for: .normal)
                
@@ -77,6 +116,18 @@ class HashTagViewController: UIViewController {
         
         setUserVideoView()
         fetchHashTag()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     @objc func shareHash(_ sender: UITapGestureRecognizer) {
@@ -92,10 +143,6 @@ class HashTagViewController: UIViewController {
        self.present(activityController, animated: true) {
            print("Done")
        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     func setUserVideoView() {
@@ -242,10 +289,6 @@ extension HashTagViewController: UICollectionViewDelegate, UICollectionViewDataS
         self.tabBarController?.tabBar.isHidden = true
         performSegue(withIdentifier: "HashVideoView", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

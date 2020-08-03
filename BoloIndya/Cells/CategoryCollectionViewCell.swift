@@ -45,7 +45,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setName() {
         name.translatesAutoresizingMaskIntoConstraints = false
         name.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        name.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        name.font = UIFont.boldSystemFont(ofSize: 13.0)
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        name.textAlignment = .center
         name.textColor = .black
     }
     

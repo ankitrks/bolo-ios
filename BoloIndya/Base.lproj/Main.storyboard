@@ -46,195 +46,7 @@
                     <view key="view" contentMode="scaleToFill" id="aIY-uY-kc6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bkf-h0-Box">
-                                <rect key="frame" x="10" y="268" width="394" height="360.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Language to Start" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn0-9e-qsT">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="XTf-Yh-hMQ">
-                                        <rect key="frame" x="0.0" y="30.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odf-Vy-Njh" customClass="ActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="Uab-F6-DHB"/>
-                                                </constraints>
-                                                <state key="normal" title="हिन्दी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="LEN-D0-8XI"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="hbP-wb-kUs"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BVV-kR-pYp" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="Kmq-Gl-gFm"/>
-                                                </constraints>
-                                                <state key="normal" title="தமிழ்"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="LDG-MI-sK8"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="YZe-qi-9gk"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7z7-aq-XFw">
-                                        <rect key="frame" x="0.0" y="80.5" width="394" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yim-p2-yCA" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="oTA-a8-OIf"/>
-                                                </constraints>
-                                                <state key="normal" title="తెలుగు"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="HA5-zz-Xvj"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="vkH-LC-m3p"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgK-RY-Qnx" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="30"/>
-                                                <state key="normal" title="ಕನ್ನಡ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="Fsy-y8-kpT"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="cGN-B5-hBr"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JJ7-Tx-10f">
-                                        <rect key="frame" x="0.0" y="120.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tB2-W8-sQD" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="iR4-BG-SxG"/>
-                                                </constraints>
-                                                <state key="normal" title="বাংলা"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="6Bn-sA-Ck6"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="hPb-39-TnY"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FlK-ev-hBd" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="JUC-11-kuC"/>
-                                                </constraints>
-                                                <state key="normal" title="मराठी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="LGk-tm-762"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="t0f-05-5t3"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Maj-iK-8dw">
-                                        <rect key="frame" x="0.0" y="170.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeD-dp-Q6b" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="gGL-rx-38O"/>
-                                                </constraints>
-                                                <state key="normal" title="ગુજરાતી"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="XIQ-Fe-jiB"/>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="piQ-IX-n2t"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5s-y6-xnh" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="EAa-mv-hjh"/>
-                                                </constraints>
-                                                <state key="normal" title="മലയാളം"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="4a9-rx-7zs"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="bxx-Lq-py0"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mVc-GX-Ir3">
-                                        <rect key="frame" x="0.0" y="220.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpV-dK-hUt" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="0QX-5D-TBr"/>
-                                                </constraints>
-                                                <state key="normal" title="ਪੰਜਾਬੀ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="HZL-DV-ir4"/>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="Tln-qD-QoC"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cag-Wo-mwZ" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="WJ2-Mx-TUE"/>
-                                                </constraints>
-                                                <state key="normal" title="ଓଡ଼ିଆ"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="8z4-47-SLF"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="jc0-nA-9Dj"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="tAz-UT-Tn6">
-                                        <rect key="frame" x="0.0" y="270.5" width="394" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ao6-Tn-4Fg" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="YjH-pl-ZLf"/>
-                                                </constraints>
-                                                <state key="normal" title="भोजपुरी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="cuu-hB-tzg"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="zyf-Lu-dcp"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xoh-iG-FBf" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                                <rect key="frame" x="202" y="0.0" width="192" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="tGi-rZ-Hfk"/>
-                                                </constraints>
-                                                <state key="normal" title="हरियाणवी"/>
-                                                <connections>
-                                                    <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="BQv-rz-ar6"/>
-                                                    <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="ep5-cV-731"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pw7-mn-Ufq" customClass="NonActiveLanguageButton" customModule="BoloIndya" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="320.5" width="394" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="4yy-CF-yyP"/>
-                                        </constraints>
-                                        <state key="normal" title="English"/>
-                                        <connections>
-                                            <action selector="chooseLanguage:" destination="Vma-tO-Tbj" eventType="touchUpInside" id="Tae-vj-Mr5"/>
-                                            <action selector="chooseLanguage:" destination="6H7-bL-ftv" eventType="touchUpInside" id="cs4-c1-kNt"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Bkf-h0-Box" firstAttribute="centerY" secondItem="aIY-uY-kc6" secondAttribute="centerY" id="SOo-mm-2pk"/>
-                            <constraint firstItem="9Iv-Qi-Gut" firstAttribute="trailing" secondItem="Bkf-h0-Box" secondAttribute="trailing" constant="10" id="VNf-tg-aa9"/>
-                            <constraint firstItem="Bkf-h0-Box" firstAttribute="leading" secondItem="9Iv-Qi-Gut" secondAttribute="leading" constant="10" id="p1p-iF-RVJ"/>
-                        </constraints>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="9Iv-Qi-Gut"/>
                     </view>
                 </viewController>
@@ -279,7 +91,7 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xHE-aV-fQ6">
                                         <rect key="frame" x="0.0" y="40" width="414" height="130"/>
@@ -293,21 +105,21 @@
                                         <rect key="frame" x="-15" y="230" width="414" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xli-Tz-1u0">
                                         <rect key="frame" x="-15" y="255" width="414" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="0AW-cA-orr"/>
                     </view>
                     <navigationItem key="navigationItem" id="yBf-CC-Y4C"/>
@@ -532,6 +344,7 @@
                     <navigationItem key="navigationItem" id="HOM-my-uQ2"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileView" id="Xyc-tg-wB7"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="trendingLogin" id="MBI-fN-aqE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TZa-26-0YZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -546,7 +359,7 @@
                     <view key="view" contentMode="scaleToFill" id="9Fv-FL-lfk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Wc-xl-92z"/>
                     </view>
                     <navigationItem key="navigationItem" id="eSZ-8p-SpE"/>
@@ -565,7 +378,7 @@
                     <view key="view" contentMode="scaleToFill" id="TAj-xE-ldC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sPN-wY-Np1"/>
                     </view>
                     <navigationItem key="navigationItem" id="JmK-Qu-b4Q"/>
@@ -636,7 +449,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ZL1-ig-cVh"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="notification" id="240-oM-BKZ"/>
@@ -660,7 +473,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="orn-Yn-ohJ">
-                                <rect key="frame" x="2" y="20" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="725"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Lmu-fM-Gt1">
@@ -696,7 +509,7 @@
                                                         <rect key="frame" x="40" y="0.0" width="30" height="30"/>
                                                         <state key="normal" image="more_vertical"/>
                                                         <connections>
-                                                            <action selector="onMoreOptionClick:" destination="XMT-4K-sc9" eventType="touchUpInside" id="vgX-Sf-oiI"/>
+                                                            <action selector="report_user:" destination="MZO-Yo-i62" eventType="touchUpInside" id="tg4-Xw-wUb"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -714,7 +527,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="1CY-3e-hlx"/>
                     </view>
                     <navigationItem key="navigationItem" id="QpE-3O-Ews"/>
@@ -757,7 +570,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjO-Ts-K2M">
                                         <rect key="frame" x="0.0" y="104" width="394" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKm-tN-nzv">
@@ -797,7 +610,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="abh-1W-i0L" secondAttribute="leading" constant="10" id="32u-fF-N72"/>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="HJI-d5-6Gb" secondAttribute="leading" constant="10" id="PNr-V7-OEc"/>
@@ -830,7 +643,7 @@
                     <view key="view" contentMode="scaleToFill" id="IaL-tX-D5P">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="YTz-Jl-zV7"/>
                     </view>
                     <navigationItem key="navigationItem" id="gGZ-qZ-w5J"/>
@@ -865,9 +678,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AcQ-9e-iDp"/>
-        <segue reference="l2F-fa-1O0"/>
-        <segue reference="ihG-lq-j9X"/>
+        <segue reference="MBI-fN-aqE"/>
+        <segue reference="Xyc-tg-wB7"/>
+        <segue reference="aUY-JB-700"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>

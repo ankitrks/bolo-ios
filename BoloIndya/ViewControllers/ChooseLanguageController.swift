@@ -8,159 +8,130 @@
 
 import UIKit
 
-class ChooseLanguageController: UIViewController {
-    
-    var languages: [Languages] = []
-    
+class ChooseLanguageController : UIViewController {
+
+    var languages: [Languages]!
+
     var languageView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-    
-    @IBAction func chooseLanguage(_ sender: UIButton) {
-        UserDefaults.standard.setValueForLanguageId(value: sender.tag)
-        sentToTrending()
-    }
-    
+
+    var upper_tab = UIView()
+    var back_image = UIImageView()
+    var label = UILabel()
+    var tick_image = UIImageView()
+
+    var selected_position: Int = 1
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ChooseLanguage")
         
-        setLanguage()
+        languages = getLanguages()
+            
+        setView()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    func setView() {
+
+        upper_tab.addSubview(back_image)
+        upper_tab.addSubview(label)
+        upper_tab.addSubview(tick_image)
+        
+        view.addSubview(upper_tab)
+        
+        upper_tab.translatesAutoresizingMaskIntoConstraints = false
+        upper_tab.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
+        upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
+        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        
+        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        
+        back_image.translatesAutoresizingMaskIntoConstraints = false
+        back_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        back_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        back_image.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
+        back_image.leftAnchor.constraint(equalTo: upper_tab.leftAnchor,constant: 10).isActive = true
+        
+        back_image.isUserInteractionEnabled = true
+        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
+        back_image.addGestureRecognizer(tapGestureBack)
+        
+        back_image.image = UIImage(named: "back")
+        back_image.contentMode = .scaleAspectFit
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        label.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
+        label.leftAnchor.constraint(equalTo: back_image.rightAnchor,constant: 10).isActive = true
+        label.rightAnchor.constraint(equalTo: tick_image.leftAnchor,constant: -10).isActive = true
+        
+        label.text = "Choose Language"
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        
+        tick_image.translatesAutoresizingMaskIntoConstraints = false
+        tick_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        tick_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        tick_image.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
+        tick_image.rightAnchor.constraint(equalTo: upper_tab.rightAnchor,constant: -10).isActive = true
+        
+        tick_image.image = UIImage(named: "tick")
+        tick_image.contentMode = .scaleAspectFit
+        
+        tick_image.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(setLanguage(_:)))
+        tick_image.addGestureRecognizer(tapGesture)
         
         languageView.isScrollEnabled = true
         languageView.delegate = self
         languageView.dataSource = self
         languageView.backgroundColor = UIColor.black
         
-        let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (screenSize.width/3.2), height: (screenSize.width/3.2))
+        layout.itemSize = CGSize(width: (languageView.frame.width/3.2), height: (languageView.frame.width/3.2 + 20))
         languageView.collectionViewLayout = layout
         
         languageView.register(LanguageCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-    
+
         view.addSubview(languageView)
         
         languageView.translatesAutoresizingMaskIntoConstraints = false
-        languageView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-        languageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        languageView.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
+        languageView.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
+        languageView.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         languageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     }
-    
-    func setLanguage() {
-        
-        var language = Languages()
-        language.id = 2
-        language.title = "Hindi"
-        language.image = "hindi"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 3
-        language.title = "Tamil"
-        language.image = "tamil"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 4
-        language.title = "Telugu"
-        language.image = "telugu"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 5
-        language.title = "Kannada"
-        language.image = "kanada"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 6
-        language.title = "Bengali"
-        language.image = "bengali"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 7
-        language.title = "Marathi"
-        language.image = "marathi"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 8
-        language.title = "Gujrati"
-        language.image = "gujrati"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 9
-        language.title = "Malayalam"
-        language.image = "malayalam"
 
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 10
-        language.title = "Punjabi"
-        language.image = "punjabi"
-
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 11
-        language.title = "Oriya"
-        language.image = "oriya"
-
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 12
-        language.title = "Bhojpuri"
-        language.image = "bhojpuri"
-
-        languages.append(language)
-        
-        
-        language = Languages()
-        language.id = 13
-        language.title = "Haryanvi"
-        language.image = "harayanvi"
-
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 1
-        language.title = "English"
-        language.image = "english"
-        
-        languages.append(language)
-        
-        language = Languages()
-        language.id = 14
-        language.title = "Sinhala"
-        language.image = "sinhala"
-
-        languages.append(language)
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func setLanguage(_ sender: Any) {
+        self.sentToTrending()
+    }
+
     func sentToTrending() {
+        UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
+        UserDefaults.standard.setLanguageSet(value: true)
+        
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
-    
 }
 
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selected_position = indexPath.row
+        self.sentToTrending()
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    private func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
@@ -175,6 +146,7 @@ extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.2), height: (collectionView.frame.width/3.2))
+        return CGSize(width: (collectionView.frame.width/3.2), height: (collectionView.frame.width/3.2 + 20))
     }
 }
+

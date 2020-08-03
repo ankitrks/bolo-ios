@@ -59,6 +59,7 @@ class CurrentUserViewController: UIViewController {
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
             self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "signUpCurrentUser", sender: self)
         } else {
             cover_pic.backgroundColor = UIColor.gray
@@ -69,6 +70,10 @@ class CurrentUserViewController: UIViewController {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
@@ -77,7 +82,7 @@ class CurrentUserViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
     
 
@@ -101,7 +106,7 @@ class CurrentUserViewController: UIViewController {
         let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: (screenSize.width/3.4) * 1.5)
+        layout.itemSize = CGSize(width: (screenSize.width/3) - 10, height: 120)
         userVideoView.collectionViewLayout = layout
         
         userVideoView.delegate = self
@@ -286,7 +291,7 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.5)
+        return CGSize(width: (collectionView.frame.width/3) - 10, height: ((collectionView.frame.width/3) - 10) * 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

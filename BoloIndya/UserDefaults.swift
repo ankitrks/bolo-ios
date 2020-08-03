@@ -59,7 +59,7 @@ extension UserDefaults {
     }
     
     func getAuthToken() -> String? {
-        return value(forKey: "auth_key") as? String ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MzkzNDIsImp0aSI6IjJhMzIyMDE0ZTIyZTRhYjA5OWE2MzI2MGFlY2QzYmI3IiwiZXhwIjoxNjgxODg4ODA4fQ.kUtCaxVY_MoiqhR-MteV9iRt1TC0TYxOFSbgOrciY94"
+        return value(forKey: "auth_key") as? String ?? ""
     }
     
     func setUsername(value: String?) {

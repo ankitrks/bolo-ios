@@ -13,10 +13,12 @@ class HashTag {
     var id: Int
     var title: String
     var videos: [Topic]
+    var total_views: String
     
     init() {
         self.id = 0
         self.title = ""
         self.videos = []
+        self.total_views = ""
     }
 }

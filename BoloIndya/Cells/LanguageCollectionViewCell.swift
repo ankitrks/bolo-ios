@@ -13,6 +13,8 @@ class LanguageCollectionViewCell: UICollectionViewCell {
     var image =  UIImageView()
     var title = UILabel()
     
+    var identifier: String  = "LanguageCollectionViewCell"
+    
     public func configure(with language: Languages) {
         image.image = UIImage(named: language.image)
         title.text = language.title
@@ -33,10 +35,10 @@ class LanguageCollectionViewCell: UICollectionViewCell {
     
     func setImageView() {
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.widthAnchor.constraint(equalToConstant: self.frame.width-10).isActive = true
+        image.widthAnchor.constraint(equalToConstant: self.frame.width-5).isActive = true
+        image.heightAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0).isActive = true
         image.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        image.bottomAnchor.constraint(equalTo: title.topAnchor, constant: 0).isActive = true
         image.layer.cornerRadius = 10.0
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -44,9 +46,8 @@ class LanguageCollectionViewCell: UICollectionViewCell {
     
     func setVideoTitle() {
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.heightAnchor.constraint(equalToConstant: 20).isActive = true
         title.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 5).isActive = true
         title.textAlignment = .center
         title.textColor = UIColor.white
 
@@ -54,4 +55,5 @@ class LanguageCollectionViewCell: UICollectionViewCell {
         title.numberOfLines = 2
     }
 }
+
 

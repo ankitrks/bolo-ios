@@ -42,16 +42,20 @@ class NotificationViewController: UIViewController {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-           self.navigationController?.isNavigationBarHidden = true
-           self.tabBarController?.tabBar.isHidden = false
-       }
+       super.viewWillAppear(animated)
+       self.navigationController?.isNavigationBarHidden = true
+       self.tabBarController?.tabBar.isHidden = false
+    }
        
-       override func viewWillDisappear(_ animated: Bool) {
-           super.viewWillDisappear(animated)
-           self.navigationController?.isNavigationBarHidden = true
-       }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
     
     func goToLoginPage() {
         self.tabBarController?.tabBar.isHidden = true

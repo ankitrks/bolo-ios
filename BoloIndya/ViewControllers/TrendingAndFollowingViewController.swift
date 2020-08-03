@@ -126,18 +126,25 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
-        if (isTrending) {
-            following.textColor = UIColor.red
-            trending.textColor = UIColor.gray
-            if current_video_cell != nil {
-                current_video_cell.player.player?.pause()
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "trendingLogin", sender: self)
+        } else {
+            if (isTrending) {
+                following.textColor = UIColor.red
+                trending.textColor = UIColor.gray
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
+                }
+                self.videos = self.followingTopics
+                self.trendingView.reloadData()
+                if (self.videos.count == 0) {
+                    self.fetchFollowingData()
+                }
+                isTrending = false
             }
-            self.videos = self.followingTopics
-            self.trendingView.reloadData()
-            if (self.videos.count == 0) {
-                self.fetchFollowingData()
-            }
-            isTrending = false
         }
     }
     
@@ -200,7 +207,7 @@ class TrendingAndFollowingViewController: UIViewController {
                                 let topic = Topic(user: user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                topic.id = "\(each["id"] as? Int)"
+                                topic.id = "\(each["id"] as! Int)"
                                 topic.video_url = each["video_cdn"] as? String ?? ""
                                 self.followingTopics.append(topic)
                             }
@@ -228,19 +235,8 @@ class TrendingAndFollowingViewController: UIViewController {
     
     
     @IBAction func goToNextScreens(_ sender: UIButton) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-
-        if (!isLoggedIn) {
-            goToLoginPage()
-        }
     }
 
-    func goToLoginPage() {
-       let vc = storyboard?.instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
-    }
-    
     func fetchData() {
 
         if isLoading {
@@ -317,6 +313,9 @@ class TrendingAndFollowingViewController: UIViewController {
         if segue.destination is ProfileViewController {
             let vc = segue.destination as? ProfileViewController
             vc?.user = videos[selected_position].user
+        } else  if segue.destination is LoginAndSignUpViewController {
+           let vc = segue.destination as? LoginAndSignUpViewController
+           vc?.selected_tab = 0
         }
     }
     
@@ -538,12 +537,12 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                             else{
                                 print("\n\nerror again\n\n")
                             }
-                        }//end if let data
-                    }//end dispatch main
-                }//end if let response.status
+                        }
+                    }
+                }
             }
         }).resume()
-                    //}//end dispatch global
-                }//end outer else
+            
     }
+}
 }

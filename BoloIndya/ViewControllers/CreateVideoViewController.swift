@@ -22,6 +22,10 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     var isRecording: Bool = false
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

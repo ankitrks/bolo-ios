@@ -184,9 +184,6 @@ class ProfileViewController: UIViewController {
                                 return
                             }
                             for each in content {
-                                let user_obj = each["user"] as? [String:Any]
-                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
-                            
                                 let topic = Topic(user: self.user)
                                 topic.setTitle(title: each["title"] as? String ?? "")
                                 topic.id = "\(each["id"] as! Int)"
@@ -243,24 +240,44 @@ class ProfileViewController: UIViewController {
                             self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
                             self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
                                 
-                            self.isLoading = false
-                            self.fetchData()
+                            self.dismissLoading()
                         }
                     }
                     catch {
-                        self.isLoading = false
-                        self.fetchData()
+                        self.dismissLoading()
                         print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
-                    self.isLoading = false
-                    self.fetchData()
+                    self.dismissLoading()
                     print(error)
                 }
         }
     }
+   
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
+    func dismissLoading() {
+        self.isLoading = false
+        self.fetchData()
+    }
+    
+    @IBAction func report_user(_ sender: Any) {
+    
+        let actionSheet =  UIAlertController(title: nil, message:nil, preferredStyle: .actionSheet)
+         let report_user = UIAlertAction(title: "Report User", style: .default, handler: {
+             (_:UIAlertAction) in
+         })
+         
+         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+             (_:UIAlertAction) in
+         })
+         actionSheet.addAction(report_user)
+         actionSheet.addAction(cancel)
+         self.present(actionSheet, animated: true, completion: nil)
+    }
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if segue.destination is VideoViewController {
@@ -280,7 +297,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    private func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
