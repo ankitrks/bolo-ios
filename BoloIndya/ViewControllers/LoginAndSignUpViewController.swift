@@ -33,7 +33,7 @@ class LoginAndSignUpViewController: UIViewController {
     @IBAction func continueWithNumber(_ sender: UIButton) {
     
         let parameters: [String: Any] = [
-        "mobile_no": "+91" + (mobile_no.text ?? "")
+        "mobile_no": "+91\(mobile_no.text.unsafelyUnwrapped)"
         ]
         
         Alamofire.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
@@ -199,7 +199,6 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
                             print(error.localizedDescription)
                         }
                     }
-                    print(data)
                     break
                 case.failure(let error):
                     print(error)
@@ -211,8 +210,8 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
     @IBAction func verifyOTP(_ sender: UIButton) {
         
         let parameters: [String: Any] = [
-            "mobile_no": (mobile_no.text ?? ""),
-            "otp": (otp.text ?? ""),
+            "mobile_no": "\(mobile_no.text.unsafelyUnwrapped)",
+            "otp": "\(otp.text.unsafelyUnwrapped)",
             "country_code": "+91",
             "language": "2"
         ]
@@ -221,7 +220,35 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
-                    print(data)
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            UserDefaults.standard.setLoggedIn(value: true)
+                        
+                            UserDefaults.standard.setAuthToken(value: json_object?["access_token"] as? String)
+                        
+                            let user_obj = json_object?["user"] as? [String: AnyObject]
+                            
+                            UserDefaults.standard.setUserId(value: user_obj?["id"] as? Int)
+                            
+                            let user_profile = user_obj?["userprofile"] as? [String: AnyObject]
+                            
+                            UserDefaults.standard.setUsername(value: user_obj?["username"] as? String)
+                            
+                            UserDefaults.standard.setName(value: user_profile?["name"] as? String)
+                            
+                            UserDefaults.standard.setCoverPic(value: user_profile?["cover_pic"] as? String)
+                            
+                            UserDefaults.standard.setProfilePic(value: user_profile?["profile_pic"] as? String)
+                            
+                            UserDefaults.standard.setBio(value: user_profile?["bio"] as? String)
+                            
+                            self.sentToTrending()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
                     break
                 case.failure(let error):
                     print(error)
@@ -237,6 +264,3 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
     }
     
 }
-
-
-//{"username": "bi191040877", "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MzkzNDIsImp0aSI6ImZhNGY5YjdlMDJiMjQ0ZDhiM2YxZDMzNDVjZTk4YTUxIiwiZXhwIjoxNjgwODE0MjI5fQ.dWaQu3wByjrNvKyce4n0tm4X7XzxnEMhfGXAR8con28", "message": "User Logged In", "user": {"id": 39342, "userprofile": {"id": 20347, "follow_count": 33, "follower_count": 2820, "bolo_score": "16.5K", "slug": "bi191040877", "view_count": "181.3K", "own_vb_view_count": "181.3K", "is_expert": false, "topic_count": 0, "comment_count": 0, "is_popular": false, "is_superstar": false, "is_business": true, "cover_pic": "https://boloindyapp-prod.s3.amazonaws.com/public/cover_photo/Gitesh_1593975923463.jpeg", "profile_pic": "https://s3.amazonaws.com/boloindyapp-prod/thumbnail/img-159397590439.jpg", "name": "Gitesh", "bio": "adaptive", "d_o_b": "12/15/1996", "gender": "1", "about": "adaptive", "language": "1", "refrence": null, "social_identifier": "4x4TNsFBFrXlY0N0jNyzOHUkqIX2", "mobile_no": "9911806266", "question_count": 0, "answer_count": 51, "share_count": 196, "like_count": 40, "vb_count": 33, "encashable_bolo_score": 0, "is_test_user": false, "linkedin_url": null, "twitter_id": null, "instagarm_id": null, "is_dark_mode_enabled": false, "total_vb_playtime": 3544, "total_time_spent": 0, "state_name": "Haryana", "city_name": "Gurgaon", "paytm_number": "9911806266", "android_did": null, "is_guest_user": false, "boost_views_count": 0, "boost_like_count": 0, "boost_follow_count": 0, "boosted_time": null, "boost_span": 0, "country_code": "+91", "salary_range": null, "user": 39342, "sub_category": [70, 72, 67]}, "username": "bi191040877", "first_name": "", "last_name": "", "email": "giteshshastri96@gmail.com", "is_active": true}, "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsInVzZXJfaWQiOjM5MzQyLCJqdGkiOiI2MTc4NTNlMWEzODQ0MGM3ODIyYjdhMGRiMTgwMzVlNSIsImV4cCI6MTU5NDU4NzAyOX0.vSAGqEFLNowjNz4BDi4tiFJFOtNFZUzUa9WXWm8Idc0"}

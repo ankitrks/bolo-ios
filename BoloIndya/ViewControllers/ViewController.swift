@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if (UserDefaults.standard.isLanguageSet() ?? false) {
-            chooseLanguage()
+            sentToTrending()
         } else {
             chooseLanguage()
         }

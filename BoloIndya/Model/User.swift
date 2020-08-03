@@ -16,6 +16,10 @@ class User {
     var bio: String
     var cover_pic: String
     var profile_pic: String
+    var vb_count: Int
+    var view_count: String
+    var follow_count: String
+    var follower_count: String
     
     init() {
         self.id = 0
@@ -24,6 +28,10 @@ class User {
         self.bio = ""
         self.cover_pic = ""
         self.profile_pic = ""
+        self.vb_count = 0
+        self.view_count = ""
+        self.follow_count = ""
+        self.follower_count = ""
     }
     
     func setId(id: Int) {

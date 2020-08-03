@@ -46,6 +46,10 @@ class UpdateIntersetViewController: UIViewController {
         back_image.image = UIImage(named: "back")
         back_image.contentMode = .scaleAspectFit
         
+        back_image.isUserInteractionEnabled = true
+        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
+        back_image.addGestureRecognizer(tapGestureBack)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
         label.centerYAnchor.constraint(equalTo: upper_tab.centerYAnchor,constant: 0).isActive = true
@@ -93,6 +97,10 @@ class UpdateIntersetViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func setLanguage(_ sender: Any) {

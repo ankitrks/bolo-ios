@@ -15,6 +15,11 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
 
     var captureButton =  UIImageView()
     
+    var timer_label = UILabel()
+    var timeMin = 0
+    var timeSec = 0
+    weak var timer: Timer?
+    
     var go_back =  UIImageView()
     var galleryButton = UIImageView()
     var switchFrontCamera = UIImageView()
@@ -92,6 +97,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             flashCamera.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
             flashCamera.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
             
+            flashCamera.isHidden = true
             flashCamera.isUserInteractionEnabled = true
             
             let tapGestureFlash = UITapGestureRecognizer(target: self, action: #selector(flashCameraEnabled))
@@ -115,8 +121,58 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
             go_back.addGestureRecognizer(tapGesture)
+            
+            view.addSubview(timer_label)
+            
+            timer_label.translatesAutoresizingMaskIntoConstraints = false
+            timer_label.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            
+            timer_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+            timer_label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+            timer_label.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -10).isActive = true
+            timer_label.textAlignment = .center
+            
+            timer_label.textColor = UIColor.white
         }
         
+    }
+    
+    func startTimer(){
+         
+        let timeNow = String(format: "%02d:%02d", timeMin, timeSec)
+        timer_label.text = timeNow
+        
+        stopTimer()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {[weak self] _ in
+            self?.timerTick()
+        })
+    }
+    
+    
+    @objc func timerTick(){
+        timeSec += 1
+        
+        if timeSec == 60 {
+            timeSec = 0
+            timeMin += 1
+        }
+        let timeNow = String(format: "%02d:%02d", timeMin, timeSec)
+        timer_label.text = timeNow
+    }
+    
+    @objc func resetTimerToZero(){
+        timeSec = 0
+        timeMin = 0
+        stopTimer()
+    }
+    
+    @objc func resetTimerAndLabel() {
+       resetTimerToZero()
+       timer_label.text = String(format: "%02d:%02d", timeMin, timeSec)
+    }
+    
+    @objc func stopTimer(){
+        timer?.invalidate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,10 +188,10 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
         captureButton.image = UIImage(named: "start_record")
         galleryButton.isHidden = false
         switchFrontCamera.isHidden = false
+        resetTimerToZero()
      }
      
-    
-    @objc func openGallery(_ sender: UITapGestureRecognizer) {
+     @objc func openGallery(_ sender: UITapGestureRecognizer) {
        
         var config = YPImagePickerConfiguration()
         config.screens = [.library]
@@ -163,11 +219,13 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     @objc func record(_ sender: UITapGestureRecognizer) {
         if isRecording {
+            stopTimer()
             stopVideoRecording()
             captureButton.image = UIImage(named: "start_record")
             galleryButton.isHidden = false
             switchFrontCamera.isHidden = false
         } else {
+            startTimer()
             startVideoRecording()
             captureButton.image = UIImage(named: "stop_record")
             galleryButton.isHidden = true
