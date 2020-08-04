@@ -200,7 +200,7 @@
             <objects>
                 <viewController id="Qmp-Sc-mS7" customClass="VideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XbV-sH-RDd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dj9-5N-T37"/>
@@ -372,6 +372,7 @@
                     <navigationItem key="navigationItem" id="JmK-Qu-b4Q"/>
                     <connections>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="CategoryVideoView" id="ihG-lq-j9X"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="categoryLogin" id="cy9-wd-7Om"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6X-eg-niZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -547,11 +548,12 @@
                         <outlet property="user_name" destination="kMC-Lb-k4q" id="0Sd-k9-Gmq"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoViewOtherUser" id="tDC-fX-6PB"/>
                         <segue destination="hN7-E0-O0O" kind="show" identifier="profileFollowing" id="8mZ-Aq-txe"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="userProfileLogin" id="5Kg-N4-WN5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amH-p0-jcm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2257" y="2617"/>
+            <point key="canvasLocation" x="2433" y="2617"/>
         </scene>
         <!--Login And Sign Up View Controller-->
         <scene sceneID="kbj-aZ-DwP">
@@ -690,10 +692,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AcQ-9e-iDp"/>
+        <segue reference="cy9-wd-7Om"/>
         <segue reference="Qoa-9v-DXb"/>
         <segue reference="8mZ-Aq-txe"/>
-        <segue reference="tDC-fX-6PB"/>
+        <segue reference="ihG-lq-j9X"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>

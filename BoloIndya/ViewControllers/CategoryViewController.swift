@@ -129,9 +129,23 @@ class CategoryViewController: UIViewController {
         
         follow_button.isHidden = true
         
+        follow_button.addTarget(self, action: #selector(followUser), for: .touchUpInside)
+        
         setUserVideoView()
         fetchCategory()
     }
+    
+    @objc func followUser(_ sender: UITapGestureRecognizer) {
+       let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+       if (!isLoggedIn) {
+           self.tabBarController?.tabBar.isHidden = true
+           self.navigationController?.isNavigationBarHidden = true
+           performSegue(withIdentifier: "categoryLogin", sender: self)
+           return
+       }
+   }
+    
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -178,8 +192,12 @@ class CategoryViewController: UIViewController {
         
         isLoading = true
     
-        let headers: [String: Any] = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-       
+         var headers: [String: Any]? = nil
+               
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
         let parameters: [String: Any] = [
             "category_id": id,
             "language_id":"\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
@@ -196,6 +214,7 @@ class CategoryViewController: UIViewController {
                    
                    do {
                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                    
                     let desc = json_object?["category_details"] as? [String:Any]
                     if !self.selected_ids.isEmpty {
                         if (self.selected_ids.contains(desc?["id"] as! Int)) {
@@ -264,7 +283,12 @@ class CategoryViewController: UIViewController {
            
         isLoading = true
            
-        let headers: [String: Any] = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        var headers: [String: Any]? = nil
+               
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+        headers = [
+           "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
            
         
         let parameters: [String: Any] = [
@@ -324,6 +348,9 @@ class CategoryViewController: UIViewController {
             let vc = segue.destination as? VideoViewController
             vc?.videos = topics
             vc?.selected_position = selected_position
+        } else if segue.destination is LoginAndSignUpViewController{
+              let vc = segue.destination as? LoginAndSignUpViewController
+              vc?.selected_tab = 0
         }
     }
     

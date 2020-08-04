@@ -55,11 +55,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UserDefaults.standard.getFollowingUsers() == nil {
-            users_following = UserDefaults.standard.getFollowingUsers()
-        } else {
-            users_following = []
-        }
+        users_following = UserDefaults.standard.getFollowingUsers()
             
         self.navigationController?.isNavigationBarHidden = true
         cover_pic.backgroundColor = UIColor.gray
@@ -312,8 +308,11 @@ class ProfileViewController: UIViewController {
         
         isLoading = true
         
-        let headers: [String: Any] = [
+        var headers: [String: Any]? = nil
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
             "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(user.id)&page=\(page)"
         
@@ -422,6 +421,13 @@ class ProfileViewController: UIViewController {
     }
    
     @objc func followUser(_ sender: UITapGestureRecognizer) {
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "userProfileLogin", sender: self)
+            return
+        }
         if self.isFollowing {
             users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
             follow_button.setTitle("Follow", for: .normal)
@@ -463,13 +469,16 @@ class ProfileViewController: UIViewController {
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if segue.destination is VideoViewController {
-          let vc = segue.destination as? VideoViewController
-          vc?.videos = topics
-          vc?.selected_position = selected_position
+            let vc = segue.destination as? VideoViewController
+            vc?.videos = topics
+            vc?.selected_position = selected_position
       } else if segue.destination is FollowingFollowerViewController {
-          let vc = segue.destination as? FollowingFollowerViewController
-        vc?.user_id = user.id
-          vc?.follower = follower
+            let vc = segue.destination as? FollowingFollowerViewController
+            vc?.user_id = user.id
+            vc?.follower = follower
+      } else if segue.destination is LoginAndSignUpViewController{
+            let vc = segue.destination as? LoginAndSignUpViewController
+            vc?.selected_tab = 0
       }
   }
     

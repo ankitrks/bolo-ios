@@ -94,6 +94,7 @@ class LoginAndSignUpViewController: UIViewController {
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
+        print("Go Back")
         if (selected_tab == 0) {
             self.navigationController?.popViewController(animated: true)
         } else {
