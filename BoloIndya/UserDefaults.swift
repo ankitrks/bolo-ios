@@ -185,7 +185,7 @@ extension UserDefaults {
     }
     
     func getCategories() -> [Int] {
-        return (value(forKey: "sub_category") as? [Int])!
+        return value(forKey: "sub_category") as? [Int] ?? []
     }
     
     func setFollowingUsers(value: [Int]) {
@@ -194,6 +194,6 @@ extension UserDefaults {
     }
     
     func getFollowingUsers() -> [Int] {
-        return (value(forKey: "all_follow") as? [Int])!
+        return value(forKey: "all_follow") as? [Int] ?? []
     }
 }
