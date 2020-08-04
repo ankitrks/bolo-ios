@@ -44,6 +44,8 @@ class CurrentUserViewController: UIViewController {
     var following_label = UILabel()
     var following_count = UILabel()
     
+    var follower: String = "following"
+    
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     let menuArray = ["Refer And Earn", "Bolo Action Insights", "Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
@@ -229,6 +231,13 @@ class CurrentUserViewController: UIViewController {
         
         followers_label.text = "Followers"
         
+        followers_label.isUserInteractionEnabled = true
+        followers_count.isUserInteractionEnabled = true
+        let tapGestureFollower = UITapGestureRecognizer(target: self, action: #selector(onFollowerClick))
+        let tapGestureFollower1 = UITapGestureRecognizer(target: self, action: #selector(onFollowerClick))
+        followers_count.addGestureRecognizer(tapGestureFollower)
+        followers_label.addGestureRecognizer(tapGestureFollower1)
+        
         view.addSubview(following_count)
         
         following_count.translatesAutoresizingMaskIntoConstraints = false
@@ -251,6 +260,14 @@ class CurrentUserViewController: UIViewController {
         following_label.font = UIFont.boldSystemFont(ofSize: 13.0)
         
         following_label.text = "Following"
+        
+        following_label.isUserInteractionEnabled = true
+        following_count.isUserInteractionEnabled = true
+        let tapGestureFollowing = UITapGestureRecognizer(target: self, action: #selector(onFollowingClick(_:)))
+        
+        let tapGestureFollowing1 = UITapGestureRecognizer(target: self, action: #selector(onFollowingClick(_:)))
+        following_label.addGestureRecognizer(tapGestureFollowing)
+        following_count.addGestureRecognizer(tapGestureFollowing1)
     }
     
     func setUserVideoView() {
@@ -279,6 +296,20 @@ class CurrentUserViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(MenuViewCell.self, forCellReuseIdentifier: "Cell")
     }
+    
+    @IBAction func onFollowingClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Following"
+        performSegue(withIdentifier: "followingUserProfile", sender: self)
+    }
+    
+    @IBAction func onFollowerClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Followers"
+        performSegue(withIdentifier: "followingUserProfile", sender: self)
+   }
     
     @IBAction func onMoreOptionClick(_ sender: Any) {
         transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
@@ -309,6 +340,10 @@ class CurrentUserViewController: UIViewController {
             let vc = segue.destination as? VideoViewController
             vc?.videos = topics
             vc?.selected_position = selected_position
+        } else if segue.destination is FollowingFollowerViewController {
+            let vc = segue.destination as? FollowingFollowerViewController
+            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
+            vc?.follower = follower
         }
     }
     
@@ -335,7 +370,6 @@ class CurrentUserViewController: UIViewController {
                     do {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let result = json_object?["result"] as? [String:Any] {
-                            print(result)
                             let user_profile_obj = result["userprofile"] as? [String:Any]
                             self.user.id = user_profile_obj?["user"] as! Int
                             self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
@@ -470,7 +504,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: false)
         self.onClickTransparentView()
         switch indexPath.row {
         case 2:

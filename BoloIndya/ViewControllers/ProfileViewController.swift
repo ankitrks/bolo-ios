@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var user_name: UILabel!
     
     var follow_button = UIButton()
+    var users_following: [Int] = []
     
     var user = User()
             
@@ -48,8 +49,14 @@ class ProfileViewController: UIViewController {
     var following_label = UILabel()
     var following_count = UILabel()
     
+    var isFollowing: Bool = false
+    var follower: String = "following"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        users_following = UserDefaults.standard.getFollowingUsers()
+        
         self.navigationController?.isNavigationBarHidden = true
         cover_pic.backgroundColor = UIColor.gray
         setUserVideoView()
@@ -118,6 +125,10 @@ class ProfileViewController: UIViewController {
         follow_button.layer.cornerRadius = 10.0
         follow_button.layer.backgroundColor = UIColor.red.cgColor
         follow_button.setTitleColor(.white, for: .normal)
+        
+        follow_button.isHidden = true
+        
+        follow_button.addTarget(self, action: #selector(followUser), for: .touchUpInside)
         
         view.addSubview(videos_count)
         
@@ -188,6 +199,13 @@ class ProfileViewController: UIViewController {
         
         followers_label.text = "Followers"
         
+        followers_label.isUserInteractionEnabled = true
+        followers_count.isUserInteractionEnabled = true
+        let tapGestureFollower = UITapGestureRecognizer(target: self, action: #selector(onFollowerClick))
+        let tapGestureFollower1 = UITapGestureRecognizer(target: self, action: #selector(onFollowerClick))
+        followers_count.addGestureRecognizer(tapGestureFollower)
+        followers_label.addGestureRecognizer(tapGestureFollower1)
+        
         view.addSubview(following_count)
         
         following_count.translatesAutoresizingMaskIntoConstraints = false
@@ -211,9 +229,31 @@ class ProfileViewController: UIViewController {
         
         following_label.text = "Following"
         
+        following_label.isUserInteractionEnabled = true
+        following_count.isUserInteractionEnabled = true
+        let tapGestureFollowing = UITapGestureRecognizer(target: self, action: #selector(onFollowingClick(_:)))
+        let tapGestureFollowing1 = UITapGestureRecognizer(target: self, action: #selector(onFollowingClick(_:)))
+        following_label.addGestureRecognizer(tapGestureFollowing)
+        following_count.addGestureRecognizer(tapGestureFollowing1)
+        
         setUserVideos();
     }
 
+
+     @IBAction func onFollowingClick(_ sender: Any) {
+         self.tabBarController?.tabBar.isHidden = true
+         self.navigationController?.isNavigationBarHidden = true
+         follower = "Following"
+         performSegue(withIdentifier: "profileFollowing", sender: self)
+     }
+     
+     @IBAction func onFollowerClick(_ sender: Any) {
+         self.tabBarController?.tabBar.isHidden = true
+         self.navigationController?.isNavigationBarHidden = true
+         follower = "Followers"
+         performSegue(withIdentifier: "profileFollowing", sender: self)
+    }
+    
     func setUserVideos() {
         
         let screenSize = UIScreen.main.bounds.size
@@ -259,6 +299,7 @@ class ProfileViewController: UIViewController {
             cover_pic.kf.setImage(with: url1)
             profile_pic.contentMode = .scaleAspectFill
             cover_pic.contentMode = .scaleAspectFill
+            follow_button.isHidden = false
         }
         
         if (isLoading || isFinished) {
@@ -335,6 +376,12 @@ class ProfileViewController: UIViewController {
                         if let result = json_object?["result"] as? [String:Any] {
                             let user_profile_obj = result["userprofile"] as? [String:Any]
                             self.user.id = user_profile_obj?["user"] as! Int
+                            if self.users_following.contains(self.user.id) {
+                                self.isFollowing = true
+                                self.follow_button.setTitle("Following", for: .normal)
+                                self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                                self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                            }
                             self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
                                 
                             self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
@@ -368,6 +415,22 @@ class ProfileViewController: UIViewController {
         }
     }
    
+    @objc func followUser(_ sender: UITapGestureRecognizer) {
+        if self.isFollowing {
+            users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
+            follow_button.setTitle("Follow", for: .normal)
+            follow_button.layer.backgroundColor = UIColor.red.cgColor
+            follow_button.setTitleColor(.white, for: .normal)
+        } else {
+            follow_button.setTitle("Following", for: .normal)
+            follow_button.layer.backgroundColor = UIColor.white.cgColor
+            follow_button.setTitleColor(UIColor.black, for: .normal)
+            users_following.append(self.user.id)
+        }
+        self.isFollowing = !self.isFollowing
+        UserDefaults.standard.setFollowingUsers(value: users_following)
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -397,6 +460,10 @@ class ProfileViewController: UIViewController {
           let vc = segue.destination as? VideoViewController
           vc?.videos = topics
           vc?.selected_position = selected_position
+      } else if segue.destination is FollowingFollowerViewController {
+          let vc = segue.destination as? FollowingFollowerViewController
+        vc?.user_id = user.id
+          vc?.follower = follower
       }
   }
     

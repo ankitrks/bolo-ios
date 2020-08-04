@@ -10,13 +10,15 @@ import Foundation
 
 class Category {
 
-    var id: String
+    var id: Int
     var title: String
     var image: String
+    var isSelected: Bool
     
     init() {
-        self.id = ""
+        self.id = 0
         self.title = ""
         self.image = ""
+        self.isSelected = false
     }
 }

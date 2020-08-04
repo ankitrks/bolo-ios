@@ -178,4 +178,22 @@ extension UserDefaults {
     func getBio() -> String? {
         return value(forKey: "bio") as? String
     }
+    
+    func setCategories(value: [Int]) {
+        set(value, forKey: "sub_category")
+        synchronize()
+    }
+    
+    func getCategories() -> [Int] {
+        return (value(forKey: "sub_category") as? [Int])!
+    }
+    
+    func setFollowingUsers(value: [Int]) {
+        set(value, forKey: "all_follow")
+        synchronize()
+    }
+    
+    func getFollowingUsers() -> [Int] {
+        return (value(forKey: "all_follow") as? [Int])!
+    }
 }

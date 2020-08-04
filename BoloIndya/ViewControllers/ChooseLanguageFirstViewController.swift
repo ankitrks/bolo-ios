@@ -24,6 +24,8 @@ class ChooseLanguageFirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        selected_position = UserDefaults.standard.getValueForLanguageId() ?? 1
+        
         languages = getLanguages()
             
         setView()
@@ -122,6 +124,7 @@ extension ChooseLanguageFirstViewController : UICollectionViewDelegate, UICollec
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selected_position = indexPath.row
+        self.languageView.reloadData()
         self.sentToTrending()
     }
 
@@ -136,6 +139,11 @@ extension ChooseLanguageFirstViewController : UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! LanguageCollectionViewCell
         cell.configure(with: languages[indexPath.row])
+        if languages[indexPath.row].id == selected_position {
+            cell.selected_image.isHidden = false
+        } else {
+            cell.selected_image.isHidden = true
+        }
         return cell
     }
 

@@ -13,6 +13,7 @@ import Kingfisher
 class CategoryViewController: UIViewController {
 
     var topics: [Topic] = []
+    var selected_ids: [Int] = []
     var isLoading: Bool = false
     var isFinished: Bool = false
     var page: Int = 1
@@ -34,6 +35,8 @@ class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        selected_ids = UserDefaults.standard.getCategories()
         
         upper_tab.addSubview(back_image)
         upper_tab.addSubview(label)
@@ -120,6 +123,8 @@ class CategoryViewController: UIViewController {
         follow_button.layer.backgroundColor = UIColor.red.cgColor
         follow_button.setTitleColor(.white, for: .normal)
         
+        follow_button.isHidden = true
+        
         setUserVideoView()
         fetchCategory()
     }
@@ -178,8 +183,7 @@ class CategoryViewController: UIViewController {
     
         let url = "https://www.boloindya.com/api/v1/get_category_detail_with_views/"
        
-       print(url)
-       
+    
        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
            .responseString  { (responseData) in
                switch responseData.result {
@@ -189,6 +193,11 @@ class CategoryViewController: UIViewController {
                    do {
                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                     let desc = json_object?["category_details"] as? [String:Any]
+                    if (self.selected_ids.contains(desc?["id"] as! Int)) {
+                        self.follow_button.setTitle("Following", for: .normal)
+                        self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                        self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                    }
                     self.category_videos.text = (desc?["total_view"] as? String ?? "") + " Views * " + (desc?["current_language_view"] as? String ?? "") + " Videos"
                     if (!(desc?["category_image"] as? String ?? "").isEmpty) {
                         let pic_url = URL(string: (desc?["category_image"] as? String ?? ""))
@@ -217,9 +226,11 @@ class CategoryViewController: UIViewController {
                         self.videoView.isHidden = false
                         self.videoView.reloadData()
                     }
+                    self.follow_button.isHidden = false
                     self.isLoading = false
                    }
                    catch {
+                       self.follow_button.isHidden = false
                        self.isLoading = false
                        self.progress.isHidden = true
                        self.videoView.isHidden = false
@@ -228,6 +239,7 @@ class CategoryViewController: UIViewController {
                        }
                    }
                case.failure(let error):
+                   self.follow_button.isHidden = false
                    self.isLoading = false
                    self.progress.isHidden = true
                    self.videoView.isHidden = false

@@ -12,6 +12,7 @@ import Alamofire
 class UpdateIntersetViewController: UIViewController {
 
     var category: [Category] = []
+    var selected_ids: [Int] = []
     
     var categoryView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
@@ -22,6 +23,8 @@ class UpdateIntersetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        selected_ids = UserDefaults.standard.getCategories()
         
         upper_tab.addSubview(back_image)
         upper_tab.addSubview(label)
@@ -120,8 +123,14 @@ class UpdateIntersetViewController: UIViewController {
                         if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
                         for each in json_object {
                             let each_categroy = Category()
+                            each_categroy.id = each["id"] as! Int
                             each_categroy.title = each["title"] as! String
                             each_categroy.image = each["dark_category_image"] as! String
+                            if let id = each["id"] as? Int {
+                                if self.selected_ids.contains(id) {
+                                    each_categroy.isSelected = true
+                                }
+                            }
                             self.category.append(each_categroy)
                             }
                         }
@@ -142,6 +151,15 @@ class UpdateIntersetViewController: UIViewController {
 extension UpdateIntersetViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+        if category[indexPath.row].isSelected {
+            selected_ids.remove(at: selected_ids.firstIndex(of:category[indexPath.row].id)!)
+        } else {
+           selected_ids.append(category[indexPath.row].id)
+        }
+        category[indexPath.row].isSelected = !category[indexPath.row].isSelected
+        UserDefaults.standard.setCategories(value: selected_ids)
+        self.categoryView.reloadData()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,7 +13,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     func goToCategory(with category: Category) {
         category_name = category.title
-        category_id = category.id
+        category_id = "\(category.id)"
         self.performSegue(withIdentifier: "CategoryView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -142,7 +142,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                             for each in json_object {
                                 let category = Category()
                                 category.title = each["title"] as! String
-                                category.id = "\(each["id"] as! Int)"
+                                category.id = each["id"] as! Int
                                 self.categories.append(category)
                             }
                         }
@@ -409,7 +409,7 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 110)
         userVideoView.collectionViewLayout = layout
-        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: 110)
+        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: 120)
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         userVideoView.delegate = self
         userVideoView.dataSource = self
@@ -420,7 +420,7 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: 110)
+        return CGSize(width: (collectionView.frame.width/3.4), height: 120)
     }
     
     func setTitleAttribute() {

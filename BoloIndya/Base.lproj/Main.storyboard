@@ -122,6 +122,7 @@
                         <segue destination="SA3-tU-c8V" kind="show" identifier="termsPages" id="kAZ-Gh-86o"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoView" id="d8T-lC-yEV"/>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="signUpCurrentUser" id="AcQ-9e-iDp"/>
+                        <segue destination="hN7-E0-O0O" kind="show" identifier="followingUserProfile" id="UT1-SK-RWY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfI-kd-JB7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -199,7 +200,7 @@
             <objects>
                 <viewController id="Qmp-Sc-mS7" customClass="VideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XbV-sH-RDd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dj9-5N-T37"/>
@@ -455,6 +456,25 @@
             </objects>
             <point key="canvasLocation" x="1894" y="1810"/>
         </scene>
+        <!--Following Follower View Controller-->
+        <scene sceneID="19S-ya-53A">
+            <objects>
+                <viewController id="hN7-E0-O0O" customClass="FollowingFollowerViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n2L-ip-Drd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Du6-NI-uOB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KOf-0V-0BO"/>
+                    <connections>
+                        <segue destination="MZO-Yo-i62" kind="show" identifier="userFollowingProfile" id="Qoa-9v-DXb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acj-ZI-UGw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2603" y="1809"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="OF9-JG-hpn">
             <objects>
@@ -526,6 +546,7 @@
                         <outlet property="upper_tab" destination="Lmu-fM-Gt1" id="j0m-rJ-3ic"/>
                         <outlet property="user_name" destination="kMC-Lb-k4q" id="0Sd-k9-Gmq"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoViewOtherUser" id="tDC-fX-6PB"/>
+                        <segue destination="hN7-E0-O0O" kind="show" identifier="profileFollowing" id="8mZ-Aq-txe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amH-p0-jcm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -669,9 +690,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fqs-FO-mCm"/>
-        <segue reference="l2F-fa-1O0"/>
-        <segue reference="d8T-lC-yEV"/>
+        <segue reference="AcQ-9e-iDp"/>
+        <segue reference="Qoa-9v-DXb"/>
+        <segue reference="8mZ-Aq-txe"/>
+        <segue reference="tDC-fX-6PB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>

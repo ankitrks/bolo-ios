@@ -39,6 +39,7 @@ class TrendingAndFollowingViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
         
+        fetcUserDetails()
         fetchData()
         setTrendingViewDelegate()
     }
@@ -377,6 +378,44 @@ class TrendingAndFollowingViewController: UIViewController {
                 }
         }
     }
+
+    func fetcUserDetails() {
+           
+        var headers: HTTPHeaders!
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+           headers  = [ "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        } else {
+            return
+        }
+           
+        let url = "https://www.boloindya.com/api/v1/get_user_follow_and_like_list/"
+       
+        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+               .responseString  { (responseData) in
+                   switch responseData.result {
+                   case.success(let data):
+                       if let json_data = data.data(using: .utf8) {
+                       
+                       do {
+                           let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                           if let content = json_object?["user"] as? [String:Any] {
+                            
+                            let user_profile_obj = content["userprofile"] as? [String:Any]
+                            
+                            UserDefaults.standard.setCategories(value: user_profile_obj?["sub_category"] as! [Int])
+                            UserDefaults.standard.setFollowingUsers(value: json_object?["all_follow"] as! [Int])
+                           }
+                       }
+                       catch {
+                           print(error.localizedDescription)
+                           }
+                       }
+                   case.failure(let error):
+                       print(error)
+                   }
+           }
+       }
 }
 
 extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewDataSource {

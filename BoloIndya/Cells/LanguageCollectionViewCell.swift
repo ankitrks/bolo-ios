@@ -11,6 +11,7 @@ import UIKit
 class LanguageCollectionViewCell: UICollectionViewCell {
 
     var image =  UIImageView()
+    var selected_image = UIImageView()
     var title = UILabel()
     
     var identifier: String  = "LanguageCollectionViewCell"
@@ -24,9 +25,11 @@ class LanguageCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(image)
         addSubview(title)
+        addSubview(selected_image)
         
         setImageView()
         setVideoTitle()
+        setSelected()
     }
     
     required init?(coder: NSCoder) {
@@ -53,6 +56,19 @@ class LanguageCollectionViewCell: UICollectionViewCell {
 
         title.font = UIFont.boldSystemFont(ofSize: 13.0)
         title.numberOfLines = 2
+    }
+    
+    func setSelected() {
+        
+        selected_image.translatesAutoresizingMaskIntoConstraints = false
+        selected_image.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        selected_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        selected_image.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        selected_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        selected_image.contentMode = .scaleAspectFill
+        selected_image.clipsToBounds = true
+        
+        selected_image.image = UIImage(named: "selected")
     }
 }
 
