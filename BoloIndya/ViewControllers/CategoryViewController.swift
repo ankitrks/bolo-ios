@@ -36,7 +36,11 @@ class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selected_ids = UserDefaults.standard.getCategories()
+        if UserDefaults.standard.getCategories() == nil {
+            selected_ids = UserDefaults.standard.getFollowingUsers()
+        } else {
+            selected_ids = []
+        }
         
         upper_tab.addSubview(back_image)
         upper_tab.addSubview(label)
@@ -193,10 +197,12 @@ class CategoryViewController: UIViewController {
                    do {
                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                     let desc = json_object?["category_details"] as? [String:Any]
-                    if (self.selected_ids.contains(desc?["id"] as! Int)) {
-                        self.follow_button.setTitle("Following", for: .normal)
-                        self.follow_button.setTitleColor(UIColor.black, for: .normal)
-                        self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                    if !self.selected_ids.isEmpty {
+                        if (self.selected_ids.contains(desc?["id"] as! Int)) {
+                                self.follow_button.setTitle("Following", for: .normal)
+                                self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                                self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                        }
                     }
                     self.category_videos.text = (desc?["total_view"] as? String ?? "") + " Views * " + (desc?["current_language_view"] as? String ?? "") + " Videos"
                     if (!(desc?["category_image"] as? String ?? "").isEmpty) {

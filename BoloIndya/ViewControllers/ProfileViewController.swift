@@ -55,8 +55,12 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        users_following = UserDefaults.standard.getFollowingUsers()
-        
+        if UserDefaults.standard.getFollowingUsers() == nil {
+            users_following = UserDefaults.standard.getFollowingUsers()
+        } else {
+            users_following = []
+        }
+            
         self.navigationController?.isNavigationBarHidden = true
         cover_pic.backgroundColor = UIColor.gray
         setUserVideoView()
@@ -376,11 +380,13 @@ class ProfileViewController: UIViewController {
                         if let result = json_object?["result"] as? [String:Any] {
                             let user_profile_obj = result["userprofile"] as? [String:Any]
                             self.user.id = user_profile_obj?["user"] as! Int
-                            if self.users_following.contains(self.user.id) {
-                                self.isFollowing = true
-                                self.follow_button.setTitle("Following", for: .normal)
-                                self.follow_button.layer.backgroundColor = UIColor.white.cgColor
-                                self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                            if !self.users_following.isEmpty {
+                                if self.users_following.contains(self.user.id) {
+                                    self.isFollowing = true
+                                    self.follow_button.setTitle("Following", for: .normal)
+                                    self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                                    self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                                }
                             }
                             self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
                                 
