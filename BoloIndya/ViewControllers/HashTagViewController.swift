@@ -174,8 +174,12 @@ class HashTagViewController: UIViewController {
                   
         isLoading = true
         
-        let headers: [String: Any] = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-           
+        var headers: [String: Any]? = nil
+               
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
         let parameters: [String: Any] = [
             "ChallengeHash": hash_tag.title,
             "language_id":"\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
@@ -224,8 +228,12 @@ class HashTagViewController: UIViewController {
            
         isLoading = true
            
-        let headers: [String: Any] = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-           
+        var headers: [String: Any]? = nil
+               
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
         let url = "https://www.boloindya.com/api/v1/get_challenge/?challengehash="+hash_tag.title+"&page=\(page)&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
            
            print(url)

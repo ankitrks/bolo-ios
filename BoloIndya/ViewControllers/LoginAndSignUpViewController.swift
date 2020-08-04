@@ -28,7 +28,11 @@ class LoginAndSignUpViewController: UIViewController {
     
     var selected_tab: Int = 1
     
+    var current_page = "terms_and_condition"
     var go_back =  UIImageView()
+    var privacy_policy = UILabel()
+    var terms_and_condition = UILabel()
+    var earn_money = UILabel()
     
     @IBAction func continueWithNumber(_ sender: UIButton) {
     
@@ -75,6 +79,59 @@ class LoginAndSignUpViewController: UIViewController {
         
         go_back.isUserInteractionEnabled = true
         
+        view.addSubview(privacy_policy)
+        view.addSubview(terms_and_condition)
+        view.addSubview(earn_money)
+        
+        let screenSize = UIScreen.main.bounds.size
+        
+        earn_money.translatesAutoresizingMaskIntoConstraints = false
+        earn_money.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        earn_money.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        earn_money.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
+        earn_money.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+        
+        earn_money.font = UIFont.boldSystemFont(ofSize: 13.0)
+        earn_money.text = "Earn money with Video bytes"
+        earn_money.textColor = UIColor.white
+        earn_money.textAlignment = .center
+        
+        earn_money.isUserInteractionEnabled = true
+        let earn = UITapGestureRecognizer(target: self, action: #selector(earnpages(_:)))
+        
+        earn_money.addGestureRecognizer(earn)
+        
+        privacy_policy.translatesAutoresizingMaskIntoConstraints = false
+        privacy_policy.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        privacy_policy.widthAnchor.constraint(equalToConstant: screenSize.width/2-CGFloat(10)).isActive = true
+        privacy_policy.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
+        privacy_policy.bottomAnchor.constraint(equalTo: earn_money.topAnchor, constant: -10).isActive = true
+        privacy_policy.font = UIFont.boldSystemFont(ofSize: 13.0)
+        
+        privacy_policy.text = "Privacy Policy"
+        privacy_policy.textColor = UIColor.white
+        
+        privacy_policy.isUserInteractionEnabled = true
+        let privacy = UITapGestureRecognizer(target: self, action: #selector(privacypages(_:)))
+        
+        privacy_policy.addGestureRecognizer(privacy)
+        
+        terms_and_condition.translatesAutoresizingMaskIntoConstraints = false
+        terms_and_condition.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        terms_and_condition.widthAnchor.constraint(equalToConstant:  screenSize.width/2-CGFloat(10)).isActive = true
+        terms_and_condition.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        terms_and_condition.bottomAnchor.constraint(equalTo: earn_money.topAnchor, constant: -10).isActive = true
+        terms_and_condition.font = UIFont.boldSystemFont(ofSize: 13.0)
+        
+        terms_and_condition.text = "Terms and Conditions"
+        terms_and_condition.textColor = UIColor.white
+        terms_and_condition.textAlignment = .right
+        
+        terms_and_condition.isUserInteractionEnabled = true
+        let termsandcondition = UITapGestureRecognizer(target: self, action: #selector(termpages))
+        
+        terms_and_condition.addGestureRecognizer(termsandcondition)
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
         go_back.addGestureRecognizer(tapGesture)
         
@@ -93,13 +150,34 @@ class LoginAndSignUpViewController: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is TermsPagesViewController {
+           let vc = segue.destination as? TermsPagesViewController
+           vc?.current_page = current_page
+        }
+    }
+    
     @objc func goBack(_ sender: UITapGestureRecognizer) {
-        print("Go Back")
         if (selected_tab == 0) {
             self.navigationController?.popViewController(animated: true)
         } else {
             self.tabBarController?.selectedIndex = 0
         }
+    }
+    
+    @objc func termpages(_ sender: UITapGestureRecognizer) {
+       current_page = "terms_and_condition"
+       performSegue(withIdentifier: "contentpages", sender: self)
+    }
+    
+    @objc func earnpages(_ sender: UITapGestureRecognizer) {
+       current_page = "bolo_action"
+       performSegue(withIdentifier: "contentpages", sender: self)
+    }
+    
+    @objc func privacypages(_ sender: UITapGestureRecognizer) {
+       current_page = "privacy_poilcy"
+       performSegue(withIdentifier: "contentpages", sender: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
