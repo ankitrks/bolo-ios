@@ -598,7 +598,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                             if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
                                 
                                 print("\n\nurl data written\n\n")
-                                
+                                print(destinationUrl)
                                 let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
                                 activityController.completionWithItemsHandler = { (nil, completed, _, error) in
                                     if completed {
@@ -606,10 +606,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                     } else {
                                         print("error")
                                     }
-                                    self.present(activityController, animated: true) {
-                                        print("Done")
+                                    
                                     }
+                                    self.present(activityController, animated: true) {
                                 }
+                            
                             }
                             else{
                                 print("\n\nerror again\n\n")
@@ -620,6 +621,6 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             }
         }).resume()
             
+        }
     }
-}
 }

@@ -232,9 +232,6 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             captureButton.image = UIImage(named: "start_record")
             galleryButton.isHidden = false
             switchFrontCamera.isHidden = false
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "videoThumbnail", sender: self)
         } else {
             startTimer()
             startVideoRecording()

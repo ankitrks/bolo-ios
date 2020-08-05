@@ -183,6 +183,62 @@ extension VideoViewController: VideoCellDelegate {
     }
 
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
-           
+        let videoUrl = videos[selected_postion].video_url
+
+        let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
+        if(FileManager().fileExists(atPath: destinationUrl.path)){
+            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                if completed {
+                    print("completed")
+                } else {
+                    print("error")
+                }
+            }
+            self.present(activityController, animated: true) {
+                print("Done")
+            }
+            print("\n\nfile already exists\n\n")
+        } else{
+            var request = URLRequest(url: URL(string: videoUrl)!)
+            request.httpMethod = "GET"
+            _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+            if(error != nil){
+                print("\n\nsome error occured\n\n")
+                return
+            }
+            if let response = response as? HTTPURLResponse{
+                if response.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        if let data = data{
+                            if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
+                                
+                                print("\n\nurl data written\n\n")
+                                print(destinationUrl)
+                                let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                    if completed {
+                                        print("completed")
+                                    } else {
+                                        print("error")
+                                    }
+                                    
+                                    }
+                                    self.present(activityController, animated: true) {
+                                }
+                            
+                            }
+                            else{
+                                print("\n\nerror again\n\n")
+                            }
+                        }
+                    }
+                }
+            }
+        }).resume()
+            
+        }
     }
 }
