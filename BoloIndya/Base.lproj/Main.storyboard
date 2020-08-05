@@ -206,10 +206,13 @@
                         <viewLayoutGuide key="safeArea" id="dj9-5N-T37"/>
                     </view>
                     <navigationItem key="navigationItem" id="xGx-nA-ekB"/>
+                    <connections>
+                        <segue destination="MZO-Yo-i62" kind="show" identifier="videoProfile" id="Qsa-8y-QQO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hFu-KF-CcN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1488" y="2617"/>
+            <point key="canvasLocation" x="1893" y="2617"/>
         </scene>
         <!--Terms Pages View Controller-->
         <scene sceneID="rnb-7Z-w0G">
@@ -314,6 +317,7 @@
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileView" id="Xyc-tg-wB7"/>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="trendingLogin" id="MBI-fN-aqE"/>
+                        <segue destination="6Kv-Ge-xNS" kind="show" identifier="thumbnailVideo" id="qqs-qN-J1N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TZa-26-0YZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -339,6 +343,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRs-Su-jNx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="438" y="2617"/>
+        </scene>
+        <!--Thumbail View Controller-->
+        <scene sceneID="2C4-QO-q45">
+            <objects>
+                <viewController id="6Kv-Ge-xNS" customClass="ThumbailViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mRJ-Pw-9Uw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="arR-E6-IVr"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="sxT-EJ-5n8"/>
+                    <connections>
+                        <segue destination="hUQ-1X-MME" kind="show" identifier="uploadVideo" id="9bn-aj-g8s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4jd-JA-oDE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1135" y="2617"/>
+        </scene>
+        <!--Upload Video Details View Controller-->
+        <scene sceneID="jDP-bX-FjP">
+            <objects>
+                <viewController id="hUQ-1X-MME" customClass="UploadVideoDetailsViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yTJ-aC-Dul">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="VII-Xe-ZuA"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Mka-hD-ZHc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZBD-Ds-d6s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1145" y="3310"/>
         </scene>
         <!--Category View Controller-->
         <scene sceneID="KSS-lT-eXc">
@@ -462,7 +501,7 @@
             <objects>
                 <viewController restorationIdentifier="ProfileViewController" storyboardIdentifier="ProfileViewController" id="MZO-Yo-i62" customClass="ProfileViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4CL-dw-R6q">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="orn-Yn-ohJ">
@@ -534,7 +573,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amH-p0-jcm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2433" y="2617"/>
+            <point key="canvasLocation" x="2603" y="2617"/>
         </scene>
         <!--Login And Sign Up View Controller-->
         <scene sceneID="kbj-aZ-DwP">
@@ -672,6 +711,7 @@
                     <navigationItem key="navigationItem" id="xfy-K9-nvc"/>
                     <connections>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="createLogin" id="W1O-hl-136"/>
+                        <segue destination="6Kv-Ge-xNS" kind="show" identifier="videoThumbnail" id="mIq-dh-fyv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cWd-If-DmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -680,11 +720,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cy9-wd-7Om"/>
-        <segue reference="Qoa-9v-DXb"/>
+        <segue reference="MBI-fN-aqE"/>
+        <segue reference="Qsa-8y-QQO"/>
         <segue reference="8mZ-Aq-txe"/>
+        <segue reference="qqs-qN-J1N"/>
         <segue reference="5V4-Qm-xgn"/>
-        <segue reference="ihG-lq-j9X"/>
+        <segue reference="tDC-fX-6PB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>

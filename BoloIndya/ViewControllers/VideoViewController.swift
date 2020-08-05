@@ -17,6 +17,7 @@ class VideoViewController: UIViewController {
     
     var selected_position = 0
     var isLoaded: Bool = false
+    var self_user: Bool = false
     
     var current_video_cell: VideoCell!
     
@@ -61,6 +62,14 @@ class VideoViewController: UIViewController {
         go_back.addGestureRecognizer(tapGesture)
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+        }
+    }
+    
     func fetchData() {
         
     }
@@ -69,6 +78,14 @@ class VideoViewController: UIViewController {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ProfileViewController {
+            let vc = segue.destination as? ProfileViewController
+            vc?.user = videos[selected_position].user
+        }
+    }
+
 }
 
 extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
@@ -107,6 +124,8 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
             }
         }
         video_cell.tag = indexPath.row
+        video_cell.selected_postion = indexPath.row
+        video_cell.delegate = self
         return video_cell
     }
     
@@ -151,7 +170,16 @@ extension VideoViewController: VideoCellDelegate {
     }
     
     func goToProfile(with selected_postion: Int) {
-        self.selected_position = selected_postion
+        if self.self_user {
+            if current_video_cell != nil {
+                current_video_cell.player.player?.pause()
+            }
+            _ = self.navigationController?.popViewController(animated: true)
+        } else {
+            self.selected_position = selected_postion
+            self.performSegue(withIdentifier: "videoProfile", sender: self)
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
 
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {

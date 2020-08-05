@@ -30,6 +30,7 @@ class TrendingAndFollowingViewController: UIViewController {
     var progress = UIActivityIndicatorView()
     var transparentView = UIView()
     var commentView = UITableView()
+    var video_url: URL!
     
     var current_video_cell: VideoCell!
     
@@ -58,7 +59,6 @@ class TrendingAndFollowingViewController: UIViewController {
         if current_video_cell != nil {
             current_video_cell.player.player?.pause()
         }
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     func setTrendingViewDelegate() {
@@ -317,6 +317,9 @@ class TrendingAndFollowingViewController: UIViewController {
         } else  if segue.destination is LoginAndSignUpViewController {
            let vc = segue.destination as? LoginAndSignUpViewController
            vc?.selected_tab = 0
+        } else if segue.destination is ThumbailViewController {
+            let vc = segue.destination as? ThumbailViewController
+            vc?.url = video_url
         }
     }
     
@@ -405,6 +408,8 @@ class TrendingAndFollowingViewController: UIViewController {
                             
                             UserDefaults.standard.setCategories(value: user_profile_obj?["sub_category"] as! [Int])
                             UserDefaults.standard.setFollowingUsers(value: json_object?["all_follow"] as! [Int])
+                            
+                            UserDefaults.standard.setLikeTopic(value: json_object?["topic_like"] as! [Int])
                            }
                        }
                        catch {
@@ -414,6 +419,26 @@ class TrendingAndFollowingViewController: UIViewController {
                    case.failure(let error):
                        print(error)
                    }
+           }
+       }
+    
+        func topicSeen() {
+           
+           let paramters: [String: Any] = [
+            "topic_id": "\(videos[selected_position].id)"
+           ]
+           
+           var headers: [String: Any]? = nil
+           
+           if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+               headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+           }
+           
+           let url = "https://www.boloindya.com/api/v1/vb_seen/"
+           
+           Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+               .responseString  { (responseData) in
+                   
            }
        }
 }
@@ -436,6 +461,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             video_cell.username.text = "@"+videos[indexPath.row].user.username
             video_cell.play_and_pause_image.image = UIImage(named: "play")
             if selected_position == indexPath.row {
+               self.trendingView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
                if current_video_cell != nil {
                    current_video_cell.player.player?.pause()
                }
@@ -446,6 +472,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 
                video_cell.player.playerLayer.player = avPlayer
                video_cell.player.player?.play()
+               self.topicSeen()
                current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
             }
             if (!videos[indexPath.row].user.profile_pic.isEmpty) {
@@ -481,6 +508,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 
         current_video_cell.player.playerLayer.player = avPlayer
         current_video_cell.player.player?.play()
+        self.topicSeen()
         current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
     }
     
@@ -546,9 +574,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                     print("error")
                 }
             }
-            self.present(activityController, animated: true) {
-                print("Done")
-            }
+            self.video_url = destinationUrl
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "thumbnailVideo", sender: self)
+            
+//            self.present(activityController, animated: true) {
+//                print("Done")
+//            }
             print("\n\nfile already exists\n\n")
         } else{
             var request = URLRequest(url: URL(string: videoUrl)!)
@@ -563,6 +596,9 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                     DispatchQueue.main.async {
                         if let data = data{
                             if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
+                                
+                                print("\n\nurl data written\n\n")
+                                
                                 let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
                                 activityController.completionWithItemsHandler = { (nil, completed, _, error) in
                                     if completed {
@@ -570,8 +606,10 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                     } else {
                                         print("error")
                                     }
+                                    self.present(activityController, animated: true) {
+                                        print("Done")
+                                    }
                                 }
-                                print("\n\nurl data written\n\n")
                             }
                             else{
                                 print("\n\nerror again\n\n")

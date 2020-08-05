@@ -26,6 +26,8 @@
 		185CDBA424D9450F00DCC756 /* FollowerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CDBA324D9450F00DCC756 /* FollowerViewCell.swift */; };
 		1864A80424B9ADB400C08A4A /* NonActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */; };
 		1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */; };
+		18708AAE24DA8EB20006F356 /* ThumbailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */; };
+		18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */; };
 		1871C4A324BB233400285DEC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871C4A224BB233400285DEC /* Notification.swift */; };
 		1871C4B324BB41C600285DEC /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871C4B124BB41C600285DEC /* NotificationCell.swift */; };
 		187DA64F24B89932005522FB /* LoginAndSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187DA64E24B89932005522FB /* LoginAndSignUpViewController.swift */; };
@@ -74,6 +76,8 @@
 		185CDBA324D9450F00DCC756 /* FollowerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewCell.swift; sourceTree = "<group>"; };
 		1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonActiveLanguageButton.swift; sourceTree = "<group>"; };
 		1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLanguageButton.swift; sourceTree = "<group>"; };
+		18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbailViewController.swift; sourceTree = "<group>"; };
+		18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoDetailsViewController.swift; sourceTree = "<group>"; };
 		1871C4A224BB233400285DEC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1871C4B124BB41C600285DEC /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		187DA64E24B89932005522FB /* LoginAndSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAndSignUpViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 				18C771B224CB05AD007E3AC2 /* CategoryViewController.swift */,
 				18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */,
 				185CDBA124D9429700DCC756 /* FollowingFollowerViewController.swift */,
+				18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */,
+				18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -393,6 +399,7 @@
 				183BDCC624B7BA4000ACF912 /* CurrentUserViewController.swift in Sources */,
 				18CE0DC424C0DFBE003B0E51 /* HashTag.swift in Sources */,
 				182D541924B9CAB000B33ACE /* CreateVideoViewController.swift in Sources */,
+				18708AAE24DA8EB20006F356 /* ThumbailViewController.swift in Sources */,
 				183BDCC824B7BD8400ACF912 /* NotificationViewController.swift in Sources */,
 				1853A39924BDB78F00EE2595 /* ProfileViewController.swift in Sources */,
 				1811310724D6C51F009DDB54 /* Languages.swift in Sources */,
@@ -412,6 +419,7 @@
 				18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */,
 				18C771B324CB05AD007E3AC2 /* CategoryViewController.swift in Sources */,
 				18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */,
+				18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */,
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,
 				18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */,
 				18F93B2F24B71D1C006621DB /* SceneDelegate.swift in Sources */,

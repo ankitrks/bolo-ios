@@ -196,4 +196,13 @@ extension UserDefaults {
     func getFollowingUsers() -> [Int] {
         return value(forKey: "all_follow") as? [Int] ?? [Int]()
     }
+
+    func setLikeTopic(value: [Int]) {
+        set(value, forKey: "topic_like")
+        synchronize()
+    }
+    
+    func getLikeTopic() -> [Int] {
+        return value(forKey: "topic_like") as? [Int] ?? [Int]()
+    }
 }

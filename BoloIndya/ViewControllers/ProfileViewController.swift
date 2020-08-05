@@ -52,6 +52,8 @@ class ProfileViewController: UIViewController {
     var isFollowing: Bool = false
     var follower: String = "following"
     
+    var isFollowingUser: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -419,6 +421,33 @@ class ProfileViewController: UIViewController {
                 }
         }
     }
+    
+    
+    func followingUser() {
+        
+        if (isFollowingUser) {
+            return
+        }
+        
+        isFollowingUser = true
+        
+        let paramters: [String: Any] = [
+            "user_following_id": "\(user.id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/follow_user/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                self.isFollowingUser = false
+        }
+    }
    
     @objc func followUser(_ sender: UITapGestureRecognizer) {
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
@@ -439,6 +468,7 @@ class ProfileViewController: UIViewController {
             follow_button.setTitleColor(UIColor.black, for: .normal)
             users_following.append(self.user.id)
         }
+        self.followingUser()
         self.isFollowing = !self.isFollowing
         UserDefaults.standard.setFollowingUsers(value: users_following)
     }
@@ -471,6 +501,7 @@ class ProfileViewController: UIViewController {
       if segue.destination is VideoViewController {
             let vc = segue.destination as? VideoViewController
             vc?.videos = topics
+            vc?.self_user = true
             vc?.selected_position = selected_position
       } else if segue.destination is FollowingFollowerViewController {
             let vc = segue.destination as? FollowingFollowerViewController

@@ -26,6 +26,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     var flashCamera = UIImageView()
     
     var isRecording: Bool = false
+    var video_url: URL!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -137,6 +138,13 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ThumbailViewController {
+            let vc = segue.destination as? ThumbailViewController
+            vc?.url = video_url
+        }
+    }
+    
     func startTimer(){
          
         let timeNow = String(format: "%02d:%02d", timeMin, timeSec)
@@ -224,6 +232,9 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             captureButton.image = UIImage(named: "start_record")
             galleryButton.isHidden = false
             switchFrontCamera.isHidden = false
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "videoThumbnail", sender: self)
         } else {
             startTimer()
             startVideoRecording()
@@ -248,7 +259,10 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         print("Stop Recording")
-        print(url)
+        video_url = url
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        performSegue(withIdentifier: "videoThumbnail", sender: self)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {

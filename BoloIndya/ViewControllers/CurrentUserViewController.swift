@@ -48,7 +48,7 @@ class CurrentUserViewController: UIViewController {
     
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
-    let menuArray = ["Refer And Earn", "Bolo Action Insights", "Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
+    let menuArray = ["Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
     
     let height = CGFloat(400)
     
@@ -340,6 +340,7 @@ class CurrentUserViewController: UIViewController {
             let vc = segue.destination as? VideoViewController
             vc?.videos = topics
             vc?.selected_position = selected_position
+            vc?.self_user = true
         } else if segue.destination is FollowingFollowerViewController {
             let vc = segue.destination as? FollowingFollowerViewController
             vc?.user_id = UserDefaults.standard.getUserId() ?? 0
@@ -507,23 +508,23 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: false)
         self.onClickTransparentView()
         switch indexPath.row {
-        case 2:
+        case 0:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "updateInterset", sender: self)
             break
-        case 3:
+        case 1:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "chooseLanguage", sender: self)
             break
-        case 4:
+        case 2:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "feedbackUser", sender: self)
             break
-        case 5:
+        case 3:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "termsPages", sender: self)
             break
-        case 6:
+        case 4:
             let defaults = UserDefaults.standard
             let language_id = defaults.getValueForLanguageId()
             let dictionary = defaults.dictionaryRepresentation()

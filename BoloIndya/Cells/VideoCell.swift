@@ -187,7 +187,7 @@ class VideoCell: UITableViewCell {
     
     func setPlayer() {
         player.translatesAutoresizingMaskIntoConstraints = false
-        player.playerLayer.videoGravity = .resizeAspectFill
+        player.playerLayer.videoGravity = .resizeAspect
         player.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         player.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
