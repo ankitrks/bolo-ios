@@ -27,6 +27,7 @@ class FollowingFollowerViewController: UIViewController {
     var isAtEnd: Bool = false
     
     var users_following: [Int] = []
+    var id = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,11 +166,33 @@ class FollowingFollowerViewController: UIViewController {
         }
     }
     
+    func followingUser() {
+        
+        let paramters: [String: Any] = [
+            "user_following_id": "\(id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/follow_user/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+               
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ProfileViewController {
             let vc = segue.destination as? ProfileViewController
             vc?.user = users[selected_position]
+        }  else if segue.destination is LoginAndSignUpViewController{
+            let vc = segue.destination as? LoginAndSignUpViewController
+            vc?.selected_tab = 0
         }
     }
 }
@@ -182,6 +205,8 @@ extension FollowingFollowerViewController : UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! FollowerViewCell
         cell.configure(with: users[indexPath.row])
+        cell.selected_postion = indexPath.row
+        cell.delegate = self
         return cell
     }
     
@@ -206,3 +231,23 @@ extension FollowingFollowerViewController : UITableViewDelegate, UITableViewData
        }
 }
 
+extension FollowingFollowerViewController: FollowerViewCellDelegate {
+    func followUser(with selected_postion: Int) {
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+           self.tabBarController?.tabBar.isHidden = true
+           self.navigationController?.isNavigationBarHidden = true
+           performSegue(withIdentifier: "followingLogin", sender: self)
+           return
+       }
+        if users[selected_postion].isFollowing {
+            users_following.remove(at: users_following.firstIndex(of: self.users[selected_postion].id)!)
+        } else {
+            users_following.append(self.users[selected_postion].id)
+        }
+        self.id = "\(self.users[selected_postion].id)"
+        users[selected_postion].isFollowing =  !users[selected_postion].isFollowing
+        UserDefaults.standard.setFollowingUsers(value: users_following)
+        followerView.reloadData()
+    }
+}

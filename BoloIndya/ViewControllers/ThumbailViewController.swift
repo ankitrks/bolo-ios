@@ -30,6 +30,8 @@ class ThumbailViewController: UIViewController {
     var player = PlayerViewClass()
     var choosen_image = UIImage()
     
+    var add_icon = UIImageView()
+    
     var play_and_pause_image = UIImageView()
     var isHidden = false
     var url: URL!
@@ -100,6 +102,7 @@ class ThumbailViewController: UIViewController {
         thumb_view.addSubview(thumb_one)
         thumb_view.addSubview(thumb_two)
         thumb_view.addSubview(selected_thumb)
+        thumb_view.addSubview(add_icon)
         
         view.addSubview(thumb_view)
         
@@ -133,6 +136,15 @@ class ThumbailViewController: UIViewController {
         
         thumb_one.clipsToBounds = true
         thumb_two.clipsToBounds = true
+        
+        add_icon.translatesAutoresizingMaskIntoConstraints = false
+        add_icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        add_icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        add_icon.centerYAnchor.constraint(equalTo: selected_thumb.centerYAnchor, constant: 0).isActive = true
+        
+        add_icon.centerXAnchor.constraint(equalTo: selected_thumb.centerXAnchor, constant: 0).isActive = true
+        
+        add_icon.image = UIImage(named: "choose_thumb")
         
         view.addSubview(play_and_pause_image)
         

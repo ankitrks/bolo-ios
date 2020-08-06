@@ -49,8 +49,9 @@ class CurrentUserViewController: UIViewController {
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     let menuArray = ["Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
+    let iconArray = ["notification", "language", "feedback", "terms", "logout"]
     
-    let height = CGFloat(400)
+    let height = CGFloat(250)
     
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)\(UserDefaults.standard.getUsername() ?? "")"
@@ -155,7 +156,7 @@ class CurrentUserViewController: UIViewController {
             let url = URL(string: UserDefaults.standard.getProfilePic() ?? "")
             self.profile_pic.layer.cornerRadius = 45.0
             
-            self.profile_pic.kf.setImage(with: url)
+            self.profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
         }
         
         self.username.text = UserDefaults.standard.getUsername()
@@ -419,7 +420,7 @@ class CurrentUserViewController: UIViewController {
             
             if !user.profile_pic.isEmpty {
                 let url = URL(string: user.profile_pic)
-                profile_pic.kf.setImage(with: url)
+                profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
             } else {
                 profile_pic.image = UIImage(named: "user")
             }
@@ -496,7 +497,8 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MenuViewCell
         menucell.settingLabel.text = menuArray[indexPath.row]
-        menucell.settingImage.image = UIImage(named: "notification")
+        menucell.settingLabel.textColor = UIColor.white
+        menucell.settingImage.image = UIImage(named: iconArray[indexPath.row])
         return menucell
     }
     

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons8-male-user-50.png",
+      "filename" : "icons8-geography-30.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-male-user-51.png",
+      "filename" : "icons8-geography-60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons8-male-user-52.png",
+      "filename" : "icons8-geography-90.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

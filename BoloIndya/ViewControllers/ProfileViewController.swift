@@ -288,7 +288,7 @@ class ProfileViewController: UIViewController {
             
             if !user.profile_pic.isEmpty {
                 let url = URL(string: user.profile_pic)
-                profile_pic.kf.setImage(with: url)
+                profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
             } else {
                 profile_pic.image = UIImage(named: "user")
             }

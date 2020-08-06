@@ -200,7 +200,7 @@
             <objects>
                 <viewController id="Qmp-Sc-mS7" customClass="VideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XbV-sH-RDd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dj9-5N-T37"/>
@@ -219,7 +219,7 @@
             <objects>
                 <viewController id="SA3-tU-c8V" customClass="TermsPagesViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ARC-t2-zAh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="2nG-IY-jVQ"/>
@@ -482,7 +482,7 @@
             <objects>
                 <viewController id="hN7-E0-O0O" customClass="FollowingFollowerViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n2L-ip-Drd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Du6-NI-uOB"/>
@@ -490,6 +490,7 @@
                     <navigationItem key="navigationItem" id="KOf-0V-0BO"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="userFollowingProfile" id="Qoa-9v-DXb"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="followingLogin" id="tpt-nh-0Qt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acj-ZI-UGw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -580,11 +581,11 @@
             <objects>
                 <viewController restorationIdentifier="LoginAndSignUpViewController" storyboardIdentifier="LoginAndSignUpViewController" id="ItB-2c-c5G" customClass="LoginAndSignUpViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HJI-d5-6Gb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="iN9-v3-dKQ">
-                                <rect key="frame" x="10" y="309" width="394" height="278"/>
+                                <rect key="frame" x="10" y="282" width="394" height="278"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="8Kp-2d-Z7t">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="83.5"/>
@@ -627,7 +628,7 @@
                                 </constraints>
                             </stackView>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="MYn-yH-0WS">
-                                <rect key="frame" x="10" y="354.5" width="394" height="187.5"/>
+                                <rect key="frame" x="10" y="327.5" width="394" height="187.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="1cs-tr-Sxq">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="83.5"/>
@@ -720,8 +721,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MBI-fN-aqE"/>
-        <segue reference="Qsa-8y-QQO"/>
+        <segue reference="tpt-nh-0Qt"/>
+        <segue reference="Qoa-9v-DXb"/>
         <segue reference="8mZ-Aq-txe"/>
         <segue reference="qqs-qN-J1N"/>
         <segue reference="5V4-Qm-xgn"/>
@@ -737,6 +738,6 @@
         <image name="notification" width="24" height="24"/>
         <image name="search" width="30" height="30"/>
         <image name="share" width="30" height="30"/>
-        <image name="user" width="30" height="30"/>
+        <image name="user" width="25" height="25"/>
     </resources>
 </document>

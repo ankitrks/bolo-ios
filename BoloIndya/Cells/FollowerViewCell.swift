@@ -9,6 +9,11 @@
 import UIKit
 import Kingfisher
 
+
+protocol FollowerViewCellDelegate {
+    func followUser(with selected_postion: Int)
+}
+
 class FollowerViewCell: UITableViewCell {
 
     var pic = UIImageView()
@@ -26,6 +31,9 @@ class FollowerViewCell: UITableViewCell {
     var videos_label = UILabel()
     var videos_count = UILabel()
     
+    var delegate: FollowerViewCellDelegate?
+    
+    var selected_postion: Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,7 +46,7 @@ class FollowerViewCell: UITableViewCell {
         name.text = user.name
         if !user.profile_pic.isEmpty {
             let url = URL(string: user.profile_pic)
-            pic.kf.setImage(with: url)
+            pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
         } else {
             pic.image = UIImage(named: "user")
         }
@@ -57,6 +65,7 @@ class FollowerViewCell: UITableViewCell {
             follow_button.setTitleColor(.white, for: .normal)
         }
         follow_button.titleLabel?.font = .systemFont(ofSize: 11.0)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -82,8 +91,8 @@ class FollowerViewCell: UITableViewCell {
     func setData() {
         
         pic.translatesAutoresizingMaskIntoConstraints = false
-        pic.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        pic.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        pic.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        pic.widthAnchor.constraint(equalToConstant: 70).isActive = true
         pic.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         pic.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
         pic.layer.cornerRadius = 40
@@ -175,6 +184,13 @@ class FollowerViewCell: UITableViewCell {
 
         views_label.text = "Views"
         
+        follow_button.isUserInteractionEnabled = true
+        let followGesture = UITapGestureRecognizer(target: self, action: #selector(followUser(_:)))
+        follow_button.addGestureRecognizer(followGesture)
+    }
+    
+    @objc func followUser(_ sender: UITapGestureRecognizer) {
+        delegate?.followUser(with: selected_postion)
     }
     
 }
