@@ -20,6 +20,7 @@ class User {
     var view_count: String
     var follow_count: String
     var follower_count: String
+    var isFollowing: Bool
     
     init() {
         self.id = 0
@@ -32,6 +33,7 @@ class User {
         self.view_count = ""
         self.follow_count = ""
         self.follower_count = ""
+        self.isFollowing = false
     }
     
     func setId(id: Int) {

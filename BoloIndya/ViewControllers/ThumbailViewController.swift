@@ -9,6 +9,9 @@
 import UIKit
 import AVKit
 import AVFoundation
+import Photos
+import YPImagePicker
+import Kingfisher
 
 class ThumbailViewController: UIViewController {
 
@@ -20,11 +23,12 @@ class ThumbailViewController: UIViewController {
     var thumb_view = UIView()
     var thumb_one = UIImageView()
     var thumb_two = UIImageView()
-    var selected_thumb = UIView()
+    var selected_thumb = UIImageView()
     
     var player_thumb = UIImageView()
     var player_holder = UIView()
     var player = PlayerViewClass()
+    var choosen_image = UIImage()
     
     var play_and_pause_image = UIImageView()
     var isHidden = false
@@ -178,20 +182,41 @@ class ThumbailViewController: UIViewController {
         thumb_one.image = generateThumbnail(url: url)
         thumb_two.image = generateThumbnail(url: url)
         
-        player_thumb.image = generateThumbnail(url: url)
+        player_thumb.image = thumb_one.image
         
         let avPlayer = AVPlayer(url: url)
 
         player.playerLayer.player = avPlayer
         player.playerLayer.isHidden = true
 
+        selected_thumb.isUserInteractionEnabled = true
+        let selectGesture = UITapGestureRecognizer(target: self, action: #selector(selectThumbnail))
+        selected_thumb.addGestureRecognizer(selectGesture)
+        
+    }
+    
+    @objc func selectThumbnail(_ sender: UITapGestureRecognizer) {
+        var config = YPImagePickerConfiguration()
+        config.screens = [.library]
+        config.showsVideoTrimmer = false
+        config.library.mediaType = .photo
+        config.showsPhotoFilters = false
+        
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, _ in
+            if let image = items.singlePhoto {
+                self.player_thumb.image = image.image
+                self.selected_thumb.image = image.image
+                self.choosen_image = image.image
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        present(picker, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
           super.viewWillDisappear(animated)
-          if player != nil {
-             player.player?.pause()
-          }
+           player.player?.pause()
     }
     
     @objc func pausePlayer(_ sender: UITapGestureRecognizer) {
@@ -242,5 +267,9 @@ class ThumbailViewController: UIViewController {
             print(error.localizedDescription)
             return nil
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
     }
 }

@@ -26,8 +26,12 @@ class FollowingFollowerViewController: UIViewController {
     var page = 0
     var isAtEnd: Bool = false
     
+    var users_following: [Int] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        users_following = UserDefaults.standard.getFollowingUsers()
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -64,6 +68,7 @@ class FollowingFollowerViewController: UIViewController {
         following.textColor = UIColor.white
         
         followerView.isScrollEnabled = true
+        followerView.separatorStyle = .none
         followerView.delegate = self
         followerView.dataSource = self
         followerView.register(FollowerViewCell.self, forCellReuseIdentifier: "Cell")
@@ -133,6 +138,13 @@ class FollowingFollowerViewController: UIViewController {
                                     user.follower_count = "\(following_count)"
                                 } else {
                                     user.follower_count = user_profile_obj?["follower_count"] as! String
+                                }
+                                if !self.users_following.isEmpty {
+                                    if self.users_following.contains(user.id) {
+                                        user.isFollowing = true
+                                    } else {
+                                        user.isFollowing = false
+                                    }
                                 }
                                 self.users.append(user)
                             }

@@ -9,10 +9,6 @@
 import UIKit
 import Kingfisher
 
-protocol CategoryUploadCollectionViewCellDelegate {
-    func chooseLanguage(with selected_language: Languages)
-}
-
 class CategoryUploadCollectionViewCell: UICollectionViewCell {
  
     var title = UILabel()

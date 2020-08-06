@@ -55,6 +55,7 @@
 		18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18F93B3724B71D21006621DB /* LaunchScreen.storyboard */; };
 		18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B4124B72147006621DB /* ChooseLanguageController.swift */; };
 		18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FD085B24BE25A1007E55D6 /* VideoViewController.swift */; };
+		18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */; };
 		DCC086A86DE1E542FC9F9547 /* Pods_BoloIndya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +110,7 @@
 		18F93B3A24B71D21006621DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18F93B4124B72147006621DB /* ChooseLanguageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageController.swift; sourceTree = "<group>"; };
 		18FD085B24BE25A1007E55D6 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUploadCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.release.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.release.xcconfig"; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 				185CDBA324D9450F00DCC756 /* FollowerViewCell.swift */,
 				181A96BA24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift */,
 				181A96BC24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift */,
+				18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */,
 				18C771B324CB05AD007E3AC2 /* CategoryViewController.swift in Sources */,
 				18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */,
+				18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */,
 				181A96BD24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift in Sources */,
 				18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */,
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,

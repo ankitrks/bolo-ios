@@ -209,9 +209,10 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, _ in
             if let video = items.singleVideo {
-                print(video.fromCamera)
-                print(video.thumbnail)
-                print(video.url)
+                self.video_url = video.url
+                self.tabBarController?.tabBar.isHidden = true
+                self.navigationController?.isNavigationBarHidden = true
+                self.performSegue(withIdentifier: "videoThumbnail", sender: self)
             }
             picker.dismiss(animated: true, completion: nil)
         }
@@ -280,4 +281,5 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     }
+    
 }
