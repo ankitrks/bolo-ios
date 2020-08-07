@@ -35,6 +35,8 @@
 		187DA64F24B89932005522FB /* LoginAndSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187DA64E24B89932005522FB /* LoginAndSignUpViewController.swift */; };
 		187DA65224B8A36D005522FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 187DA65024B8A36D005522FB /* Main.storyboard */; };
 		187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187F42E224BC934E00AC32ED /* CategoryViewCell.swift */; };
+		18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */; };
+		188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */; };
 		18A7D48924B8F23C0068086E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A7D48824B8F23C0068086E /* GoogleService-Info.plist */; };
 		18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */; };
 		18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B56B5024CB49BB00CE7DE8 /* Comment.swift */; };
@@ -88,6 +90,8 @@
 		187DA64E24B89932005522FB /* LoginAndSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAndSignUpViewController.swift; sourceTree = "<group>"; };
 		187DA65124B8A36D005522FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		187F42E224BC934E00AC32ED /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
+		18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
+		188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoloIndya.swift; sourceTree = "<group>"; };
 		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageFirstViewController.swift; sourceTree = "<group>"; };
 		18B56B5024CB49BB00CE7DE8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 				181A96BA24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift */,
 				181A96BC24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift */,
 				18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */,
+				18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -177,6 +182,14 @@
 				1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		188C84CB24DDF6D0000DAE10 /* commonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */,
+			);
+			path = commonUtils;
 			sourceTree = "<group>";
 		};
 		18F93B2024B71D1C006621DB = {
@@ -200,6 +213,7 @@
 		18F93B2B24B71D1C006621DB /* BoloIndya */ = {
 			isa = PBXGroup;
 			children = (
+				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
 				18A7D48824B8F23C0068086E /* GoogleService-Info.plist */,
 				183B4BAD24B87A5E003EC6D7 /* Cells */,
@@ -396,6 +410,7 @@
 			files = (
 				183BDCCA24B7BF5600ACF912 /* DiscoverViewController.swift in Sources */,
 				181A96BB24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift in Sources */,
+				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,
 				18CB49DB24BC6A6700212329 /* FeedBackViewController.swift in Sources */,
 				184924E824BB9325007F731E /* MenuViewCell.swift in Sources */,
 				183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */,
@@ -420,6 +435,7 @@
 				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
 				185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */,
+				188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
 				1864A80424B9ADB400C08A4A /* NonActiveLanguageButton.swift in Sources */,

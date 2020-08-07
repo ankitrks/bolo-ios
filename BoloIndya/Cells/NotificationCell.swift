@@ -11,11 +11,11 @@ import Kingfisher
 
 class NotificationCell: UITableViewCell {
     
-    @IBOutlet weak var title: UILabel!
+    var title = UILabel()
 
-    @IBOutlet weak var created_at: UILabel!
+    var created_at = UILabel()
     
-    @IBOutlet weak var actor_profile_pic: UIImageView!
+    var actor_profile_pic = UIImageView()
     
     public func configure(with notification: Notification) {
         self.title.text = notification.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
@@ -25,10 +25,55 @@ class NotificationCell: UITableViewCell {
         
         if (!notification.actor_profile_pic.isEmpty) {
             let url = URL(string: notification.actor_profile_pic)
-            self.actor_profile_pic.kf.setImage(with: url)
+            self.actor_profile_pic.kf.setImage(with: url, placeholder:  UIImage(named: "user"))
         } else {
             self.actor_profile_pic.image = UIImage(named: "user")
         }
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        backgroundColor = .black
+        
+        addSubview(title)
+        addSubview(created_at)
+        addSubview(actor_profile_pic)
+
+        setData()
+    }
+    
+    func setData() {
+        
+        actor_profile_pic.translatesAutoresizingMaskIntoConstraints = false
+        actor_profile_pic.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        actor_profile_pic.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        actor_profile_pic.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        actor_profile_pic.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+        actor_profile_pic.layer.cornerRadius = 25
+        actor_profile_pic.contentMode = .scaleAspectFill
+        actor_profile_pic.clipsToBounds = true
+        
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        title.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 5).isActive = true
+        title.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        title.numberOfLines = 2
+        title.textColor = .white
+
+        title.font = UIFont.boldSystemFont(ofSize: 13.0)
+
+        created_at.translatesAutoresizingMaskIntoConstraints = false
+        created_at.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5).isActive = true
+        created_at.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 5).isActive = true
+        created_at.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        created_at.textColor = .white
+
+        created_at.font = UIFont.boldSystemFont(ofSize: 13.0)
+    }
+    
 }

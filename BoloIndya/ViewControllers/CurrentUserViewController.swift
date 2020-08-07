@@ -51,7 +51,7 @@ class CurrentUserViewController: UIViewController {
     let menuArray = ["Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
     let iconArray = ["notification", "language", "feedback", "terms", "logout"]
     
-    let height = CGFloat(250)
+    let height = CGFloat(300)
     
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)\(UserDefaults.standard.getUsername() ?? "")"
@@ -295,6 +295,7 @@ class CurrentUserViewController: UIViewController {
         tableView.isScrollEnabled = true
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .black
         tableView.register(MenuViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
@@ -460,16 +461,7 @@ class CurrentUserViewController: UIViewController {
                                 return
                             }
                             for each in content {
-                                let user = User()
-                                let user_obj = each["user"] as? [String:Any]
-                                
-                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                let topic = Topic(user: user)
-                                topic.id = "\(each["id"] as! Int)"
-                                topic.setTitle(title: each["title"] as? String ?? "")
-                                topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                topic.video_url = each["question_video"] as? String ?? ""
-                                self.topics.append(topic)
+                                self.topics.append(getTopicFromJson(each: each))
                             }
                             self.isLoading = false
                             self.page += 1
@@ -496,6 +488,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MenuViewCell
+        menucell.backgroundColor = .black
         menucell.settingLabel.text = menuArray[indexPath.row]
         menucell.settingLabel.textColor = UIColor.white
         menucell.settingImage.image = UIImage(named: iconArray[indexPath.row])

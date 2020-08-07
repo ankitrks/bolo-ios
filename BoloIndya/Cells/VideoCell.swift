@@ -14,6 +14,8 @@ protocol VideoCellDelegate {
     func renderComments(with selected_postion: Int)
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int)
+    
+    func likedTopic(with selected_postion: Int)
 }
 
 class VideoCell: UITableViewCell {
@@ -21,6 +23,10 @@ class VideoCell: UITableViewCell {
     var title = UILabel()
 
     var username = UILabel()
+    var like_count = UILabel()
+    var comment_count = UILabel()
+    var share_count = UILabel()
+    var whatsapp_share_count = UILabel()
     
     var video_image =  UIImageView()
     
@@ -65,13 +71,17 @@ class VideoCell: UITableViewCell {
         actions_stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         actions_stack.bottomAnchor.constraint(equalTo: username.topAnchor, constant: -15).isActive = true
         actions_stack.axis = .vertical
-        actions_stack.spacing = CGFloat(15)
+        actions_stack.spacing = CGFloat(5)
         
         actions_stack.addArrangedSubview(user_image)
         actions_stack.addArrangedSubview(like_image)
+        actions_stack.addArrangedSubview(like_count)
         actions_stack.addArrangedSubview(comment_image)
+        actions_stack.addArrangedSubview(comment_count)
         actions_stack.addArrangedSubview(share_image)
+        actions_stack.addArrangedSubview(share_count)
         actions_stack.addArrangedSubview(whatsapp_share_image)
+        actions_stack.addArrangedSubview(whatsapp_share_count)
         
         setUserImage()
         setLikeImage()
@@ -134,6 +144,7 @@ class VideoCell: UITableViewCell {
         } else {
             like_image.tintColor = UIColor.red
         }
+        delegate?.likedTopic(with: selected_postion)
     }
     
     required init?(coder: NSCoder) {
@@ -218,6 +229,29 @@ class VideoCell: UITableViewCell {
         like_image.translatesAutoresizingMaskIntoConstraints = false
         like_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         like_image.image = UIImage(named: "like")
+        
+        like_count.translatesAutoresizingMaskIntoConstraints = false
+        like_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        like_count.textAlignment = .center
+        
+        like_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        like_count.lineBreakMode = NSLineBreakMode.byWordWrapping
+        like_count.numberOfLines = 1
+        like_count.textColor = UIColor.white
+        
+        like_count.layer.shadowColor = UIColor.gray.cgColor
+        like_count.layer.shadowOpacity = 3
+        like_count.layer.shadowOffset = CGSize(width: 4, height: 4)
+        like_count.layer.shadowRadius = 10
+        like_count.layer.shadowPath = UIBezierPath(rect: like_count.bounds).cgPath
+        like_count.layer.shouldRasterize = true
+        
+        like_image.layer.shadowColor = UIColor.gray.cgColor
+        like_image.layer.shadowOpacity = 5
+        like_image.layer.shadowOffset = CGSize(width: 4, height: 4)
+        like_image.layer.shadowRadius = 10
+        like_image.layer.shadowPath = UIBezierPath(rect: like_image.bounds).cgPath
+        like_image.layer.shouldRasterize = true
     }
     
     func setCommentImage() {
@@ -225,12 +259,59 @@ class VideoCell: UITableViewCell {
         comment_image.translatesAutoresizingMaskIntoConstraints = false
         comment_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         comment_image.image = UIImage(named: "comments")
+        
+        comment_count.translatesAutoresizingMaskIntoConstraints = false
+        comment_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        comment_count.textAlignment = .center
+              
+        comment_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        comment_count.lineBreakMode = NSLineBreakMode.byWordWrapping
+        comment_count.numberOfLines = 1
+        comment_count.textColor = UIColor.white
+        
+        comment_count.layer.shadowColor = UIColor.gray.cgColor
+        comment_count.layer.shadowOpacity = 5
+        comment_count.layer.shadowOffset = .zero
+        comment_count.layer.shadowRadius = 10
+        comment_count.layer.shadowPath = UIBezierPath(rect: comment_count.bounds).cgPath
+        comment_count.layer.shouldRasterize = true
+
+        comment_image.layer.shadowColor = UIColor.gray.cgColor
+        comment_image.layer.shadowOpacity = 5
+        comment_image.layer.shadowOffset = .zero
+        comment_image.layer.shadowRadius = 10
+        comment_image.layer.shadowPath = UIBezierPath(rect: comment_image.bounds).cgPath
+        comment_image.layer.shouldRasterize = true
     }
     
     func setShareImage() {
         
         share_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         share_image.image = UIImage(named: "share")
+        
+        share_count.translatesAutoresizingMaskIntoConstraints = false
+        share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        share_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        share_count.lineBreakMode = NSLineBreakMode.byWordWrapping
+        share_count.textAlignment = .center
+        
+        share_count.numberOfLines = 1
+        share_count.textColor = UIColor.white
+        
+        share_count.layer.shadowColor = UIColor.gray.cgColor
+        share_count.layer.shadowOpacity = 5
+        share_count.layer.shadowOffset = .zero
+        share_count.layer.shadowRadius = 10
+        share_count.layer.shadowPath = UIBezierPath(rect: share_count.bounds).cgPath
+        share_count.layer.shouldRasterize = true
+
+        share_image.layer.shadowColor = UIColor.gray.cgColor
+        share_image.layer.shadowOpacity = 5
+        share_image.layer.shadowOffset = .zero
+        share_image.layer.shadowRadius = 10
+        share_image.layer.shadowPath = UIBezierPath(rect: share_image.bounds).cgPath
+        share_image.layer.shouldRasterize = true
     }
     
     func setWhatsappImage() {
@@ -238,5 +319,27 @@ class VideoCell: UITableViewCell {
         whatsapp_share_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
 
         whatsapp_share_image.image = UIImage(named: "whatsapp")
+        
+        whatsapp_share_count.translatesAutoresizingMaskIntoConstraints = false
+        whatsapp_share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        whatsapp_share_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        whatsapp_share_count.textAlignment = .center
+        whatsapp_share_count.numberOfLines = 1
+        whatsapp_share_count.textColor = UIColor.white
+
+        whatsapp_share_count.layer.shadowColor = UIColor.gray.cgColor
+        whatsapp_share_count.layer.shadowOpacity = 5
+        whatsapp_share_count.layer.shadowOffset = .zero
+        whatsapp_share_count.layer.shadowRadius = 10
+        whatsapp_share_count.layer.shadowPath = UIBezierPath(rect: whatsapp_share_count.bounds).cgPath
+        whatsapp_share_count.layer.shouldRasterize = true
+
+        whatsapp_share_count.layer.shadowColor = UIColor.gray.cgColor
+        whatsapp_share_count.layer.shadowOpacity = 5
+        whatsapp_share_count.layer.shadowOffset = .zero
+        whatsapp_share_count.layer.shadowRadius = 10
+        whatsapp_share_count.layer.shadowPath = UIBezierPath(rect: whatsapp_share_count.bounds).cgPath
+        whatsapp_share_count.layer.shouldRasterize = true
     }
 } 

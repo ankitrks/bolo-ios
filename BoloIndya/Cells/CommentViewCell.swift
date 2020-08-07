@@ -9,34 +9,91 @@
 import UIKit
 
 class CommentViewCell: UITableViewCell {
+       
+    var profile_pic = UIImageView()
+   
+    var comment_title = UILabel()
+    var created_at = UILabel()
+    var likes = UILabel()
+    var heart = UIImageView()
+   
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 
-    lazy var backViewL: UIView = {
-           let view = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-           return view
-       }()
+    func configure(with comment: Comment) {
+        comment_title.text = comment.user.username + ": " + comment.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        created_at.text = comment.date
+        likes.text = comment.likes + " likes"
+        
+        if (!comment.user.profile_pic.isEmpty) {
+            let pic_url = URL(string: comment.user.profile_pic)
+            profile_pic.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+        } else {
+            profile_pic.image = UIImage(named: "user")
+        }
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
        
-       lazy var settingImage: UIImageView = {
-           let imageView = UIImageView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
-           imageView.translatesAutoresizingMaskIntoConstraints = false
-           imageView.layer.cornerRadius = 15
-           imageView.contentMode = .scaleAspectFill
-           imageView.clipsToBounds = true
-           return imageView
-       }()
-       
-       lazy var settingLabel: UILabel = {
-           let labelView = UILabel(frame: CGRect(x: 60, y: 10, width: self.frame.width - 80, height: 30))
-           return labelView
-       }()
-       
-       override func awakeFromNib() {
-           super.awakeFromNib()
-       }
+        addSubview(profile_pic)
+        addSubview(comment_title)
+        addSubview(created_at)
+        addSubview(likes)
+        addSubview(heart)
+    
+        backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
+        
+        setCommentData()
+    }
+    
+    func setCommentData() {
+        
+        profile_pic.translatesAutoresizingMaskIntoConstraints = false
+        profile_pic.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profile_pic.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        profile_pic.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        profile_pic.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+        profile_pic.layer.cornerRadius = 25
+        profile_pic.contentMode = .scaleAspectFill
+        profile_pic.clipsToBounds = true
+        
+        heart.translatesAutoresizingMaskIntoConstraints = false
+        heart.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        heart.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        heart.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        heart.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+        heart.contentMode = .scaleAspectFill
+        heart.clipsToBounds = true
+        
+        heart.image = UIImage(named: "heart_non_filled")
+        
+        comment_title.translatesAutoresizingMaskIntoConstraints = false
+        comment_title.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        comment_title.leftAnchor.constraint(equalTo: profile_pic.rightAnchor, constant: 5).isActive = true
+        comment_title.rightAnchor.constraint(equalTo: heart.rightAnchor, constant: -10).isActive = true
+        comment_title.numberOfLines = 2
+        comment_title.textColor = .white
 
-       override func setSelected(_ selected: Bool, animated: Bool) {
-           super.setSelected(selected, animated: animated)
-           addSubview(backViewL)
-           addSubview(settingImage)
-           addSubview(settingLabel)
-       }
+        comment_title.font = UIFont.boldSystemFont(ofSize: 13.0)
+        
+        created_at.translatesAutoresizingMaskIntoConstraints = false
+        created_at.topAnchor.constraint(equalTo: comment_title.bottomAnchor, constant: 10).isActive = true
+        created_at.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        created_at.leftAnchor.constraint(equalTo: profile_pic.rightAnchor, constant: 5).isActive = true
+        created_at.numberOfLines = 1
+        created_at.textColor = .white
+
+        created_at.font = UIFont.boldSystemFont(ofSize: 10.0)
+        
+        likes.translatesAutoresizingMaskIntoConstraints = false
+        likes.topAnchor.constraint(equalTo: comment_title.bottomAnchor, constant: 10).isActive = true
+        likes.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        likes.leftAnchor.constraint(equalTo: created_at.rightAnchor, constant: 5).isActive = true
+        likes.numberOfLines = 1
+        likes.textColor = .white
+
+        likes.font = UIFont.boldSystemFont(ofSize: 10.0)
+    }
 }

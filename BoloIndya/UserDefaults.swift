@@ -127,7 +127,7 @@ extension UserDefaults {
     }
     
     func getProfilePic() -> String? {
-        return value(forKey: "profile_pic") as? String
+        return value(forKey: "profile_pic") as? String ?? ""
     }
     
     func setIsPopular(value: Bool?) {

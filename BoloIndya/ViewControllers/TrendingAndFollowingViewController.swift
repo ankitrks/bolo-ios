@@ -30,7 +30,16 @@ class TrendingAndFollowingViewController: UIViewController {
     var progress = UIActivityIndicatorView()
     var transparentView = UIView()
     var commentView = UITableView()
+    var comment_tab = UIView()
+    var profile_pic = UIImageView()
+    var comment_title = UITextField()
+    var submit_comment = UIImageView()
+    var go_back =  UIImageView()
+    var progress_comment = UIActivityIndicatorView()
+    var comment_label = UILabel()
     var video_url: URL!
+    var comment_page = 0
+    var topic_liked: [Int] = []
     
     var current_video_cell: VideoCell!
     
@@ -39,6 +48,8 @@ class TrendingAndFollowingViewController: UIViewController {
         print("Trending")
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
+        
+        topic_liked = UserDefaults.standard.getLikeTopic()
         
         fetcUserDetails()
         fetchData()
@@ -71,13 +82,104 @@ class TrendingAndFollowingViewController: UIViewController {
         commentView.isScrollEnabled = true
         commentView.delegate = self
         commentView.dataSource = self
-        commentView.register(MenuViewCell.self, forCellReuseIdentifier: "Cell")
+        commentView.backgroundColor = .black
+        commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
     
+        comment_tab.addSubview(profile_pic)
+        comment_tab.addSubview(submit_comment)
+        comment_tab.addSubview(comment_title)
+        comment_tab.addSubview(commentView)
+        comment_tab.addSubview(progress_comment)
+        comment_tab.addSubview(comment_label)
+        comment_tab.addSubview(go_back)
+        
         view.addSubview(trendingView)
         view.addSubview(trending)
         view.addSubview(following)
         view.addSubview(label)
         view.addSubview(progress)
+        view.addSubview(comment_tab)
+        
+        
+        comment_tab.translatesAutoresizingMaskIntoConstraints = false
+        comment_tab.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        comment_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        comment_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        comment_tab.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
+        comment_tab.backgroundColor = .black
+        
+        go_back.translatesAutoresizingMaskIntoConstraints = false
+        go_back.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        go_back.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        go_back.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
+        go_back.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
+
+        go_back.image = UIImage(named: "close")
+        go_back.tintColor = UIColor.white
+
+        go_back.isUserInteractionEnabled = true
+
+        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView(_:)))
+        go_back.addGestureRecognizer(tapGestureBack)
+        
+        progress_comment.translatesAutoresizingMaskIntoConstraints = false
+        progress_comment.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        progress_comment.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
+        progress_comment.centerXAnchor.constraint(equalTo: comment_tab.centerXAnchor, constant: 0).isActive = true
+        progress_comment.color = UIColor.white
+        
+        profile_pic.translatesAutoresizingMaskIntoConstraints = false
+        profile_pic.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        profile_pic.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profile_pic.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
+        profile_pic.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        profile_pic.layer.cornerRadius = 20
+        profile_pic.contentMode = .scaleAspectFill
+        profile_pic.clipsToBounds = true
+        
+        comment_title.translatesAutoresizingMaskIntoConstraints = false
+        comment_title.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        comment_title.leftAnchor.constraint(equalTo: profile_pic.rightAnchor, constant: 5).isActive = true
+        comment_title.rightAnchor.constraint(equalTo: submit_comment.leftAnchor, constant: -5).isActive = true
+        comment_title.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        
+        comment_title.placeholder = "Add a comment"
+        comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        submit_comment.translatesAutoresizingMaskIntoConstraints = false
+        submit_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        submit_comment.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        submit_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -10).isActive = true
+        submit_comment.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        submit_comment.contentMode = .scaleAspectFill
+        submit_comment.clipsToBounds = true
+        
+        if (!(UserDefaults.standard.getProfilePic() ?? "").isEmpty) {
+            let url = URL(string: UserDefaults.standard.getProfilePic() ?? "")
+            profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
+        } else {
+            profile_pic.image = UIImage(named: "user")
+        }
+        
+        submit_comment.image = UIImage(named: "submit")
+        
+        comment_label.translatesAutoresizingMaskIntoConstraints = false
+        comment_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        comment_label.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
+        comment_label.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
+        comment_label.bottomAnchor.constraint(equalTo: commentView.topAnchor, constant: -5).isActive = true
+        comment_label.textColor = UIColor.white
+        comment_label.text = "Comments"
+    
+        commentView.translatesAutoresizingMaskIntoConstraints = false
+        commentView.heightAnchor.constraint(equalToConstant: 310).isActive = true
+        commentView.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 0).isActive = true
+        commentView.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
+        commentView.bottomAnchor.constraint(equalTo: profile_pic.topAnchor, constant: -5).isActive = true
+        commentView.separatorStyle = .none
+        
+        comment_tab.isHidden = true
         
         trending.translatesAutoresizingMaskIntoConstraints = false
         trending.widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -194,23 +296,7 @@ class TrendingAndFollowingViewController: UIViewController {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["results"] as? [[String:Any]] {
                             for each in content {
-                                let user = User()
-                                let user_obj = each["user"] as? [String:Any]
-                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
-                                user.setId(id: (user_obj?["id"] as? Int ?? 0))
-                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                
-                                user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                
-                                let topic = Topic(user: user)
-                                topic.setTitle(title: each["title"] as? String ?? "")
-                                topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                topic.id = "\(each["id"] as! Int)"
-                                topic.video_url = each["video_cdn"] as? String ?? ""
-                                self.followingTopics.append(topic)
+                                self.followingTopics.append(getTopicFromJson(each: each))
                             }
                             self.trendingView.isHidden = false
                             self.progress.isHidden = true
@@ -270,23 +356,7 @@ class TrendingAndFollowingViewController: UIViewController {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["topics"] as? [[String:Any]] {
                             for each in content {
-                                let user = User()
-                                let user_obj = each["user"] as? [String:Any]
-                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
-                                user.setId(id: (user_obj?["id"] as? Int ?? 0))
-                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                
-                                user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                
-                                let topic = Topic(user: user)
-                                topic.setTitle(title: each["title"] as? String ?? "")
-                                topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                topic.id = "\(each["id"] as! Int)"
-                                topic.video_url = each["video_cdn"] as? String ?? ""
-                                self.trendingTopics.append(topic)
+                                self.trendingTopics.append(getTopicFromJson(each: each))
                             }
                             self.trendingView.isHidden = false
                             self.progress.isHidden = true
@@ -324,8 +394,8 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     
-   func onClickTransparentView() {
-        self.commentView.isHidden = true
+   @objc func onClickTransparentView(_ sender: UITapGestureRecognizer){
+        self.comment_tab.isHidden = true
    }
     
     func fetchComment() {
@@ -337,8 +407,8 @@ class TrendingAndFollowingViewController: UIViewController {
             "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
-        let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=0"
-    
+        let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=\(comment_page*15)"
+        
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
@@ -348,35 +418,26 @@ class TrendingAndFollowingViewController: UIViewController {
                     do {
                         let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         if let content = json_object?["results"] as? [[String:Any]] {
-                            if (content.count == 0) {
-                                let comment = Comment(user: User())
-                                comment.setTitle(title: "No Comments")
-                            }
                             for each in content {
-                                let user = User()
-                                let user_obj = each["user"] as? [String:Any]
-                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
-                                user.setId(id: (user_obj?["id"] as? Int ?? 0))
-                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                
-                                user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                
-                                let comment = Comment(user: user)
-                                comment.setTitle(title: each["comment"] as? String ?? "")
-                            
-                                self.comments.append(comment)
+                                self.comments.append(getComment(each: each))
                             }
+                            if self.comments.count == 0 {
+                                self.comment_label.text = "No Comments"
+                            } else {
+                                self.comment_label.text = "Comments"
+                            }
+                            self.progress_comment.isHidden = true
+                            self.comment_page += 1
                             self.commentView.reloadData()
                         }
                     }
                     catch {
+                        self.progress_comment.isHidden = true
                         print(error.localizedDescription)
-                        }
                     }
+                }
                 case.failure(let error):
+                self.progress_comment.isHidden = true
                     print(error)
                 }
         }
@@ -394,7 +455,7 @@ class TrendingAndFollowingViewController: UIViewController {
            
         let url = "https://www.boloindya.com/api/v1/get_user_follow_and_like_list/"
        
-        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
                .responseString  { (responseData) in
                    switch responseData.result {
                    case.success(let data):
@@ -460,37 +521,47 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             video_cell.video_image.kf.setImage(with: url)
             video_cell.username.text = "@"+videos[indexPath.row].user.username
             video_cell.play_and_pause_image.image = UIImage(named: "play")
+            video_cell.like_count.text = videos[indexPath.row].like_count
+            video_cell.comment_count.text = videos[indexPath.row].comment_count
+            video_cell.share_count.text = videos[indexPath.row].share_count
+            video_cell.whatsapp_share_count.text = videos[indexPath.row].whatsapp_share_count
+            if !self.topic_liked.isEmpty {
+                if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                    videos[indexPath.row].isLiked = true
+                    video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
+                    video_cell.like_image.tintColor = UIColor.red
+                }
+            }
             if selected_position == indexPath.row {
-               self.trendingView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
                if current_video_cell != nil {
                    current_video_cell.player.player?.pause()
                }
                
                current_video_cell = video_cell
                let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-               let avPlayer = AVPlayer(url: videoUrl! as URL)
+                if videoUrl != nil {
+                   let avPlayer = AVPlayer(url: videoUrl! as URL)
 
-               video_cell.player.playerLayer.player = avPlayer
-               video_cell.player.player?.play()
-               self.topicSeen()
-               current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                   video_cell.player.playerLayer.player = avPlayer
+                   video_cell.player.player?.play()
+                   self.topicSeen()
+                   current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                }
             }
             if (!videos[indexPath.row].user.profile_pic.isEmpty) {
                 let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
-                video_cell.user_image.kf.setImage(with: pic_url)
+                video_cell.user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+            } else {
+                video_cell.user_image.image = UIImage(named: "user")
             }
             video_cell.tag = indexPath.row
             video_cell.selected_postion = indexPath.row
             video_cell.delegate = self
             return video_cell
         } else {
-            let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MenuViewCell
-            menucell.settingLabel.text = comments[indexPath.row].user.username + " " + comments[indexPath.row].title
-            if (!comments[indexPath.row].user.profile_pic.isEmpty) {
-                let pic_url = URL(string: comments[indexPath.row].user.profile_pic)
-                menucell.settingImage.kf.setImage(with: pic_url)
-            } else {
-                menucell.settingImage.image = UIImage(named: "profile")
+            let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
+            if indexPath.row < comments.count {
+                menucell.configure(with: comments[indexPath.row])
             }
             return menucell
         }
@@ -498,25 +569,29 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let video_cell = self.trendingView.visibleCells[0] as? VideoCell
-        if current_video_cell != nil {
-            current_video_cell.player.player?.pause()
-        }
-        current_video_cell = video_cell
-        selected_position = video_cell?.tag ?? 0
-        let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
-        let avPlayer = AVPlayer(url: videoUrl! as URL)
+        if selected_position != video_cell?.tag ?? 0 {
+            if current_video_cell != nil {
+                current_video_cell.player.player?.pause()
+            }
+            current_video_cell = video_cell
+            selected_position = video_cell?.tag ?? 0
+            let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
+            if videoUrl != nil {
+                let avPlayer = AVPlayer(url: videoUrl! as URL)
 
-        current_video_cell.player.playerLayer.player = avPlayer
-        current_video_cell.player.player?.play()
-        self.topicSeen()
-        current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                current_video_cell.player.playerLayer.player = avPlayer
+                current_video_cell.player.player?.play()
+                self.topicSeen()
+                current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (tableView == self.trendingView) {
             return tableView.frame.size.height
         } else {
-            return 50
+            return 60
         }
     }
     
@@ -528,29 +603,30 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
                 self.fetchData()
             }
+        } else {
+            fetchComment()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (tableView == self.trendingView) {
             selected_position = indexPath.row
-            self.onClickTransparentView()
+            self.comment_tab.isHidden = true
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
 }
 
 extension TrendingAndFollowingViewController: VideoCellDelegate {
     func renderComments(with selected_postion: Int) {
-        self.selected_position = selected_postion
-        let screenSize = UIScreen.main.bounds.size
-        
-        self.commentView.frame = CGRect(x: 0, y: screenSize.height - CGFloat(450), width: screenSize.width, height: CGFloat(450))
-        self.commentView.separatorStyle = .none
-        self.view.addSubview(self.commentView)
-        self.commentView.isHidden = false
-        self.comments.removeAll()
-        self.commentView.reloadData()
-        self.fetchComment()
+        selected_position = selected_postion
+        progress_comment.isHidden = false
+        comment_tab.isHidden = false
+        comment_page = 0
+        comments.removeAll()
+        commentView.reloadData()
+        fetchComment()
     }
     
     func goToProfile(with selected_postion: Int) {
@@ -622,5 +698,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         }).resume()
             
         }
+    }
+    
+    func likedTopic(with selected_postion: Int) {
+        if self.videos[selected_postion].isLiked {
+            topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
+        } else {
+            topic_liked.append(Int(self.videos[selected_postion].id)!)
+        }
+        UserDefaults.standard.setLikeTopic(value: topic_liked)
     }
 }

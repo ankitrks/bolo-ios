@@ -8,22 +8,41 @@
 
 import UIKit
 import AVFoundation
+import Alamofire
 
 class VideoViewController: UIViewController {
 
     var videos: [Topic] = []
+    var comments: [Comment] = []
     var videoView = UITableView()
     var go_back =  UIImageView()
     
     var selected_position = 0
     var isLoaded: Bool = false
     var self_user: Bool = false
+    var topic_id = ""
     
+    var commentView = UITableView()
+    var comment_tab = UIView()
+    var profile_pic = UIImageView()
+    var comment_title = UITextField()
+    var submit_comment = UIImageView()
+    var progress_comment = UIActivityIndicatorView()
+    var comment_label = UILabel()
+    
+    var go_back_comment =  UIImageView()
+    
+    var comment_page = 0
     var current_video_cell: VideoCell!
+    
+    var topic_liked: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        
+        topic_liked = UserDefaults.standard.getLikeTopic()
+        
         setVideoViewDelegate()
     }
     
@@ -45,6 +64,7 @@ class VideoViewController: UIViewController {
         videoView.isPagingEnabled = true
         videoView.delegate = self
         videoView.dataSource = self
+        videoView.backgroundColor = .black
         videoView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
         
         go_back.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +80,109 @@ class VideoViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
         go_back.addGestureRecognizer(tapGesture)
+        
+        if !topic_id.isEmpty {
+            self.videoView.isHidden = true
+            fetchVideoBytes()
+        }
+        
+        commentView.isScrollEnabled = true
+        commentView.delegate = self
+        commentView.dataSource = self
+        commentView.backgroundColor = .black
+        commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
+    
+        comment_tab.addSubview(profile_pic)
+        comment_tab.addSubview(submit_comment)
+        comment_tab.addSubview(comment_title)
+        comment_tab.addSubview(commentView)
+        comment_tab.addSubview(progress_comment)
+        comment_tab.addSubview(comment_label)
+        comment_tab.addSubview(go_back_comment)
+            
+        view.addSubview(comment_tab)
+        
+        comment_tab.translatesAutoresizingMaskIntoConstraints = false
+        comment_tab.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        comment_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        comment_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        comment_tab.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        comment_tab.backgroundColor = .black
+        
+        go_back_comment.translatesAutoresizingMaskIntoConstraints = false
+        go_back_comment.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        go_back_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        go_back_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
+        go_back_comment.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
+
+        go_back_comment.image = UIImage(named: "close")
+        go_back_comment.tintColor = UIColor.white
+
+        go_back_comment.isUserInteractionEnabled = true
+
+        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView(_:)))
+        go_back_comment.addGestureRecognizer(tapGestureBack)
+        
+        progress_comment.translatesAutoresizingMaskIntoConstraints = false
+        progress_comment.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        progress_comment.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
+        progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
+        progress_comment.color = UIColor.white
+        
+        profile_pic.translatesAutoresizingMaskIntoConstraints = false
+        profile_pic.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        profile_pic.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profile_pic.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
+        profile_pic.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        profile_pic.layer.cornerRadius = 20
+        profile_pic.contentMode = .scaleAspectFill
+        profile_pic.clipsToBounds = true
+        
+        comment_title.translatesAutoresizingMaskIntoConstraints = false
+        comment_title.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        comment_title.leftAnchor.constraint(equalTo: profile_pic.rightAnchor, constant: 5).isActive = true
+        comment_title.rightAnchor.constraint(equalTo: submit_comment.leftAnchor, constant: -5).isActive = true
+        comment_title.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        
+        comment_title.placeholder = "Add a comment"
+        comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        submit_comment.translatesAutoresizingMaskIntoConstraints = false
+        submit_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        submit_comment.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        submit_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -10).isActive = true
+        submit_comment.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
+        submit_comment.contentMode = .scaleAspectFill
+        submit_comment.clipsToBounds = true
+        
+        if (!(UserDefaults.standard.getProfilePic() ?? "").isEmpty) {
+            let url = URL(string: UserDefaults.standard.getProfilePic() ?? "")
+            profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
+        } else {
+            profile_pic.image = UIImage(named: "user")
+        }
+        
+        submit_comment.image = UIImage(named: "submit")
+        
+        comment_label.translatesAutoresizingMaskIntoConstraints = false
+        comment_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        comment_label.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
+        comment_label.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
+        comment_label.bottomAnchor.constraint(equalTo: commentView.topAnchor, constant: -5).isActive = true
+        comment_label.textColor = UIColor.white
+        comment_label.text = "Comments"
+        
+        comment_tab.isHidden = true
+        
+        commentView.translatesAutoresizingMaskIntoConstraints = false
+        commentView.heightAnchor.constraint(equalToConstant: 310).isActive = true
+        commentView.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 0).isActive = true
+        commentView.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
+        commentView.bottomAnchor.constraint(equalTo: profile_pic.topAnchor, constant: -5).isActive = true
+        commentView.separatorStyle = .none
+        
+        comment_tab.isHidden = true
     }
     
     
@@ -70,8 +193,47 @@ class VideoViewController: UIViewController {
         }
     }
     
+    @objc func onClickTransparentView (_ sender: UITapGestureRecognizer) {
+        self.comment_tab.isHidden = true
+    }
+    
     func fetchData() {
         
+    }
+    
+    func fetchVideoBytes() {
+        
+        
+        let headers: [String: Any] = [
+            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        
+        let url = "https://www.boloindya.com/api/v1/notification_topic/?topic_id=\(topic_id)"
+        
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                    
+                    do {
+                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                        if let content = json_object?["result"] as? [[String:Any]] {
+                            for each in content {
+                                self.videos.append(getTopicFromJson(each: each))
+                            }
+                        }
+                        self.videoView.isHidden = false
+                        self.videoView.reloadData()
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+        }
+
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
@@ -85,48 +247,115 @@ class VideoViewController: UIViewController {
             vc?.user = videos[selected_position].user
         }
     }
+    
+    func onClickTransparentView() {
+         self.comment_tab.isHidden = true
+    }
 
+    func fetchComment() {
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+        headers = [
+            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=\(comment_page*15)"
+        
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                    
+                    do {
+                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                        if let content = json_object?["results"] as? [[String:Any]] {
+                            for each in content {
+                                self.comments.append(getComment(each: each))
+                            }
+                            if self.comments.count == 0 {
+                                self.comment_label.text = "No Comments"
+                            } else {
+                                self.comment_label.text = "Comments"
+                            }
+                            self.progress_comment.isHidden = true
+                            self.comment_page += 1
+                            self.commentView.reloadData()
+                        }
+                    }
+                    catch {
+                        self.progress_comment.isHidden = true
+                        print(error.localizedDescription)
+                    }
+                }
+                case.failure(let error):
+                self.progress_comment.isHidden = true
+                    print(error)
+                }
+        }
+    }
 }
 
 extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videos.count
+        if tableView == videoView {
+            return videos.count
+        } else {
+            return comments.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
-        video_cell.title.text = videos[indexPath.row].title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-        let url = URL(string: videos[indexPath.row].thumbnail)
-        video_cell.video_image.kf.setImage(with: url)
-        video_cell.username.text = "@"+videos[indexPath.row].user.username
-        if selected_position == indexPath.row {
-           if current_video_cell != nil {
-               current_video_cell.player.player?.pause()
+        if tableView == videoView {
+            let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
+            video_cell.title.text = videos[indexPath.row].title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            let url = URL(string: videos[indexPath.row].thumbnail)
+            video_cell.video_image.kf.setImage(with: url)
+            video_cell.username.text = "@"+videos[indexPath.row].user.username
+            if !self.topic_liked.isEmpty {
+               if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                   videos[indexPath.row].isLiked = true
+                   video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
+                   video_cell.like_image.tintColor = UIColor.red
+               }
            }
-           
-           current_video_cell = video_cell
-           let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-           let avPlayer = AVPlayer(url: videoUrl! as URL)
+            if selected_position == indexPath.row {
+               if current_video_cell != nil {
+                   current_video_cell.player.player?.pause()
+               }
+               
+               current_video_cell = video_cell
+               let videoUrl = NSURL(string: videos[indexPath.row].video_url)
+               let avPlayer = AVPlayer(url: videoUrl! as URL)
 
-           video_cell.player.playerLayer.player = avPlayer
-           video_cell.player.player?.play()
-        }
-        if (!videos[indexPath.row].user.profile_pic.isEmpty) {
-            let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
-            video_cell.user_image.kf.setImage(with: pic_url)
-        }
-        if (!self.isLoaded && indexPath.row <= selected_position) {
-            if (indexPath.row == selected_position) {
-                self.isLoaded = true
-                self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
-            } else {
-                self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row + 1 , section: 0), at: .none, animated: false)
+               video_cell.player.playerLayer.player = avPlayer
+               video_cell.player.player?.play()
             }
+            if (!videos[indexPath.row].user.profile_pic.isEmpty) {
+                let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
+                video_cell.user_image.kf.setImage(with: pic_url)
+            }
+            if (!self.isLoaded && indexPath.row <= selected_position) {
+                if (indexPath.row == selected_position) {
+                    self.isLoaded = true
+                    self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
+                } else {
+                    self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row + 1 , section: 0), at: .none, animated: false)
+                }
+            }
+            video_cell.tag = indexPath.row
+            video_cell.selected_postion = indexPath.row
+            video_cell.delegate = self
+            return video_cell
+        } else {
+            let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
+               if indexPath.row < comments.count {
+                   menucell.configure(with: comments[indexPath.row])
+               }
+            return menucell
         }
-        video_cell.tag = indexPath.row
-        video_cell.selected_postion = indexPath.row
-        video_cell.delegate = self
-        return video_cell
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -148,25 +377,46 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.size.height
+        if tableView == videoView {
+            return tableView.frame.size.height
+        } else {
+            return 60
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let lastSectionIndex = tableView.numberOfSections - 1
-        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-        
-        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
-            self.fetchData()
+        if (tableView == videoView) {
+            let lastSectionIndex = tableView.numberOfSections - 1
+            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+            
+            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+                self.fetchData()
+            }
+        } else {
+            fetchComment()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (tableView == videoView) {
+            selected_position = indexPath.row
+            self.onClickTransparentView()
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
     }
+    
 }
 
 extension VideoViewController: VideoCellDelegate {
     func renderComments(with selected_postion: Int) {
-        
+        selected_position = selected_postion
+        progress_comment.isHidden = false
+        comment_tab.isHidden = false
+        comment_page = 0
+        comments.removeAll()
+        commentView.reloadData()
+        fetchComment()
     }
     
     func goToProfile(with selected_postion: Int) {
@@ -241,4 +491,13 @@ extension VideoViewController: VideoCellDelegate {
             
         }
     }
+     
+    func likedTopic(with selected_postion: Int) {
+       if self.videos[selected_postion].isLiked {
+           topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
+       } else {
+           topic_liked.append(Int(self.videos[selected_postion].id)!)
+       }
+       UserDefaults.standard.setLikeTopic(value: topic_liked)
+   }
 }

@@ -11,7 +11,7 @@ import Alamofire
 
 class NotificationViewController: UIViewController {
 
-    @IBOutlet weak var notificationView: UITableView!
+    var notificationView = UITableView()
     var progress = UIActivityIndicatorView()
 
     var next_offset = "0"
@@ -19,6 +19,7 @@ class NotificationViewController: UIViewController {
     var notifications: [Notification] = []
     var selected_position: Int = 0
     var isLoading: Bool = false
+    var video_id = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +104,9 @@ class NotificationViewController: UIViewController {
                         if let content = json_object?["notification_data"] as? [[String:Any]] {
                             for each in content {
                                 let notification = Notification(id: each["id"] as! Int, title: each["title"] as! String, read_status: each["read_status"] as! Int, notification_type: each["notification_type"] as! String, actor_profile_pic: each["actor_profile_pic"] as! String, created_at: each["created_at"] as! String, instance_id: each["instance_id"] as! Int)
+                                if let id = each["topic_id"] as? Int {
+                                    notification.topic_id = "\(id)"
+                                }
                                 self.notifications.append(notification)
                             }
                             self.notificationView.reloadData()
@@ -131,6 +135,17 @@ class NotificationViewController: UIViewController {
     func setNotificationViewDelegate() {
         notificationView.delegate = self
         notificationView.dataSource = self
+        notificationView.backgroundColor = .black
+        notificationView.register(NotificationCell.self, forCellReuseIdentifier: "NotificationCell")
+        
+        view.addSubview(notificationView)
+        
+        notificationView.translatesAutoresizingMaskIntoConstraints = false
+        notificationView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        notificationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        notificationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        notificationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -139,6 +154,9 @@ class NotificationViewController: UIViewController {
             let user = User()
             user.id = notifications[selected_position].instance_id
             vc?.user = user
+       } else  if segue.destination is VideoViewController {
+            let vc = segue.destination as? VideoViewController
+        vc?.topic_id = self.video_id
        }
    }
 }
@@ -165,9 +183,47 @@ extension NotificationViewController : UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         selected_position = indexPath.row
-        self.tabBarController?.tabBar.isHidden = true
-        performSegue(withIdentifier: "ProfileNotification", sender: self)
+        switch notifications[indexPath.row].notification_type {
+            case "4":
+                self.tabBarController?.tabBar.isHidden = true
+                performSegue(withIdentifier: "ProfileNotification", sender: self)
+            case "7":
+                self.tabBarController?.selectedIndex = 0
+                break
+            case "2":
+                self.video_id = notifications[indexPath.row].topic_id
+                self.tabBarController?.tabBar.isHidden = true
+                performSegue(withIdentifier: "VideoNotification", sender: self)
+                break
+            case "3":
+                self.video_id = notifications[indexPath.row].topic_id
+                self.tabBarController?.tabBar.isHidden = true
+                performSegue(withIdentifier: "VideoNotification", sender: self)
+                break
+            case "10":
+                self.video_id = notifications[indexPath.row].topic_id
+                self.tabBarController?.tabBar.isHidden = true
+                performSegue(withIdentifier: "VideoNotification", sender: self)
+                break
+            default:
+                self.video_id = "\(notifications[indexPath.row].instance_id)"
+                self.tabBarController?.tabBar.isHidden = true
+                performSegue(withIdentifier: "VideoNotification", sender: self)
+            
+        }
+        if (notifications[indexPath.row].notification_type == "7") {
+            
+        } else if (notifications[indexPath.row].notification_type == "4") {
+            
+        } else {
+           
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
 }
 

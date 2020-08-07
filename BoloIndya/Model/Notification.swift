@@ -18,6 +18,7 @@ class Notification {
     var notification_type: String
     var actor_profile_pic: String
     var created_at: String
+    var topic_id: String
     
     init(id: Int, title: String, read_status: Int, notification_type: String, actor_profile_pic: String, created_at: String, instance_id: Int) {
         self.id = id
@@ -27,5 +28,6 @@ class Notification {
         self.actor_profile_pic = actor_profile_pic
         self.created_at = created_at
         self.instance_id = instance_id
+        self.topic_id = ""
     }
 }

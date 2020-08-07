@@ -21,27 +21,41 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        categories.count
+        if collectionView == categoryView {
+            return categories.count
+        } else {
+            return banners.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCollectionViewCell
-        cell.configure(with: categories[indexPath.row])
-        if (indexPath.row == 0) {
-            cell.name.textColor = UIColor.red
-        } else {
-            cell.name.textColor = UIColor.white
+        if collectionView == categoryView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCollectionViewCell
+            cell.configure(with: categories[indexPath.row])
+            if (indexPath.row == 0) {
+                cell.name.textColor = UIColor.red
+            } else {
+                cell.name.textColor = UIColor.white
+            }
+            cell.delegate = self
+            return cell
+        } else  {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! BannerCollectionViewCell
+            cell.configure(with: banners[indexPath.row])
+            return cell
         }
-        cell.delegate = self
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let label = UILabel(frame: CGRect.zero)
-        label.text = categories[indexPath.row].title
-        label.font = UIFont.boldSystemFont(ofSize: 13.0)
-        label.sizeToFit()
-        return CGSize(width: label.frame.width, height: 20)
+        if collectionView == categoryView {
+            let label = UILabel(frame: CGRect.zero)
+            label.text = categories[indexPath.row].title
+            label.font = UIFont.boldSystemFont(ofSize: 13.0)
+            label.sizeToFit()
+            return CGSize(width: label.frame.width, height: 20)
+        } else {
+            return CGSize(width: collectionView.frame.width, height: 100)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,10 +75,12 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     var discoverView = UITableView()
     var categoryView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    var bannerView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var progress = UIActivityIndicatorView()
     
     var hash_tag: [HashTag] = []
     var categories: [Category] = []
+    var banners: [HashTag] = []
     var page: Int = 1
     var isLoading: Bool = false
     var category_name: String = "Fitness"
@@ -93,14 +109,26 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height:20)
         categoryView.collectionViewLayout = layout
-        categoryView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: 30)
+        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+5, width: screenSize.width, height: 30)
         categoryView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         categoryView.backgroundColor = .clear
         categoryView.delegate = self
         categoryView.dataSource = self
         
+        let layout_banner = UICollectionViewFlowLayout()
+        layout_banner.scrollDirection = .horizontal
+        layout_banner.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout_banner.estimatedItemSize = CGSize(width: (screenSize.width/4), height:90)
+        bannerView.collectionViewLayout = layout_banner
+        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+35, width: screenSize.width, height: 100)
+        bannerView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        bannerView.backgroundColor = .clear
+        bannerView.delegate = self
+        bannerView.dataSource = self
+        
         view.addSubview(discoverView)
         view.addSubview(categoryView)
+        view.addSubview(bannerView)
         
         view.addSubview(progress)
         
@@ -114,9 +142,11 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         category.title = "What's New"
         categories.append(category)
     
-        self.discoverView.frame = CGRect(x: 0, y: 60, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+135, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
         
         fetchCategories()
+        
+        fetchBannerHashTags()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,6 +191,36 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             }
         }
     }
+    
+    func fetchBannerHashTags() {
+           
+       Alamofire.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
+           .responseString  { (responseData) in
+               print(responseData)
+               switch responseData.result {
+               case.success(let data):
+                   if let json_data = data.data(using: .utf8) {
+                   do {
+                       let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["message"] as? [[String:Any]] {
+                                for each in content {
+                                    let hash_tag = HashTag()
+                                    hash_tag.image = each["banner_img_url"] as! String
+                                    hash_tag.title = each["hashtag_name"] as! String
+                                    self.banners.append(hash_tag)
+                                }
+                            }
+                        self.bannerView.reloadData()
+                   }
+                   catch {
+                       print(error.localizedDescription)
+                   }
+               }
+           case.failure(let error):
+               print(error)
+           }
+       }
+   }
     
     func fetchHashData() {
         
@@ -260,23 +320,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                     if self.hash_tag[i].id == (each["id"] as? Int ?? 0) {
                                         if let topic_content = each["topics"] as? [[String:Any]] {
                                             for each_data in topic_content {
-                                                let user = User()
-                                                let user_obj = each_data["user"] as? [String:Any]
-                                                let user_profile_obj = user_obj?["userprofile"] as? [String:Any]
-                                                user.setId(id: (user_obj?["id"] as? Int ?? 0))
-                                                user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                                
-                                                user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                                user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                                user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                                user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                                
-                                                let topic = Topic(user: user)
-                                                topic.setTitle(title: each_data["title"] as? String ?? "")
-                                                topic.setThumbnail(thumbail: each_data["question_image"] as? String ?? "")
-                                                
-                                                topic.video_url = each_data["video_cdn"] as? String ?? ""
-                                                self.hash_tag[i].videos.append(topic)
+                                                self.hash_tag[i].videos.append(getTopicFromJson(each: each_data))
                                             }
                                         }
                                         break
@@ -407,9 +451,9 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: 110)
+        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: ((screenSize.width/3.4)*1.5))
         userVideoView.collectionViewLayout = layout
-        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: 120)
+        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: ((screenSize.width/3.4)*1.5)+10)
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         userVideoView.delegate = self
         userVideoView.dataSource = self
@@ -420,7 +464,7 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: 120)
+        return CGSize(width: (collectionView.frame.width/3.4), height: (((collectionView.frame.width/3.4)*1.5)+10))
     }
     
     func setTitleAttribute() {
