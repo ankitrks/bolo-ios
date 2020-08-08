@@ -15,6 +15,7 @@ class Comment {
     var user: User
     var date: String
     var likes: String
+    var isLiked: Bool
     
     init(user: User) {
         self.title = ""
@@ -22,6 +23,7 @@ class Comment {
         self.user = user
         self.date = ""
         self.likes = ""
+        self.isLiked = false
     }
     
     func setTitle(title: String) {
@@ -48,6 +50,7 @@ func getComment(each: [String:Any]) -> Comment{
     
     let comment = Comment(user: user)
     comment.setTitle(title: each["comment"] as? String ?? "")
+    comment.id = "\(each["id"] as! Int)"
     comment.likes = "\(each["likes_count"] as! Int)"
     comment.date = each["date"] as? String ?? ""
     return comment

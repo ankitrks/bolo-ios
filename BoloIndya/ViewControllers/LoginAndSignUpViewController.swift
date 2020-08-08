@@ -72,7 +72,7 @@ class LoginAndSignUpViewController: UIViewController {
         
         go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
         go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
-        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
         go_back.image = UIImage(named: "close_white")
         go_back.tintColor = UIColor.white

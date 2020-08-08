@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 
 class CategoryViewController: UIViewController {
-
+    
     var topics: [Topic] = []
     var selected_ids: [Int] = []
     var isLoading: Bool = false
@@ -30,12 +30,14 @@ class CategoryViewController: UIViewController {
     var upper_tab = UIView()
     var back_image = UIImageView()
     var label = UILabel()
+    var topic_liked: [Int] = []
     
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        topic_liked = UserDefaults.standard.getLikeTopic()
         selected_ids = UserDefaults.standard.getFollowingUsers()
         
         upper_tab.addSubview(back_image)
@@ -132,21 +134,21 @@ class CategoryViewController: UIViewController {
     }
     
     @objc func followUser(_ sender: UITapGestureRecognizer) {
-       let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-       if (!isLoggedIn) {
-           self.tabBarController?.tabBar.isHidden = true
-           self.navigationController?.isNavigationBarHidden = true
-           performSegue(withIdentifier: "categoryLogin", sender: self)
-           return
-       }
-   }
+        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (!isLoggedIn) {
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "categoryLogin", sender: self)
+            return
+        }
+    }
     
     
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
+    
     @IBAction func goBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -166,7 +168,7 @@ class CategoryViewController: UIViewController {
         videoView.delegate = self
         videoView.dataSource = self
         videoView.backgroundColor = UIColor.clear
-        videoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
+        videoView.register(CategoryTagViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(videoView)
         
         videoView.translatesAutoresizingMaskIntoConstraints = false
@@ -174,22 +176,22 @@ class CategoryViewController: UIViewController {
         videoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         videoView.topAnchor.constraint(equalTo: category_image.bottomAnchor, constant: 5).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-    
+        
     }
     
     func fetchCategory() {
-    
+        
         if (isLoading) {
             return
         }
-              
+        
         progress.isHidden = false
         videoView.isHidden = true
         
         isLoading = true
-    
-         var headers: [String: Any]? = nil
-               
+        
+        var headers: [String: Any]? = nil
+        
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
@@ -198,94 +200,86 @@ class CategoryViewController: UIViewController {
             "category_id": id,
             "language_id":"\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
         ]
-    
+        
         let url = "https://www.boloindya.com/api/v1/get_category_detail_with_views/"
-       
-    
-       Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-           .responseString  { (responseData) in
-               switch responseData.result {
-               case.success(let data):
-                   if let json_data = data.data(using: .utf8) {
-                   
-                   do {
-                       let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                    
-                    let desc = json_object?["category_details"] as? [String:Any]
-                    if !self.selected_ids.isEmpty {
-                        if (self.selected_ids.contains(desc?["id"] as! Int)) {
-                                self.follow_button.setTitle("Following", for: .normal)
-                                self.follow_button.setTitleColor(UIColor.black, for: .normal)
-                                self.follow_button.layer.backgroundColor = UIColor.white.cgColor
-                        }
-                    }
-                    self.category_videos.text = (desc?["total_view"] as? String ?? "") + " Views * " + (desc?["current_language_view"] as? String ?? "") + " Videos"
-                    if (!(desc?["category_image"] as? String ?? "").isEmpty) {
-                        let pic_url = URL(string: (desc?["category_image"] as? String ?? ""))
-                        self.category_image.kf.setImage(with: pic_url)
-                    }
-                    if  let content = desc?["topics"] as? [[String:Any]] {
-                        if (content.count == 0) {
-                            self.isFinished = true
-                            return
-                        }
-                        for each in content {
-                            let user = User()
-                            let user_obj = each["user"] as? [String:Any]
+        
+        
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             
-                            user.setUserName(username: user_obj?["username"] as? String ?? "")
-                            let topic = Topic(user: user)
-                            topic.setTitle(title: each["title"] as? String ?? "")
-                            topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                            topic.video_url = each["video_cdn"] as? String ?? ""
-                            self.topics.append(topic)
+                            let desc = json_object?["category_details"] as? [String:Any]
+                            if !self.selected_ids.isEmpty {
+                                if (self.selected_ids.contains(desc?["id"] as! Int)) {
+                                    self.follow_button.setTitle("Following", for: .normal)
+                                    self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                                    self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                                }
+                            }
+                            self.category_videos.text = (desc?["total_view"] as? String ?? "") + " Views * " + (desc?["current_language_view"] as? String ?? "") + " Videos"
+                            if (!(desc?["category_image"] as? String ?? "").isEmpty) {
+                                let pic_url = URL(string: (desc?["category_image"] as? String ?? ""))
+                                self.category_image.kf.setImage(with: pic_url)
+                            }
+                            if  let content = desc?["topics"] as? [[String:Any]] {
+                                if (content.count == 0) {
+                                    self.isFinished = true
+                                    return
+                                }
+                                for each in content {
+                                    self.topics.append(getTopicFromJson(each: each))
+                                }
+                                self.isLoading = false
+                                self.page += 1
+                                
+                                self.progress.isHidden = true
+                                self.videoView.isHidden = false
+                                self.videoView.reloadData()
+                            }
+                            self.follow_button.isHidden = false
+                            self.isLoading = false
                         }
-                        self.isLoading = false
-                        self.page += 1
-
-                        self.progress.isHidden = true
-                        self.videoView.isHidden = false
-                        self.videoView.reloadData()
+                        catch {
+                            self.follow_button.isHidden = false
+                            self.isLoading = false
+                            self.progress.isHidden = true
+                            self.videoView.isHidden = false
+                            self.fetchData()
+                            print(error.localizedDescription)
+                        }
                     }
+                case.failure(let error):
                     self.follow_button.isHidden = false
                     self.isLoading = false
-                   }
-                   catch {
-                       self.follow_button.isHidden = false
-                       self.isLoading = false
-                       self.progress.isHidden = true
-                       self.videoView.isHidden = false
-                       self.fetchData()
-                       print(error.localizedDescription)
-                       }
-                   }
-               case.failure(let error):
-                   self.follow_button.isHidden = false
-                   self.isLoading = false
-                   self.progress.isHidden = true
-                   self.videoView.isHidden = false
-                   self.fetchData()
-                   print(error)
-               }
+                    self.progress.isHidden = true
+                    self.videoView.isHidden = false
+                    self.fetchData()
+                    print(error)
+                }
         }
         
     }
     
     func fetchData() {
-
+        
         if (isLoading || isFinished) {
             return
         }
-           
+        
         isLoading = true
-           
+        
         var headers: [String: Any]? = nil
-               
+        
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-        headers = [
-           "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
-           
+        
         
         let parameters: [String: Any] = [
             "page": "\(page)",
@@ -295,49 +289,41 @@ class CategoryViewController: UIViewController {
         ]
         
         let url = "https://www.boloindya.com/api/v1/get_category_video_bytes/"
-           
-           print(url)
-           
-           Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-               .responseString  { (responseData) in
-                   switch responseData.result {
-                   case.success(let data):
-                       if let json_data = data.data(using: .utf8) {
-                       
-                       do {
-                           let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                           if let content = json_object?["topics"] as? [[String:Any]] {
-                               if (content.count == 0) {
-                                   self.isFinished = true
-                                   return
-                               }
-                               for each in content {
-                                   let user = User()
-                                   let user_obj = each["user"] as? [String:Any]
-                                   
-                                   user.setUserName(username: user_obj?["username"] as? String ?? "")
-                                   let topic = Topic(user: user)
-                                   topic.setTitle(title: each["title"] as? String ?? "")
-                                   topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                   topic.video_url = each["question_video"] as? String ?? ""
-                                   self.topics.append(topic)
-                               }
-                               self.isLoading = false
-                               self.page += 1
-                               self.videoView.reloadData()
-                           }
-                       }
-                       catch {
-                           self.isLoading = false
-                           print(error.localizedDescription)
-                           }
-                       }
-                   case.failure(let error):
-                       self.isLoading = false
-                       print(error)
-                   }
-           }
-       }
+        
+        print(url)
+        
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["topics"] as? [[String:Any]] {
+                                if (content.count == 0) {
+                                    self.isFinished = true
+                                    return
+                                }
+                                for each in content {
+                                    self.topics.append(getTopicFromJson(each: each))
+                                }
+                                self.isLoading = false
+                                self.page += 1
+                                self.videoView.reloadData()
+                            }
+                        }
+                        catch {
+                            self.isLoading = false
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    self.isLoading = false
+                    print(error)
+                }
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is VideoViewController {
@@ -345,8 +331,8 @@ class CategoryViewController: UIViewController {
             vc?.videos = topics
             vc?.selected_position = selected_position
         } else if segue.destination is LoginAndSignUpViewController{
-              let vc = segue.destination as? LoginAndSignUpViewController
-              vc?.selected_tab = 0
+            let vc = segue.destination as? LoginAndSignUpViewController
+            vc?.selected_tab = 0
         }
     }
     
@@ -366,7 +352,12 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! UserVideoCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! CategoryTagViewCell
+        if !topic_liked.isEmpty {
+            if topic_liked.contains(Int(self.topics[indexPath.row].id)!) {
+                self.topics[indexPath.row].isLiked = true
+            }
+        }
         cell.configure(with: topics[indexPath.row])
         return cell
     }
@@ -376,10 +367,122 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if indexPath.row == topics.count - 1 {
-                self.fetchData()
+        if indexPath.row == topics.count - 1 {
+            self.fetchData()
         }
     }
     
 }
 
+
+class CategoryTagViewCell: UICollectionViewCell {
+    
+    var video_image =  UIImageView()
+    var video_title = UILabel()
+    
+    var views = UILabel()
+    var view_image =  UIImageView()
+    var likes = UILabel()
+    var like_image =  UIImageView()
+    
+    public func configure(with topic: Topic) {
+        let url = URL(string: topic.thumbnail)
+        video_image.kf.setImage(with: url)
+        video_title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        
+        views.text = topic.view_count
+        view_image.image = UIImage(named: "views")
+        
+        likes.text = topic.like_count
+        like_image.image = UIImage(named: "heart_non_filled")
+        if topic.isLiked {
+            like_image.image = UIImage(named: "like")
+            like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
+            like_image.tintColor = UIColor.red
+        }
+        
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(video_image)
+        addSubview(video_title)
+        
+        addSubview(views)
+        addSubview(view_image)
+        addSubview(likes)
+        addSubview(like_image)
+        
+        setImageView()
+        setVideoTitle()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setImageView() {
+        video_image.translatesAutoresizingMaskIntoConstraints = false
+        video_image.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+        video_image.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        video_image.layer.cornerRadius = 2.0
+        video_image.contentMode = .scaleAspectFill
+        video_image.clipsToBounds = true
+        video_image.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
+    }
+    
+    func setVideoTitle() {
+        
+        view_image.translatesAutoresizingMaskIntoConstraints = false
+        view_image.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        view_image.widthAnchor.constraint(equalToConstant: 11).isActive = true
+        view_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 2).isActive = true
+        view_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        
+        view_image.layer.cornerRadius = 2.0
+        view_image.contentMode = .scaleAspectFill
+        view_image.clipsToBounds = true
+        
+        views.translatesAutoresizingMaskIntoConstraints = false
+        views.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        views.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        views.leftAnchor.constraint(equalTo: view_image.rightAnchor, constant: 2).isActive = true
+        views.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        views.textColor = UIColor.white
+        
+        views.font = UIFont.boldSystemFont(ofSize: 9.0)
+        views.numberOfLines = 1
+   
+        like_image.translatesAutoresizingMaskIntoConstraints = false
+        like_image.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        like_image.widthAnchor.constraint(equalToConstant: 11).isActive = true
+        like_image.rightAnchor.constraint(equalTo: rightAnchor, constant: -2).isActive = true
+        like_image.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        
+        like_image.layer.cornerRadius = 2.0
+        like_image.contentMode = .scaleAspectFill
+        like_image.clipsToBounds = true
+        
+        likes.translatesAutoresizingMaskIntoConstraints = false
+        likes.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        likes.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        likes.rightAnchor.constraint(equalTo: like_image.leftAnchor, constant: -2).isActive = true
+        likes.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        likes.textColor = UIColor.white
+        
+        likes.textAlignment = .right
+        likes.font = UIFont.boldSystemFont(ofSize: 9.0)
+        likes.numberOfLines = 1
+        
+        video_title.translatesAutoresizingMaskIntoConstraints = false
+        video_title.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        video_title.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        video_title.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        video_title.bottomAnchor.constraint(equalTo: views.topAnchor, constant: 5).isActive = true
+        video_title.textColor = UIColor.white
+        
+        video_title.font = UIFont.boldSystemFont(ofSize: 13.0)
+        video_title.numberOfLines = 2
+        
+    }
+}

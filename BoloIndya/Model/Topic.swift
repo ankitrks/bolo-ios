@@ -78,8 +78,14 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
     let topic = Topic(user: user)
     topic.setTitle(title: each["title"] as? String ?? "")
     topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
+    topic.duration = each["media_duration"] as? String ?? ""
     topic.id = "\(each["id"] as! Int)"
     topic.video_url = each["video_cdn"] as? String ?? ""
+    if (each["view_count"] as? Int) != nil {
+       topic.view_count = "\(each["view_count"] as! Int)"
+    } else {
+       topic.view_count = "\(each["view_count"] as! String)"
+    }
     if (each["linkedin_share_count"] as? Int) != nil {
        topic.share_count = "\(each["linkedin_share_count"] as! Int)"
     } else {

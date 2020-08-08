@@ -205,4 +205,14 @@ extension UserDefaults {
     func getLikeTopic() -> [Int] {
         return value(forKey: "topic_like") as? [Int] ?? [Int]()
     }
+    
+    func setLikeComment(value: [Int]) {
+        set(value, forKey: "comment_like")
+        synchronize()
+    }
+    
+    func getLikeComment() -> [Int] {
+        return value(forKey: "comment_like") as? [Int] ?? [Int]()
+    }
+
 }

@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 
 class ProfileViewController: UIViewController {
-
+    
     var name = UILabel()
     
     var bio = UILabel()
@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController {
     var users_following: [Int] = []
     
     var user = User()
-            
+    
     var selected_position: Int = 0
     var isLoading: Bool = false
     var page: Int = 1
@@ -39,13 +39,13 @@ class ProfileViewController: UIViewController {
     
     var videos_label = UILabel()
     var videos_count = UILabel()
-
+    
     var views_label = UILabel()
     var views_count = UILabel()
-
+    
     var followers_label = UILabel()
     var followers_count = UILabel()
-
+    
     var following_label = UILabel()
     var following_count = UILabel()
     
@@ -53,12 +53,15 @@ class ProfileViewController: UIViewController {
     var follower: String = "following"
     
     var isFollowingUser: Bool = false
+    var topic_liked: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        topic_liked = UserDefaults.standard.getLikeTopic()
+        
         users_following = UserDefaults.standard.getFollowingUsers()
-            
+        
         self.navigationController?.isNavigationBarHidden = true
         cover_pic.backgroundColor = UIColor.gray
         setUserVideoView()
@@ -70,7 +73,7 @@ class ProfileViewController: UIViewController {
     }
     
     func setUserVideoView() {
-
+        
         let screenSize = UIScreen.main.bounds.size
         
         view.addSubview(cover_pic)
@@ -240,37 +243,37 @@ class ProfileViewController: UIViewController {
         
         setUserVideos();
     }
-
-
-     @IBAction func onFollowingClick(_ sender: Any) {
-         self.tabBarController?.tabBar.isHidden = true
-         self.navigationController?.isNavigationBarHidden = true
-         follower = "Following"
-         performSegue(withIdentifier: "profileFollowing", sender: self)
-     }
-     
-     @IBAction func onFollowerClick(_ sender: Any) {
-         self.tabBarController?.tabBar.isHidden = true
-         self.navigationController?.isNavigationBarHidden = true
-         follower = "Followers"
-         performSegue(withIdentifier: "profileFollowing", sender: self)
+    
+    
+    @IBAction func onFollowingClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Following"
+        performSegue(withIdentifier: "profileFollowing", sender: self)
+    }
+    
+    @IBAction func onFollowerClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Followers"
+        performSegue(withIdentifier: "profileFollowing", sender: self)
     }
     
     func setUserVideos() {
         
         let screenSize = UIScreen.main.bounds.size
-               
+        
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.itemSize = CGSize(width: (screenSize.width/3) - 10, height: 120)
         userVideoView.collectionViewLayout = layout
-
+        
         userVideoView.delegate = self
         userVideoView.dataSource = self
         userVideoView.backgroundColor = UIColor.black
         userVideoView.register(UserVideoCollectionViewCell.self, forCellWithReuseIdentifier: "UserVideoCell")
         self.view.addSubview(userVideoView)
-
+        
         userVideoView.translatesAutoresizingMaskIntoConstraints = false
         userVideoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         userVideoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
@@ -313,7 +316,7 @@ class ProfileViewController: UIViewController {
         var headers: [String: Any]? = nil
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(user.id)&page=\(page)"
@@ -323,30 +326,25 @@ class ProfileViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["results"] as? [[String:Any]] {
-                            if (content.count == 0) {
-                                self.isFinished = true
-                                return
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["results"] as? [[String:Any]] {
+                                if (content.count == 0) {
+                                    self.isFinished = true
+                                    return
+                                }
+                                for each in content {
+                                    self.topics.append(getTopicFromJson(each: each))
+                                }
+                                self.isLoading = false
+                                self.page += 1
+                                self.userVideoView.reloadData()
                             }
-                            for each in content {
-                                let topic = Topic(user: self.user)
-                                topic.setTitle(title: each["title"] as? String ?? "")
-                                topic.id = "\(each["id"] as! Int)"
-                                topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
-                                topic.video_url = each["question_video"] as? String ?? ""
-                                self.topics.append(topic)
-                            }
-                            self.isLoading = false
-                            self.page += 1
-                            self.userVideoView.reloadData()
                         }
-                    }
-                    catch {
-                        self.isLoading = false
-                        print(error.localizedDescription)
+                        catch {
+                            self.isLoading = false
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -375,44 +373,44 @@ class ProfileViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let result = json_object?["result"] as? [String:Any] {
-                            let user_profile_obj = result["userprofile"] as? [String:Any]
-                            self.user.id = user_profile_obj?["user"] as! Int
-                            if !self.users_following.isEmpty {
-                                if self.users_following.contains(self.user.id) {
-                                    self.isFollowing = true
-                                    self.follow_button.setTitle("Following", for: .normal)
-                                    self.follow_button.layer.backgroundColor = UIColor.white.cgColor
-                                    self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let result = json_object?["result"] as? [String:Any] {
+                                let user_profile_obj = result["userprofile"] as? [String:Any]
+                                self.user.id = user_profile_obj?["user"] as! Int
+                                if !self.users_following.isEmpty {
+                                    if self.users_following.contains(self.user.id) {
+                                        self.isFollowing = true
+                                        self.follow_button.setTitle("Following", for: .normal)
+                                        self.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                                        self.follow_button.setTitleColor(UIColor.black, for: .normal)
+                                    }
                                 }
-                            }
-                            self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
+                                self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
                                 
-                            self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                            self.user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                            self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                            self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                            self.user.vb_count = user_profile_obj?["vb_count"] as! Int
-                            self.user.view_count = user_profile_obj?["view_count"] as! String
-                            if let follow_count = user_profile_obj?["follow_count"] as? Int {
-                                self.user.follow_count = "\(follow_count)"
-                            } else {
-                                self.user.follow_count = user_profile_obj?["follow_count"] as! String
+                                self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
+                                self.user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
+                                self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
+                                self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+                                self.user.vb_count = user_profile_obj?["vb_count"] as! Int
+                                self.user.view_count = user_profile_obj?["view_count"] as! String
+                                if let follow_count = user_profile_obj?["follow_count"] as? Int {
+                                    self.user.follow_count = "\(follow_count)"
+                                } else {
+                                    self.user.follow_count = user_profile_obj?["follow_count"] as! String
+                                }
+                                if let following_count = user_profile_obj?["follower_count"] as? Int {
+                                    self.user.follower_count = "\(following_count)"
+                                } else {
+                                    self.user.follower_count = user_profile_obj?["follower_count"] as! String
+                                }
+                                self.dismissLoading()
                             }
-                            if let following_count = user_profile_obj?["follower_count"] as? Int {
-                                self.user.follower_count = "\(following_count)"
-                            } else {
-                                self.user.follower_count = user_profile_obj?["follower_count"] as! String
-                            }
-                            self.dismissLoading()
                         }
-                    }
-                    catch {
-                        self.dismissLoading()
-                        print(error.localizedDescription)
+                        catch {
+                            self.dismissLoading()
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -448,7 +446,7 @@ class ProfileViewController: UIViewController {
                 self.isFollowingUser = false
         }
     }
-   
+    
     @objc func followUser(_ sender: UITapGestureRecognizer) {
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
@@ -483,35 +481,35 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func report_user(_ sender: Any) {
-    
+        
         let actionSheet =  UIAlertController(title: nil, message:nil, preferredStyle: .actionSheet)
-         let report_user = UIAlertAction(title: "Report User", style: .default, handler: {
-             (_:UIAlertAction) in
-         })
-         
-         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {
-             (_:UIAlertAction) in
-         })
-         actionSheet.addAction(report_user)
-         actionSheet.addAction(cancel)
-         self.present(actionSheet, animated: true, completion: nil)
+        let report_user = UIAlertAction(title: "Report User", style: .default, handler: {
+            (_:UIAlertAction) in
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (_:UIAlertAction) in
+        })
+        actionSheet.addAction(report_user)
+        actionSheet.addAction(cancel)
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if segue.destination is VideoViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is VideoViewController {
             let vc = segue.destination as? VideoViewController
             vc?.videos = topics
             vc?.self_user = true
             vc?.selected_position = selected_position
-      } else if segue.destination is FollowingFollowerViewController {
+        } else if segue.destination is FollowingFollowerViewController {
             let vc = segue.destination as? FollowingFollowerViewController
             vc?.user_id = user.id
             vc?.follower = follower
-      } else if segue.destination is LoginAndSignUpViewController{
+        } else if segue.destination is LoginAndSignUpViewController{
             let vc = segue.destination as? LoginAndSignUpViewController
             vc?.selected_tab = 0
-      }
-  }
+        }
+    }
     
 }
 
@@ -533,6 +531,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! UserVideoCollectionViewCell
+        if !self.topic_liked.isEmpty {
+            if self.topic_liked.contains(Int(self.topics[indexPath.row].id)!) {
+                self.topics[indexPath.row].isLiked = true
+            }
+        }
         cell.configure(with: topics[indexPath.row])
         return cell
     }
@@ -542,8 +545,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if indexPath.row == topics.count - 1 {
-                self.fetchData()
+        if indexPath.row == topics.count - 1 {
+            self.fetchData()
         }
     }
     
@@ -553,16 +556,16 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(user.id)/"+user.username
-            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-           activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-               if completed {
-                   print("completed")
-               } else {
-                   print("error")
-               }
-           }
-           self.present(activityController, animated: true) {
-               print("Done")
+        let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+            if completed {
+                print("completed")
+            } else {
+                print("error")
+            }
+        }
+        self.present(activityController, animated: true) {
+            print("Done")
         }
     }
 }

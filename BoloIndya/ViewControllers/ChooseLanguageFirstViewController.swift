@@ -47,7 +47,7 @@ class ChooseLanguageFirstViewController: UIViewController {
         upper_tab.heightAnchor.constraint(equalToConstant: 40).isActive = true
         upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
-        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
         upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
         

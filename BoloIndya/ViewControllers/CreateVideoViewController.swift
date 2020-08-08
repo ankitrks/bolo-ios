@@ -96,7 +96,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             flashCamera.widthAnchor.constraint(equalToConstant: 40).isActive = true
             flashCamera.heightAnchor.constraint(equalToConstant: 40).isActive = true
             flashCamera.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-            flashCamera.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+            flashCamera.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
             
             flashCamera.isHidden = true
             flashCamera.isUserInteractionEnabled = true
@@ -113,7 +113,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             
             go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
             go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
-            go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+            go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
             
             go_back.image = UIImage(named: "close")
             go_back.tintColor = UIColor.white

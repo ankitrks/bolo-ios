@@ -36,7 +36,7 @@ class UpdateIntersetViewController: UIViewController {
         upper_tab.heightAnchor.constraint(equalToConstant: 40).isActive = true
         upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
-        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
         upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
         
@@ -106,10 +106,6 @@ class UpdateIntersetViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func setLanguage(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
-
     func fetchNotifications() {
         
         Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
@@ -146,12 +142,50 @@ class UpdateIntersetViewController: UIViewController {
                 }
         }
     }
+    
+    @IBAction func setLanguage(_ sender: Any) {
+        
+        if selected_ids.count < 3 {
+            let alert = UIAlertController(title: "Please Select Atleast 3 Interests To Start", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        var ids = ""
+        for each in selected_ids {
+            if each == selected_ids[selected_ids.count-1] {
+                ids += "\(each)"
+            } else {
+                ids += "\(each),"
+            }
+        }
+    
+        let paramters: [String: Any] = [
+            "activity": "settings_changed",
+            "language": "\(UserDefaults.standard.getValueForLanguageId() ?? 2)",
+            "categories": ids
+       ]
+       
+       var headers: [String: Any]? = nil
+       
+       if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+           headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+       }
+       
+       let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+       
+       Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+           .responseString  { (responseData) in
+            self.navigationController?.popViewController(animated: true)
+       }
+        
+    }
 }
 
 extension UpdateIntersetViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
         if category[indexPath.row].isSelected {
             selected_ids.remove(at: selected_ids.firstIndex(of:category[indexPath.row].id)!)
         } else {

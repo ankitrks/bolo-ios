@@ -40,6 +40,7 @@ class TrendingAndFollowingViewController: UIViewController {
     var video_url: URL!
     var comment_page = 0
     var topic_liked: [Int] = []
+    var comment_like: [Int] = []
     
     var current_video_cell: VideoCell!
     
@@ -50,6 +51,7 @@ class TrendingAndFollowingViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         
         topic_liked = UserDefaults.standard.getLikeTopic()
+        comment_like = UserDefaults.standard.getLikeComment()
         
         fetcUserDetails()
         fetchData()
@@ -84,7 +86,7 @@ class TrendingAndFollowingViewController: UIViewController {
         commentView.dataSource = self
         commentView.backgroundColor = .black
         commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
-    
+        
         comment_tab.addSubview(profile_pic)
         comment_tab.addSubview(submit_comment)
         comment_tab.addSubview(comment_title)
@@ -113,12 +115,12 @@ class TrendingAndFollowingViewController: UIViewController {
         go_back.heightAnchor.constraint(equalToConstant: 30).isActive = true
         go_back.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
         go_back.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
-
+        
         go_back.image = UIImage(named: "close")
         go_back.tintColor = UIColor.white
-
+        
         go_back.isUserInteractionEnabled = true
-
+        
         let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView(_:)))
         go_back.addGestureRecognizer(tapGestureBack)
         
@@ -144,6 +146,7 @@ class TrendingAndFollowingViewController: UIViewController {
         comment_title.rightAnchor.constraint(equalTo: submit_comment.leftAnchor, constant: -5).isActive = true
         comment_title.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
         
+        comment_title.textColor = UIColor.white
         comment_title.placeholder = "Add a comment"
         comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
@@ -171,7 +174,7 @@ class TrendingAndFollowingViewController: UIViewController {
         comment_label.bottomAnchor.constraint(equalTo: commentView.topAnchor, constant: -5).isActive = true
         comment_label.textColor = UIColor.white
         comment_label.text = "Comments"
-    
+        
         commentView.translatesAutoresizingMaskIntoConstraints = false
         commentView.heightAnchor.constraint(equalToConstant: 310).isActive = true
         commentView.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 0).isActive = true
@@ -186,7 +189,7 @@ class TrendingAndFollowingViewController: UIViewController {
         trending.heightAnchor.constraint(equalToConstant: 20).isActive = true
         trending.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 10).isActive = true
         trending.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 25).isActive = true
-              
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         label.widthAnchor.constraint(equalToConstant: 2).isActive = true
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -256,7 +259,7 @@ class TrendingAndFollowingViewController: UIViewController {
             trending.textColor = UIColor.red
             following.textColor = UIColor.gray
             if current_video_cell != nil {
-               current_video_cell.player.player?.pause()
+                current_video_cell.player.player?.pause()
             }
             self.videos = self.trendingTopics
             self.trendingView.reloadData()
@@ -265,7 +268,7 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     func fetchFollowingData() {
-
+        
         if isLoading {
             return
         }
@@ -280,36 +283,36 @@ class TrendingAndFollowingViewController: UIViewController {
         var headers: [String: Any]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-        headers = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
         let url = "https://www.boloindya.com/api/v1/get_follow_post/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(following_page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
-    
+        
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["results"] as? [[String:Any]] {
-                            for each in content {
-                                self.followingTopics.append(getTopicFromJson(each: each))
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["results"] as? [[String:Any]] {
+                                for each in content {
+                                    self.followingTopics.append(getTopicFromJson(each: each))
+                                }
+                                self.trendingView.isHidden = false
+                                self.progress.isHidden = true
+                                self.videos = self.followingTopics
+                                self.isLoading = false
+                                self.following_page += 1
+                                self.trendingView.reloadData()
                             }
-                            self.trendingView.isHidden = false
-                            self.progress.isHidden = true
-                            self.videos = self.followingTopics
-                            self.isLoading = false
-                            self.following_page += 1
-                            self.trendingView.reloadData()
                         }
-                    }
-                    catch {
-                        self.isLoading = false
-                        self.progress.isHidden = true
-                        print(error.localizedDescription)
+                        catch {
+                            self.isLoading = false
+                            self.progress.isHidden = true
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -323,9 +326,9 @@ class TrendingAndFollowingViewController: UIViewController {
     
     @IBAction func goToNextScreens(_ sender: UIButton) {
     }
-
+    
     func fetchData() {
-
+        
         if isLoading {
             return
         }
@@ -340,8 +343,8 @@ class TrendingAndFollowingViewController: UIViewController {
         var headers: [String: Any]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-        headers = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
         let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
@@ -351,25 +354,25 @@ class TrendingAndFollowingViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["topics"] as? [[String:Any]] {
-                            for each in content {
-                                self.trendingTopics.append(getTopicFromJson(each: each))
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["topics"] as? [[String:Any]] {
+                                for each in content {
+                                    self.trendingTopics.append(getTopicFromJson(each: each))
+                                }
+                                self.trendingView.isHidden = false
+                                self.progress.isHidden = true
+                                self.videos = self.trendingTopics
+                                self.isLoading = false
+                                self.page += 1
+                                self.trendingView.reloadData()
                             }
-                            self.trendingView.isHidden = false
-                            self.progress.isHidden = true
-                            self.videos = self.trendingTopics
-                            self.isLoading = false
-                            self.page += 1
-                            self.trendingView.reloadData()
                         }
-                    }
-                    catch {
-                        self.isLoading = false
-                        self.progress.isHidden = true
-                        print(error.localizedDescription)
+                        catch {
+                            self.isLoading = false
+                            self.progress.isHidden = true
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -385,8 +388,8 @@ class TrendingAndFollowingViewController: UIViewController {
             let vc = segue.destination as? ProfileViewController
             vc?.user = videos[selected_position].user
         } else  if segue.destination is LoginAndSignUpViewController {
-           let vc = segue.destination as? LoginAndSignUpViewController
-           vc?.selected_tab = 0
+            let vc = segue.destination as? LoginAndSignUpViewController
+            vc?.selected_tab = 0
         } else if segue.destination is ThumbailViewController {
             let vc = segue.destination as? ThumbailViewController
             vc?.url = video_url
@@ -394,17 +397,17 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     
-   @objc func onClickTransparentView(_ sender: UITapGestureRecognizer){
+    @objc func onClickTransparentView(_ sender: UITapGestureRecognizer){
         self.comment_tab.isHidden = true
-   }
+    }
     
     func fetchComment() {
         
         var headers: [String: Any]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-        headers = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
         let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=\(comment_page*15)"
@@ -414,94 +417,139 @@ class TrendingAndFollowingViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["results"] as? [[String:Any]] {
-                            for each in content {
-                                self.comments.append(getComment(each: each))
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["results"] as? [[String:Any]] {
+                                for each in content {
+                                    self.comments.append(getComment(each: each))
+                                }
+                                if self.comments.count == 0 {
+                                    self.comment_label.text = "No Comments"
+                                } else {
+                                    self.comment_label.text = "Comments"
+                                }
+                                self.progress_comment.isHidden = true
+                                self.comment_page += 1
+                                self.commentView.reloadData()
                             }
-                            if self.comments.count == 0 {
-                                self.comment_label.text = "No Comments"
-                            } else {
-                                self.comment_label.text = "Comments"
-                            }
+                        }
+                        catch {
                             self.progress_comment.isHidden = true
-                            self.comment_page += 1
-                            self.commentView.reloadData()
+                            print(error.localizedDescription)
                         }
                     }
-                    catch {
-                        self.progress_comment.isHidden = true
-                        print(error.localizedDescription)
-                    }
-                }
                 case.failure(let error):
-                self.progress_comment.isHidden = true
+                    self.progress_comment.isHidden = true
                     print(error)
                 }
         }
     }
-
+    
     func fetcUserDetails() {
-           
+        
         var headers: HTTPHeaders!
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-           headers  = [ "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers  = [ "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         } else {
             return
         }
-           
+        
         let url = "https://www.boloindya.com/api/v1/get_user_follow_and_like_list/"
-       
+        
         Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
-               .responseString  { (responseData) in
-                   switch responseData.result {
-                   case.success(let data):
-                       if let json_data = data.data(using: .utf8) {
-                       
-                       do {
-                           let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                           if let content = json_object?["user"] as? [String:Any] {
-                            
-                            let user_profile_obj = content["userprofile"] as? [String:Any]
-                            
-                            UserDefaults.standard.setCategories(value: user_profile_obj?["sub_category"] as! [Int])
-                            UserDefaults.standard.setFollowingUsers(value: json_object?["all_follow"] as! [Int])
-                            
-                            UserDefaults.standard.setLikeTopic(value: json_object?["topic_like"] as! [Int])
-                           }
-                       }
-                       catch {
-                           print(error.localizedDescription)
-                           }
-                       }
-                   case.failure(let error):
-                       print(error)
-                   }
-           }
-       }
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["user"] as? [String:Any] {
+                                
+                                let user_profile_obj = content["userprofile"] as? [String:Any]
+                                
+                                UserDefaults.standard.setCategories(value: user_profile_obj?["sub_category"] as! [Int])
+                                UserDefaults.standard.setFollowingUsers(value: json_object?["all_follow"] as! [Int])
+                                
+                                UserDefaults.standard.setLikeTopic(value: json_object?["topic_like"] as! [Int])
+                                
+                                UserDefaults.standard.setLikeComment(value: json_object?["comment_like"] as! [Int])
+                                
+                                
+                                self.topic_liked = json_object?["topic_like"] as! [Int]
+                                self.comment_like = json_object?["comment_like"] as! [Int]
+                            }
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+        }
+    }
     
-        func topicSeen() {
-           
-           let paramters: [String: Any] = [
+    func topicSeen() {
+        
+        let paramters: [String: Any] = [
             "topic_id": "\(videos[selected_position].id)"
-           ]
-           
-           var headers: [String: Any]? = nil
-           
-           if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-               headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-           }
-           
-           let url = "https://www.boloindya.com/api/v1/vb_seen/"
-           
-           Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-               .responseString  { (responseData) in
-                   
-           }
-       }
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/vb_seen/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
+    
+    func topicLike() {
+        
+        let paramters: [String: Any] = [
+            "topic_id": "\(videos[selected_position].id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/like/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
+    
+    func commentLike(id: Int) {
+        let paramters: [String: Any] = [
+            "comment_id": "\(id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/like/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
 }
 
 extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewDataSource {
@@ -533,20 +581,20 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                 }
             }
             if selected_position == indexPath.row {
-               if current_video_cell != nil {
-                   current_video_cell.player.player?.pause()
-               }
-               
-               current_video_cell = video_cell
-               let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-                if videoUrl != nil {
-                   let avPlayer = AVPlayer(url: videoUrl! as URL)
-
-                   video_cell.player.playerLayer.player = avPlayer
-                   video_cell.player.player?.play()
-                   self.topicSeen()
-                   current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
                 }
+                
+                current_video_cell = video_cell
+                let videoUrl = NSURL(string: videos[indexPath.row].video_url)
+                if videoUrl != nil {
+                    let avPlayer = AVPlayer(url: videoUrl! as URL)
+                    
+                    video_cell.player.playerLayer.player = avPlayer
+                    video_cell.player.player?.play()
+                    current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                }
+                self.topicSeen()
             }
             if (!videos[indexPath.row].user.profile_pic.isEmpty) {
                 let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
@@ -561,7 +609,14 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         } else {
             let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
             if indexPath.row < comments.count {
+                if !self.comment_like.isEmpty {
+                    if self.comment_like.contains(Int(comments[indexPath.row].id)!) {
+                        comments[indexPath.row].isLiked = true
+                    }
+                }
                 menucell.configure(with: comments[indexPath.row])
+                menucell.selected_postion = indexPath.row
+                menucell.delegate = self
             }
             return menucell
         }
@@ -578,12 +633,12 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
             if videoUrl != nil {
                 let avPlayer = AVPlayer(url: videoUrl! as URL)
-
+                
                 current_video_cell.player.playerLayer.player = avPlayer
                 current_video_cell.player.player?.play()
-                self.topicSeen()
                 current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
             }
+            self.topicSeen()
         }
     }
     
@@ -604,7 +659,13 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                 self.fetchData()
             }
         } else {
-            fetchComment()
+            let lastSectionIndex = tableView.numberOfSections - 1
+            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+            
+            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+                fetchComment()
+            }
+            
         }
     }
     
@@ -620,7 +681,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 
 extension TrendingAndFollowingViewController: VideoCellDelegate {
     func renderComments(with selected_postion: Int) {
-        selected_position = selected_postion
+        self.selected_position = selected_postion
         progress_comment.isHidden = false
         comment_tab.isHidden = false
         comment_page = 0
@@ -634,12 +695,12 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         self.performSegue(withIdentifier: "ProfileView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
     }
-
+    
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
         let videoUrl = videos[selected_postion].video_url
-
+        
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
+        
         let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
         if(FileManager().fileExists(atPath: destinationUrl.path)){
             let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
@@ -655,57 +716,72 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "thumbnailVideo", sender: self)
             
-//            self.present(activityController, animated: true) {
-//                print("Done")
-//            }
+            //            self.present(activityController, animated: true) {
+            //                print("Done")
+            //            }
             print("\n\nfile already exists\n\n")
         } else{
             var request = URLRequest(url: URL(string: videoUrl)!)
             request.httpMethod = "GET"
             _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            if(error != nil){
-                print("\n\nsome error occured\n\n")
-                return
-            }
-            if let response = response as? HTTPURLResponse{
-                if response.statusCode == 200 {
-                    DispatchQueue.main.async {
-                        if let data = data{
-                            if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
-                                
-                                print("\n\nurl data written\n\n")
-                                print(destinationUrl)
-                                let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                                    if completed {
-                                        print("completed")
-                                    } else {
-                                        print("error")
-                                    }
+                if(error != nil){
+                    print("\n\nsome error occured\n\n")
+                    return
+                }
+                if let response = response as? HTTPURLResponse{
+                    if response.statusCode == 200 {
+                        DispatchQueue.main.async {
+                            if let data = data{
+                                if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
                                     
+                                    print("\n\nurl data written\n\n")
+                                    print(destinationUrl)
+                                    let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                        if completed {
+                                            print("completed")
+                                        } else {
+                                            print("error")
+                                        }
+                                        
                                     }
                                     self.present(activityController, animated: true) {
+                                    }
+                                    
                                 }
-                            
-                            }
-                            else{
-                                print("\n\nerror again\n\n")
+                                else{
+                                    print("\n\nerror again\n\n")
+                                }
                             }
                         }
                     }
                 }
-            }
-        }).resume()
+            }).resume()
             
         }
     }
     
     func likedTopic(with selected_postion: Int) {
+        self.selected_position = selected_postion
         if self.videos[selected_postion].isLiked {
             topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
         } else {
             topic_liked.append(Int(self.videos[selected_postion].id)!)
         }
         UserDefaults.standard.setLikeTopic(value: topic_liked)
+        self.topicLike()
+    }
+}
+
+extension TrendingAndFollowingViewController: CommentViewCellDelegate {
+    
+    func likedComment(with selected_postion: Int) {
+        if self.comments[selected_postion].isLiked {
+            comment_like.remove(at: comment_like.firstIndex(of: Int(self.comments[selected_postion].id)!)!)
+        } else {
+            comment_like.append(Int(self.comments[selected_postion].id)!)
+        }
+        UserDefaults.standard.setLikeComment(value: comment_like)
+        self.commentLike(id: Int(self.comments[selected_postion].id)!)
     }
 }

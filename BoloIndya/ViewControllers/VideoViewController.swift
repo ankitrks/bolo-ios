@@ -11,7 +11,7 @@ import AVFoundation
 import Alamofire
 
 class VideoViewController: UIViewController {
-
+    
     var videos: [Topic] = []
     var comments: [Comment] = []
     var videoView = UITableView()
@@ -36,12 +36,14 @@ class VideoViewController: UIViewController {
     var current_video_cell: VideoCell!
     
     var topic_liked: [Int] = []
+    var comment_like: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         
         topic_liked = UserDefaults.standard.getLikeTopic()
+        comment_like = UserDefaults.standard.getLikeComment()
         
         setVideoViewDelegate()
     }
@@ -49,7 +51,7 @@ class VideoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
-
+    
     func setVideoViewDelegate() {
         view.addSubview(videoView)
         view.addSubview(go_back)
@@ -91,7 +93,7 @@ class VideoViewController: UIViewController {
         commentView.dataSource = self
         commentView.backgroundColor = .black
         commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
-    
+        
         comment_tab.addSubview(profile_pic)
         comment_tab.addSubview(submit_comment)
         comment_tab.addSubview(comment_title)
@@ -99,7 +101,7 @@ class VideoViewController: UIViewController {
         comment_tab.addSubview(progress_comment)
         comment_tab.addSubview(comment_label)
         comment_tab.addSubview(go_back_comment)
-            
+        
         view.addSubview(comment_tab)
         
         comment_tab.translatesAutoresizingMaskIntoConstraints = false
@@ -114,19 +116,19 @@ class VideoViewController: UIViewController {
         go_back_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
         go_back_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
         go_back_comment.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
-
+        
         go_back_comment.image = UIImage(named: "close")
         go_back_comment.tintColor = UIColor.white
-
+        
         go_back_comment.isUserInteractionEnabled = true
-
+        
         let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView(_:)))
         go_back_comment.addGestureRecognizer(tapGestureBack)
         
         progress_comment.translatesAutoresizingMaskIntoConstraints = false
         progress_comment.heightAnchor.constraint(equalToConstant: 60).isActive = true
         progress_comment.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
+        progress_comment.centerXAnchor.constraint(equalTo: comment_tab.centerXAnchor, constant: 0).isActive = true
         progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
         progress_comment.color = UIColor.white
         
@@ -145,6 +147,7 @@ class VideoViewController: UIViewController {
         comment_title.rightAnchor.constraint(equalTo: submit_comment.leftAnchor, constant: -5).isActive = true
         comment_title.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
         
+        comment_title.textColor = UIColor.white
         comment_title.placeholder = "Add a comment"
         comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
@@ -214,26 +217,26 @@ class VideoViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["result"] as? [[String:Any]] {
-                            for each in content {
-                                self.videos.append(getTopicFromJson(each: each))
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["result"] as? [[String:Any]] {
+                                for each in content {
+                                    self.videos.append(getTopicFromJson(each: each))
+                                }
                             }
+                            self.videoView.isHidden = false
+                            self.videoView.reloadData()
                         }
-                        self.videoView.isHidden = false
-                        self.videoView.reloadData()
-                    }
-                    catch {
-                        print(error.localizedDescription)
+                        catch {
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
                     print(error)
                 }
         }
-
+        
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
@@ -249,16 +252,16 @@ class VideoViewController: UIViewController {
     }
     
     func onClickTransparentView() {
-         self.comment_tab.isHidden = true
+        self.comment_tab.isHidden = true
     }
-
+    
     func fetchComment() {
         
         var headers: [String: Any]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-        headers = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
         let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=\(comment_page*15)"
@@ -268,32 +271,92 @@ class VideoViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["results"] as? [[String:Any]] {
-                            for each in content {
-                                self.comments.append(getComment(each: each))
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["results"] as? [[String:Any]] {
+                                for each in content {
+                                    self.comments.append(getComment(each: each))
+                                }
+                                if self.comments.count == 0 {
+                                    self.comment_label.text = "No Comments"
+                                } else {
+                                    self.comment_label.text = "Comments"
+                                }
+                                self.progress_comment.isHidden = true
+                                self.comment_page += 1
+                                self.commentView.reloadData()
                             }
-                            if self.comments.count == 0 {
-                                self.comment_label.text = "No Comments"
-                            } else {
-                                self.comment_label.text = "Comments"
-                            }
+                        }
+                        catch {
                             self.progress_comment.isHidden = true
-                            self.comment_page += 1
-                            self.commentView.reloadData()
+                            print(error.localizedDescription)
                         }
                     }
-                    catch {
-                        self.progress_comment.isHidden = true
-                        print(error.localizedDescription)
-                    }
-                }
                 case.failure(let error):
-                self.progress_comment.isHidden = true
+                    self.progress_comment.isHidden = true
                     print(error)
                 }
+        }
+    }
+    
+    func topicSeen() {
+        
+        let paramters: [String: Any] = [
+            "topic_id": "\(videos[selected_position].id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/vb_seen/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
+    
+    func topicLike() {
+        
+        let paramters: [String: Any] = [
+            "topic_id": "\(videos[selected_position].id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/like/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
+    
+    
+    func commentLike(id: Int) {
+        let paramters: [String: Any] = [
+            "comment_id": "\(id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/like/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
         }
     }
 }
@@ -314,24 +377,33 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
             let url = URL(string: videos[indexPath.row].thumbnail)
             video_cell.video_image.kf.setImage(with: url)
             video_cell.username.text = "@"+videos[indexPath.row].user.username
+            video_cell.play_and_pause_image.image = UIImage(named: "play")
+            video_cell.like_count.text = videos[indexPath.row].like_count
+            video_cell.comment_count.text = videos[indexPath.row].comment_count
+            video_cell.share_count.text = videos[indexPath.row].share_count
+            video_cell.whatsapp_share_count.text = videos[indexPath.row].whatsapp_share_count
             if !self.topic_liked.isEmpty {
-               if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
-                   videos[indexPath.row].isLiked = true
-                   video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
-                   video_cell.like_image.tintColor = UIColor.red
-               }
-           }
+                if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                    videos[indexPath.row].isLiked = true
+                    video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
+                    video_cell.like_image.tintColor = UIColor.red
+                }
+            }
             if selected_position == indexPath.row {
-               if current_video_cell != nil {
-                   current_video_cell.player.player?.pause()
-               }
-               
-               current_video_cell = video_cell
-               let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-               let avPlayer = AVPlayer(url: videoUrl! as URL)
-
-               video_cell.player.playerLayer.player = avPlayer
-               video_cell.player.player?.play()
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
+                }
+                
+                current_video_cell = video_cell
+                let videoUrl = NSURL(string: videos[indexPath.row].video_url)
+                if videoUrl != nil {
+                    let avPlayer = AVPlayer(url: videoUrl! as URL)
+                    
+                    current_video_cell.player.playerLayer.player = avPlayer
+                    current_video_cell.player.player?.play()
+                    current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                }
+                self.topicSeen()
             }
             if (!videos[indexPath.row].user.profile_pic.isEmpty) {
                 let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
@@ -351,9 +423,14 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
             return video_cell
         } else {
             let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
-               if indexPath.row < comments.count {
-                   menucell.configure(with: comments[indexPath.row])
-               }
+            if indexPath.row < comments.count {
+                if !self.comment_like.isEmpty {
+                    if self.comment_like.contains(Int(comments[indexPath.row].id)!) {
+                        comments[indexPath.row].isLiked = true
+                    }
+                }
+                menucell.configure(with: comments[indexPath.row])
+            }
             return menucell
         }
     }
@@ -368,12 +445,16 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
         }
         current_video_cell = video_cell
         selected_position = video_cell?.tag ?? 0
-        print(videos[video_cell?.tag ?? 0].video_url)
+        
         let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
-        let avPlayer = AVPlayer(url: videoUrl! as URL)
-
-        current_video_cell.player.playerLayer.player = avPlayer
-        current_video_cell.player.player?.play()
+        if videoUrl != nil {
+            let avPlayer = AVPlayer(url: videoUrl! as URL)
+            
+            current_video_cell.player.playerLayer.player = avPlayer
+            current_video_cell.player.player?.play()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+        }
+        self.topicSeen()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -393,7 +474,12 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
                 self.fetchData()
             }
         } else {
-            fetchComment()
+            let lastSectionIndex = tableView.numberOfSections - 1
+            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+            
+            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+                self.fetchComment()
+            }
         }
     }
     
@@ -410,7 +496,7 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
 
 extension VideoViewController: VideoCellDelegate {
     func renderComments(with selected_postion: Int) {
-        selected_position = selected_postion
+        self.selected_position = selected_postion
         progress_comment.isHidden = false
         comment_tab.isHidden = false
         comment_page = 0
@@ -431,12 +517,12 @@ extension VideoViewController: VideoCellDelegate {
             self.tabBarController?.tabBar.isHidden = true
         }
     }
-
+    
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
         let videoUrl = videos[selected_postion].video_url
-
+        
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
+        
         let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
         if(FileManager().fileExists(atPath: destinationUrl.path)){
             let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
@@ -455,49 +541,65 @@ extension VideoViewController: VideoCellDelegate {
             var request = URLRequest(url: URL(string: videoUrl)!)
             request.httpMethod = "GET"
             _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            if(error != nil){
-                print("\n\nsome error occured\n\n")
-                return
-            }
-            if let response = response as? HTTPURLResponse{
-                if response.statusCode == 200 {
-                    DispatchQueue.main.async {
-                        if let data = data{
-                            if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
-                                
-                                print("\n\nurl data written\n\n")
-                                print(destinationUrl)
-                                let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                                    if completed {
-                                        print("completed")
-                                    } else {
-                                        print("error")
-                                    }
+                if(error != nil){
+                    print("\n\nsome error occured\n\n")
+                    return
+                }
+                if let response = response as? HTTPURLResponse{
+                    if response.statusCode == 200 {
+                        DispatchQueue.main.async {
+                            if let data = data{
+                                if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
                                     
+                                    print("\n\nurl data written\n\n")
+                                    print(destinationUrl)
+                                    let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                        if completed {
+                                            print("completed")
+                                        } else {
+                                            print("error")
+                                        }
+                                        
                                     }
                                     self.present(activityController, animated: true) {
+                                    }
+                                    
                                 }
-                            
-                            }
-                            else{
-                                print("\n\nerror again\n\n")
+                                else{
+                                    print("\n\nerror again\n\n")
+                                }
                             }
                         }
                     }
                 }
-            }
-        }).resume()
+            }).resume()
             
         }
     }
-     
+    
     func likedTopic(with selected_postion: Int) {
-       if self.videos[selected_postion].isLiked {
-           topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
-       } else {
-           topic_liked.append(Int(self.videos[selected_postion].id)!)
-       }
-       UserDefaults.standard.setLikeTopic(value: topic_liked)
-   }
+        self.selected_position = selected_postion
+        if self.videos[selected_postion].isLiked {
+            topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
+        } else {
+            topic_liked.append(Int(self.videos[selected_postion].id)!)
+        }
+        UserDefaults.standard.setLikeTopic(value: topic_liked)
+        self.topicLike()
+    }
+}
+
+
+extension VideoViewController: CommentViewCellDelegate {
+    
+    func likedComment(with selected_postion: Int) {
+        if self.comments[selected_postion].isLiked {
+            comment_like.remove(at: comment_like.firstIndex(of: Int(self.comments[selected_postion].id)!)!)
+        } else {
+            comment_like.append(Int(self.comments[selected_postion].id)!)
+        }
+        UserDefaults.standard.setLikeComment(value: comment_like)
+        self.commentLike(id: Int(self.comments[selected_postion].id)!)
+    }
 }

@@ -20,13 +20,13 @@ class CurrentUserViewController: UIViewController {
     var name = UILabel()
     var profile_pic = UIImageView()
     var bio = UILabel()
-        
+    
     var isLoading: Bool = false
     var page: Int = 1
     var topics: [Topic] = []
     var selected_position: Int = 0
     var isFinished: Bool = false
-
+    
     var user = User()
     
     var transparentView = UIView()
@@ -37,7 +37,7 @@ class CurrentUserViewController: UIViewController {
     
     var views_label = UILabel()
     var views_count = UILabel()
-
+    
     var followers_label = UILabel()
     var followers_count = UILabel()
     
@@ -52,21 +52,22 @@ class CurrentUserViewController: UIViewController {
     let iconArray = ["notification", "language", "feedback", "terms", "logout"]
     
     let height = CGFloat(300)
+    var topic_liked: [Int] = []
     
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)\(UserDefaults.standard.getUsername() ?? "")"
-               let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-              activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                  if completed {
-                      print("completed")
-                  } else {
-                      print("error")
-                  }
-              }
-              self.present(activityController, animated: true) {
-                  print("Done")
-           }
-       }
+        let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+            if completed {
+                print("completed")
+            } else {
+                print("error")
+            }
+        }
+        self.present(activityController, animated: true) {
+            print("Done")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +80,7 @@ class CurrentUserViewController: UIViewController {
             self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "signUpCurrentUser", sender: self)
         } else {
+            topic_liked = UserDefaults.standard.getLikeTopic()
             setUserData()
             setTableView()
             setUserVideoView()
@@ -101,7 +103,7 @@ class CurrentUserViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-
+    
     func setUserData() {
         
         let screenSize = UIScreen.main.bounds.size
@@ -112,7 +114,7 @@ class CurrentUserViewController: UIViewController {
         cover_pic.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         cover_pic.heightAnchor.constraint(equalToConstant: 130).isActive = true
         cover_pic.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
-
+        
         cover_pic.backgroundColor = UIColor.gray
         cover_pic.clipsToBounds = true
         
@@ -311,7 +313,7 @@ class CurrentUserViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         follower = "Followers"
         performSegue(withIdentifier: "followingUserProfile", sender: self)
-   }
+    }
     
     @IBAction func onMoreOptionClick(_ sender: Any) {
         transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
@@ -369,38 +371,38 @@ class CurrentUserViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let result = json_object?["result"] as? [String:Any] {
-                            let user_profile_obj = result["userprofile"] as? [String:Any]
-                            self.user.id = user_profile_obj?["user"] as! Int
-                            self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let result = json_object?["result"] as? [String:Any] {
+                                let user_profile_obj = result["userprofile"] as? [String:Any]
+                                self.user.id = user_profile_obj?["user"] as! Int
+                                self.user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
                                 
-                            self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                            self.user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                            self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                            self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                            self.user.vb_count = user_profile_obj?["vb_count"] as! Int
-                            self.user.view_count = user_profile_obj?["view_count"] as! String
-                            if let follow_count = user_profile_obj?["follow_count"] as? Int {
-                                self.user.follow_count = "\(follow_count)"
-                            } else {
-                                self.user.follow_count = user_profile_obj?["follow_count"] as! String
+                                self.user.setName(name: user_profile_obj?["name"] as? String ?? "")
+                                self.user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
+                                self.user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
+                                self.user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+                                self.user.vb_count = user_profile_obj?["vb_count"] as! Int
+                                self.user.view_count = user_profile_obj?["view_count"] as! String
+                                if let follow_count = user_profile_obj?["follow_count"] as? Int {
+                                    self.user.follow_count = "\(follow_count)"
+                                } else {
+                                    self.user.follow_count = user_profile_obj?["follow_count"] as! String
+                                }
+                                if let following_count = user_profile_obj?["follower_count"] as? Int {
+                                    self.user.follower_count = "\(following_count)"
+                                } else {
+                                    self.user.follower_count = user_profile_obj?["follower_count"] as! String
+                                }
+                                self.isLoading = false
+                                self.fetchData()
                             }
-                            if let following_count = user_profile_obj?["follower_count"] as? Int {
-                                self.user.follower_count = "\(following_count)"
-                            } else {
-                                self.user.follower_count = user_profile_obj?["follower_count"] as! String
-                            }
+                        }
+                        catch {
                             self.isLoading = false
                             self.fetchData()
-                        }
-                    }
-                    catch {
-                        self.isLoading = false
-                        self.fetchData()
-                        print(error.localizedDescription)
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -412,7 +414,7 @@ class CurrentUserViewController: UIViewController {
     }
     
     func fetchData() {
-
+        
         if page == 1 {
             profile_pic.layer.cornerRadius = (profile_pic.frame.height / 2)
             
@@ -452,25 +454,25 @@ class CurrentUserViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
-                        let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                        if let content = json_object?["results"] as? [[String:Any]] {
-                            if (content.count == 0) {
-                                self.isFinished = true
-                                return
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["results"] as? [[String:Any]] {
+                                if (content.count == 0) {
+                                    self.isFinished = true
+                                    return
+                                }
+                                for each in content {
+                                    self.topics.append(getTopicFromJson(each: each))
+                                }
+                                self.isLoading = false
+                                self.page += 1
+                                self.userVideoView.reloadData()
                             }
-                            for each in content {
-                                self.topics.append(getTopicFromJson(each: each))
-                            }
-                            self.isLoading = false
-                            self.page += 1
-                            self.userVideoView.reloadData()
                         }
-                    }
-                    catch {
-                        self.isLoading = false
-                        print(error.localizedDescription)
+                        catch {
+                            self.isLoading = false
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -554,6 +556,11 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! UserVideoCollectionViewCell
+        if !self.topic_liked.isEmpty {
+            if self.topic_liked.contains(Int(self.topics[indexPath.row].id)!) {
+                self.topics[indexPath.row].isLiked = true
+            }
+        }
         cell.configure(with: topics[indexPath.row])
         return cell
     }
@@ -563,8 +570,8 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if indexPath.row == topics.count - 1 {
-                self.fetchData()
+        if indexPath.row == topics.count - 1 {
+            self.fetchData()
         }
     }
     

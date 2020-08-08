@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ChooseLanguageController : UIViewController {
 
@@ -116,20 +117,37 @@ class ChooseLanguageController : UIViewController {
     }
 
     func sentToTrending() {
-        UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
+        
+        UserDefaults.standard.setValueForLanguageId(value: selected_position)
         UserDefaults.standard.setLanguageSet(value: true)
         
+        let paramters: [String: Any] = [
+            "activity": "settings_changed",
+            "language": "\(selected_position)"
+       ]
+       
+       var headers: [String: Any]? = nil
+       
+       if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+           headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+       }
+       
+       let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+       
+       Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+           .responseString  { (responseData) in
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+               vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: false)
+       }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
     }
 }
 
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selected_position = indexPath.row
+        selected_position = languages[indexPath.row].id
         self.languageView.reloadData()
         self.sentToTrending()
     }
