@@ -37,15 +37,39 @@ class VideoViewController: UIViewController {
     
     var topic_liked: [Int] = []
     var comment_like: [Int] = []
+    var keyboardHeight: Int = 250
+    
+    weak var contrain: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         
+        
+        NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         topic_liked = UserDefaults.standard.getLikeTopic()
         comment_like = UserDefaults.standard.getLikeComment()
         
         setVideoViewDelegate()
+    }
+    
+    @objc internal func keyboardWillShow(_ notification: NSNotification?) {
+        var _kbSize: CGSize!
+        
+        if let info = notification?.userInfo {
+            let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
+            if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
+                let screenSize = UIScreen.main.bounds
+                let intersectRect = kbFrame.intersection(screenSize)
+                if intersectRect.isNull {
+                    _kbSize = CGSize(width: screenSize.size.width, height: 0)
+                } else {
+                    _kbSize = intersectRect.size
+                    contrain.constant = -(_kbSize.height)
+                    
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,7 +132,8 @@ class VideoViewController: UIViewController {
         comment_tab.heightAnchor.constraint(equalToConstant: 400).isActive = true
         comment_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         comment_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-        comment_tab.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        contrain = comment_tab.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        contrain.isActive = true
         comment_tab.backgroundColor = .black
         
         go_back_comment.translatesAutoresizingMaskIntoConstraints = false
@@ -151,6 +176,8 @@ class VideoViewController: UIViewController {
         comment_title.placeholder = "Add a comment"
         comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
+        comment_title.delegate = self
+        
         submit_comment.translatesAutoresizingMaskIntoConstraints = false
         submit_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
         submit_comment.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -158,6 +185,11 @@ class VideoViewController: UIViewController {
         submit_comment.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
         submit_comment.contentMode = .scaleAspectFill
         submit_comment.clipsToBounds = true
+        
+        submit_comment.isUserInteractionEnabled = true
+        
+        let tapGestureSubmit = UITapGestureRecognizer(target: self, action: #selector(submitComment(_:)))
+        submit_comment.addGestureRecognizer(tapGestureSubmit)
         
         if (!(UserDefaults.standard.getProfilePic() ?? "").isEmpty) {
             let url = URL(string: UserDefaults.standard.getProfilePic() ?? "")
@@ -198,6 +230,8 @@ class VideoViewController: UIViewController {
     
     @objc func onClickTransparentView (_ sender: UITapGestureRecognizer) {
         self.comment_tab.isHidden = true
+        self.comment_title.resignFirstResponder()
+        contrain.constant = 0
     }
     
     func fetchData() {
@@ -243,6 +277,55 @@ class VideoViewController: UIViewController {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func submitComment(_ sender: UITapGestureRecognizer) {
+        let paramters: [String: Any] = [
+            "comment": "\(comment_title.text.unsafelyUnwrapped)",
+            "topic_id": "\(videos[selected_position].id)",
+            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/reply_on_topic"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["comment"] as? [String:Any] {
+                                self.comments.insert(getComment(each: content), at: 0)
+                                if self.comments.count == 0 {
+                                    self.comment_label.text = "No Comments"
+                                } else {
+                                    self.comment_label.text = "Comments"
+                                }
+                                self.comment_title.resignFirstResponder()
+                                self.contrain.constant = 0
+                                self.comment_title.text = ""
+                                self.commentView.reloadData()
+                            }
+                        }
+                        catch {
+                            self.comment_title.resignFirstResponder()
+                            self.contrain.constant = 0
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    self.comment_title.resignFirstResponder()
+                    self.contrain.constant = 0
+                    print(error)
+                }
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ProfileViewController {
@@ -253,6 +336,8 @@ class VideoViewController: UIViewController {
     
     func onClickTransparentView() {
         self.comment_tab.isHidden = true
+        self.comment_title.resignFirstResponder()
+        contrain.constant = 0
     }
     
     func fetchComment() {
@@ -497,11 +582,16 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
 extension VideoViewController: VideoCellDelegate {
     func renderComments(with selected_postion: Int) {
         self.selected_position = selected_postion
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+        }
         progress_comment.isHidden = false
         comment_tab.isHidden = false
         comment_page = 0
         comments.removeAll()
         commentView.reloadData()
+        comment_title.text = ""
         fetchComment()
     }
     
@@ -603,3 +693,19 @@ extension VideoViewController: CommentViewCellDelegate {
         self.commentLike(id: Int(self.comments[selected_postion].id)!)
     }
 }
+
+
+extension VideoViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.comment_title.resignFirstResponder()
+        contrain.constant = 0
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+}
+

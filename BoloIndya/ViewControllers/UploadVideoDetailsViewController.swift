@@ -20,7 +20,7 @@ class UploadVideoDetailsViewController: UIViewController {
     var tick_image = UIImageView()
     
     var thumb = UIImageView()
-    var topic_title = UITextView()
+    var topic_title = UITextField()
     
     var choose_category = UILabel()
     var add_hashtag = UILabel()
@@ -52,11 +52,15 @@ class UploadVideoDetailsViewController: UIViewController {
     var languageView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     var categoryView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    weak var contrain: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        
+         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
         let screenSize = UIScreen.main.bounds.size
         
         upper_tab.addSubview(back_image)
@@ -138,11 +142,13 @@ class UploadVideoDetailsViewController: UIViewController {
         topic_title.leftAnchor.constraint(equalTo: thumb.rightAnchor, constant: 10).isActive = true
         topic_title.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         
-        topic_title.isEditable = true
-        topic_title.text = "What is this video about?"
+        topic_title.placeholder = "What is this video about?"
         topic_title.textColor = UIColor.white
         topic_title.backgroundColor =  #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
         topic_title.font = UIFont.boldSystemFont(ofSize: 12.0)
+        
+        topic_title.delegate = self
+        topic_title.attributedPlaceholder = NSAttributedString(string: "What is this video about?", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
         actions_stack.widthAnchor.constraint(equalToConstant: (screenSize.width)-20).isActive = true
@@ -273,7 +279,8 @@ class UploadVideoDetailsViewController: UIViewController {
         hash_tag.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         hash_tag.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         hash_tag.heightAnchor.constraint(equalToConstant: 230).isActive = true
-        hash_tag.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 10).isActive = true
+        contrain = hash_tag.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 10)
+        contrain.isActive = true
         hash_tag.layer.cornerRadius = 10
         
         enter_hash.translatesAutoresizingMaskIntoConstraints = false
@@ -281,12 +288,14 @@ class UploadVideoDetailsViewController: UIViewController {
         enter_hash.rightAnchor.constraint(equalTo: hash_tag.rightAnchor,constant: 10).isActive = true
         enter_hash.heightAnchor.constraint(equalToConstant: 20).isActive = true
         enter_hash.bottomAnchor.constraint(equalTo: hash_tag.bottomAnchor, constant: -20).isActive = true
+        
         enter_hash.placeholder = "Enter HashTag"
         enter_hash.textColor = UIColor.white
         enter_hash.attributedPlaceholder = NSAttributedString(string: "Enter HashTag", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         enter_hash.font = UIFont.boldSystemFont(ofSize: 13.0)
         
+        enter_hash.delegate = self
         enter_hash.addTarget(self, action: #selector(didChange(_:)), for: .editingChanged)
         
         hashView.isScrollEnabled = true
@@ -311,6 +320,25 @@ class UploadVideoDetailsViewController: UIViewController {
         hash_tag.isHidden = true
     }
 
+    @objc internal func keyboardWillShow(_ notification: NSNotification?) {
+        var _kbSize: CGSize!
+        
+        if let info = notification?.userInfo {
+            let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
+            if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
+                let screenSize = UIScreen.main.bounds
+                let intersectRect = kbFrame.intersection(screenSize)
+                if intersectRect.isNull {
+                    _kbSize = CGSize(width: screenSize.size.width, height: 0)
+                } else {
+                    _kbSize = intersectRect.size
+                    contrain.constant = -(_kbSize.height)
+                    
+                }
+            }
+        }
+    }
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -338,6 +366,8 @@ class UploadVideoDetailsViewController: UIViewController {
         categoryView.isHidden = true
         transparentView.isHidden = true
         hash_tag.isHidden = true
+        self.enter_hash.resignFirstResponder()
+        self.topic_title.resignFirstResponder()
     }
     
     @IBAction func hideUnhideCategory(_ sender: Any) {
@@ -415,6 +445,7 @@ class UploadVideoDetailsViewController: UIViewController {
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             if let content = json_object?["hash_data"] as? [[String:Any]] {
+                                self.hash_tags.removeAll()
                                 for each in content {
                                     self.hash_tags.append(each["hash_tag"] as! String)
                                 }
@@ -432,6 +463,8 @@ class UploadVideoDetailsViewController: UIViewController {
             }
         }
     }
+    
+    
     
 }
 
@@ -525,4 +558,22 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
         }
         return CGSize(width: (collectionView.frame.width/2.4), height: 20)
     }
+}
+
+extension UploadVideoDetailsViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == enter_hash {
+            self.enter_hash.resignFirstResponder()
+            contrain.constant = 10
+        } else {
+            self.topic_title.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
 }
