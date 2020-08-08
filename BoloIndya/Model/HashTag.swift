@@ -15,6 +15,7 @@ class HashTag {
     var videos: [Topic]
     var total_views: String
     var image: String
+    var videos_count: String
     
     init() {
         self.id = 0
@@ -22,5 +23,6 @@ class HashTag {
         self.videos = []
         self.total_views = ""
         self.image = ""
+        self.videos_count = ""
     }
 }

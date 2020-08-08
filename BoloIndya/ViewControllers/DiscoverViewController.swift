@@ -60,7 +60,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             label.sizeToFit()
             return CGSize(width: label.frame.width, height: 20)
         } else {
-            return CGSize(width: collectionView.frame.width, height: 100)
+            return CGSize(width: collectionView.frame.width, height: 90)
         }
     }
     
@@ -77,7 +77,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let screenSize = UIScreen.main.bounds.size
-        return ((screenSize.width/3.4)*1.5)+40
+        return ((screenSize.width/3.4)*1.5)+50
     }
     
     var discoverView = UITableView()
@@ -94,6 +94,8 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     var category_id: String = "68"
     var current_hash_tag: HashTag = HashTag()
     var selected_position: Int = 0
+    
+    var search_text = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,7 +118,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height:20)
         categoryView.collectionViewLayout = layout
-        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+5, width: screenSize.width, height: 30)
+        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+25, width: screenSize.width, height: 30)
         categoryView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         categoryView.backgroundColor = .clear
         categoryView.delegate = self
@@ -127,7 +129,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout_banner.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout_banner.estimatedItemSize = CGSize(width: (screenSize.width/4), height:90)
         bannerView.collectionViewLayout = layout_banner
-        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+35, width: screenSize.width, height: 100)
+        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+55, width: screenSize.width, height: 100)
         bannerView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         bannerView.backgroundColor = .clear
         bannerView.delegate = self
@@ -136,8 +138,23 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         view.addSubview(discoverView)
         view.addSubview(categoryView)
         view.addSubview(bannerView)
-        
         view.addSubview(progress)
+        view.addSubview(search_text)
+        
+        search_text.translatesAutoresizingMaskIntoConstraints = false
+        search_text.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        search_text.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
+        search_text.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        search_text.layer.cornerRadius = 10.0
+        search_text.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
+        
+        search_text.textColor = UIColor.white
+        search_text.placeholder = "Search"
+        search_text.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        search_text.font = UIFont.boldSystemFont(ofSize: 12.0)
+        search_text.delegate = self
         
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
@@ -149,7 +166,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         category.title = "What's New"
         categories.append(category)
     
-        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+135, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+155, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
         
         fetchCategories()
         
@@ -164,7 +181,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func fetchCategories() {
@@ -363,6 +380,10 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             let vc = segue.destination as? CategoryViewController
             vc?.name = category_name
             vc?.id = category_id
+        } else if segue.destination is SearchViewController{
+            let vc = segue.destination as? SearchViewController
+            vc?.search_text = "\(search_text.text.unsafelyUnwrapped)"
+            search_text.text = ""
         }
     }
     
@@ -389,185 +410,17 @@ extension DiscoverViewController: SectionCellDelegate {
     
 }
 
-protocol SectionCellDelegate {
-    func goToHashTag(with hash_tag: HashTag)
+extension DiscoverViewController : UITextFieldDelegate {
     
-    func goToVideos(with hash_tag: HashTag, position: Int)
-}
-
-class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    var title = UILabel()
-    var front_image = UIImageView()
-    var views = UILabel()
-    var hash_tag: HashTag = HashTag()
-
-    var delegate: SectionCellDelegate?
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.hash_tag.videos.count == 0 ? 5 : self.hash_tag.videos.count
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.search_text.resignFirstResponder()
+        self.performSegue(withIdentifier: "searchPage", sender: self)
+        self.tabBarController?.tabBar.isHidden = true
+        return true
     }
     
-    func setVideo(hash_tag: HashTag) {
-        self.hash_tag = hash_tag
-        title.text = "#"+self.hash_tag.title
-    
-        title.isUserInteractionEnabled = true
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToHashTag(_:)))
-        title.addGestureRecognizer(tapGesture)
-        views.text = self.hash_tag.total_views
-        
-        views.isUserInteractionEnabled = true
-        
-        let tapGestureViews = UITapGestureRecognizer(target: self, action: #selector(goToHashTag(_:)))
-        views.addGestureRecognizer(tapGestureViews)
-        
-        userVideoView.reloadData()
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
     }
     
-    @objc func goToHashTag(_ sender: UITapGestureRecognizer) {
-        delegate?.goToHashTag(with: hash_tag)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! DiscoverCell
-        if (indexPath.row < hash_tag.videos.count) {
-            cell.configure(with: hash_tag.videos[indexPath.row])
-        }
-        return cell
-    }
-    
-    var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        self.backgroundColor = UIColor.black
-        
-        addSubview(userVideoView)
-        addSubview(title)
-        addSubview(front_image)
-        addSubview(views)
-        
-        setOtherViews()
-        setTitleAttribute()
-        
-        let screenSize = UIScreen.main.bounds.size
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: (screenSize.width/3.4), height: ((screenSize.width/3.4)*1.5))
-        userVideoView.collectionViewLayout = layout
-        userVideoView.frame = CGRect(x: 0, y: 30, width: screenSize.width, height: ((screenSize.width/3.4)*1.5)+10)
-        userVideoView.register(DiscoverCell.self, forCellWithReuseIdentifier: "UserVideoCell")
-        userVideoView.delegate = self
-        userVideoView.dataSource = self
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width/3.4), height: (((collectionView.frame.width/3.4)*1.5)+10))
-    }
-    
-    func setTitleAttribute() {
-    
-        title.translatesAutoresizingMaskIntoConstraints = false
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        title.rightAnchor.constraint(equalTo: views.leftAnchor, constant: -10).isActive = true
-        title.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        title.font = UIFont.boldSystemFont(ofSize: 14.0)
-        title.lineBreakMode = NSLineBreakMode.byWordWrapping
-        title.numberOfLines = 1
-        title.textColor = UIColor.white
-        title.text = "#"+self.hash_tag.title
-    }
-    
-    func setOtherViews() {
-        
-        front_image.translatesAutoresizingMaskIntoConstraints = false
-        front_image.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        front_image.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        front_image.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        front_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        front_image.image = UIImage(named: "forward")
-        front_image.contentMode = .scaleAspectFit
-        
-        views.translatesAutoresizingMaskIntoConstraints = false
-        views.rightAnchor.constraint(equalTo: front_image.leftAnchor, constant: -5).isActive = true
-        views.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        views.textAlignment = .right
-        views.font = UIFont.boldSystemFont(ofSize: 14.0)
-        views.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        views.textColor = UIColor.white
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.goToVideos(with: hash_tag, position: indexPath.row)
-    }
-    
-}
-
-class DiscoverCell: UICollectionViewCell {
-
-    var video_image =  UIImageView()
-    var views = UILabel()
-    var view_image =  UIImageView()
-    
-    public func configure(with topic: Topic) {
-        let url = URL(string: topic.thumbnail)
-        video_image.kf.setImage(with: url)
-        views.text = topic.view_count
-        
-        view_image.image = UIImage(named: "views")
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(video_image)
-        addSubview(views)
-        addSubview(view_image)
-        
-        setImageView()
-        setVideoTitle()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setImageView() {
-        video_image.translatesAutoresizingMaskIntoConstraints = false
-        video_image.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
-        video_image.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        video_image.layer.cornerRadius = 2.0
-        video_image.contentMode = .scaleAspectFill
-        video_image.clipsToBounds = true
-        video_image.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
-    }
-    
-    func setVideoTitle() {
-        views.translatesAutoresizingMaskIntoConstraints = false
-        views.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        views.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        views.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        views.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        views.textColor = UIColor.white
-
-        views.font = UIFont.boldSystemFont(ofSize: 11.0)
-        views.numberOfLines = 1
-        
-        view_image.translatesAutoresizingMaskIntoConstraints = false
-        view_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        view_image.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        view_image.rightAnchor.constraint(equalTo: views.rightAnchor, constant: -45).isActive = true
-        view_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        
-        view_image.layer.cornerRadius = 2.0
-        view_image.contentMode = .scaleAspectFill
-        view_image.clipsToBounds = true
-    }
 }

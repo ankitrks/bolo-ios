@@ -21,11 +21,15 @@
 		183BDCC624B7BA4000ACF912 /* CurrentUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183BDCC524B7BA4000ACF912 /* CurrentUserViewController.swift */; };
 		183BDCC824B7BD8400ACF912 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183BDCC724B7BD8400ACF912 /* NotificationViewController.swift */; };
 		183BDCCA24B7BF5600ACF912 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183BDCC924B7BF5600ACF912 /* DiscoverViewController.swift */; };
+		18413AD424DF1EB600F3E2A1 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18413AD324DF1EB600F3E2A1 /* SearchViewController.swift */; };
+		18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18413AD524DF20E500F3E2A1 /* DiscoverCell.swift */; };
+		18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18413AD724DF212300F3E2A1 /* SectionCell.swift */; };
 		184924E824BB9325007F731E /* MenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184924E724BB9325007F731E /* MenuViewCell.swift */; };
 		1853A39924BDB78F00EE2595 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1853A39824BDB78F00EE2595 /* ProfileViewController.swift */; };
 		1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1856DDC824BD014900DE8539 /* UserVideoCollectionViewCell.swift */; };
 		185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CDBA124D9429700DCC756 /* FollowingFollowerViewController.swift */; };
 		185CDBA424D9450F00DCC756 /* FollowerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CDBA324D9450F00DCC756 /* FollowerViewCell.swift */; };
+		186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */; };
 		1864A80424B9ADB400C08A4A /* NonActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */; };
 		1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */; };
 		18708AAE24DA8EB20006F356 /* ThumbailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */; };
@@ -76,11 +80,15 @@
 		183BDCC524B7BA4000ACF912 /* CurrentUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserViewController.swift; sourceTree = "<group>"; };
 		183BDCC724B7BD8400ACF912 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		183BDCC924B7BF5600ACF912 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		18413AD324DF1EB600F3E2A1 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		18413AD524DF20E500F3E2A1 /* DiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCell.swift; sourceTree = "<group>"; };
+		18413AD724DF212300F3E2A1 /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
 		184924E724BB9325007F731E /* MenuViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewCell.swift; sourceTree = "<group>"; };
 		1853A39824BDB78F00EE2595 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1856DDC824BD014900DE8539 /* UserVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoCollectionViewCell.swift; sourceTree = "<group>"; };
 		185CDBA124D9429700DCC756 /* FollowingFollowerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingFollowerViewController.swift; sourceTree = "<group>"; };
 		185CDBA324D9450F00DCC756 /* FollowerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewCell.swift; sourceTree = "<group>"; };
+		186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonActiveLanguageButton.swift; sourceTree = "<group>"; };
 		1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLanguageButton.swift; sourceTree = "<group>"; };
 		18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbailViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +170,9 @@
 				181A96BC24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift */,
 				18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */,
 				18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */,
+				18413AD524DF20E500F3E2A1 /* DiscoverCell.swift */,
+				18413AD724DF212300F3E2A1 /* SectionCell.swift */,
+				186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -253,6 +264,7 @@
 				185CDBA124D9429700DCC756 /* FollowingFollowerViewController.swift */,
 				18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */,
 				18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */,
+				18413AD324DF1EB600F3E2A1 /* SearchViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -413,6 +425,7 @@
 				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,
 				18CB49DB24BC6A6700212329 /* FeedBackViewController.swift in Sources */,
 				184924E824BB9325007F731E /* MenuViewCell.swift in Sources */,
+				186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */,
 				183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */,
 				1871C4A324BB233400285DEC /* Notification.swift in Sources */,
 				18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */,
@@ -440,6 +453,8 @@
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
 				1864A80424B9ADB400C08A4A /* NonActiveLanguageButton.swift in Sources */,
 				18F93B2D24B71D1C006621DB /* AppDelegate.swift in Sources */,
+				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
+				18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */,
 				18CB49DD24BC6C8C00212329 /* UpdateIntersetViewController.swift in Sources */,
 				187DA64F24B89932005522FB /* LoginAndSignUpViewController.swift in Sources */,
 				18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */,
@@ -450,6 +465,7 @@
 				18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */,
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,
 				18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */,
+				18413AD424DF1EB600F3E2A1 /* SearchViewController.swift in Sources */,
 				18F93B2F24B71D1C006621DB /* SceneDelegate.swift in Sources */,
 				183BDCC424B7A41200ACF912 /* UserDefaults.swift in Sources */,
 				18CB49DF24BC6F8C00212329 /* TermsPagesViewController.swift in Sources */,
