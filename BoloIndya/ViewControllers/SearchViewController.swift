@@ -16,9 +16,15 @@ class SearchViewController: UIViewController {
     var user_id: Int = 0
     var userView = UITableView()
     var hashTagView = UITableView()
+    var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     var users: [User] = []
+    var data: [Search] = []
     var hashTags: [HashTag] = []
+    var topics: [Topic] = []
+    var top_users: [User] = []
+    var top_hashTags: [HashTag] = []
+    var top_topics: [Topic] = []
     var isLoading: Bool = false
     var isAtEnd: Bool = false
     var isLoadingHash = false
@@ -38,15 +44,15 @@ class SearchViewController: UIViewController {
     var search_text_all = UITextField()
     var back_image = UIImageView()
     
-    var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-    
     var topic_liked: [Int] = []
-    var topics: [Topic] = []
     
     var serach_upper_tab = UIView()
+    var top_label = UILabel()
     var videos_label = UILabel()
     var users_label = UILabel()
     var hash_label = UILabel()
+    
+    var allView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +68,7 @@ class SearchViewController: UIViewController {
         view.addSubview(search_text_all)
         view.addSubview(back_image)
         
+        serach_upper_tab.addSubview(top_label)
         serach_upper_tab.addSubview(videos_label)
         serach_upper_tab.addSubview(users_label)
         serach_upper_tab.addSubview(hash_label)
@@ -103,12 +110,27 @@ class SearchViewController: UIViewController {
         
         serach_upper_tab.backgroundColor = UIColor.white
         
+        top_label.translatesAutoresizingMaskIntoConstraints = false
+        top_label.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        top_label.widthAnchor.constraint(equalToConstant: screenSize.width/4 - 10).isActive = true
+        top_label.leftAnchor.constraint(equalTo: serach_upper_tab.leftAnchor, constant: 5).isActive = true
+        top_label.centerYAnchor.constraint(equalTo: serach_upper_tab.centerYAnchor, constant: 0).isActive = true
+        top_label.textColor = UIColor.red
+        
+        top_label.font = UIFont.boldSystemFont(ofSize: 10.0)
+        top_label.text = "All"
+        top_label.textAlignment = .center
+        
+        top_label.isUserInteractionEnabled = true
+        let tapGestureAll = UITapGestureRecognizer(target: self, action: #selector(showAll(_:)))
+        top_label.addGestureRecognizer(tapGestureAll)
+        
         videos_label.translatesAutoresizingMaskIntoConstraints = false
         videos_label.heightAnchor.constraint(equalToConstant: 11).isActive = true
-        videos_label.widthAnchor.constraint(equalToConstant: screenSize.width/3 - 10).isActive = true
-        videos_label.leftAnchor.constraint(equalTo: serach_upper_tab.leftAnchor, constant: 5).isActive = true
+        videos_label.widthAnchor.constraint(equalToConstant: screenSize.width/4 - 10).isActive = true
+        videos_label.leftAnchor.constraint(equalTo: top_label.rightAnchor, constant: 5).isActive = true
         videos_label.centerYAnchor.constraint(equalTo: serach_upper_tab.centerYAnchor, constant: 0).isActive = true
-        videos_label.textColor = UIColor.red
+        videos_label.textColor = UIColor.gray
         
         videos_label.font = UIFont.boldSystemFont(ofSize: 10.0)
         videos_label.text = "Videos"
@@ -120,7 +142,7 @@ class SearchViewController: UIViewController {
         
         users_label.translatesAutoresizingMaskIntoConstraints = false
         users_label.heightAnchor.constraint(equalToConstant: 11).isActive = true
-        users_label.widthAnchor.constraint(equalToConstant: screenSize.width/3 - 10).isActive = true
+        users_label.widthAnchor.constraint(equalToConstant: screenSize.width/4 - 10).isActive = true
         users_label.leftAnchor.constraint(equalTo: videos_label.rightAnchor, constant: 5).isActive = true
         users_label.centerYAnchor.constraint(equalTo: serach_upper_tab.centerYAnchor, constant: 0).isActive = true
         users_label.textColor = UIColor.gray
@@ -135,7 +157,7 @@ class SearchViewController: UIViewController {
         
         hash_label.translatesAutoresizingMaskIntoConstraints = false
         hash_label.heightAnchor.constraint(equalToConstant: 11).isActive = true
-        hash_label.widthAnchor.constraint(equalToConstant: screenSize.width/3 - 10).isActive = true
+        hash_label.widthAnchor.constraint(equalToConstant: screenSize.width/4 - 10).isActive = true
         hash_label.leftAnchor.constraint(equalTo: users_label.rightAnchor, constant: 5).isActive = true
         hash_label.centerYAnchor.constraint(equalTo: serach_upper_tab.centerYAnchor, constant: 0).isActive = true
         hash_label.textColor = UIColor.gray
@@ -196,25 +218,52 @@ class SearchViewController: UIViewController {
         videoView.topAnchor.constraint(equalTo: serach_upper_tab.bottomAnchor, constant: 10).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
-        fetchVideos()
+        videoView.isHidden = true
+        
+        view.addSubview(allView)
+        
+        allView.isScrollEnabled = true
+        allView.separatorStyle = .none
+        allView.delegate = self
+        allView.dataSource = self
+        allView.register(SearchAll.self, forCellReuseIdentifier: "Cell")
+        allView.backgroundColor = .black
+        
+        allView.translatesAutoresizingMaskIntoConstraints = false
+        allView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        allView.topAnchor.constraint(equalTo: serach_upper_tab.bottomAnchor, constant: 10).isActive = true
+        allView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+        fetchAllTypes()
     }
     
     @IBAction func goBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    @IBAction func showVideo(_ sender: Any) {
+    @IBAction func showAll(_ sender: Any) {
+        users_label.textColor = UIColor.gray
+        hash_label.textColor = UIColor.gray
+        videos_label.textColor = UIColor.gray
+        top_label.textColor = UIColor.red
+        
+        videoView.isHidden = true
         userView.isHidden = true
         hashTagView.isHidden = true
+        allView.isHidden = false
         
+    }
+    
+    @IBAction func showVideo(_ sender: Any) {
         users_label.textColor = UIColor.gray
         hash_label.textColor = UIColor.gray
         videos_label.textColor = UIColor.red
+        top_label.textColor = UIColor.gray
         
         videoView.isHidden = false
         userView.isHidden = true
         hashTagView.isHidden = true
+        allView.isHidden = true
         
         if topics.count == 0 {
             fetchVideos()
@@ -222,16 +271,15 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func showUser(_ sender: Any) {
-        hashTagView.isHidden = true
-        videoView.isHidden = true
-        
         videos_label.textColor = UIColor.gray
         hash_label.textColor = UIColor.gray
         users_label.textColor = UIColor.red
+        top_label.textColor = UIColor.gray
         
         videoView.isHidden = true
         userView.isHidden = false
         hashTagView.isHidden = true
+        allView.isHidden = true
         
         if users.count == 0 {
             fetchUserData()
@@ -239,16 +287,15 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func showHash(_ sender: Any) {
-        userView.isHidden = true
-        videoView.isHidden = true
-        
         videos_label.textColor = UIColor.gray
         users_label.textColor = UIColor.gray
         hash_label.textColor = UIColor.red
+        top_label.textColor = UIColor.gray
         
         videoView.isHidden = true
         userView.isHidden = true
         hashTagView.isHidden = false
+        allView.isHidden = true
         
         if hashTags.count == 0 {
             fetchHashData()
@@ -267,7 +314,7 @@ class SearchViewController: UIViewController {
         
         isLoading = true
         
-        let url = "https://www.boloindya.com/api/v1/solr/search/users?term=\(search_text)&page=\(user_page)"
+        let url = "https://www.boloindya.com/api/v1/solr/search/users?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&page=\(user_page)"
         
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
@@ -339,7 +386,7 @@ class SearchViewController: UIViewController {
         
         isLoadingHash = true
         
-        let url = "https://www.boloindya.com/api/v1/solr/search/hash_tag?term=\(search_text)&page=\(hash_page)"
+        let url = "https://www.boloindya.com/api/v1/solr/search/hash_tag?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&page=\(hash_page)"
         
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
@@ -396,7 +443,7 @@ class SearchViewController: UIViewController {
         
         isLoadingVideo = true
         
-        let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text)&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
+        let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
         
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
@@ -431,6 +478,110 @@ class SearchViewController: UIViewController {
         }
     }
     
+    func fetchAllTypes() {
+        
+        let url = "https://www.boloindya.com/api/v1/solr/search/top/?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as! HTTPHeaders)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["top_vb"] as? [[String:Any]] {
+                                for result in content {
+                                    let topic = getTopicFromJson(each: result)
+                                        if !self.topic_liked.isEmpty {
+                                            if self.topic_liked.contains(Int(topic.id)!) {
+                                                topic.isLiked = true
+                                            }
+                                        }
+                                    self.top_topics.append(topic)
+                                }
+                                if self.top_topics.count > 0 {
+                                    self.data.append(Search(type: "Videos", data: self.top_topics))
+                                }
+                            }
+                            if let content = json_object?["top_user"] as? [[String:Any]] {
+                                for result in content {
+                                    let user = User()
+                                    let user_profile_obj = result["userprofile"] as? [String:Any]
+                                    
+                                    user.id = user_profile_obj?["user"] as! Int
+                                    user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
+                                    
+                                    user.setName(name: user_profile_obj?["name"] as? String ?? "")
+                                    user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
+                                    user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
+                                    user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+                                    user.vb_count = user_profile_obj?["vb_count"] as! Int
+                                    user.view_count = user_profile_obj?["view_count"] as! String
+                                    if let follow_count = user_profile_obj?["follow_count"] as? Int {
+                                        user.follow_count = "\(follow_count)"
+                                    } else {
+                                        user.follow_count = user_profile_obj?["follow_count"] as! String
+                                    }
+                                    if let following_count = user_profile_obj?["follower_count"] as? Int {
+                                        user.follower_count = "\(following_count)"
+                                    } else {
+                                        user.follower_count = user_profile_obj?["follower_count"] as! String
+                                    }
+                                    if !self.users_following.isEmpty {
+                                        if self.users_following.contains(user.id) {
+                                            user.isFollowing = true
+                                        } else {
+                                            user.isFollowing = false
+                                        }
+                                    }
+                                    self.top_users.append(user)
+                                }
+                                if self.top_users.count > 0 {
+                                    self.data.append(Search(type: "Users", data: self.top_users))
+                                }
+                            }
+                            if let content = json_object?["top_hash_tag"] as? [[String:Any]] {
+                                for result in content {
+                                    let each_hash = HashTag()
+                                    
+                                    each_hash.title = result["hash_tag"] as! String
+                                    if let count = (result["total_videos_count"]) {
+                                        each_hash.videos_count = "\(count)"
+                                    } else {
+                                        each_hash.videos_count = result["total_videos_count"] as? String ?? ""
+                                    }
+                                    if let count = (result["total_views"]) {
+                                        each_hash.total_views = "\(count)"
+                                    } else {
+                                        each_hash.total_views = result["total_views"] as? String ?? ""
+                                    }
+                                    each_hash.image = result["picture"] as? String ?? ""
+                                    self.top_hashTags.append(each_hash)
+                                }
+                                if self.top_hashTags.count > 0 {
+                                    self.data.append(Search(type: "HashTags", data: self.top_hashTags))
+                                }
+                            }
+                                self.allView.reloadData()
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+        }
+    }
+    
     func followingUser() {
         
         let paramters: [String: Any] = [
@@ -454,20 +605,29 @@ class SearchViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ProfileViewController {
             let vc = segue.destination as? ProfileViewController
-            vc?.user = users[selected_position]
+            if userView.isHidden {
+                vc?.user = top_users[selected_position]
+            } else {
+                vc?.user = users[selected_position]
+            }
         }  else if segue.destination is LoginAndSignUpViewController{
             let vc = segue.destination as? LoginAndSignUpViewController
             vc?.selected_tab = 0
         }  else if segue.destination is HashTagViewController {
             let vc = segue.destination as? HashTagViewController
-            vc?.hash_tag = hashTags[selected_hash_position]
+            if hashTagView.isHidden {
+                vc?.hash_tag = top_hashTags[selected_hash_position]
+            } else {
+                vc?.hash_tag = hashTags[selected_hash_position]
+            }
         } else if segue.destination is VideoViewController {
             let vc = segue.destination as? VideoViewController
-            vc?.videos = topics
+            if videoView.isHidden {
+                vc?.videos = top_topics
+            } else {
+                vc?.videos = topics
+            }
             vc?.selected_position = selected_video
-        }  else if segue.destination is HashTagViewController {
-            let vc = segue.destination as? HashTagViewController
-            vc?.hash_tag = hashTags[selected_hash_position]
         }
     }
 }
@@ -477,7 +637,9 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == userView {
             return users.count
-        } else {
+        } else if tableView == allView {
+            return data.count
+        }  else {
             return hashTags.count
         }
     }
@@ -487,6 +649,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! FollowerViewCell
             cell.configure(with: users[indexPath.row])
             cell.selected_postion = indexPath.row
+            cell.delegate = self
+            return cell
+        } else if tableView == allView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SearchAll
+            cell.configure(with: data[indexPath.row])
             cell.delegate = self
             return cell
         } else {
@@ -499,6 +666,17 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == userView {
             return 100
+        } else if tableView == allView {
+            if data[indexPath.row].type == "Users" {
+                return CGFloat((data[indexPath.row].data.count * 100) + 25)
+            } else if data[indexPath.row].type == "Videos" {
+                if data[indexPath.row].data.count > 3 {
+                    return ((((tableView.frame.width/3.4) * 1.5) + 25)*2)
+                } else {
+                    return (((tableView.frame.width/3.4) * 1.5) + 25)
+                }
+            }
+            return CGFloat((data[indexPath.row].data.count * 80)+25)
         } else {
             return 80
         }
@@ -735,7 +913,7 @@ extension SearchViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.search_text_all.resignFirstResponder()
-        search_text = "\(search_text_all.text.unsafelyUnwrapped)"
+        search_text = "\(search_text_all.text.unsafelyUnwrapped)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         user_page = 1
         hash_page = 1
         videos_page = 1
@@ -744,9 +922,18 @@ extension SearchViewController : UITextFieldDelegate {
         isAtEndVideo = false
         topics.removeAll()
         hashTags.removeAll()
+        top_users.removeAll()
+        top_topics.removeAll()
+        top_hashTags.removeAll()
         users.removeAll()
-        print(search_text)
-        if !videoView.isHidden {
+        data.removeAll()
+        videoView.reloadData()
+        userView.reloadData()
+        hashTagView.reloadData()
+        allView.reloadData()
+        if !allView.isHidden {
+            fetchAllTypes()
+        } else if !videoView.isHidden {
             fetchVideos()
         } else if !userView.isHidden {
             fetchUserData()
@@ -758,6 +945,191 @@ extension SearchViewController : UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
+    }
+    
+}
+
+extension SearchViewController: SearchAllDelegate {
+    
+    func goToHashTag(with position: Int) {
+        selected_hash_position = position
+        self.performSegue(withIdentifier: "searchHash", sender: self)
+    }
+    
+    func goToVideos(with position: Int) {
+        selected_video = position
+        self.tabBarController?.tabBar.isHidden = true
+        performSegue(withIdentifier: "searchVideo", sender: self)
+    }
+    
+    func goTopProfile(with position: Int) {
+        selected_position = position
+        self.performSegue(withIdentifier: "searchUser", sender: self)
+    }
+    
+    
+    
+}
+
+protocol SearchAllDelegate {
+    func goToHashTag(with position: Int)
+    
+    func goToVideos(with position: Int)
+    
+    func goTopProfile(with position: Int)
+}
+
+class SearchAll: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowerViewCellDelegate {
+    
+    func followUser(with selected_postion: Int) {
+        
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+        delegate?.goToVideos(with: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return data_point.data.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserVideoCell", for: indexPath) as! SearchViewVideoCell
+        cell.configure(with: data_point.data[indexPath.row] as! Topic)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.5)
+    }
+    
+    var data_point: Search!
+    var delegate: SearchAllDelegate!
+    
+    var title = UILabel()
+    var allTableView = UITableView()
+    var allVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    
+    public func configure(with data: Search) {
+        self.data_point = data
+        self.title.text = data_point.type
+        if data_point.type != "Videos" {
+            self.allVideoView.isHidden = true
+            self.allTableView.isHidden = false
+            self.allTableView.reloadData()
+        } else {
+            self.allTableView.isHidden = true
+            self.allVideoView.isHidden = false
+            self.allVideoView.reloadData()
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        backgroundColor = .black
+        
+        if data_point.type == "Videos" {
+            addSubview(allVideoView)
+        } else {
+            addSubview(allTableView)
+        }
+        addSubview(title)
+        
+        setData()
+    }
+    
+    func setData() {
+        
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        title.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        title.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        
+        title.font = UIFont.boldSystemFont(ofSize: 13.0)
+        title.lineBreakMode = NSLineBreakMode.byWordWrapping
+        title.numberOfLines = 1
+        title.textColor = UIColor.white
+        
+        if  data_point.type != "Videos" {
+                
+            allTableView.isScrollEnabled = true
+            allTableView.separatorStyle = .none
+            allTableView.delegate = self
+            allTableView.dataSource = self
+            if data_point.type == "Users" {
+                allTableView.register(FollowerViewCell.self, forCellReuseIdentifier: "Cell")
+            } else {
+                allTableView.register(HashSearchCollectionViewCell.self, forCellReuseIdentifier: "Cell")
+            }
+            allTableView.backgroundColor = .black
+            
+            allTableView.translatesAutoresizingMaskIntoConstraints = false
+            allTableView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5).isActive = true
+            allTableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+            allTableView.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+            allTableView.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        }
+            
+        if  data_point.type == "Videos" {
+            let layout = UICollectionViewFlowLayout()
+            layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+            layout.itemSize = CGSize(width: (self.frame.width/3.4), height: ((self.frame.width/3.4) * 1.5))
+            allVideoView.collectionViewLayout = layout
+            
+            allVideoView.delegate = self
+            allVideoView.dataSource = self
+            allVideoView.backgroundColor = UIColor.clear
+            allVideoView.register(SearchViewVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
+            
+            allVideoView.translatesAutoresizingMaskIntoConstraints = false
+            allVideoView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5).isActive = true
+            allVideoView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+            allVideoView.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+            allVideoView.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self.data_point.data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if self.data_point.type == "Users" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! FollowerViewCell
+            cell.configure(with: self.data_point.data[indexPath.row] as! User)
+            cell.delegate = self
+            cell.selected_postion = indexPath.row
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! HashSearchCollectionViewCell
+            cell.configure(with: self.data_point.data[indexPath.row] as! HashTag)
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if self.data_point.type == "Users" {
+            return 100
+        } else {
+            return 80
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        if self.data_point.type == "Users" {
+            delegate?.goTopProfile(with: indexPath.row)
+        } else {
+            delegate?.goToHashTag(with: indexPath.row)
+        }
     }
     
 }

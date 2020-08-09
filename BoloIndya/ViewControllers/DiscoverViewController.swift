@@ -382,7 +382,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             vc?.id = category_id
         } else if segue.destination is SearchViewController{
             let vc = segue.destination as? SearchViewController
-            vc?.search_text = "\(search_text.text.unsafelyUnwrapped)"
+            vc?.search_text = "\(search_text.text.unsafelyUnwrapped)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             search_text.text = ""
         }
     }

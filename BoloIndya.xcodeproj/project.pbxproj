@@ -32,6 +32,7 @@
 		186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */; };
 		1864A80424B9ADB400C08A4A /* NonActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */; };
 		1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */; };
+		1869071A24E0073700F6B2D7 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869071924E0073700F6B2D7 /* Search.swift */; };
 		18708AAE24DA8EB20006F356 /* ThumbailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */; };
 		18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */; };
 		1871C4A324BB233400285DEC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871C4A224BB233400285DEC /* Notification.swift */; };
@@ -91,6 +92,7 @@
 		186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		1864A80324B9ADB400C08A4A /* NonActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonActiveLanguageButton.swift; sourceTree = "<group>"; };
 		1864A80524B9B13300C08A4A /* ActiveLanguageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLanguageButton.swift; sourceTree = "<group>"; };
+		1869071924E0073700F6B2D7 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		18708AAD24DA8EB20006F356 /* ThumbailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbailViewController.swift; sourceTree = "<group>"; };
 		18708AAF24DAC9EA0006F356 /* UploadVideoDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoDetailsViewController.swift; sourceTree = "<group>"; };
 		1871C4A224BB233400285DEC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				18C771B424CB2F20007E3AC2 /* Category.swift */,
 				18B56B5024CB49BB00CE7DE8 /* Comment.swift */,
 				1811310624D6C51F009DDB54 /* Languages.swift */,
+				1869071924E0073700F6B2D7 /* Search.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */,
 				1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */,
 				18F93B3124B71D1C006621DB /* ViewController.swift in Sources */,
+				1869071A24E0073700F6B2D7 /* Search.swift in Sources */,
 				18C771B524CB2F20007E3AC2 /* Category.swift in Sources */,
 				183BDCC624B7BA4000ACF912 /* CurrentUserViewController.swift in Sources */,
 				18CE0DC424C0DFBE003B0E51 /* HashTag.swift in Sources */,
