@@ -1131,5 +1131,4 @@ class SearchAll: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UI
             delegate?.goToHashTag(with: indexPath.row)
         }
     }
-    
 }

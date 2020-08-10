@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AVFoundation
 
 class UploadVideoDetailsViewController: UIViewController {
     
@@ -48,6 +49,9 @@ class UploadVideoDetailsViewController: UIViewController {
     var category_name = ""
     var add_hashtag_text = ""
     var isLoading: Bool = false
+    var thumnail_url_upload = ""
+    var video_url_upload = ""
+    var time = ""
     
     var languageView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
@@ -59,7 +63,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         self.navigationController?.isNavigationBarHidden = true
         
-         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -77,7 +81,7 @@ class UploadVideoDetailsViewController: UIViewController {
         view.addSubview(topic_title)
         
         view.addSubview(actions_stack)
-
+        
         view.addSubview(choose_language)
         
         upper_tab.translatesAutoresizingMaskIntoConstraints = false
@@ -166,7 +170,7 @@ class UploadVideoDetailsViewController: UIViewController {
         choose_category.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
         choose_category.text = "Choose Category"
         choose_category.font = UIFont.boldSystemFont(ofSize: 12.0)
-    
+        
         choose_category_label.translatesAutoresizingMaskIntoConstraints = false
         choose_category_label.widthAnchor.constraint(equalToConstant: (screenSize.width)-20).isActive = true
         choose_category_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -232,11 +236,11 @@ class UploadVideoDetailsViewController: UIViewController {
         languageView.delegate = self
         languageView.dataSource = self
         languageView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
-
+        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (languageView.frame.width/2.4), height: 20)
         languageView.collectionViewLayout = layout
-
+        
         languageView.register(UploadLanguageCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         
         languageView.translatesAutoresizingMaskIntoConstraints = false
@@ -254,11 +258,11 @@ class UploadVideoDetailsViewController: UIViewController {
         categoryView.delegate = self
         categoryView.dataSource = self
         categoryView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
-
+        
         let layout_cat = UICollectionViewFlowLayout()
         layout_cat.itemSize = CGSize(width: (categoryView.frame.width/2.4), height: 50)
         categoryView.collectionViewLayout = layout_cat
-
+        
         categoryView.register(CategoryUploadCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         
         categoryView.translatesAutoresizingMaskIntoConstraints = false
@@ -307,7 +311,7 @@ class UploadVideoDetailsViewController: UIViewController {
         let layout_hash = UICollectionViewFlowLayout()
         layout_hash.itemSize = CGSize(width: (hashView.frame.width/2.4), height: 50)
         hashView.collectionViewLayout = layout_hash
-
+        
         hashView.register(HashUploadCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         
         hashView.translatesAutoresizingMaskIntoConstraints = false
@@ -318,8 +322,13 @@ class UploadVideoDetailsViewController: UIViewController {
         hashView.layer.cornerRadius = 10
         
         hash_tag.isHidden = true
+        
+        let asset = AVAsset(url: video_url)
+        let duration = asset.duration
+        let durationTime = Int(duration.seconds)
+        time = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
     }
-
+    
     @objc internal func keyboardWillShow(_ notification: NSNotification?) {
         var _kbSize: CGSize!
         
@@ -343,11 +352,186 @@ class UploadVideoDetailsViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
-    @IBAction func uploadVideo(_ sender: Any) {
     
-    }
+    @IBAction func uploadVideo(_ sender: Any) {
+        
+        if (self.topic_title.text ?? "").isEmpty {
+            let alert = UIAlertController(title: "Please enter title to proceed.", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        if self.selected_language == nil {
+            let alert = UIAlertController(title: "Please select language to proceed.", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        if self.selected_categories.count == 0 {
+            let alert = UIAlertController(title: "Please select category to proceed.", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        var headers: HTTPHeaders!
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let timeStamp = Int(NSDate().timeIntervalSince1970)
+        
+        let file_name = "\(timeStamp).mp4"
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(self.video_url, withName: "media", fileName: file_name, mimeType: "video/mp4")
+        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
+            (result) in
+            switch result {
+            case .success( let upload, _, _):
+                print(result)
 
+                upload.uploadProgress(closure: { (progress) in
+                    print(progress)
+                })
+
+                upload.responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        do {
+                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                if !(json_object["body"] as? String ?? "").isEmpty {
+                                    self.video_url_upload = json_object["body"] as! String
+                                    self.uploadImage()
+                                }
+                            }
+                            
+                            self.categoryView.reloadData()
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                    }
+                }
+               
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }
+
+    }
+    
+    func uploadImage() {
+        
+        var headers: HTTPHeaders!
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let imageData = image.jpegData(compressionQuality: 1)
+        
+        let timeStamp = Int(NSDate().timeIntervalSince1970)
+        
+        let file_name = "\(timeStamp).jpeg"
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(imageData!, withName: "media", fileName: file_name, mimeType: "image/jpg")
+        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
+            (result) in
+            switch result {
+            case .success( let upload, _, _):
+                print(result)
+
+                upload.uploadProgress(closure: { (progress) in
+                    print(progress)
+                })
+
+                upload.responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        do {
+                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                if !(json_object["body"] as? String ?? "").isEmpty {
+                                    self.thumnail_url_upload = json_object["body"] as! String
+                                    self.create_topic()
+                                }
+                            }
+                            
+                            self.categoryView.reloadData()
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                    }
+                }
+               
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }
+    }
+    
+    func create_topic() {
+        
+        video_url_upload = video_url_upload.replacingOccurrences(of: "s3.ap-south-1.amazonaws.com/in-boloindya", with: "in-boloindya.s3.ap-south-1.amazonaws.com", options: .regularExpression, range: nil)
+        thumnail_url_upload = thumnail_url_upload.replacingOccurrences(of: "s3.ap-south-1.amazonaws.com/in-boloindya", with: "in-boloindya.s3.ap-south-1.amazonaws.com", options: .regularExpression, range: nil)
+        
+        var ids = ""
+        for each in selected_categories {
+            if each == selected_categories[selected_categories.count-1] {
+                ids += "\(each)"
+            } else {
+                ids += "\(each),"
+            }
+        }
+        
+        let paramters: [String: Any] = [
+            "question_video": "\(video_url_upload)",
+            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
+            "question_image": "\(thumnail_url_upload)",
+            "title": "\(topic_title.text.unsafelyUnwrapped)" + add_hashtag_text,
+            "category_id": "58",
+            "media_duration": time,
+            "is_vb": "1",
+            "location_array": "[]",
+            "categ_list": ids,
+            "vb_width": "1280",
+            "vb_height": "720",
+            "selected_language": "\(self.selected_language.id)",
+            "token": "\( UserDefaults.standard.getAuthToken().unsafelyUnwrapped)"
+        ]
+        
+        print(paramters)
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/create_topic"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                print(responseData)
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+                vc.modalPresentationStyle = .fullScreen
+                 self.present(vc, animated: false)
+        }
+    }
+    
     @IBAction func goBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -383,14 +567,14 @@ class UploadVideoDetailsViewController: UIViewController {
     }
     
     @IBAction func hideUnhideHashTag(_ sender: Any) {
-       if hash_tag.isHidden {
+        if hash_tag.isHidden {
             hash_tag.isHidden = false
             transparentView.isHidden = false
             self.hash_tags.removeAll()
             self.hashView.reloadData()
-       } else {
-           hash_tag.isHidden = true
-       }
+        } else {
+            hash_tag.isHidden = true
+        }
     }
     
     @objc func didChange(_ sender: Any) {
@@ -404,26 +588,26 @@ class UploadVideoDetailsViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    do {
-                        if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
-                            for each in json_object {
-                                let category = Category()
-                                category.title = each["title"] as! String
-                                category.id = each["id"] as! Int
-                                category.image = each["category_image"] as! String
-                                self.categories.append(category)
+                        do {
+                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
+                                for each in json_object {
+                                    let category = Category()
+                                    category.title = each["title"] as! String
+                                    category.id = each["id"] as! Int
+                                    category.image = each["category_image"] as! String
+                                    self.categories.append(category)
+                                }
                             }
+                            
+                            self.categoryView.reloadData()
                         }
-                        
-                        self.categoryView.reloadData()
+                        catch {
+                            print(error.localizedDescription)
+                        }
                     }
-                    catch {
-                        print(error.localizedDescription)
-                    }
+                case.failure(let error):
+                    print(error)
                 }
-            case.failure(let error):
-                print(error)
-            }
         }
     }
     
@@ -457,10 +641,10 @@ class UploadVideoDetailsViewController: UIViewController {
                             print(error.localizedDescription)
                         }
                     }
-            case.failure(let error):
-                self.isLoading = false
-                print(error)
-            }
+                case.failure(let error):
+                    self.isLoading = false
+                    print(error)
+                }
         }
     }
     
@@ -470,7 +654,7 @@ class UploadVideoDetailsViewController: UIViewController {
 
 
 extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == languageView {
             self.selected_language = languages[indexPath.row]
@@ -508,7 +692,7 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
                 add_hashtag_label.isHidden = false
                 if  (selected_hash.count < 4) {
                     selected_hash.append(hash_tags[indexPath.row])
-                    add_hashtag_text +=  hash_tags[indexPath.row] + " "
+                    add_hashtag_text +=  "#" + hash_tags[indexPath.row] + " "
                     add_hashtag_label.text = add_hashtag_text
                 } else {
                     let alert = UIAlertController(title: "You Can Select Upto 4 Hashtags, make sure they are relevant.", message: "", preferredStyle: .alert)
@@ -523,11 +707,11 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
         categoryView.isHidden = true
         transparentView.isHidden = true
     }
-
+    
     private func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == languageView {
             return languages.count
@@ -536,7 +720,7 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
         }
         return categories.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == languageView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! UploadLanguageCollectionViewCell
@@ -551,7 +735,7 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
         cell.configure(with: categories[indexPath.row])
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == categoryView {
             return CGSize(width: (collectionView.frame.width/2.4), height: 50)

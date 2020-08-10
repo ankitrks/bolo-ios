@@ -637,6 +637,10 @@ class TrendingAndFollowingViewController: UIViewController {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
 }
 
 extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewDataSource {
@@ -708,6 +712,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             return menucell
         }
     }
+
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let video_cell = self.trendingView.visibleCells[0] as? VideoCell
@@ -803,14 +808,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                     print("error")
                 }
             }
-            self.video_url = destinationUrl
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "thumbnailVideo", sender: self)
+            //            self.video_url = destinationUrl
+            //            self.tabBarController?.tabBar.isHidden = true
+            //            self.navigationController?.isNavigationBarHidden = true
+            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
             
-            //            self.present(activityController, animated: true) {
-            //                print("Done")
-            //            }
+            self.present(activityController, animated: true) {
+                print("Done")
+            }
             print("\n\nfile already exists\n\n")
         } else{
             var request = URLRequest(url: URL(string: videoUrl)!)
@@ -828,6 +833,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                     
                                     print("\n\nurl data written\n\n")
                                     print(destinationUrl)
+                                    
                                     let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
                                     activityController.completionWithItemsHandler = { (nil, completed, _, error) in
                                         if completed {
