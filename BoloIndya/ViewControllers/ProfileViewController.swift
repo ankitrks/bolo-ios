@@ -55,6 +55,10 @@ class ProfileViewController: UIViewController {
     var isFollowingUser: Bool = false
     var topic_liked: [Int] = []
     
+    var loader = UIActivityIndicatorView()
+    
+    var no_result = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -279,6 +283,34 @@ class ProfileViewController: UIViewController {
         userVideoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         userVideoView.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 10).isActive = true
         userVideoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
+        
+        view.addSubview(loader)
+        
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        loader.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
+        loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+    
+        loader.color = UIColor.white
+        
+        view.addSubview(no_result)
+        
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        no_result.textAlignment = .center
+        no_result.text = "No Video Bytes"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+        
+        no_result.isHidden = true
     }
     
     func fetchData() {
@@ -332,7 +364,6 @@ class ProfileViewController: UIViewController {
                             if let content = json_object?["results"] as? [[String:Any]] {
                                 if (content.count == 0) {
                                     self.isFinished = true
-                                    return
                                 }
                                 for each in content {
                                     self.topics.append(getTopicFromJson(each: each))
@@ -341,13 +372,22 @@ class ProfileViewController: UIViewController {
                                 self.page += 1
                                 self.userVideoView.reloadData()
                             }
+                            if self.topics.count == 0 {
+                                self.no_result.isHidden = false
+                            }
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                         }
                         catch {
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                             self.isLoading = false
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     self.isLoading = false
                     print(error)
                 }
@@ -359,6 +399,9 @@ class ProfileViewController: UIViewController {
         if (isLoading) {
             return
         }
+        
+        loader.isHidden = false
+        loader.startAnimating()
         
         isLoading = true
         

@@ -105,7 +105,6 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         self.tabBarController?.tabBar.isHidden = false
         
         discoverView.isScrollEnabled = true
-        discoverView.isPagingEnabled = true
         
         discoverView.delegate = self
         discoverView.dataSource = self

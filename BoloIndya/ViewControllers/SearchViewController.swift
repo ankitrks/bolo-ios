@@ -54,6 +54,10 @@ class SearchViewController: UIViewController {
     
     var allView = UITableView()
     
+    var loader = UIActivityIndicatorView()
+    
+    var no_result = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -234,6 +238,32 @@ class SearchViewController: UIViewController {
         allView.topAnchor.constraint(equalTo: serach_upper_tab.bottomAnchor, constant: 10).isActive = true
         allView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
+        
+        view.addSubview(no_result)
+        
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: serach_upper_tab.bottomAnchor, constant: 15).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        no_result.textAlignment = .center
+        no_result.text = "No Result Found"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+        
+        no_result.isHidden = true
+        
         fetchAllTypes()
     }
     
@@ -242,28 +272,21 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func showAll(_ sender: Any) {
-        users_label.textColor = UIColor.gray
-        hash_label.textColor = UIColor.gray
-        videos_label.textColor = UIColor.gray
+        settoDefaultAll()
         top_label.textColor = UIColor.red
         
-        videoView.isHidden = true
-        userView.isHidden = true
-        hashTagView.isHidden = true
         allView.isHidden = false
         
+        if data.count == 0 {
+            fetchAllTypes()
+        }
     }
     
     @IBAction func showVideo(_ sender: Any) {
-        users_label.textColor = UIColor.gray
-        hash_label.textColor = UIColor.gray
+        settoDefaultAll()
         videos_label.textColor = UIColor.red
-        top_label.textColor = UIColor.gray
         
         videoView.isHidden = false
-        userView.isHidden = true
-        hashTagView.isHidden = true
-        allView.isHidden = true
         
         if topics.count == 0 {
             fetchVideos()
@@ -271,15 +294,10 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func showUser(_ sender: Any) {
-        videos_label.textColor = UIColor.gray
-        hash_label.textColor = UIColor.gray
+        settoDefaultAll()
         users_label.textColor = UIColor.red
-        top_label.textColor = UIColor.gray
         
-        videoView.isHidden = true
         userView.isHidden = false
-        hashTagView.isHidden = true
-        allView.isHidden = true
         
         if users.count == 0 {
             fetchUserData()
@@ -287,19 +305,29 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func showHash(_ sender: Any) {
-        videos_label.textColor = UIColor.gray
-        users_label.textColor = UIColor.gray
-        hash_label.textColor = UIColor.red
-        top_label.textColor = UIColor.gray
+        settoDefaultAll()
         
-        videoView.isHidden = true
-        userView.isHidden = true
+        hash_label.textColor = UIColor.red
+        
         hashTagView.isHidden = false
-        allView.isHidden = true
         
         if hashTags.count == 0 {
             fetchHashData()
         }
+    }
+    
+    func settoDefaultAll() {
+        no_result.isHidden = true
+        
+        videos_label.textColor = UIColor.gray
+        users_label.textColor = UIColor.gray
+        hash_label.textColor = UIColor.gray
+        top_label.textColor = UIColor.gray
+        
+        videoView.isHidden = true
+        userView.isHidden = true
+        hashTagView.isHidden = true
+        allView.isHidden = true
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -317,6 +345,10 @@ class SearchViewController: UIViewController {
         let url = "https://www.boloindya.com/api/v1/solr/search/users?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&page=\(user_page)"
         
         
+        if user_page == 1 {
+            startLoader()
+        }
+        
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
@@ -326,52 +358,35 @@ class SearchViewController: UIViewController {
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             if let content = json_object?["results"] as? [[String:Any]] {
-                                if content.count == 0 {
+                                if content.count == 0 && self.users.count > 0 {
                                     self.isAtEnd = true
                                 }
                                 for result in content {
-                                    let user = User()
-                                    let user_profile_obj = result["userprofile"] as? [String:Any]
+                                    let user = getUserDataFromJson(result: result)
                                     
-                                    user.id = user_profile_obj?["user"] as! Int
-                                    user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
-                                    
-                                    user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                    user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                    user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                    user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                    user.vb_count = user_profile_obj?["vb_count"] as! Int
-                                    user.view_count = user_profile_obj?["view_count"] as! String
-                                    if let follow_count = user_profile_obj?["follow_count"] as? Int {
-                                        user.follow_count = "\(follow_count)"
-                                    } else {
-                                        user.follow_count = user_profile_obj?["follow_count"] as! String
-                                    }
-                                    if let following_count = user_profile_obj?["follower_count"] as? Int {
-                                        user.follower_count = "\(following_count)"
-                                    } else {
-                                        user.follower_count = user_profile_obj?["follower_count"] as! String
-                                    }
                                     if !self.users_following.isEmpty {
-                                        if self.users_following.contains(user.id) {
-                                            user.isFollowing = true
-                                        } else {
-                                            user.isFollowing = false
-                                        }
+                                        user.isFollowing = self.users_following.contains(user.id)
                                     }
                                     self.users.append(user)
                                 }
-                                self.user_page += 1
+                                if self.users.count == 0 {
+                                    self.no_result.isHidden = false
+                                } else {
+                                    self.user_page += 1
+                                }
+                                self.stopLoader()
                                 self.userView.reloadData()
                                 self.isLoading = false
                             }
                         }
                         catch {
                             self.isLoading = false
+                            self.stopLoader()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.stopLoader()
                     self.isLoading = false
                     print(error)
                 }
@@ -382,6 +397,10 @@ class SearchViewController: UIViewController {
         
         if (isLoadingHash || isAtEndHash) {
             return
+        }
+        
+        if hash_page == 1 {
+            startLoader()
         }
         
         isLoadingHash = true
@@ -398,7 +417,7 @@ class SearchViewController: UIViewController {
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             if let content = json_object?["results"] as? [[String:Any]] {
-                                if content.count == 0 {
+                                if content.count == 0 && self.hashTags.count > 0 {
                                     self.isAtEndHash = true
                                 }
                                 for result in content {
@@ -418,17 +437,24 @@ class SearchViewController: UIViewController {
                                     each_hash.image = result["picture"] as? String ?? ""
                                     self.hashTags.append(each_hash)
                                 }
-                                self.hash_page += 1
+                                if self.hashTags.count == 0 {
+                                    self.no_result.isHidden = false
+                                } else {
+                                    self.hash_page += 1
+                                }
+                                self.stopLoader()
                                 self.hashTagView.reloadData()
                                 self.isLoadingHash = false
                             }
                         }
                         catch {
+                            self.stopLoader()
                             self.isLoadingHash = false
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.stopLoader()
                     self.isLoadingHash = false
                     print(error)
                 }
@@ -443,6 +469,10 @@ class SearchViewController: UIViewController {
         
         isLoadingVideo = true
         
+        if videos_page == 1 {
+            startLoader()
+        }
+        
         let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
         
         
@@ -455,23 +485,30 @@ class SearchViewController: UIViewController {
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             if let content = json_object?["results"] as? [[String:Any]] {
-                                if content.count == 0 {
+                                if content.count == 0 && self.topics.count > 0 {
                                     self.isAtEndVideo = true
                                 }
                                 for result in content {
                                     self.topics.append(getTopicFromJson(each: result))
                                 }
-                                self.videos_page += 1
+                                if self.topics.count == 0 {
+                                    self.no_result.isHidden = false
+                                } else {
+                                    self.videos_page += 1
+                                }
+                                self.stopLoader()
                                 self.videoView.reloadData()
                                 self.isLoadingVideo = false
                             }
                         }
                         catch {
+                            self.stopLoader()
                             self.isLoadingVideo = false
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.stopLoader()
                     self.isLoadingVideo = false
                     print(error)
                 }
@@ -489,7 +526,9 @@ class SearchViewController: UIViewController {
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as! HTTPHeaders)
+        startLoader()
+        
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -500,11 +539,11 @@ class SearchViewController: UIViewController {
                             if let content = json_object?["top_vb"] as? [[String:Any]] {
                                 for result in content {
                                     let topic = getTopicFromJson(each: result)
-                                        if !self.topic_liked.isEmpty {
-                                            if self.topic_liked.contains(Int(topic.id)!) {
-                                                topic.isLiked = true
-                                            }
+                                    if !self.topic_liked.isEmpty {
+                                        if self.topic_liked.contains(Int(topic.id)!) {
+                                            topic.isLiked = true
                                         }
+                                    }
                                     self.top_topics.append(topic)
                                 }
                                 if self.top_topics.count > 0 {
@@ -513,34 +552,10 @@ class SearchViewController: UIViewController {
                             }
                             if let content = json_object?["top_user"] as? [[String:Any]] {
                                 for result in content {
-                                    let user = User()
-                                    let user_profile_obj = result["userprofile"] as? [String:Any]
+                                    let user = getUserDataFromJson(result: result)
                                     
-                                    user.id = user_profile_obj?["user"] as! Int
-                                    user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
-                                    
-                                    user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                    user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                    user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                    user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                    user.vb_count = user_profile_obj?["vb_count"] as! Int
-                                    user.view_count = user_profile_obj?["view_count"] as! String
-                                    if let follow_count = user_profile_obj?["follow_count"] as? Int {
-                                        user.follow_count = "\(follow_count)"
-                                    } else {
-                                        user.follow_count = user_profile_obj?["follow_count"] as! String
-                                    }
-                                    if let following_count = user_profile_obj?["follower_count"] as? Int {
-                                        user.follower_count = "\(following_count)"
-                                    } else {
-                                        user.follower_count = user_profile_obj?["follower_count"] as! String
-                                    }
                                     if !self.users_following.isEmpty {
-                                        if self.users_following.contains(user.id) {
-                                            user.isFollowing = true
-                                        } else {
-                                            user.isFollowing = false
-                                        }
+                                        user.isFollowing = self.users_following.contains(user.id)
                                     }
                                     self.top_users.append(user)
                                 }
@@ -570,16 +585,32 @@ class SearchViewController: UIViewController {
                                     self.data.append(Search(type: "HashTags", data: self.top_hashTags))
                                 }
                             }
-                                self.allView.reloadData()
+                            if self.data.count == 0 {
+                                self.no_result.isHidden = false
+                            }
+                            self.stopLoader()
+                            self.allView.reloadData()
                         }
                         catch {
+                            self.stopLoader()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.stopLoader()
                     print(error)
                 }
         }
+    }
+    
+    func startLoader() {
+        loader.isHidden = false
+        loader.startAnimating()
+    }
+    
+    func stopLoader() {
+        self.loader.isHidden = true
+        self.loader.stopAnimating()
     }
     
     func followingUser() {
@@ -1059,7 +1090,7 @@ class SearchAll: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UI
         title.textColor = UIColor.white
         
         if  data_point.type != "Videos" {
-                
+            
             allTableView.isScrollEnabled = true
             allTableView.separatorStyle = .none
             allTableView.delegate = self
@@ -1077,7 +1108,7 @@ class SearchAll: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UI
             allTableView.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
             allTableView.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         }
-            
+        
         if  data_point.type == "Videos" {
             let layout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)

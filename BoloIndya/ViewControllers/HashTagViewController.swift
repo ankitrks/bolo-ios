@@ -29,6 +29,10 @@ class HashTagViewController: UIViewController {
     var topic_liked: [Int] = []
     
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+
+    var loader = UIActivityIndicatorView()
+    
+    var no_result = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +75,10 @@ class HashTagViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
         back_image.addGestureRecognizer(tapGesture)
         
-        self.view.addSubview(hash_tag_label)
-        self.view.addSubview(views_and_videos)
-        self.view.addSubview(hash_image)
-        self.view.addSubview(share_button)
+        view.addSubview(hash_tag_label)
+        view.addSubview(views_and_videos)
+        view.addSubview(hash_image)
+        view.addSubview(share_button)
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -93,8 +97,8 @@ class HashTagViewController: UIViewController {
         hash_image.translatesAutoresizingMaskIntoConstraints = false
         hash_image.widthAnchor.constraint(equalToConstant: 90).isActive = true
         hash_image.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        hash_image.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        hash_image.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
+        hash_image.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        hash_image.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         
         share_button.translatesAutoresizingMaskIntoConstraints = false
         share_button.widthAnchor.constraint(equalToConstant: 150).isActive = true
@@ -136,7 +140,7 @@ class HashTagViewController: UIViewController {
     @objc func shareHash(_ sender: UITapGestureRecognizer) {
         let destinationUrl = "https://www.boloindya.com/trending/"+hash_tag.title
         let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
             if completed {
                 print("completed")
             } else {
@@ -163,10 +167,34 @@ class HashTagViewController: UIViewController {
         
         videoView.translatesAutoresizingMaskIntoConstraints = false
         videoView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-        videoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         videoView.topAnchor.constraint(equalTo: hash_image.bottomAnchor, constant: 5).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
+        
+        view.addSubview(no_result)
+        
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: hash_image.bottomAnchor, constant: 15).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        no_result.textAlignment = .center
+        no_result.text = "No Video Bytes"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+        
+        no_result.isHidden = true
     }
     
     func fetchHashTag() {
@@ -176,6 +204,8 @@ class HashTagViewController: UIViewController {
         }
         
         isLoading = true
+        loader.isHidden = false
+        loader.startAnimating()
         
         var headers: [String: Any]? = nil
         
@@ -252,7 +282,6 @@ class HashTagViewController: UIViewController {
                             if let content = json_object?["results"] as? [[String:Any]] {
                                 if (content.count == 0) {
                                     self.isFinished = true
-                                    return
                                 }
                                 for each in content {
                                     self.topics.append(getTopicFromJson(each: each))
@@ -261,13 +290,23 @@ class HashTagViewController: UIViewController {
                                 self.page += 1
                                 self.videoView.reloadData()
                             }
+                            if self.topics.count == 0 {
+                                self.no_result.isHidden = false
+                            }
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                         }
                         catch {
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                             self.isLoading = false
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     self.isLoading = false
                     print(error)
                 }

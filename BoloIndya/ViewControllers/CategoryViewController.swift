@@ -25,7 +25,6 @@ class CategoryViewController: UIViewController {
     var category_videos =  UILabel()
     var category_image =  UIImageView()
     var follow_button = UIButton()
-    var progress = UIActivityIndicatorView()
     
     var upper_tab = UIView()
     var back_image = UIImageView()
@@ -33,6 +32,9 @@ class CategoryViewController: UIViewController {
     var topic_liked: [Int] = []
     
     var videoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+
+    var loader = UIActivityIndicatorView()
+    var no_result = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +82,6 @@ class CategoryViewController: UIViewController {
         self.view.addSubview(category_videos)
         self.view.addSubview(category_image)
         self.view.addSubview(follow_button)
-        view.addSubview(progress)
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -102,11 +103,6 @@ class CategoryViewController: UIViewController {
         category_image.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         category_image.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
         
         category_label.text = name
         category_label.textColor = UIColor.white
@@ -177,6 +173,31 @@ class CategoryViewController: UIViewController {
         videoView.topAnchor.constraint(equalTo: category_image.bottomAnchor, constant: 5).isActive = true
         videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
+        
+        view.addSubview(no_result)
+        
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: category_image.bottomAnchor, constant: 15).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        no_result.textAlignment = .center
+        no_result.text = "No Video Bytes"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+        
+        no_result.isHidden = true
     }
     
     func fetchCategory() {
@@ -185,9 +206,9 @@ class CategoryViewController: UIViewController {
             return
         }
         
-        progress.isHidden = false
         videoView.isHidden = true
-        
+        loader.isHidden = false
+        loader.startAnimating()
         isLoading = true
         
         var headers: [String: Any]? = nil
@@ -229,7 +250,6 @@ class CategoryViewController: UIViewController {
                             if  let content = desc?["topics"] as? [[String:Any]] {
                                 if (content.count == 0) {
                                     self.isFinished = true
-                                    return
                                 }
                                 for each in content {
                                     self.topics.append(getTopicFromJson(each: each))
@@ -237,17 +257,20 @@ class CategoryViewController: UIViewController {
                                 self.isLoading = false
                                 self.page += 1
                                 
-                                self.progress.isHidden = true
                                 self.videoView.isHidden = false
                                 self.videoView.reloadData()
                             }
+                            if self.topics.count == 0 {
+                                self.no_result.isHidden = false
+                            }
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                             self.follow_button.isHidden = false
                             self.isLoading = false
                         }
                         catch {
                             self.follow_button.isHidden = false
                             self.isLoading = false
-                            self.progress.isHidden = true
                             self.videoView.isHidden = false
                             self.fetchData()
                             print(error.localizedDescription)
@@ -256,7 +279,6 @@ class CategoryViewController: UIViewController {
                 case.failure(let error):
                     self.follow_button.isHidden = false
                     self.isLoading = false
-                    self.progress.isHidden = true
                     self.videoView.isHidden = false
                     self.fetchData()
                     print(error)
@@ -312,13 +334,22 @@ class CategoryViewController: UIViewController {
                                 self.page += 1
                                 self.videoView.reloadData()
                             }
+                            if self.topics.count == 0 {
+                                self.no_result.isHidden = false
+                            }
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                         }
                         catch {
                             self.isLoading = false
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     self.isLoading = false
                     print(error)
                 }

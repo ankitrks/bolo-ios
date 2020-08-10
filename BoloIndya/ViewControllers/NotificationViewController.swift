@@ -12,7 +12,7 @@ import Alamofire
 class NotificationViewController: UIViewController {
 
     var notificationView = UITableView()
-    var progress = UIActivityIndicatorView()
+    var loader = UIActivityIndicatorView()
 
     var next_offset = "0"
 
@@ -30,13 +30,11 @@ class NotificationViewController: UIViewController {
         if (!isLoggedIn) {
             goToLoginPage()
         } else {
-            view.addSubview(progress)
+            view.addSubview(loader)
             
-            progress.translatesAutoresizingMaskIntoConstraints = false
-            progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-            progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
-            progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-            progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+            loader.center = self.view.center
+            
+            loader.color = UIColor.white
             
             setNotificationViewDelegate()
             fetchNotifications()
@@ -71,7 +69,8 @@ class NotificationViewController: UIViewController {
         }
         
         if (next_offset == "0") {
-            progress.isHidden = false
+            loader.isHidden = false
+            loader.startAnimating()
             notificationView.isHidden = true
         }
         
@@ -112,20 +111,23 @@ class NotificationViewController: UIViewController {
                             self.notificationView.reloadData()
                         }
 
-                        self.progress.isHidden = true
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
                         self.notificationView.isHidden = false
                         self.isLoading = false
                     }
                     catch {
                         self.isLoading = false
-                        self.progress.isHidden = true
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
                         self.notificationView.isHidden = false
                         print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
                     self.isLoading = false
-                    self.progress.isHidden = true
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     self.notificationView.isHidden = false
                     print(error)
                 }

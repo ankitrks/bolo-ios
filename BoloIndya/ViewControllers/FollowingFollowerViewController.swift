@@ -12,7 +12,6 @@ import Alamofire
 class FollowingFollowerViewController: UIViewController {
     
     var go_back =  UIImageView()
-    
     var following = UILabel()
     var label = UILabel()
     
@@ -24,11 +23,14 @@ class FollowingFollowerViewController: UIViewController {
     var follower = "Followers"
     var selected_position: Int = 0
     var page = 0
-    var progress = UIActivityIndicatorView()
     var isAtEnd: Bool = false
     
     var users_following: [Int] = []
     var id = ""
+    
+    var loader = UIActivityIndicatorView()
+    
+    var no_result = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +43,6 @@ class FollowingFollowerViewController: UIViewController {
         
         view.addSubview(following)
         view.addSubview(followerView)
-        view.addSubview(progress)
         
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
@@ -82,12 +83,31 @@ class FollowingFollowerViewController: UIViewController {
         followerView.topAnchor.constraint(equalTo: go_back.bottomAnchor, constant: 10).isActive = true
         followerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
-        progress.color = UIColor.white
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
+        
+        view.addSubview(no_result)
+        
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: go_back.bottomAnchor, constant: 15).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        no_result.textAlignment = .center
+        no_result.text = "No Data Found"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+        
+        no_result.isHidden = true
         
         fetchUserData()
     }
@@ -106,6 +126,8 @@ class FollowingFollowerViewController: UIViewController {
             return
         }
         
+        loader.isHidden = false
+        loader.startAnimating()
         isLoading = true
         
         var url = "https://www.boloindya.com/api/v1/get_following_list/?user_id=\(user_id)&offset=\(page*15)"
@@ -127,55 +149,35 @@ class FollowingFollowerViewController: UIViewController {
                                     self.isAtEnd = true
                                 }
                                 for result in content {
-                                    let user = User()
-                                    let user_profile_obj = result["userprofile"] as? [String:Any]
-                                    
-                                    user.id = user_profile_obj?["user"] as! Int
-                                    user.setUserName(username: user_profile_obj?["slug"] as? String ?? "")
-                                    
-                                    user.setName(name: user_profile_obj?["name"] as? String ?? "")
-                                    user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
-                                    user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
-                                    user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
-                                    user.vb_count = user_profile_obj?["vb_count"] as! Int
-                                    user.view_count = user_profile_obj?["view_count"] as! String
-                                    if let follow_count = user_profile_obj?["follow_count"] as? Int {
-                                        user.follow_count = "\(follow_count)"
-                                    } else {
-                                        user.follow_count = user_profile_obj?["follow_count"] as! String
-                                    }
-                                    if let following_count = user_profile_obj?["follower_count"] as? Int {
-                                        user.follower_count = "\(following_count)"
-                                    } else {
-                                        user.follower_count = user_profile_obj?["follower_count"] as! String
-                                    }
+                                    let user = getUserDataFromJson(result: result)
+                                
                                     if !self.users_following.isEmpty {
-                                        if self.users_following.contains(user.id) {
-                                            user.isFollowing = true
-                                        } else {
-                                            user.isFollowing = false
-                                        }
+                                        user.isFollowing = self.users_following.contains(user.id)
                                     }
                                     self.users.append(user)
                                 }
-                                self.progress.isHidden = true
                                 self.page += 1
                                 self.followerView.reloadData()
-                                self.isLoading = false
+                                self.hideLoaderAndLoading()
                             }
                         }
                         catch {
-                            self.progress.isHidden = true
-                            self.isLoading = false
+                            self.hideLoaderAndLoading()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
-                    self.progress.isHidden = true
-                    self.isLoading = false
+                    self.hideLoaderAndLoading()
                     print(error)
                 }
         }
+    }
+    
+    func hideLoaderAndLoading() {
+        no_result.isHidden = (users.count != 0)
+        loader.isHidden = true
+        loader.stopAnimating()
+        isLoading = false
     }
     
     func followingUser() {

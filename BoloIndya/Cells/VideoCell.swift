@@ -89,7 +89,6 @@ class VideoCell: UITableViewCell {
         setShareImage()
         setWhatsappImage()
         
-        
         username.isUserInteractionEnabled = true
         user_image.isUserInteractionEnabled = true
         comment_image.isUserInteractionEnabled = true
@@ -341,5 +340,28 @@ class VideoCell: UITableViewCell {
         whatsapp_share_count.layer.shadowRadius = 10
         whatsapp_share_count.layer.shadowPath = UIBezierPath(rect: whatsapp_share_count.bounds).cgPath
         whatsapp_share_count.layer.shouldRasterize = true
+    }
+    
+    func configure(with topic: Topic) {
+        
+        title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        let url = URL(string: topic.thumbnail)
+        video_image.kf.setImage(with: url)
+        username.text = "@"+topic.user.username
+        play_and_pause_image.image = UIImage(named: "play")
+        like_count.text = topic.like_count
+        comment_count.text = topic.comment_count
+        share_count.text = topic.share_count
+        whatsapp_share_count.text = topic.whatsapp_share_count
+        if (!topic.user.profile_pic.isEmpty) {
+            let pic_url = URL(string: topic.user.profile_pic)
+            user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+        } else {
+            user_image.image = UIImage(named: "user")
+        }
+        if topic.isLiked {
+            like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
+            like_image.tintColor = UIColor.red
+        }
     }
 } 

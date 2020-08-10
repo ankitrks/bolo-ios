@@ -21,6 +21,8 @@ class UpdateIntersetViewController: UIViewController {
     var label = UILabel()
     var tick_image = UIImageView()
     
+    var loader = UIActivityIndicatorView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -95,7 +97,14 @@ class UpdateIntersetViewController: UIViewController {
         categoryView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         categoryView.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         categoryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        fetchNotifications()
+        
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
+        
+        fetchCategories()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -106,7 +115,10 @@ class UpdateIntersetViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func fetchNotifications() {
+    func fetchCategories() {
+        
+        loader.isHidden = false
+        loader.startAnimating()
         
         Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
             .responseString  { (responseData) in
@@ -130,14 +142,19 @@ class UpdateIntersetViewController: UIViewController {
                             self.category.append(each_categroy)
                             }
                         }
-                        
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
                         self.categoryView.reloadData()
                     }
                     catch {
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
                         print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     print(error)
                 }
         }

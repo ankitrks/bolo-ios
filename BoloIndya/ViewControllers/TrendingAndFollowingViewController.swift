@@ -219,25 +219,24 @@ class TrendingAndFollowingViewController: UIViewController {
         trending.widthAnchor.constraint(equalToConstant: 100).isActive = true
         trending.heightAnchor.constraint(equalToConstant: 20).isActive = true
         trending.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 10).isActive = true
-        trending.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 25).isActive = true
+        trending.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.widthAnchor.constraint(equalToConstant: 2).isActive = true
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
         label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 25).isActive = true
+        label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
         progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
         progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+        progress.color = UIColor.white
         
         following.translatesAutoresizingMaskIntoConstraints = false
         following.widthAnchor.constraint(equalToConstant: 100).isActive = true
         following.heightAnchor.constraint(equalToConstant: 20).isActive = true
         following.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
-        following.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 25).isActive = true
+        following.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
         trending.text = "Trending"
         label.text = "|"
@@ -259,7 +258,11 @@ class TrendingAndFollowingViewController: UIViewController {
         
         let screenSize = UIScreen.main.bounds.size
         
-        self.trendingView.frame = CGRect(x: 0, y: 15, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+        trendingView.translatesAutoresizingMaskIntoConstraints = false
+        trendingView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        trendingView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        trendingView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        trendingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
     }
     
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
@@ -307,6 +310,7 @@ class TrendingAndFollowingViewController: UIViewController {
         if (following_page == 1) {
             trendingView.isHidden = true
             progress.isHidden = false
+            progress.startAnimating()
         }
         
         isLoading = true
@@ -333,6 +337,7 @@ class TrendingAndFollowingViewController: UIViewController {
                                     self.followingTopics.append(getTopicFromJson(each: each))
                                 }
                                 self.trendingView.isHidden = false
+                                self.progress.stopAnimating()
                                 self.progress.isHidden = true
                                 self.videos = self.followingTopics
                                 self.isLoading = false
@@ -343,12 +348,14 @@ class TrendingAndFollowingViewController: UIViewController {
                         catch {
                             self.isLoading = false
                             self.progress.isHidden = true
+                            self.progress.stopAnimating()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
                     self.isLoading = false
                     self.progress.isHidden = true
+                    self.progress.stopAnimating()
                     print(error)
                 }
         }
@@ -392,22 +399,25 @@ class TrendingAndFollowingViewController: UIViewController {
                                 for each in content {
                                     self.trendingTopics.append(getTopicFromJson(each: each))
                                 }
-                                self.trendingView.isHidden = false
-                                self.progress.isHidden = true
-                                self.videos = self.trendingTopics
-                                self.isLoading = false
-                                self.page += 1
-                                self.trendingView.reloadData()
                             }
+                            self.progress.stopAnimating()
+                            self.trendingView.isHidden = false
+                            self.progress.isHidden = true
+                            self.videos = self.trendingTopics
+                            self.isLoading = false
+                            self.page += 1
+                            self.trendingView.reloadData()
                         }
                         catch {
                             self.isLoading = false
+                            self.progress.stopAnimating()
                             self.progress.isHidden = true
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
                     self.isLoading = false
+                    self.progress.stopAnimating()
                     self.progress.isHidden = true
                     print(error)
                 }
@@ -655,22 +665,13 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (tableView == self.trendingView) {
             let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
-            video_cell.title.text = videos[indexPath.row].title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            let url = URL(string: videos[indexPath.row].thumbnail)
-            video_cell.video_image.kf.setImage(with: url)
-            video_cell.username.text = "@"+videos[indexPath.row].user.username
-            video_cell.play_and_pause_image.image = UIImage(named: "play")
-            video_cell.like_count.text = videos[indexPath.row].like_count
-            video_cell.comment_count.text = videos[indexPath.row].comment_count
-            video_cell.share_count.text = videos[indexPath.row].share_count
-            video_cell.whatsapp_share_count.text = videos[indexPath.row].whatsapp_share_count
+            
             if !self.topic_liked.isEmpty {
                 if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
                     videos[indexPath.row].isLiked = true
-                    video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
-                    video_cell.like_image.tintColor = UIColor.red
                 }
             }
+            video_cell.configure(with: videos[indexPath.row])
             if selected_position == indexPath.row {
                 if current_video_cell != nil {
                     current_video_cell.player.player?.pause()
@@ -686,12 +687,6 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                     current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
                 }
                 self.topicSeen()
-            }
-            if (!videos[indexPath.row].user.profile_pic.isEmpty) {
-                let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
-                video_cell.user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
-            } else {
-                video_cell.user_image.image = UIImage(named: "user")
             }
             video_cell.tag = indexPath.row
             video_cell.selected_postion = indexPath.row
@@ -725,7 +720,6 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
             if videoUrl != nil {
                 let avPlayer = AVPlayer(url: videoUrl! as URL)
-                
                 current_video_cell.player.playerLayer.player = avPlayer
                 current_video_cell.player.player?.play()
                 current_video_cell.play_and_pause_image.image = UIImage(named: "pause")

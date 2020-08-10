@@ -10,34 +10,34 @@ import UIKit
 import Alamofire
 
 class ChooseLanguageController : UIViewController {
-
+    
     var languages: [Languages]!
-
+    
     var languageView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-
+    
     var upper_tab = UIView()
     var back_image = UIImageView()
     var label = UILabel()
     var tick_image = UIImageView()
-
+    
     var selected_position: Int = 1
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         selected_position = UserDefaults.standard.getValueForLanguageId() ?? 1
         
         languages = getLanguages()
-            
-        setView()
+        
+        setUpperTab()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
-    func setView() {
-
+    
+    func setUpperTab() {
+        
         upper_tab.addSubview(back_image)
         upper_tab.addSubview(label)
         upper_tab.addSubview(tick_image)
@@ -88,6 +88,11 @@ class ChooseLanguageController : UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(setLanguage(_:)))
         tick_image.addGestureRecognizer(tapGesture)
         
+        setLangugeView()
+    }
+    
+    func setLangugeView() {
+        
         languageView.isScrollEnabled = true
         languageView.delegate = self
         languageView.dataSource = self
@@ -98,7 +103,7 @@ class ChooseLanguageController : UIViewController {
         languageView.collectionViewLayout = layout
         
         languageView.register(LanguageCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-
+        
         view.addSubview(languageView)
         
         languageView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +112,7 @@ class ChooseLanguageController : UIViewController {
         languageView.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         languageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     }
-
+    
     @IBAction func goBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -115,7 +120,7 @@ class ChooseLanguageController : UIViewController {
     @IBAction func setLanguage(_ sender: Any) {
         self.sentToTrending()
     }
-
+    
     func sentToTrending() {
         
         UserDefaults.standard.setValueForLanguageId(value: selected_position)
@@ -124,42 +129,42 @@ class ChooseLanguageController : UIViewController {
         let paramters: [String: Any] = [
             "activity": "settings_changed",
             "language": "\(selected_position)"
-       ]
-       
-       var headers: [String: Any]? = nil
-       
-       if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-           headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-       }
-       
-       let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
-       
-       Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-           .responseString  { (responseData) in
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-               vc.modalPresentationStyle = .fullScreen
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+                vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: false)
-       }
+        }
         
     }
 }
 
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selected_position = languages[indexPath.row].id
         self.languageView.reloadData()
         self.sentToTrending()
     }
-
+    
     private func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return languages.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! LanguageCollectionViewCell
         cell.configure(with: languages[indexPath.row])
