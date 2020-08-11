@@ -31,6 +31,7 @@ class UploadLanguageCollectionViewCell: UICollectionViewCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         title.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
         title.textAlignment = .center
         title.textColor = UIColor.white
 

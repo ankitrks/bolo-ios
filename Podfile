@@ -10,4 +10,5 @@ pod 'Alamofire'
 pod 'Kingfisher'
 pod 'SwiftyCam'
 pod 'YPImagePicker'
+pod 'SVProgressHUD'
 end

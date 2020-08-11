@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import AVFoundation
+import SVProgressHUD
 
 class UploadVideoDetailsViewController: UIViewController {
     
@@ -238,7 +239,7 @@ class UploadVideoDetailsViewController: UIViewController {
         languageView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (languageView.frame.width/2.4), height: 20)
+        layout.itemSize = CGSize(width: (languageView.frame.width/2.4), height: 30)
         languageView.collectionViewLayout = layout
         
         languageView.register(UploadLanguageCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
@@ -246,7 +247,7 @@ class UploadVideoDetailsViewController: UIViewController {
         languageView.translatesAutoresizingMaskIntoConstraints = false
         languageView.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         languageView.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
-        languageView.heightAnchor.constraint(equalToConstant: 230).isActive = true
+        languageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         languageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 10).isActive = true
         languageView.layer.cornerRadius = 10
         
@@ -386,46 +387,58 @@ class UploadVideoDetailsViewController: UIViewController {
         
         let file_name = "\(timeStamp).mp4"
         
+        DispatchQueue.main.async {
+            SVProgressHUD.setDefaultMaskType(.black)
+        }
+        
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(self.video_url, withName: "media", fileName: file_name, mimeType: "video/mp4")
         }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
             (result) in
             switch result {
             case .success( let upload, _, _):
-                print(result)
-
                 upload.uploadProgress(closure: { (progress) in
-                    print(progress)
-                })
-
-                upload.responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        do {
-                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                if !(json_object["body"] as? String ?? "").isEmpty {
-                                    self.video_url_upload = json_object["body"] as! String
-                                    self.uploadImage()
-                                }
-                            }
-                            
-                            self.categoryView.reloadData()
-                        }
-                        catch {
-                            print(error.localizedDescription)
-                        }
+                    DispatchQueue.main.async {
+                        SVProgressHUD.setDefaultMaskType(.black)
+                        SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "Uploading \(Int(Float(progress.fractionCompleted)*100))%")
+                        
                     }
-                case.failure(let error):
-                    print(error)
+                })
+                
+                upload.responseString  { (responseData) in
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
+                    switch responseData.result {
+                    case.success(let data):
+                        if let json_data = data.data(using: .utf8) {
+                            do {
+                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                    if !(json_object["body"] as? String ?? "").isEmpty {
+                                        self.video_url_upload = json_object["body"] as! String
+                                        self.uploadImage()
+                                    }
+                                }
+                                
+                                self.categoryView.reloadData()
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    case.failure(let error):
+                        print(error)
                     }
                 }
-               
+                
             case .failure(let encodingError):
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                }
                 print(encodingError)
             }
         }
-
+        
     }
     
     func uploadImage() {
@@ -442,48 +455,57 @@ class UploadVideoDetailsViewController: UIViewController {
         
         let file_name = "\(timeStamp).jpeg"
         
+        DispatchQueue.main.async {
+            SVProgressHUD.show(withStatus: "Getting Ready")
+        }
+        
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(imageData!, withName: "media", fileName: file_name, mimeType: "image/jpg")
         }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
             (result) in
             switch result {
             case .success( let upload, _, _):
-                print(result)
-
-                upload.uploadProgress(closure: { (progress) in
-                    print(progress)
-                })
-
+                
                 upload.responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        do {
-                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                if !(json_object["body"] as? String ?? "").isEmpty {
-                                    self.thumnail_url_upload = json_object["body"] as! String
-                                    self.create_topic()
-                                }
-                            }
-                            
-                            self.categoryView.reloadData()
-                        }
-                        catch {
-                            print(error.localizedDescription)
-                        }
+                    DispatchQueue.main.async {
+                       SVProgressHUD.dismiss()
                     }
-                case.failure(let error):
-                    print(error)
+                    switch responseData.result {
+                    case.success(let data):
+                        if let json_data = data.data(using: .utf8) {
+                            do {
+                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                    if !(json_object["body"] as? String ?? "").isEmpty {
+                                        self.thumnail_url_upload = json_object["body"] as! String
+                                        self.create_topic()
+                                    }
+                                }
+                                
+                                self.categoryView.reloadData()
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    case.failure(let error):
+                        print(error)
                     }
                 }
-               
+                
             case .failure(let encodingError):
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                }
                 print(encodingError)
             }
         }
     }
     
     func create_topic() {
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.show(withStatus: "Getting Ready")
+        }
         
         video_url_upload = video_url_upload.replacingOccurrences(of: "s3.ap-south-1.amazonaws.com/in-boloindya", with: "in-boloindya.s3.ap-south-1.amazonaws.com", options: .regularExpression, range: nil)
         thumnail_url_upload = thumnail_url_upload.replacingOccurrences(of: "s3.ap-south-1.amazonaws.com/in-boloindya", with: "in-boloindya.s3.ap-south-1.amazonaws.com", options: .regularExpression, range: nil)
@@ -513,8 +535,6 @@ class UploadVideoDetailsViewController: UIViewController {
             "token": "\( UserDefaults.standard.getAuthToken().unsafelyUnwrapped)"
         ]
         
-        print(paramters)
-        
         var headers: [String: Any]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
@@ -525,10 +545,12 @@ class UploadVideoDetailsViewController: UIViewController {
         
         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
-                print(responseData)
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                }
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
                 vc.modalPresentationStyle = .fullScreen
-                 self.present(vc, animated: false)
+                self.present(vc, animated: false)
         }
     }
     
@@ -743,7 +765,7 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
         if collectionView == categoryView {
             return CGSize(width: (collectionView.frame.width/2.4), height: 50)
         }
-        return CGSize(width: (collectionView.frame.width/2.4), height: 20)
+        return CGSize(width: (collectionView.frame.width/2.4), height: 30)
     }
 }
 
