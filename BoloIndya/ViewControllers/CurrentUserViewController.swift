@@ -54,6 +54,10 @@ class CurrentUserViewController: UIViewController {
     let height = CGFloat(300)
     var topic_liked: [Int] = []
     
+    var loader = UIActivityIndicatorView()
+    
+    var no_result = UILabel()
+    
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)\(UserDefaults.standard.getUsername() ?? "")"
         let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
@@ -291,6 +295,34 @@ class CurrentUserViewController: UIViewController {
         userVideoView.topAnchor.constraint(equalTo: videos_label.bottomAnchor, constant: 10).isActive = true
         userVideoView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         userVideoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
+        
+        view.addSubview(loader)
+            
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        loader.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
+        loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+
+        loader.color = UIColor.white
+
+        view.addSubview(no_result)
+
+        no_result.translatesAutoresizingMaskIntoConstraints = false
+        no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        no_result.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
+        no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+
+        no_result.textAlignment = .center
+        no_result.text = "No Video Bytes"
+        no_result.textColor = UIColor.white
+        no_result.layer.borderWidth = 1
+        no_result.font = UIFont.boldSystemFont(ofSize: 12.0)
+        no_result.layer.borderColor = UIColor.white.cgColor
+        no_result.layer.cornerRadius = 5.0
+        no_result.sizeToFit()
+        no_result.numberOfLines = 1
+
+        no_result.isHidden = true
     }
     
     func setTableView() {
@@ -359,6 +391,8 @@ class CurrentUserViewController: UIViewController {
         }
         
         isLoading = true
+        loader.isHidden = false
+        loader.startAnimating()
         
         let paramters: [String: Any] = [
             "user_id": "\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
@@ -460,22 +494,28 @@ class CurrentUserViewController: UIViewController {
                             if let content = json_object?["results"] as? [[String:Any]] {
                                 if (content.count == 0) {
                                     self.isFinished = true
-                                    return
                                 }
                                 for each in content {
                                     self.topics.append(getTopicFromJson(each: each))
                                 }
-                                self.isLoading = false
-                                self.page += 1
-                                self.userVideoView.reloadData()
                             }
+                            self.no_result.isHidden = self.topics.count != 0
+                            self.isLoading = false
+                            self.page += 1
+                            self.userVideoView.reloadData()
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                         }
                         catch {
                             self.isLoading = false
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.loader.isHidden = true
+                    self.loader.stopAnimating()
                     self.isLoading = false
                     print(error)
                 }

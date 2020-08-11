@@ -155,11 +155,9 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         search_text.font = UIFont.boldSystemFont(ofSize: 12.0)
         search_text.delegate = self
         
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+        progress.center = view.center
+        
+        progress.color = UIColor.white
         
         let category = Category()
         category.title = "What's New"
@@ -169,7 +167,6 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         
         fetchCategories()
         
-        fetchBannerHashTags()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -184,6 +181,9 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     }
     
     func fetchCategories() {
+        
+        progress.isHidden = false
+        progress.startAnimating()
         
         Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
             .responseString  { (responseData) in
@@ -201,15 +201,15 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                         }
                         
                         self.categoryView.reloadData()
-                        self.fetchHashData()
+                        self.fetchBannerHashTags()
                     }
                     catch {
-                        self.fetchHashData()
+                        self.fetchBannerHashTags()
                         print(error.localizedDescription)
                     }
                 }
             case.failure(let error):
-                self.fetchHashData()
+                self.fetchBannerHashTags()
                 print(error)
             }
         }
@@ -232,14 +232,17 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                     self.banners.append(hash_tag)
                                 }
                             }
+                        self.fetchHashData()
                         self.bannerView.reloadData()
                    }
                    catch {
+                        self.fetchHashData()
                        print(error.localizedDescription)
                    }
                }
            case.failure(let error):
-               print(error)
+                self.fetchHashData()
+                print(error)
            }
        }
    }
@@ -270,23 +273,25 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                 hash.title = each_data?["hash_tag"] as! String
                                 self.hash_tag.append(hash)
                             }
-
-                            self.progress.isHidden = true
                             self.discoverView.isHidden = false
                             self.isLoading = false
                             self.page += 1
                             self.discoverView.reloadData()
+                            self.progress.isHidden = true
+                            self.progress.stopAnimating()
                             self.fetchData()
                         }
                     }
                     catch {
                         self.isLoading = false
-                        self.progress.isHidden = true
                         self.discoverView.isHidden = false
+                        self.progress.isHidden = true
+                        self.progress.stopAnimating()
                         print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.progress.stopAnimating()
                     self.isLoading = false
                     self.progress.isHidden = true
                     self.discoverView.isHidden = false
