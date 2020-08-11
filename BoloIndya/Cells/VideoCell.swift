@@ -50,8 +50,14 @@ class VideoCell: UITableViewCell {
     
     var selected_postion: Int = 0
     
+    var duration = UILabel()
+    var playerSlider = UISlider()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        backgroundColor = .black
+        
         addSubview(video_image)
         addSubview(player)
         addSubview(title)
@@ -59,6 +65,8 @@ class VideoCell: UITableViewCell {
         addSubview(actions_stack)
         
         addSubview(play_and_pause_image)
+        addSubview(playerSlider)
+        addSubview(duration)
         
         setPlayer()
         setTitleAttribute()
@@ -221,6 +229,23 @@ class VideoCell: UITableViewCell {
         play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
         play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         play_and_pause_image.image = UIImage(named: "play")
+        
+        duration.translatesAutoresizingMaskIntoConstraints = false
+        duration.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        duration.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        duration.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
+        duration.center = play_and_pause_image.center
+        duration.font = UIFont.boldSystemFont(ofSize: 12.0)
+        duration.textColor = UIColor.white
+        
+        playerSlider.translatesAutoresizingMaskIntoConstraints = false
+        playerSlider.leftAnchor.constraint(equalTo: play_and_pause_image.rightAnchor, constant: 5).isActive = true
+        playerSlider.rightAnchor.constraint(equalTo: duration.leftAnchor, constant: -5).isActive = true
+        playerSlider.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        playerSlider.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
+        playerSlider.center = play_and_pause_image.center
+        playerSlider.tintColor = .white
+        playerSlider.thumbTintColor = .white
     }
     
     func setLikeImage() {
@@ -346,8 +371,10 @@ class VideoCell: UITableViewCell {
         
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         let url = URL(string: topic.thumbnail)
+        video_image.isHidden = false
         video_image.kf.setImage(with: url)
         username.text = "@"+topic.user.username
+        duration.text = ""
         play_and_pause_image.image = UIImage(named: "play")
         like_count.text = topic.like_count
         comment_count.text = topic.comment_count
@@ -363,5 +390,9 @@ class VideoCell: UITableViewCell {
             like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
             like_image.tintColor = UIColor.red
         }
+
+        playerSlider.value = 0
+        playerSlider.minimumValue = 0
+        playerSlider.maximumValue = 0
     }
 } 

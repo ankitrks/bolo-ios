@@ -41,6 +41,8 @@ class VideoViewController: UIViewController {
     
     weak var contrain: NSLayoutConstraint!
     
+    var avPlayer = AVPlayer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
@@ -444,6 +446,68 @@ class VideoViewController: UIViewController {
                 
         }
     }
+    
+    func playVideo() {
+        let videoUrl = NSURL(string: videos[selected_position].video_url)
+        if videoUrl != nil {
+            avPlayer = AVPlayer(url: videoUrl! as URL)
+            avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+            if #available(iOS 10.0, *) {
+                avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+            } else {
+                avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
+            }
+            if current_video_cell != nil {
+                current_video_cell.player.playerLayer.player = avPlayer
+            }
+            avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
+                let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
+                
+                if self.current_video_cell != nil {
+                    self.current_video_cell.playerSlider.value = Float(time)
+                    self.current_video_cell.playerSlider.minimumValue = 0
+                    self.current_video_cell.playerSlider.maximumValue = Float(CMTimeGetSeconds( (self.avPlayer.currentItem?.asset.duration)!))
+                    let durationTime = Int(time)
+                    self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
+                }
+            })
+        }
+        topicSeen()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if object as AnyObject? === avPlayer {
+            if keyPath == "status" {
+                if avPlayer.status == .readyToPlay {
+                    avPlayer.play()
+                }
+            } else if keyPath == "timeControlStatus" {
+                if #available(iOS 10.0, *) {
+                    if avPlayer.timeControlStatus == .playing {
+                        if current_video_cell != nil {
+                            current_video_cell.video_image.isHidden = true
+                            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                        }
+                    } else {
+                        if current_video_cell != nil {
+                           current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                        }
+                    }
+                }
+            } else if keyPath == "rate" {
+                if avPlayer.rate > 0 {
+                    if current_video_cell != nil {
+                        current_video_cell.video_image.isHidden = true
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                    }
+                } else {
+                    if current_video_cell != nil {
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
@@ -458,44 +522,22 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == videoView {
             let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
-            video_cell.title.text = videos[indexPath.row].title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            let url = URL(string: videos[indexPath.row].thumbnail)
-            video_cell.video_image.kf.setImage(with: url)
-            video_cell.username.text = "@"+videos[indexPath.row].user.username
-            video_cell.play_and_pause_image.image = UIImage(named: "play")
-            video_cell.like_count.text = videos[indexPath.row].like_count
-            video_cell.comment_count.text = videos[indexPath.row].comment_count
-            video_cell.share_count.text = videos[indexPath.row].share_count
-            video_cell.whatsapp_share_count.text = videos[indexPath.row].whatsapp_share_count
             if !self.topic_liked.isEmpty {
                 if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
                     videos[indexPath.row].isLiked = true
-                    video_cell.like_image.image = video_cell.like_image.image?.withRenderingMode(.alwaysTemplate)
-                    video_cell.like_image.tintColor = UIColor.red
                 }
             }
+            video_cell.configure(with: videos[indexPath.row])
             if selected_position == indexPath.row {
                 if current_video_cell != nil {
                     current_video_cell.player.player?.pause()
                 }
-                
                 current_video_cell = video_cell
-                let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-                if videoUrl != nil {
-                    let avPlayer = AVPlayer(url: videoUrl! as URL)
-                    
-                    current_video_cell.player.playerLayer.player = avPlayer
-                    current_video_cell.player.player?.play()
-                    current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
-                }
-                self.topicSeen()
-            }
-            if (!videos[indexPath.row].user.profile_pic.isEmpty) {
-                let pic_url = URL(string: videos[indexPath.row].user.profile_pic)
-                video_cell.user_image.kf.setImage(with: pic_url)
+                self.playVideo()
             }
             if (!self.isLoaded && indexPath.row <= selected_position) {
                 if (indexPath.row == selected_position) {
+                    print("Position \(selected_position)")
                     self.isLoaded = true
                     self.videoView.scrollToRow(at: IndexPath(row:  indexPath.row, section: 0), at: .none, animated: false)
                 } else {
@@ -530,16 +572,7 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
         }
         current_video_cell = video_cell
         selected_position = video_cell?.tag ?? 0
-        
-        let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
-        if videoUrl != nil {
-            let avPlayer = AVPlayer(url: videoUrl! as URL)
-            
-            current_video_cell.player.playerLayer.player = avPlayer
-            current_video_cell.player.player?.play()
-            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
-        }
-        self.topicSeen()
+        self.playVideo()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -45,6 +45,8 @@ class TrendingAndFollowingViewController: UIViewController {
     var current_video_cell: VideoCell!
     weak var contrain: NSLayoutConstraint!
     
+    var avPlayer = AVPlayer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Trending")
@@ -650,6 +652,68 @@ class TrendingAndFollowingViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    func playVideo() {
+        let videoUrl = NSURL(string: videos[selected_position].video_url)
+        if videoUrl != nil {
+            avPlayer = AVPlayer(url: videoUrl! as URL)
+            avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+            if #available(iOS 10.0, *) {
+                avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+            } else {
+                avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
+            }
+            if current_video_cell != nil {
+                current_video_cell.player.playerLayer.player = avPlayer
+            }
+            avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
+                let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
+                
+                if self.current_video_cell != nil {
+                    self.current_video_cell.playerSlider.value = Float(time)
+                    self.current_video_cell.playerSlider.minimumValue = 0
+                    self.current_video_cell.playerSlider.maximumValue = Float(CMTimeGetSeconds( (self.avPlayer.currentItem?.asset.duration)!))
+                    let durationTime = Int(time)
+                    self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
+                }
+            })
+        }
+        topicSeen()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if object as AnyObject? === avPlayer {
+            if keyPath == "status" {
+                if avPlayer.status == .readyToPlay {
+                    avPlayer.play()
+                }
+            } else if keyPath == "timeControlStatus" {
+                if #available(iOS 10.0, *) {
+                    if avPlayer.timeControlStatus == .playing {
+                        if current_video_cell != nil {
+                            current_video_cell.video_image.isHidden = true
+                            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                        }
+                    } else {
+                        if current_video_cell != nil {
+                           current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                        }
+                    }
+                }
+            } else if keyPath == "rate" {
+                if avPlayer.rate > 0 {
+                    if current_video_cell != nil {
+                        current_video_cell.video_image.isHidden = true
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                    }
+                } else {
+                    if current_video_cell != nil {
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                    }
+                }
+            }
+        }
+    }
 
 }
 
@@ -678,15 +742,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                 }
                 
                 current_video_cell = video_cell
-                let videoUrl = NSURL(string: videos[indexPath.row].video_url)
-                if videoUrl != nil {
-                    let avPlayer = AVPlayer(url: videoUrl! as URL)
-                    
-                    video_cell.player.playerLayer.player = avPlayer
-                    video_cell.player.player?.play()
-                    current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
-                }
-                self.topicSeen()
+                self.playVideo()
             }
             video_cell.tag = indexPath.row
             video_cell.selected_postion = indexPath.row
@@ -717,14 +773,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             }
             current_video_cell = video_cell
             selected_position = video_cell?.tag ?? 0
-            let videoUrl = NSURL(string: videos[video_cell?.tag ?? 0].video_url)
-            if videoUrl != nil {
-                let avPlayer = AVPlayer(url: videoUrl! as URL)
-                current_video_cell.player.playerLayer.player = avPlayer
-                current_video_cell.player.player?.play()
-                current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
-            }
-            self.topicSeen()
+            self.playVideo()
         }
     }
     

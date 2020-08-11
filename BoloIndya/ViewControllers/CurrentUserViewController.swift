@@ -49,7 +49,7 @@ class CurrentUserViewController: UIViewController {
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     let menuArray = ["Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
-    let iconArray = ["notification", "language", "feedback", "terms", "logout"]
+    let iconArray = ["update_interest", "language", "feedback", "terms", "logout"]
     
     let height = CGFloat(300)
     var topic_liked: [Int] = []
