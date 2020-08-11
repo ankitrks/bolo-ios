@@ -280,6 +280,9 @@ class VideoViewController: UIViewController {
     }
     
     @objc func submitComment(_ sender: UITapGestureRecognizer) {
+        
+        comment_title.resignFirstResponder()
+        
         let paramters: [String: Any] = [
             "comment": "\(comment_title.text.unsafelyUnwrapped)",
             "topic_id": "\(videos[selected_position].id)",
@@ -475,6 +478,14 @@ class VideoViewController: UIViewController {
         topicSeen()
     }
     
+    @objc func playerSlider() {
+       if current_video_cell != nil {
+           print(current_video_cell.playerSlider.value)
+           let seekTime = CMTime(value: Int64(current_video_cell.playerSlider.value), timescale: 1)
+           avPlayer.seek(to: seekTime)
+       }
+   }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if object as AnyObject? === avPlayer {
             if keyPath == "status" {
@@ -485,6 +496,7 @@ class VideoViewController: UIViewController {
                 if #available(iOS 10.0, *) {
                     if avPlayer.timeControlStatus == .playing {
                         if current_video_cell != nil {
+                            current_video_cell.playerSlider.addTarget(self, action: #selector(playerSlider), for: .valueChanged)
                             current_video_cell.video_image.isHidden = true
                             current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
                         }

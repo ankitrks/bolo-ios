@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class UpdateIntersetViewController: UIViewController {
-
+    
     var category: [Category] = []
     var selected_ids: [Int] = []
     
@@ -22,10 +22,12 @@ class UpdateIntersetViewController: UIViewController {
     var tick_image = UIImageView()
     
     var loader = UIActivityIndicatorView()
-
+    
+    var isLoading = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         selected_ids = UserDefaults.standard.getCategories()
         
         upper_tab.addSubview(back_image)
@@ -90,7 +92,7 @@ class UpdateIntersetViewController: UIViewController {
         categoryView.collectionViewLayout = layout
         
         categoryView.register(CategoryViewCell.self, forCellWithReuseIdentifier: "Cell")
-    
+        
         view.addSubview(categoryView)
         
         categoryView.translatesAutoresizingMaskIntoConstraints = false
@@ -125,31 +127,31 @@ class UpdateIntersetViewController: UIViewController {
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    
-                    do {
                         
-                        if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
-                        for each in json_object {
-                            let each_categroy = Category()
-                            each_categroy.id = each["id"] as! Int
-                            each_categroy.title = each["title"] as! String
-                            each_categroy.image = each["dark_category_image"] as! String
-                            if let id = each["id"] as? Int {
-                                if self.selected_ids.contains(id) {
-                                    each_categroy.isSelected = true
+                        do {
+                            
+                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
+                                for each in json_object {
+                                    let each_categroy = Category()
+                                    each_categroy.id = each["id"] as! Int
+                                    each_categroy.title = each["title"] as! String
+                                    each_categroy.image = each["dark_category_image"] as! String
+                                    if let id = each["id"] as? Int {
+                                        if self.selected_ids.contains(id) {
+                                            each_categroy.isSelected = true
+                                        }
+                                    }
+                                    self.category.append(each_categroy)
                                 }
                             }
-                            self.category.append(each_categroy)
-                            }
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
+                            self.categoryView.reloadData()
                         }
-                        self.loader.isHidden = true
-                        self.loader.stopAnimating()
-                        self.categoryView.reloadData()
-                    }
-                    catch {
-                        self.loader.isHidden = true
-                        self.loader.stopAnimating()
-                        print(error.localizedDescription)
+                        catch {
+                            self.loader.isHidden = true
+                            self.loader.stopAnimating()
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
@@ -161,6 +163,10 @@ class UpdateIntersetViewController: UIViewController {
     }
     
     @IBAction func setLanguage(_ sender: Any) {
+        
+        if isLoading {
+            return
+        }
         
         if selected_ids.count < 3 {
             let alert = UIAlertController(title: "Please Select Atleast 3 Interests To Start", message: "", preferredStyle: .alert)
@@ -177,52 +183,63 @@ class UpdateIntersetViewController: UIViewController {
                 ids += "\(each),"
             }
         }
-    
+        
         let paramters: [String: Any] = [
             "activity": "settings_changed",
             "language": "\(UserDefaults.standard.getValueForLanguageId() ?? 2)",
             "categories": ids
-       ]
-       
-       var headers: [String: Any]? = nil
-       
-       if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-           headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-       }
-       
-       let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
-       
-       Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-           .responseString  { (responseData) in
-            self.navigationController?.popViewController(animated: true)
-       }
+        ]
+        
+        
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        loader.isHidden = false
+        loader.startAnimating()
+        isLoading = true
+        
+        let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+                self.loader.isHidden = true
+                self.loader.stopAnimating()
+                self.navigationController?.popViewController(animated: true)
+        }
         
     }
 }
 
 extension UpdateIntersetViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if category[indexPath.row].isSelected {
-            selected_ids.remove(at: selected_ids.firstIndex(of:category[indexPath.row].id)!)
-        } else {
-           selected_ids.append(category[indexPath.row].id)
+        if !self.isLoading {
+            if category[indexPath.row].isSelected {
+                selected_ids.remove(at: selected_ids.firstIndex(of:category[indexPath.row].id)!)
+            } else {
+                selected_ids.append(category[indexPath.row].id)
+            }
+            category[indexPath.row].isSelected = !category[indexPath.row].isSelected
+            UserDefaults.standard.setCategories(value: selected_ids)
+            self.categoryView.reloadData()
         }
-        category[indexPath.row].isSelected = !category[indexPath.row].isSelected
-        UserDefaults.standard.setCategories(value: selected_ids)
-        self.categoryView.reloadData()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return category.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryViewCell
         cell.configure(with: category[indexPath.row])
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width/3.4), height: (collectionView.frame.width/3.4) * 1.2)
     }

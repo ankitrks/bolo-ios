@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class FeedBackViewController: UIViewController {
     
@@ -19,6 +20,9 @@ class FeedBackViewController: UIViewController {
     var email = UITextField()
     var mobile_no = UITextField()
     var feedback = UITextField()
+    
+    var loader = UIActivityIndicatorView()
+    var isLoading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +83,7 @@ class FeedBackViewController: UIViewController {
         tick_image.contentMode = .scaleAspectFit
         
         tick_image.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(setThumbnail(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(sendFeedBack))
         tick_image.addGestureRecognizer(tapGesture)
         
         heading.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +100,7 @@ class FeedBackViewController: UIViewController {
         email.heightAnchor.constraint(equalToConstant: 30).isActive = true
         email.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         email.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
-        email.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 10).isActive = true
+        email.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 20).isActive = true
         
         email.textColor = UIColor.white
         email.placeholder = "Email *"
@@ -111,7 +115,7 @@ class FeedBackViewController: UIViewController {
         mobile_no.heightAnchor.constraint(equalToConstant: 30).isActive = true
         mobile_no.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         mobile_no.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
-        mobile_no.topAnchor.constraint(equalTo: email.bottomAnchor, constant: 10).isActive = true
+        mobile_no.topAnchor.constraint(equalTo: email.bottomAnchor, constant: 15).isActive = true
         
         mobile_no.textColor = UIColor.white
         mobile_no.placeholder = "Mobile No *"
@@ -126,7 +130,7 @@ class FeedBackViewController: UIViewController {
         feedback.heightAnchor.constraint(equalToConstant: 30).isActive = true
         feedback.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         feedback.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
-        feedback.topAnchor.constraint(equalTo: mobile_no.bottomAnchor, constant: 10).isActive = true
+        feedback.topAnchor.constraint(equalTo: mobile_no.bottomAnchor, constant: 15).isActive = true
         
         feedback.textColor = UIColor.white
         feedback.placeholder = "What would you like us to improve?"
@@ -141,21 +145,88 @@ class FeedBackViewController: UIViewController {
         mobile_no.layer.cornerRadius = 5.0
         feedback.layer.cornerRadius = 5.0
         
+        let paddingViewEmail = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: email.frame.height))
+        email.leftView = paddingViewEmail
+        email.leftViewMode = .always
+        
+        let paddingViewMobile = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: mobile_no.frame.height))
+        mobile_no.leftView = paddingViewMobile
+        mobile_no.leftViewMode = .always
+        
+        let paddingViewFeed = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: feedback.frame.height))
+        feedback.leftView = paddingViewFeed
+        feedback.leftViewMode = .always
+        
         email.font = UIFont.boldSystemFont(ofSize: 12.0)
         mobile_no.font = UIFont.boldSystemFont(ofSize: 12.0)
         feedback.font = UIFont.boldSystemFont(ofSize: 12.0)
+        
+        view.addSubview(loader)
+        
+        loader.center = self.view.center
+        
+        loader.color = UIColor.white
     }
     
     @IBAction func goBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func setThumbnail(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+    @IBAction func sendFeedBack(_ sender: Any) {
+        if !(email.text ?? "").isEmpty {
+            setAlert(message: "Please Enter Email")
+        } else if !(mobile_no.text ?? "").isEmpty {
+            setAlert(message: "Please Enter Mobile No.")
+        } else if !(feedback.text ?? "").isEmpty {
+            setAlert(message: "Please Enter Feedback")
+        } else {
+            saveFeedBack()
+        }
+        
+    }
+    
+    func saveFeedBack() {
+        
+        if isLoading {
+            return
+        }
+        
+        let paramters: [String: Any] = [
+            "contact_mobile": mobile_no.text ?? "",
+            "contact_email": email.text ?? "",
+            "description": feedback.text ?? "",
+            "feedback_image": ""
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        loader.isHidden = false
+        loader.startAnimating()
+        isLoading = true
+        
+        let url = "https://www.boloindya.com/api/v1/submit_user_feedback/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                self.loader.isHidden = true
+                self.loader.stopAnimating()
+                self.navigationController?.popViewController(animated: true)
+        }
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    func setAlert(message: String) {
+        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 }
 

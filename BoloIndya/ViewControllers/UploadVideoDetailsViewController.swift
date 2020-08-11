@@ -688,6 +688,9 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
                 choose_category_label.text = category_name
             }
         } else {
+            enter_hash.resignFirstResponder()
+            contrain.constant = 10
+            topic_title.resignFirstResponder()
             if !selected_hash.contains(hash_tags[indexPath.row]) {
                 add_hashtag_label.isHidden = false
                 if  (selected_hash.count < 4) {
@@ -747,12 +750,9 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
 extension UploadVideoDetailsViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == enter_hash {
-            self.enter_hash.resignFirstResponder()
-            contrain.constant = 10
-        } else {
-            self.topic_title.resignFirstResponder()
-        }
+        self.enter_hash.resignFirstResponder()
+        contrain.constant = 10
+        self.topic_title.resignFirstResponder()
         return true
     }
     

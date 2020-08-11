@@ -20,6 +20,10 @@ class ChooseLanguageController : UIViewController {
     var label = UILabel()
     var tick_image = UIImageView()
     
+    var loader = UIActivityIndicatorView()
+    
+    var isLoading = false
+    
     var selected_position: Int = 1
     
     override func viewDidLoad() {
@@ -111,6 +115,10 @@ class ChooseLanguageController : UIViewController {
         languageView.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         languageView.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         languageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+        view.addSubview(loader)
+        loader.center = self.view.center
+        loader.color = UIColor.white
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -122,6 +130,10 @@ class ChooseLanguageController : UIViewController {
     }
     
     func sentToTrending() {
+        
+        if isLoading {
+            return
+        }
         
         UserDefaults.standard.setValueForLanguageId(value: selected_position)
         UserDefaults.standard.setLanguageSet(value: true)
@@ -136,6 +148,11 @@ class ChooseLanguageController : UIViewController {
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
+        
+        loader.isHidden = false
+        loader.startAnimating()
+        
+        isLoading = true
         
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
         
@@ -152,9 +169,11 @@ class ChooseLanguageController : UIViewController {
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selected_position = languages[indexPath.row].id
-        self.languageView.reloadData()
-        self.sentToTrending()
+        if !isLoading {
+            selected_position = languages[indexPath.row].id
+            languageView.reloadData()
+            sentToTrending()
+        }
     }
     
     private func numberOfSections(in tableView: UITableView) -> Int {

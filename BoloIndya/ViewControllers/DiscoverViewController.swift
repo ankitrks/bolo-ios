@@ -117,7 +117,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height:20)
         categoryView.collectionViewLayout = layout
-        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+25, width: screenSize.width, height: 30)
+        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+35, width: screenSize.width, height: 30)
         categoryView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         categoryView.backgroundColor = .clear
         categoryView.delegate = self
@@ -128,7 +128,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout_banner.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout_banner.estimatedItemSize = CGSize(width: (screenSize.width/4), height:90)
         bannerView.collectionViewLayout = layout_banner
-        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+55, width: screenSize.width, height: 100)
+        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+65, width: screenSize.width, height: 100)
         bannerView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         bannerView.backgroundColor = .clear
         bannerView.delegate = self
@@ -142,7 +142,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         
         search_text.translatesAutoresizingMaskIntoConstraints = false
         search_text.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         search_text.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         search_text.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
         search_text.layer.cornerRadius = 10.0
@@ -163,7 +163,8 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         category.title = "What's New"
         categories.append(category)
     
-        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+155, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+        self.discoverView.separatorStyle = .none
+        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+165, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
         
         fetchCategories()
         

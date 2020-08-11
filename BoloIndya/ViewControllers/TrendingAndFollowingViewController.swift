@@ -597,6 +597,9 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     @objc func submitComment(_ sender: UITapGestureRecognizer) {
+        
+        comment_title.resignFirstResponder()
+        
         let paramters: [String: Any] = [
             "comment": "\(comment_title.text.unsafelyUnwrapped)",
             "topic_id": "\(videos[selected_position].id)",
@@ -681,6 +684,13 @@ class TrendingAndFollowingViewController: UIViewController {
         topicSeen()
     }
     
+    @objc func playerSlider() {
+        if current_video_cell != nil {
+            let seekTime = CMTime(value: Int64(current_video_cell.playerSlider.value), timescale: 1)
+            avPlayer.seek(to: seekTime)
+        }
+    }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if object as AnyObject? === avPlayer {
             if keyPath == "status" {
@@ -690,6 +700,7 @@ class TrendingAndFollowingViewController: UIViewController {
             } else if keyPath == "timeControlStatus" {
                 if #available(iOS 10.0, *) {
                     if avPlayer.timeControlStatus == .playing {
+                        current_video_cell.playerSlider.addTarget(self, action: #selector(playerSlider), for: .valueChanged)
                         if current_video_cell != nil {
                             current_video_cell.video_image.isHidden = true
                             current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
@@ -930,7 +941,7 @@ extension TrendingAndFollowingViewController: CommentViewCellDelegate {
 extension TrendingAndFollowingViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.comment_title.resignFirstResponder()
+        comment_title.resignFirstResponder()
         contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
         return true
     }

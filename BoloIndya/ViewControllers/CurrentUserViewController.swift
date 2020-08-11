@@ -569,7 +569,9 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
                 defaults.removeObject(forKey: key)
             }
             UserDefaults.standard.setValueForLanguageId(value: language_id)
-            self.tabBarController?.selectedIndex = 0
+            let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false)
             break
         default:
             break

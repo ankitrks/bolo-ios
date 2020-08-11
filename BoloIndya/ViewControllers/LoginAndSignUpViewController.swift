@@ -26,6 +26,9 @@ class LoginAndSignUpViewController: UIViewController {
     
     @IBOutlet weak var otp_view: UIStackView!
     
+    var image = UIImageView()
+    var otp_image = UIImageView()
+    
     var selected_tab: Int = 1
     
     var current_page = "terms_and_condition"
@@ -36,15 +39,19 @@ class LoginAndSignUpViewController: UIViewController {
     
     @IBAction func continueWithNumber(_ sender: UIButton) {
     
+        self.mobile_no.resignFirstResponder()
+        self.otp.resignFirstResponder()
+        
         let parameters: [String: Any] = [
-        "mobile_no": "+91\(mobile_no.text.unsafelyUnwrapped)"
+            "mobile_no": "+91\(mobile_no.text.unsafelyUnwrapped)"
         ]
         
         Alamofire.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
-                    print(data)
+                    self.otp_image.isHidden = false
+                    self.image.isHidden = true
                     self.otp_view.isHidden = false
                     self.number_and_google_login_view.isHidden = true
                     break
@@ -135,6 +142,30 @@ class LoginAndSignUpViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
         go_back.addGestureRecognizer(tapGesture)
         
+        mobile_no.delegate = self
+        otp.delegate = self
+        
+        view.addSubview(image)
+        
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        image.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        image.bottomAnchor.constraint(equalTo: number_and_google_login_view.topAnchor, constant: 10).isActive = true
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "logo")
+        
+        view.addSubview(otp_image)
+        
+        otp_image.translatesAutoresizingMaskIntoConstraints = false
+        otp_image.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        otp_image.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        otp_image.bottomAnchor.constraint(equalTo: otp_view.topAnchor, constant: 10).isActive = true
+        otp_image.image = UIImage(named: "logo")
+        otp_image.contentMode = .scaleAspectFit
+        otp_image.clipsToBounds = true
+        otp_image.isHidden = true
+        
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
@@ -158,6 +189,10 @@ class LoginAndSignUpViewController: UIViewController {
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
+        self.otp_image.isHidden = true
+        self.image.isHidden = false
+        self.otp_view.isHidden = true
+        self.number_and_google_login_view.isHidden = false
         if (selected_tab == 0) {
             self.navigationController?.popViewController(animated: true)
         } else {
@@ -288,6 +323,9 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
     
     @IBAction func verifyOTP(_ sender: UIButton) {
         
+        self.mobile_no.resignFirstResponder()
+        self.otp.resignFirstResponder()
+        
         let parameters: [String: Any] = [
             "mobile_no": "\(mobile_no.text.unsafelyUnwrapped)",
             "otp": "\(otp.text.unsafelyUnwrapped)",
@@ -340,6 +378,20 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
         let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
+    }
+    
+}
+
+extension LoginAndSignUpViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.mobile_no.resignFirstResponder()
+        self.otp.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
     }
     
 }
