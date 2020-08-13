@@ -682,13 +682,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AcQ-9e-iDp"/>
-        <segue reference="Qsa-8y-QQO"/>
+        <segue reference="fqs-FO-mCm"/>
+        <segue reference="l2F-fa-1O0"/>
         <segue reference="UT1-SK-RWY"/>
         <segue reference="qqs-qN-J1N"/>
         <segue reference="B3N-mh-Amk"/>
         <segue reference="5V4-Qm-xgn"/>
-        <segue reference="d8T-lC-yEV"/>
+        <segue reference="6mq-G6-e0g"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>

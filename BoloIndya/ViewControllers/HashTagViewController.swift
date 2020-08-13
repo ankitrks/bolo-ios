@@ -34,6 +34,8 @@ class HashTagViewController: UIViewController {
     
     var no_result = UILabel()
     
+    var retry = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -195,6 +197,30 @@ class HashTagViewController: UIViewController {
         no_result.numberOfLines = 1
         
         no_result.isHidden = true
+        
+        view.addSubview(retry)
+               
+        retry.translatesAutoresizingMaskIntoConstraints = false
+        retry.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        retry.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        retry.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (screenSize.height/2)).isActive = true
+        retry.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+
+        retry.setTitle("Retry", for: .normal)
+        retry.setTitleColor(#colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235), for: .normal)
+        retry.layer.borderWidth = 1
+        retry.layer.borderColor =  #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        retry.layer.cornerRadius = 5.0
+
+        retry.addTarget(self, action: #selector(refresh), for: .touchUpInside)
+        retry.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12.0)
+        retry.isHidden = true
+    }
+    
+    
+    @objc func refresh() {
+         self.retry.isHidden = true
+         fetchHashTag()
     }
     
     func fetchHashTag() {
@@ -239,14 +265,14 @@ class HashTagViewController: UIViewController {
                             self.fetchData()
                         }
                         catch {
+                            self.retry.isHidden = false
                             self.isLoading = false
-                            self.fetchData()
                             print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
+                    self.retry.isHidden = false
                     self.isLoading = false
-                    self.fetchData()
                     print(error)
                 }
         }
@@ -297,6 +323,9 @@ class HashTagViewController: UIViewController {
                             self.loader.stopAnimating()
                         }
                         catch {
+                            if self.page == 1 {
+                                self.retry.isHidden = false
+                            }
                             self.loader.isHidden = true
                             self.loader.stopAnimating()
                             self.isLoading = false
@@ -304,7 +333,9 @@ class HashTagViewController: UIViewController {
                         }
                     }
                 case.failure(let error):
-
+                    if self.page == 1 {
+                        self.retry.isHidden = false
+                    }
                     self.loader.isHidden = true
                     self.loader.stopAnimating()
                     self.isLoading = false

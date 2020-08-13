@@ -173,11 +173,11 @@ class FeedBackViewController: UIViewController {
     }
     
     @IBAction func sendFeedBack(_ sender: Any) {
-        if !(email.text ?? "").isEmpty {
+        if (email.text ?? "").isEmpty {
             setAlert(message: "Please Enter Email")
-        } else if !(mobile_no.text ?? "").isEmpty {
+        } else if (mobile_no.text ?? "").isEmpty {
             setAlert(message: "Please Enter Mobile No.")
-        } else if !(feedback.text ?? "").isEmpty {
+        } else if (feedback.text ?? "").isEmpty {
             setAlert(message: "Please Enter Feedback")
         } else {
             saveFeedBack()

@@ -417,16 +417,34 @@ class UploadVideoDetailsViewController: UIViewController {
                                     if !(json_object["body"] as? String ?? "").isEmpty {
                                         self.video_url_upload = json_object["body"] as! String
                                         self.uploadImage()
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            SVProgressHUD.dismiss()
+                                        }
+                                        DispatchQueue.main.async {
+                                            SVProgressHUD.showError(withStatus: "Please Try Again")
+                                        }
                                     }
                                 }
                                 
-                                self.categoryView.reloadData()
                             }
                             catch {
+                                DispatchQueue.main.async {
+                                    SVProgressHUD.dismiss()
+                                }
+                                DispatchQueue.main.async {
+                                    SVProgressHUD.showError(withStatus: "Please Try Again")
+                                }
                                 print(error.localizedDescription)
                             }
                         }
                     case.failure(let error):
+                        DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
+                        }
+                        DispatchQueue.main.async {
+                            SVProgressHUD.showError(withStatus: "Please Try Again")
+                        }
                         print(error)
                     }
                 }
@@ -434,6 +452,9 @@ class UploadVideoDetailsViewController: UIViewController {
             case .failure(let encodingError):
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
+                }
+                DispatchQueue.main.async {
+                    SVProgressHUD.showError(withStatus: "Please Try Again")
                 }
                 print(encodingError)
             }
@@ -468,7 +489,7 @@ class UploadVideoDetailsViewController: UIViewController {
                 
                 upload.responseString  { (responseData) in
                     DispatchQueue.main.async {
-                       SVProgressHUD.dismiss()
+                        SVProgressHUD.dismiss()
                     }
                     switch responseData.result {
                     case.success(let data):
@@ -478,16 +499,22 @@ class UploadVideoDetailsViewController: UIViewController {
                                     if !(json_object["body"] as? String ?? "").isEmpty {
                                         self.thumnail_url_upload = json_object["body"] as! String
                                         self.create_topic()
+                                    } else {
+                                        self.thumnail_url_upload = ""
+                                        self.create_topic()
                                     }
                                 }
                                 
-                                self.categoryView.reloadData()
                             }
                             catch {
+                                self.thumnail_url_upload = ""
+                                self.create_topic()
                                 print(error.localizedDescription)
                             }
                         }
-                    case.failure(let error):
+                        case.failure(let error):
+                        self.thumnail_url_upload = ""
+                        self.create_topic()
                         print(error)
                     }
                 }
@@ -496,6 +523,8 @@ class UploadVideoDetailsViewController: UIViewController {
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                 }
+                self.thumnail_url_upload = ""
+                self.create_topic()
                 print(encodingError)
             }
         }

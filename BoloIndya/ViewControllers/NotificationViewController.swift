@@ -21,6 +21,8 @@ class NotificationViewController: UIViewController {
     var isLoading: Bool = false
     var video_id = ""
     
+    var retry = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Notification")
@@ -118,17 +120,23 @@ class NotificationViewController: UIViewController {
                     }
                     catch {
                         self.isLoading = false
+                        if self.next_offset == "0" {
+                           self.retry.isHidden = false
+                           self.notificationView.isHidden = true
+                       }
                         self.loader.isHidden = true
                         self.loader.stopAnimating()
-                        self.notificationView.isHidden = false
                         print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
                     self.isLoading = false
+                    if self.next_offset == "0" {
+                        self.retry.isHidden = false
+                        self.notificationView.isHidden = true
+                    }
                     self.loader.isHidden = true
                     self.loader.stopAnimating()
-                    self.notificationView.isHidden = false
                     print(error)
                 }
         }
@@ -147,7 +155,31 @@ class NotificationViewController: UIViewController {
         notificationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         notificationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         notificationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
-
+        
+        view.addSubview(retry)
+        
+        let screenSize = UIScreen.main.bounds.size
+        
+        retry.translatesAutoresizingMaskIntoConstraints = false
+        retry.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        retry.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        retry.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (screenSize.height/2)).isActive = true
+        retry.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
+        
+        retry.setTitle("Retry", for: .normal)
+        retry.setTitleColor(#colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235), for: .normal)
+        retry.layer.borderWidth = 1
+        retry.layer.borderColor =  #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        retry.layer.cornerRadius = 5.0
+        
+        retry.addTarget(self, action: #selector(refresh), for: .touchUpInside)
+        retry.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12.0)
+        retry.isHidden = true
+    }
+    
+    @objc func refresh() {
+         self.retry.isHidden = true
+        fetchNotifications()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

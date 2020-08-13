@@ -42,6 +42,7 @@
 		187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187F42E224BC934E00AC32ED /* CategoryViewCell.swift */; };
 		18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */; };
 		188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */; };
+		18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A4566224E3FAF500F20D17 /* Assets.xcassets */; };
 		18A7D48924B8F23C0068086E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A7D48824B8F23C0068086E /* GoogleService-Info.plist */; };
 		18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */; };
 		18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B56B5024CB49BB00CE7DE8 /* Comment.swift */; };
@@ -58,7 +59,6 @@
 		18F93B2D24B71D1C006621DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B2C24B71D1C006621DB /* AppDelegate.swift */; };
 		18F93B2F24B71D1C006621DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B2E24B71D1C006621DB /* SceneDelegate.swift */; };
 		18F93B3124B71D1C006621DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B3024B71D1C006621DB /* ViewController.swift */; };
-		18F93B3624B71D21006621DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F93B3524B71D21006621DB /* Assets.xcassets */; };
 		18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18F93B3724B71D21006621DB /* LaunchScreen.storyboard */; };
 		18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B4124B72147006621DB /* ChooseLanguageController.swift */; };
 		18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FD085B24BE25A1007E55D6 /* VideoViewController.swift */; };
@@ -102,6 +102,7 @@
 		187F42E224BC934E00AC32ED /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoloIndya.swift; sourceTree = "<group>"; };
+		18A4566224E3FAF500F20D17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageFirstViewController.swift; sourceTree = "<group>"; };
 		18B56B5024CB49BB00CE7DE8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -119,7 +120,6 @@
 		18F93B2C24B71D1C006621DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18F93B2E24B71D1C006621DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		18F93B3024B71D1C006621DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		18F93B3524B71D21006621DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18F93B3824B71D21006621DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18F93B3A24B71D21006621DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18F93B4124B72147006621DB /* ChooseLanguageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageController.swift; sourceTree = "<group>"; };
@@ -227,6 +227,7 @@
 		18F93B2B24B71D1C006621DB /* BoloIndya */ = {
 			isa = PBXGroup;
 			children = (
+				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
 				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
 				18A7D48824B8F23C0068086E /* GoogleService-Info.plist */,
@@ -236,7 +237,6 @@
 				18F93B2C24B71D1C006621DB /* AppDelegate.swift */,
 				187DA65024B8A36D005522FB /* Main.storyboard */,
 				18F93B2E24B71D1C006621DB /* SceneDelegate.swift */,
-				18F93B3524B71D21006621DB /* Assets.xcassets */,
 				18F93B3724B71D21006621DB /* LaunchScreen.storyboard */,
 				18F93B3A24B71D21006621DB /* Info.plist */,
 				183BDCC324B7A41200ACF912 /* UserDefaults.swift */,
@@ -352,8 +352,8 @@
 			files = (
 				187DA65224B8A36D005522FB /* Main.storyboard in Resources */,
 				18A7D48924B8F23C0068086E /* GoogleService-Info.plist in Resources */,
+				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,
 				18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */,
-				18F93B3624B71D21006621DB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
