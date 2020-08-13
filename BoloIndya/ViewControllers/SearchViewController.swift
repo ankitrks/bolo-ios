@@ -93,7 +93,7 @@ class SearchViewController: UIViewController {
         back_image.addGestureRecognizer(tapGesture)
         
         search_text_all.translatesAutoresizingMaskIntoConstraints = false
-        search_text_all.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        search_text_all.heightAnchor.constraint(equalToConstant: 30).isActive = true
         search_text_all.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         search_text_all.leftAnchor.constraint(equalTo: self.back_image.rightAnchor, constant: 10).isActive = true
         search_text_all.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
@@ -106,6 +106,10 @@ class SearchViewController: UIViewController {
         search_text_all.text = search_text
         search_text_all.font = UIFont.boldSystemFont(ofSize: 12.0)
         search_text_all.delegate = self
+        
+        let paddingViewFeed = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: search_text_all.frame.height))
+        search_text_all.leftView = paddingViewFeed
+        search_text_all.leftViewMode = .always
         
         serach_upper_tab.translatesAutoresizingMaskIntoConstraints = false
         serach_upper_tab.heightAnchor.constraint(equalToConstant: 30).isActive = true

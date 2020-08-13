@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Alamofire
+import SVProgressHUD
 
 class VideoViewController: UIViewController {
     
@@ -99,10 +100,9 @@ class VideoViewController: UIViewController {
         go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
         go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
         go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
-        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
-        go_back.image = UIImage(named: "close")
-        go_back.tintColor = UIColor.white
+        go_back.image = UIImage(named: "close_white")
         
         go_back.isUserInteractionEnabled = true
         
@@ -654,29 +654,58 @@ extension VideoViewController: VideoCellDelegate {
     }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+        }
+        
         let videoUrl = videos[selected_postion].video_url
         
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setContainerView(self.view)
+            SVProgressHUD.show(withStatus: "Preparing")
+        }
+                   
+        
         if(FileManager().fileExists(atPath: destinationUrl.path)){
+           
             let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
             activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                
                 if completed {
                     print("completed")
                 } else {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
                     print("error")
                 }
+            }
+            //            self.video_url = destinationUrl
+            //            self.tabBarController?.tabBar.isHidden = true
+            //            self.navigationController?.isNavigationBarHidden = true
+            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
             }
             self.present(activityController, animated: true) {
                 print("Done")
             }
             print("\n\nfile already exists\n\n")
         } else{
+           
             var request = URLRequest(url: URL(string: videoUrl)!)
             request.httpMethod = "GET"
             _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
                 if(error != nil){
+                    DispatchQueue.main.async {
+                       SVProgressHUD.dismiss()
+                    }
                     print("\n\nsome error occured\n\n")
                     return
                 }
@@ -688,6 +717,7 @@ extension VideoViewController: VideoCellDelegate {
                                     
                                     print("\n\nurl data written\n\n")
                                     print(destinationUrl)
+                                    
                                     let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
                                     activityController.completionWithItemsHandler = { (nil, completed, _, error) in
                                         if completed {
@@ -697,15 +727,25 @@ extension VideoViewController: VideoCellDelegate {
                                         }
                                         
                                     }
+                                    SVProgressHUD.dismiss()
                                     self.present(activityController, animated: true) {
                                     }
                                     
                                 }
                                 else{
+                                    SVProgressHUD.dismiss()
                                     print("\n\nerror again\n\n")
                                 }
                             }
                         }
+                    } else {
+                        DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
                     }
                 }
             }).resume()

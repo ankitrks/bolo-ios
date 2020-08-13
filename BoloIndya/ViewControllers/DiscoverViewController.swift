@@ -141,7 +141,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         view.addSubview(search_text)
         
         search_text.translatesAutoresizingMaskIntoConstraints = false
-        search_text.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        search_text.heightAnchor.constraint(equalToConstant: 30).isActive = true
         search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         search_text.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
         search_text.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
@@ -151,6 +151,10 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         search_text.textColor = UIColor.white
         search_text.placeholder = "Search"
         search_text.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        let paddingViewFeed = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: search_text.frame.height))
+        search_text.leftView = paddingViewFeed
+        search_text.leftViewMode = .always
         
         search_text.font = UIFont.boldSystemFont(ofSize: 12.0)
         search_text.delegate = self

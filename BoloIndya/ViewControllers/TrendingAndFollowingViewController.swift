@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import Kingfisher
 import AVFoundation
+import SVProgressHUD
 
 class TrendingAndFollowingViewController: UIViewController {
     
@@ -707,7 +708,7 @@ class TrendingAndFollowingViewController: UIViewController {
                         }
                     } else {
                         if current_video_cell != nil {
-                           current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
                         }
                     }
                 }
@@ -725,7 +726,7 @@ class TrendingAndFollowingViewController: UIViewController {
             }
         }
     }
-
+    
 }
 
 extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewDataSource {
@@ -774,7 +775,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             return menucell
         }
     }
-
+    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let video_cell = self.trendingView.visibleCells[0] as? VideoCell
@@ -848,34 +849,59 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+        }
+        
         let videoUrl = videos[selected_postion].video_url
         
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setContainerView(self.view)
+            SVProgressHUD.show(withStatus: "Preparing")
+        }
+        
+        
         if(FileManager().fileExists(atPath: destinationUrl.path)){
+            
             let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
             activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                
                 if completed {
                     print("completed")
                 } else {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
                     print("error")
                 }
             }
-            //            self.video_url = destinationUrl
-            //            self.tabBarController?.tabBar.isHidden = true
-            //            self.navigationController?.isNavigationBarHidden = true
-            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
-            
-            self.present(activityController, animated: true) {
-                print("Done")
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
             }
+            self.video_url = destinationUrl
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.isNavigationBarHidden = true
+            performSegue(withIdentifier: "thumbnailVideo", sender: self)
+            
+            //            self.present(activityController, animated: true) {
+            //                print("Done")
+            //            }
             print("\n\nfile already exists\n\n")
         } else{
+            
             var request = URLRequest(url: URL(string: videoUrl)!)
             request.httpMethod = "GET"
             _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
                 if(error != nil){
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
                     print("\n\nsome error occured\n\n")
                     return
                 }
@@ -897,15 +923,25 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                         }
                                         
                                     }
+                                    SVProgressHUD.dismiss()
                                     self.present(activityController, animated: true) {
                                     }
                                     
                                 }
                                 else{
+                                    SVProgressHUD.dismiss()
                                     print("\n\nerror again\n\n")
                                 }
                             }
                         }
+                    } else {
+                        DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
                     }
                 }
             }).resume()

@@ -389,6 +389,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         DispatchQueue.main.async {
             SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setContainerView(self.view)
         }
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
