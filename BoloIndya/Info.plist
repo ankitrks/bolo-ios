@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Save Video</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>To Record Audio With Video</string>
-	<key>NSCameraUsageDescription</key>
-	<string>To Take Photos and Videos</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -32,9 +26,21 @@
 				<string>com.googleusercontent.apps.581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>www.boloindya.com</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>www.boloindya.com</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAllowsLocalNetworking</key>
@@ -44,6 +50,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>To Take Photos and Videos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To Record Audio With Video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Save Video</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

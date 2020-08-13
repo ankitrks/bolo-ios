@@ -59,7 +59,7 @@ class CurrentUserViewController: UIViewController {
     var no_result = UILabel()
     
     @IBAction func shareProfile(_ sender: Any) {
-        let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)\(UserDefaults.standard.getUsername() ?? "")"
+        let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)/\(UserDefaults.standard.getUsername() ?? "")"
         let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
         activityController.completionWithItemsHandler = { (nil, completed, _, error) in
             if completed {

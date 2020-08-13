@@ -884,14 +884,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
             }
-            self.video_url = destinationUrl
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "thumbnailVideo", sender: self)
+            //            self.video_url = destinationUrl
+            //            self.tabBarController?.tabBar.isHidden = true
+            //            self.navigationController?.isNavigationBarHidden = true
+            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
             
-            //            self.present(activityController, animated: true) {
-            //                print("Done")
-            //            }
+            self.present(activityController, animated: true) {
+                print("Done")
+            }
             print("\n\nfile already exists\n\n")
         } else{
             
