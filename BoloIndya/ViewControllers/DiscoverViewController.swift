@@ -222,7 +222,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     func fetchBannerHashTags() {
            
-       Alamofire.request("https://stage.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
+       Alamofire.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
            .responseString  { (responseData) in
                switch responseData.result {
                case.success(let data):
