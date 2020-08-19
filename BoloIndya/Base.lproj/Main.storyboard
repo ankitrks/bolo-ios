@@ -568,13 +568,13 @@
                                             <action selector="continueWithNumber:" destination="ItB-2c-c5G" eventType="touchUpInside" id="NTa-Ze-T46"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjO-Ts-K2M">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjO-Ts-K2M">
                                         <rect key="frame" x="0.0" y="104" width="394" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKm-tN-nzv">
+                                    <!-- <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKm-tN-nzv">
                                         <rect key="frame" x="0.0" y="144.5" width="394" height="30"/>
                                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Sign in with Google Account">
@@ -583,7 +583,7 @@
                                         <connections>
                                             <action selector="googleSignIn:" destination="ItB-2c-c5G" eventType="touchUpInside" id="fjQ-AF-wty"/>
                                         </connections>
-                                    </button>
+                                    </button> -->
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="JjO-Ts-K2M" secondAttribute="trailing" id="26A-aq-RWN"/>

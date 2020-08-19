@@ -175,7 +175,7 @@ class LoginAndSignUpViewController: UIViewController {
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
     
-        signInWithGoogle.layer.cornerRadius = 10.0
+        // signInWithGoogle.layer.cornerRadius = 10.0
     
         continueWithMobile.layer.cornerRadius = 10.0
         

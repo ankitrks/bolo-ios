@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>581293693346-rkt69rtqfnt57911vra2p3u0ub9qon9b.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDJjwP_cgtlNNSni6YOaqcSRacDavrWvGo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>581293693346</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.boloindya.BoloIndya</string>
+	<key>PROJECT_ID</key>
+	<string>boloindya-1ec98</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boloindya-1ec98.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:581293693346:ios:2c3fd605491640b209fafb</string>
+	<key>DATABASE_URL</key>
+	<string>https://boloindya-1ec98.firebaseio.com</string>
+</dict>
+</plist>

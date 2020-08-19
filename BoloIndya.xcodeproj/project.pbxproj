@@ -103,7 +103,7 @@
 		18810FDA24DD3B4300AE93EE /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		188C84CC24DDF6F4000DAE10 /* BoloIndya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoloIndya.swift; sourceTree = "<group>"; };
 		18A4566224E3FAF500F20D17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "/Users/khuhiz/Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageFirstViewController.swift; sourceTree = "<group>"; };
 		18B5523E24E6A00900A841D0 /* BoloIndya.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoloIndya.entitlements; sourceTree = "<group>"; };
 		18B56B5024CB49BB00CE7DE8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -129,6 +129,7 @@
 		1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.release.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.release.xcconfig"; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B0F64E124E5C1CC00CA3B7F /* BoloIndya.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoloIndya.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,7 +229,11 @@
 		18F93B2B24B71D1C006621DB /* BoloIndya */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				18B5523E24E6A00900A841D0 /* BoloIndya.entitlements */,
+=======
+				8B0F64E124E5C1CC00CA3B7F /* BoloIndya.entitlements */,
+>>>>>>> b037110... icons and other basic cahnges
 				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
 				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
@@ -624,18 +629,19 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QWHA4UWTC3;
+				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.BoloIndya;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -646,17 +652,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QWHA4UWTC3;
+				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.BoloIndya;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
