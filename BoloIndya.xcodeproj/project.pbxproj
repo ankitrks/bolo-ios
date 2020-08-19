@@ -105,6 +105,7 @@
 		18A4566224E3FAF500F20D17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18A7D48824B8F23C0068086E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18AE861124CC139E000A3AAA /* ChooseLanguageFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguageFirstViewController.swift; sourceTree = "<group>"; };
+		18B5523E24E6A00900A841D0 /* BoloIndya.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoloIndya.entitlements; sourceTree = "<group>"; };
 		18B56B5024CB49BB00CE7DE8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		18B56B5224CB58E600CE7DE8 /* CommentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
 		18B72A7A24BDF217001E4D42 /* PlayerViewClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewClass.swift; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 		18F93B2B24B71D1C006621DB /* BoloIndya */ = {
 			isa = PBXGroup;
 			children = (
+				18B5523E24E6A00900A841D0 /* BoloIndya.entitlements */,
 				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
 				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
@@ -619,6 +621,7 @@
 			baseConfigurationReference = 3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QWHA4UWTC3;
@@ -641,6 +644,7 @@
 			baseConfigurationReference = 1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QWHA4UWTC3;
 				INFOPLIST_FILE = BoloIndya/Info.plist;

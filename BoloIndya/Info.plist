@@ -31,7 +31,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>www.boloindya.com</string>
+				<string>com.boloindya</string>
 			</array>
 		</dict>
 	</array>
@@ -52,10 +52,12 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To Take Photos and Videos</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>To Save Photos And Videos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Save Video</string>
+	<string>To Save Photos and Videos</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
