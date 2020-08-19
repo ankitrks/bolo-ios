@@ -69,6 +69,7 @@
 /* Begin PBXFileReference section */
 		1811310624D6C51F009DDB54 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		1811310824D6C637009DDB54 /* LanguageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCollectionViewCell.swift; sourceTree = "<group>"; };
+		1817215324ED7D0500BF8201 /* BoloIndya.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = BoloIndya.entitlements; sourceTree = "<group>"; };
 		181A96BA24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLanguageCollectionViewCell.swift; sourceTree = "<group>"; };
 		181A96BC24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUploadCollectionViewCell.swift; sourceTree = "<group>"; };
 		182D541824B9CAB000B33ACE /* CreateVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 		18F93B2B24B71D1C006621DB /* BoloIndya */ = {
 			isa = PBXGroup;
 			children = (
+				1817215324ED7D0500BF8201 /* BoloIndya.entitlements */,
 				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
 				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
