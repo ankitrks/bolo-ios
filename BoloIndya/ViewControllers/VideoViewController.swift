@@ -486,6 +486,8 @@ class VideoViewController: UIViewController {
        }
    }
     
+       
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if object as AnyObject? === avPlayer {
             if keyPath == "status" {

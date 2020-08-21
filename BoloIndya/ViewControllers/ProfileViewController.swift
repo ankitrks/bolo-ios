@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 import Kingfisher
 
+import SVProgressHUD
+
 class ProfileViewController: UIViewController {
     
     var name = UILabel()
@@ -289,7 +291,7 @@ class ProfileViewController: UIViewController {
         loader.translatesAutoresizingMaskIntoConstraints = false
         loader.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
         loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-    
+        
         loader.color = UIColor.white
         
         view.addSubview(no_result)
@@ -523,11 +525,47 @@ class ProfileViewController: UIViewController {
         self.fetchData()
     }
     
+    func reportUser() {
+        
+        let paramters: [String: Any] = [
+            "target_id": "\(user.id)",
+             "report_type": "report",
+             "target_type": "user"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/report/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+        }
+    }
+    
     @IBAction func report_user(_ sender: Any) {
         
         let actionSheet =  UIAlertController(title: nil, message:nil, preferredStyle: .actionSheet)
         let report_user = UIAlertAction(title: "Report User", style: .default, handler: {
             (_:UIAlertAction) in
+            
+            let alert = UIAlertController(title: "Are you sure you want to report this user?", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: {
+                (_:UIAlertAction) in
+                self.reportUser()
+                DispatchQueue.main.async {
+                    SVProgressHUD.setDefaultMaskType(.black)
+                    SVProgressHUD.setContainerView(self.view)
+                    SVProgressHUD.show(withStatus: "Thank you for your feedback")
+                }
+                
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {
