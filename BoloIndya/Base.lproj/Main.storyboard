@@ -561,9 +561,9 @@
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Epf-rP-MAx">
                                         <rect key="frame" x="0.0" y="54" width="394" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <state key="normal" title="Verify">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="verifyOTP:" destination="ItB-2c-c5G" eventType="touchUpInside" id="Usw-RN-itD"/>
@@ -572,25 +572,25 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="iN9-v3-dKQ">
-                                <rect key="frame" x="10" y="389" width="394" height="154"/>
+                                <rect key="frame" x="10" y="389" width="404" height="154"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Mobile Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="di6-PD-vmC">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vV-GA-iNU">
-                                        <rect key="frame" x="0.0" y="54" width="394" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="0.0" y="54" width="404" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <state key="normal" title="Continue">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="continueWithNumber:" destination="ItB-2c-c5G" eventType="touchUpInside" id="NTa-Ze-T46"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjO-Ts-K2M">
-                                        <rect key="frame" x="0.0" y="104" width="394" height="50"/>
+                                        <rect key="frame" x="0.0" y="104" width="404" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -605,7 +605,7 @@
                         <viewLayoutGuide key="safeArea" id="abh-1W-i0L"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="abh-1W-i0L" secondAttribute="leading" constant="10" id="32u-fF-N72"/>
+                            <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="abh-1W-i0L" secondAttribute="leading" id="32u-fF-N72"/>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="HJI-d5-6Gb" secondAttribute="leading" constant="10" id="PNr-V7-OEc"/>
                             <constraint firstAttribute="trailing" secondItem="MYn-yH-0WS" secondAttribute="trailing" constant="10" id="Pcq-Mm-irT"/>
                             <constraint firstItem="abh-1W-i0L" firstAttribute="trailing" secondItem="iN9-v3-dKQ" secondAttribute="trailing" constant="10" id="Prz-7g-ISe"/>
@@ -620,7 +620,8 @@
                         <outlet property="mobile_no" destination="di6-PD-vmC" id="vkX-nl-gVD"/>
                         <outlet property="number_and_google_login_view" destination="iN9-v3-dKQ" id="idl-oX-rJM"/>
                         <outlet property="otp" destination="Ppc-Yz-w3q" id="fH8-X3-uYM"/>
-                        <outlet property="otp_view" destination="MYn-yH-0WS" id="8dF-gn-VCl"/>
+                        <outlet property="otp_view" destination="MYn-yH-0WS" id="nfj-vQ-tyq"/>
+                        <outlet property="verifyOtp" destination="Epf-rP-MAx" id="lvc-hD-RAZ"/>
                         <segue destination="SA3-tU-c8V" kind="show" identifier="contentpages" id="5V4-Qm-xgn"/>
                     </connections>
                 </viewController>
@@ -676,9 +677,9 @@
         <segue reference="l2F-fa-1O0"/>
         <segue reference="UT1-SK-RWY"/>
         <segue reference="qqs-qN-J1N"/>
-        <segue reference="B3N-mh-Amk"/>
+        <segue reference="x1b-Ln-B5m"/>
         <segue reference="5V4-Qm-xgn"/>
-        <segue reference="6mq-G6-e0g"/>
+        <segue reference="nsD-ou-GI7"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>
@@ -692,6 +693,9 @@
         <image name="user" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

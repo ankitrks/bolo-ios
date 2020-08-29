@@ -16,8 +16,9 @@ class LoginAndSignUpViewController: UIViewController {
 
     @IBOutlet weak var signInWithGoogle: UIButton!
     
+    @IBOutlet weak var verifyOtp: UIButton!
     @IBOutlet weak var continueWithMobile: UIButton!
-    
+    //IBOutlet weak var signInWithGoogle: UIButton!
     @IBOutlet weak var mobile_no: UITextField!
     
     @IBOutlet weak var otp: UITextField!
@@ -78,8 +79,8 @@ class LoginAndSignUpViewController: UIViewController {
         mobile_no.layer.borderColor = myColor.cgColor
         otp.layer.borderColor = myColor.cgColor
 
-        mobile_no.layer.borderWidth = 1.0
-        otp.layer.borderWidth = 1.0
+        mobile_no.layer.borderWidth = 0.5
+        otp.layer.borderWidth = 0.5
         
         go_back.translatesAutoresizingMaskIntoConstraints = false
         go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -152,6 +153,9 @@ class LoginAndSignUpViewController: UIViewController {
         mobile_no.delegate = self
         otp.delegate = self
         
+//        otp_image.layoutMargins = UIEdgeInsets(top: 198, left: 8, bottom: 8, right: 8)
+//        image.layoutMargins = UIEdgeInsets(top: 180, left: 8, bottom: 500, right: 8)
+        
         view.addSubview(image)
         
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -162,7 +166,10 @@ class LoginAndSignUpViewController: UIViewController {
         image.contentMode = .scaleAspectFit
         image.image = UIImage(named: "logo")
         
+        
+
         view.addSubview(otp_image)
+        
         
         otp_image.translatesAutoresizingMaskIntoConstraints = false
         otp_image.widthAnchor.constraint(equalToConstant: 150).isActive = true
@@ -183,9 +190,11 @@ class LoginAndSignUpViewController: UIViewController {
         GIDSignIn.sharedInstance()?.presentingViewController = self
     
         // signInWithGoogle.layer.cornerRadius = 10.0
-    
-        //continueWithMobile.layer.cornerRadius = 10.0
-        continueWithMobile.backgroundColor = UIColor.white;
+        verifyOtp.layer.cornerRadius = 10.0
+        continueWithMobile.layer.cornerRadius = 10.0
+        mobile_no.layer.cornerRadius = 10.0
+        otp.layer.cornerRadius = 10.0
+        //continueWithMobile.backgroundColor = UIColor.white;
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
