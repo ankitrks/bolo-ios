@@ -74,6 +74,13 @@ class LoginAndSignUpViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
         
+        let myColor = UIColor.white
+        mobile_no.layer.borderColor = myColor.cgColor
+        otp.layer.borderColor = myColor.cgColor
+
+        mobile_no.layer.borderWidth = 1.0
+        otp.layer.borderWidth = 1.0
+        
         go_back.translatesAutoresizingMaskIntoConstraints = false
         go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -177,10 +184,10 @@ class LoginAndSignUpViewController: UIViewController {
     
         // signInWithGoogle.layer.cornerRadius = 10.0
     
-        continueWithMobile.layer.cornerRadius = 10.0
+        //continueWithMobile.layer.cornerRadius = 10.0
+        continueWithMobile.backgroundColor = UIColor.white;
         
     }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is TermsPagesViewController {
            let vc = segue.destination as? TermsPagesViewController
