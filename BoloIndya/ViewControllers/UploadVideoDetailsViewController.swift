@@ -482,7 +482,7 @@ class UploadVideoDetailsViewController: UIViewController {
         }
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
+            multipartFormData.append(imageData!, withName: "media", fileName: file_name, mimeType: "image/jpg")
         }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
             (result) in
             switch result {
@@ -811,8 +811,5 @@ extension UploadVideoDetailsViewController : UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-
-
-  
     
 }
