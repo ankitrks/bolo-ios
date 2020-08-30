@@ -8,14 +8,18 @@
 
 import UIKit
 import Alamofire
+import YPImagePicker
+import SVProgressHUD
 
-class CurrentUserViewController: UIViewController {
+class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
     
     @IBOutlet weak var more: UIButton!
+
     
     @IBOutlet weak var upper_tab: UIView!
     @IBOutlet weak var username: UILabel!
-    
+
+    var btnCover = UIImageView()
     var cover_pic = UIImageView()
     var name = UILabel()
     var profile_pic = UIImageView()
@@ -76,20 +80,24 @@ class CurrentUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Current User")
-        self.navigationController?.isNavigationBarHidden = true
-        
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "signUpCurrentUser", sender: self)
-        } else {
-            topic_liked = UserDefaults.standard.getLikeTopic()
-            setUserData()
-            setTableView()
-            setUserVideoView()
-            fetchUserData()
-        }
+        reloadPage()
+
+    }
+    func reloadPage() {
+      self.navigationController?.isNavigationBarHidden = true
+
+             let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+             if (!isLoggedIn) {
+                 self.tabBarController?.tabBar.isHidden = true
+                 self.navigationController?.isNavigationBarHidden = true
+                 performSegue(withIdentifier: "signUpCurrentUser", sender: self)
+             } else {
+                 topic_liked = UserDefaults.standard.getLikeTopic()
+                 setUserData()
+                 setTableView()
+                 setUserVideoView()
+                 fetchUserData()
+             }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -111,16 +119,32 @@ class CurrentUserViewController: UIViewController {
     func setUserData() {
         
         let screenSize = UIScreen.main.bounds.size
-        
+
+
         view.addSubview(cover_pic)
         
         cover_pic.translatesAutoresizingMaskIntoConstraints = false
         cover_pic.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-        cover_pic.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        cover_pic.heightAnchor.constraint(equalToConstant: 150).isActive = true
         cover_pic.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         
         cover_pic.backgroundColor = UIColor.gray
         cover_pic.clipsToBounds = true
+
+        view.addSubview(btnCover)
+        btnCover.translatesAutoresizingMaskIntoConstraints = false
+        btnCover.widthAnchor.constraint(equalToConstant:40).isActive = true
+        btnCover.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        btnCover.centerXAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        btnCover.topAnchor.constraint(equalTo: cover_pic.topAnchor, constant: 10).isActive = true
+
+        btnCover.image = UIImage(named: "gallery")
+
+        btnCover.clipsToBounds = true
+        btnCover.isUserInteractionEnabled = true
+        btnCover.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coverClick(tapGestureRecognizer:))))
+        
+        
         
         view.addSubview(profile_pic)
         
@@ -131,6 +155,10 @@ class CurrentUserViewController: UIViewController {
         profile_pic.topAnchor.constraint(equalTo: cover_pic.bottomAnchor, constant: -55).isActive = true
         
         profile_pic.clipsToBounds = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileClick(tapGestureRecognizer:)))
+        profile_pic.isUserInteractionEnabled = true
+        profile_pic.addGestureRecognizer(tapGestureRecognizer)
+        profile_pic.makeRounded()
         
         view.addSubview(name)
         
@@ -297,7 +325,7 @@ class CurrentUserViewController: UIViewController {
         userVideoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
         
         view.addSubview(loader)
-            
+
         loader.translatesAutoresizingMaskIntoConstraints = false
         loader.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
         loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
@@ -323,6 +351,25 @@ class CurrentUserViewController: UIViewController {
         no_result.numberOfLines = 1
 
         no_result.isHidden = true
+    }
+
+    func imagePicker() {
+        let picker = YPImagePicker()
+        picker.didFinishPicking { [unowned picker] items, _ in
+            if let photo = items.singlePhoto {
+//                print(photo.fromCamera) // Image source (camera or library)
+//                print(photo.image) // Final image selected by the user
+//                print(photo.originalImage) // original image selected by the user, unfiltered
+//                print(photo.modifiedImage) // Transformed image, can be nil
+//                print(photo.exifMeta)
+                self.cover_pic.image = photo.image
+                self.uploadImage()
+
+                // Print exif meta data of original image.
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        present(picker, animated: true, completion: nil)
     }
     
     func setTableView() {
@@ -364,13 +411,22 @@ class CurrentUserViewController: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {self.transparentView.alpha = 0.5
             self.tableView.frame = CGRect(x: 0, y: screenSize.height - self.height, width: screenSize.width, height: self.height)}, completion: nil)
     }
+
     
     @objc func onClickTransparentView() {
         let screenSize = UIScreen.main.bounds.size
         transparentView.alpha = 0
         self.tableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: self.height)
     }
-    
+
+    @objc func profileClick(tapGestureRecognizer: UITapGestureRecognizer){
+
+        performSegue(withIdentifier: "UserProfileEditVC", sender: self)
+    }
+    @objc func coverClick(tapGestureRecognizer: UITapGestureRecognizer){
+
+          imagePicker()
+       }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is VideoViewController {
             let vc = segue.destination as? VideoViewController
@@ -381,6 +437,13 @@ class CurrentUserViewController: UIViewController {
             let vc = segue.destination as? FollowingFollowerViewController
             vc?.user_id = UserDefaults.standard.getUserId() ?? 0
             vc?.follower = follower
+        }
+        else if segue.destination is UserProfileEditVC {
+            let vc = segue.destination as? UserProfileEditVC
+            vc?.user = user
+            vc?.delegate = self
+            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
+            // vc?.follower = follower
         }
     }
     
@@ -446,6 +509,55 @@ class CurrentUserViewController: UIViewController {
                 }
         }
     }
+
+
+    func profileUpdate(cover:String) {
+
+
+//         loader.isHidden = false
+//         loader.startAnimating()
+         var headers: HTTPHeaders!
+                      if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+                          headers = [
+                              "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+                      }
+         let paramters: [String: Any] = [
+            // "user_id": "\(UserDefaults.standard.getUserId().unsafelyUnwrapped)",
+            "activity":"profile_save",
+            "cover_pic":cover ?? "",
+
+         ]
+
+
+         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+
+         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
+             .responseString  { (responseData) in
+                 switch responseData.result {
+                 case.success(let data):
+                     if let json_data = data.data(using: .utf8) {
+
+                         do {
+                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                           //  if let result = json_object?["message"] as? [String:Any] {
+                                self.showToast(message: json_object?["message"] as! String , font: UIFont.boldSystemFont(ofSize: 13.0))
+
+                         }
+                         catch {
+                             self.isLoading = false
+                            // self.fetchData()
+                             print(error.localizedDescription)
+                         }
+                     }
+                 case.failure(let error):
+                    // self.isLoading = false
+                     //self.fetchData()
+                     print(error)
+                 }
+         }
+     }
+
+
     
     func fetchData() {
         
@@ -461,6 +573,13 @@ class CurrentUserViewController: UIViewController {
             } else {
                 profile_pic.image = UIImage(named: "user")
             }
+
+            if !user.cover_pic.isEmpty {
+                           let url = URL(string: user.cover_pic)
+                           cover_pic.kf.setImage(with: url)
+                       } else {
+                          // profile_pic.image = UIImage(named: "user")
+                       }
             videos_count.text = "\(user.vb_count)"
             views_count.text = "\(user.view_count)"
             following_count.text = user.follow_count
@@ -521,6 +640,80 @@ class CurrentUserViewController: UIViewController {
                 }
         }
     }
+
+    func uploadImage() {
+
+               var headers: HTTPHeaders!
+               if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+                   headers = [
+                       "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+               }
+
+              //  let image = UIImage.init(named: "whatsapp")
+              let imageData = self.cover_pic.image?.jpegData(compressionQuality: 1)
+
+               let timeStamp = Int(NSDate().timeIntervalSince1970)
+
+               let file_name = "\(timeStamp).jpeg"
+
+               DispatchQueue.main.async {
+                   SVProgressHUD.show(withStatus:  "Uploding..")
+               }
+
+               Alamofire.upload(multipartFormData: { (multipartFormData) in
+                   multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
+               }, to: "https://www.boloindya.com/api/v1/upload_cover_pic/", headers: headers) {
+                   (result) in
+                   switch result {
+                   case .success( let upload, _, _):
+
+                       upload.responseString  { (responseData) in
+                           DispatchQueue.main.async {
+                               SVProgressHUD.dismiss()
+                           }
+                           switch responseData.result {
+                           case.success(let data):
+                               if let json_data = data.data(using: .utf8) {
+                                   do {
+                                       if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                           if !(json_object["body"] as? String ?? "").isEmpty {
+                                               //self.thumnail_url_upload = json_object["body"] as! String
+                                               //self.create_topic()
+                                            var url:String = json_object["body"] as! String
+                                            print(url)
+                                            self.profileUpdate(cover: url ?? "")
+                                           } else {
+                                              print("")
+                                              // self.thumnail_url_upload = ""
+                                              // self.create_topic()
+                                           }
+                                       }
+
+                                   }
+                                   catch {
+                                      // self.thumnail_url_upload = ""
+                                     //  self.create_topic()
+                                       print(error.localizedDescription)
+                                   }
+                               }
+                               case.failure(let error):
+                               //self.thumnail_url_upload = ""
+                              // self.create_topic()
+                               print(error)
+                           }
+                       }
+
+                   case .failure(let encodingError):
+                       DispatchQueue.main.async {
+                           SVProgressHUD.dismiss()
+                       }
+                      // self.thumnail_url_upload = ""
+                     //  self.create_topic()
+                       print(encodingError)
+                   }
+               }
+           }
+
 }
 
 extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource {
@@ -616,6 +809,9 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
             self.fetchData()
         }
     }
+
+
+    
     
 }
 

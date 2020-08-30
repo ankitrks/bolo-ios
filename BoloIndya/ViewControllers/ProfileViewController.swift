@@ -90,7 +90,6 @@ class ProfileViewController: UIViewController {
         cover_pic.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 10).isActive = true
         
         cover_pic.clipsToBounds = true
-        
         view.addSubview(profile_pic)
         
         profile_pic.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +99,6 @@ class ProfileViewController: UIViewController {
         profile_pic.topAnchor.constraint(equalTo: cover_pic.bottomAnchor, constant: -55).isActive = true
         
         profile_pic.clipsToBounds = true
-        
         view.addSubview(name)
         
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -246,7 +244,6 @@ class ProfileViewController: UIViewController {
         let tapGestureFollowing1 = UITapGestureRecognizer(target: self, action: #selector(onFollowingClick(_:)))
         following_label.addGestureRecognizer(tapGestureFollowing)
         following_count.addGestureRecognizer(tapGestureFollowing1)
-        
         setUserVideos();
     }
     
@@ -491,7 +488,8 @@ class ProfileViewController: UIViewController {
                 self.isFollowingUser = false
         }
     }
-    
+
+ 
     @objc func followUser(_ sender: UITapGestureRecognizer) {
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
@@ -589,6 +587,9 @@ class ProfileViewController: UIViewController {
         } else if segue.destination is LoginAndSignUpViewController{
             let vc = segue.destination as? LoginAndSignUpViewController
             vc?.selected_tab = 0
+        }else if segue.destination is UserProfileEditVC{
+            let vc = segue.destination as? UserProfileEditVC
+
         }
     }
     

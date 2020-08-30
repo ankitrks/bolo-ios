@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="4352" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,8 +15,8 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -31,8 +30,8 @@
                     <view key="view" contentMode="scaleToFill" id="cw2-8z-IIM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="HJW-We-jg5"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="HJW-We-jg5"/>
                     </view>
                     <navigationItem key="navigationItem" id="F2j-kt-mRD"/>
                 </viewController>
@@ -47,8 +46,8 @@
                     <view key="view" contentMode="scaleToFill" id="aIY-uY-kc6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="9Iv-Qi-Gut"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="9Iv-Qi-Gut"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD5-2J-wd6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -109,8 +108,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="0AW-cA-orr"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="0AW-cA-orr"/>
                     </view>
                     <navigationItem key="navigationItem" id="yBf-CC-Y4C"/>
                     <connections>
@@ -124,6 +123,7 @@
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoView" id="d8T-lC-yEV"/>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="signUpCurrentUser" id="AcQ-9e-iDp"/>
                         <segue destination="hN7-E0-O0O" kind="show" identifier="followingUserProfile" id="UT1-SK-RWY"/>
+                        <segue destination="ydo-sx-gdf" kind="presentation" identifier="UserProfileEditVC" id="uq0-7e-bPc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfI-kd-JB7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -137,8 +137,8 @@
                     <view key="view" contentMode="scaleToFill" id="edF-7f-NxV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="hYI-s5-I8g"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ynn-tQ-RhK"/>
                 </viewController>
@@ -153,8 +153,8 @@
                     <view key="view" contentMode="scaleToFill" id="pPv-pA-A0I">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Rsw-P3-R5h"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Rsw-P3-R5h"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tp0-NV-Ggq"/>
                 </viewController>
@@ -203,8 +203,8 @@
                     <view key="view" contentMode="scaleToFill" id="XbV-sH-RDd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dj9-5N-T37"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="xGx-nA-ekB"/>
                     <connections>
@@ -222,8 +222,8 @@
                     <view key="view" contentMode="scaleToFill" id="ARC-t2-zAh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="2nG-IY-jVQ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="zZQ-Ge-MYZ"/>
                 </viewController>
@@ -268,7 +268,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4g4-Vt-VHT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="410" y="455"/>
+            <point key="canvasLocation" x="-877" y="218"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4sO-IA-JZY">
@@ -311,8 +311,8 @@
                     <view key="view" contentMode="scaleToFill" id="G2w-77-kNn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="lEr-WQ-j3o"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="lEr-WQ-j3o"/>
                     </view>
                     <navigationItem key="navigationItem" id="HOM-my-uQ2"/>
                     <connections>
@@ -333,8 +333,8 @@
                     <view key="view" contentMode="scaleToFill" id="9Fv-FL-lfk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="5Wc-xl-92z"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="5Wc-xl-92z"/>
                     </view>
                     <navigationItem key="navigationItem" id="eSZ-8p-SpE"/>
                     <connections>
@@ -352,8 +352,8 @@
                     <view key="view" contentMode="scaleToFill" id="mRJ-Pw-9Uw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="arR-E6-IVr"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="arR-E6-IVr"/>
                     </view>
                     <navigationItem key="navigationItem" id="sxT-EJ-5n8"/>
                     <connections>
@@ -371,8 +371,8 @@
                     <view key="view" contentMode="scaleToFill" id="yTJ-aC-Dul">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="VII-Xe-ZuA"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="VII-Xe-ZuA"/>
                     </view>
                     <navigationItem key="navigationItem" id="Mka-hD-ZHc"/>
                 </viewController>
@@ -387,8 +387,8 @@
                     <view key="view" contentMode="scaleToFill" id="TAj-xE-ldC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="sPN-wY-Np1"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="sPN-wY-Np1"/>
                     </view>
                     <navigationItem key="navigationItem" id="JmK-Qu-b4Q"/>
                     <connections>
@@ -407,8 +407,8 @@
                     <view key="view" contentMode="scaleToFill" id="kgD-cS-UCw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Y8R-PI-bG2"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Y8R-PI-bG2"/>
                     </view>
                     <navigationItem key="navigationItem" id="t3W-6m-5IV"/>
                     <connections>
@@ -429,8 +429,8 @@
                     <view key="view" contentMode="scaleToFill" id="cMD-NM-gzq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="ZL1-ig-cVh"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ZL1-ig-cVh"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="notification" id="240-oM-BKZ"/>
                     <navigationItem key="navigationItem" id="rIf-RK-BlB"/>
@@ -451,8 +451,8 @@
                     <view key="view" contentMode="scaleToFill" id="n2L-ip-Drd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Du6-NI-uOB"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Du6-NI-uOB"/>
                     </view>
                     <navigationItem key="navigationItem" id="KOf-0V-0BO"/>
                     <connections>
@@ -527,8 +527,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="1CY-3e-hlx"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="1CY-3e-hlx"/>
                     </view>
                     <navigationItem key="navigationItem" id="QpE-3O-Ews"/>
                     <connections>
@@ -541,7 +541,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amH-p0-jcm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2603" y="2617"/>
+            <point key="canvasLocation" x="3396" y="3228"/>
+        </scene>
+        <!--UserProfileStorybaord-->
+        <scene sceneID="W6S-nb-x7d">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="UserProfileEditVC" storyboardName="UserProfileStorybaord" id="ydo-sx-gdf" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Wgr-Ut-JEw"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SSr-n3-rSJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3978" y="218"/>
         </scene>
         <!--Login And Sign Up View Controller-->
         <scene sceneID="kbj-aZ-DwP">
@@ -559,9 +569,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Epf-rP-MAx">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Epf-rP-MAx">
                                         <rect key="frame" x="0.0" y="54" width="394" height="30"/>
-                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Verify">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -579,9 +589,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vV-GA-iNU">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vV-GA-iNU">
                                         <rect key="frame" x="0.0" y="54" width="404" height="30"/>
-                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Continue">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -602,7 +612,6 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="abh-1W-i0L"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iN9-v3-dKQ" firstAttribute="leading" secondItem="abh-1W-i0L" secondAttribute="leading" id="32u-fF-N72"/>
@@ -613,6 +622,7 @@
                             <constraint firstItem="MYn-yH-0WS" firstAttribute="centerY" secondItem="HJI-d5-6Gb" secondAttribute="centerY" id="TmB-6y-HDI"/>
                             <constraint firstItem="MYn-yH-0WS" firstAttribute="leading" secondItem="HJI-d5-6Gb" secondAttribute="leading" constant="10" id="aSX-fV-dig"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="abh-1W-i0L"/>
                     </view>
                     <navigationItem key="navigationItem" id="yuB-zh-R7J"/>
                     <connections>
@@ -636,8 +646,8 @@
                     <view key="view" contentMode="scaleToFill" id="IaL-tX-D5P">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="YTz-Jl-zV7"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="YTz-Jl-zV7"/>
                     </view>
                     <navigationItem key="navigationItem" id="gGZ-qZ-w5J"/>
                     <connections>
@@ -658,8 +668,8 @@
                     <view key="view" contentMode="scaleToFill" id="0Zq-Y1-oo9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="xJs-ah-fnG"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="xfy-K9-nvc"/>
                     <connections>
@@ -673,13 +683,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fqs-FO-mCm"/>
+        <segue reference="AcQ-9e-iDp"/>
         <segue reference="l2F-fa-1O0"/>
         <segue reference="UT1-SK-RWY"/>
         <segue reference="qqs-qN-J1N"/>
         <segue reference="x1b-Ln-B5m"/>
-        <segue reference="5V4-Qm-xgn"/>
-        <segue reference="nsD-ou-GI7"/>
+        <segue reference="kAZ-Gh-86o"/>
+        <segue reference="d8T-lC-yEV"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="30" height="30"/>
@@ -691,11 +701,5 @@
         <image name="search" width="30" height="30"/>
         <image name="share" width="30" height="30"/>
         <image name="user" width="25" height="25"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>
