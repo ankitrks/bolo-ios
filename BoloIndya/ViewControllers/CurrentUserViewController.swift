@@ -52,8 +52,8 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
     
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
-    let menuArray = ["Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
-    let iconArray = ["update_interest", "language", "feedback", "terms", "logout"]
+    let menuArray = ["Edit Profile","Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
+    let iconArray = ["user","update_interest", "language", "feedback", "terms", "logout"]
     
     let height = CGFloat(300)
     var topic_liked: [Int] = []
@@ -357,11 +357,6 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
         let picker = YPImagePicker()
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
-//                print(photo.fromCamera) // Image source (camera or library)
-//                print(photo.image) // Final image selected by the user
-//                print(photo.originalImage) // original image selected by the user, unfiltered
-//                print(photo.modifiedImage) // Transformed image, can be nil
-//                print(photo.exifMeta)
                 self.cover_pic.image = photo.image
                 self.uploadImage()
 
@@ -420,9 +415,17 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
     }
 
     @objc func profileClick(tapGestureRecognizer: UITapGestureRecognizer){
+         moveEditProfile()
 
-        performSegue(withIdentifier: "UserProfileEditVC", sender: self)
     }
+    func moveEditProfile() {
+        let storyBoard = UIStoryboard(name: "UserProfileStorybaord", bundle: nil)
+               let vc =  storyBoard.instantiateViewController(withIdentifier: "UserProfileEditVC") as! UserProfileEditVC
+               vc.delegate = self
+                            vc.user = user
+              self.navigationController?.pushViewController(vc, animated: true)
+    }
+
     @objc func coverClick(tapGestureRecognizer: UITapGestureRecognizer){
 
           imagePicker()
@@ -738,23 +741,26 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: false)
         self.onClickTransparentView()
         switch indexPath.row {
+         case 0:
+            self.moveEditProfile()
+                       break
         case 0:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "updateInterset", sender: self)
             break
-        case 1:
+        case 2:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "chooseLanguage", sender: self)
             break
-        case 2:
+        case 3:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "feedbackUser", sender: self)
             break
-        case 3:
+        case 4:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "termsPages", sender: self)
             break
-        case 4:
+        case 5:
             let defaults = UserDefaults.standard
             let language_id = defaults.getValueForLanguageId()
             let dictionary = defaults.dictionaryRepresentation()

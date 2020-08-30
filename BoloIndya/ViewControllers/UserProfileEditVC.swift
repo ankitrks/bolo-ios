@@ -62,7 +62,7 @@ class UserProfileEditVC: UIViewController {
             delegate?.reloadPage()
         }
 
-        dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
 
     }
     @IBAction func editImage(_ sender: Any) {
@@ -197,7 +197,9 @@ class UserProfileEditVC: UIViewController {
             ]
 
         }
-
+        DispatchQueue.main.async {
+            SVProgressHUD.show(withStatus:  "Please wait..")
+        }
 
 
 
@@ -205,7 +207,11 @@ class UserProfileEditVC: UIViewController {
 
         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                }
                 switch responseData.result {
+
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
 

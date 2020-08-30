@@ -123,12 +123,12 @@
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoView" id="d8T-lC-yEV"/>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="signUpCurrentUser" id="AcQ-9e-iDp"/>
                         <segue destination="hN7-E0-O0O" kind="show" identifier="followingUserProfile" id="UT1-SK-RWY"/>
-                        <segue destination="ydo-sx-gdf" kind="presentation" identifier="UserProfileEditVC" id="uq0-7e-bPc"/>
+                        <segue destination="ydo-sx-gdf" kind="presentation" identifier="UserProfileEditVC" id="ESu-cE-HRe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfI-kd-JB7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2849" y="332"/>
+            <point key="canvasLocation" x="3680" y="-808"/>
         </scene>
         <!--Feed Back View Controller-->
         <scene sceneID="Ech-I4-Pv4">
