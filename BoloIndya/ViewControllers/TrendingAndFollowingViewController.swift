@@ -854,7 +854,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             current_video_cell.play_and_pause_image.image = UIImage(named: "play")
         }
         
-        let videoUrl = videos[selected_postion].video_url
+        let videoUrl = videos[selected_postion].downloaded_url
         
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
