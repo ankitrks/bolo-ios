@@ -10,6 +10,7 @@ import UIKit
 
 protocol VideoCellDelegate {
     func goToProfile(with selected_postion: Int)
+    func goToSharing(with selected_postion: Int)
     
     func renderComments(with selected_postion: Int)
     
@@ -103,11 +104,14 @@ class VideoCell: UITableViewCell {
         play_and_pause_image.isUserInteractionEnabled = true
         like_image.isUserInteractionEnabled = true
         whatsapp_share_image.isUserInteractionEnabled = true
+        share_image.isUserInteractionEnabled = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         username.addGestureRecognizer(tapGesture1)
         user_image.addGestureRecognizer(tapGesture)
+
+        share_image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSharing(_:))))
                 
         let pauseGesture = UITapGestureRecognizer(target: self, action: #selector(pausePlayer(_:)))
         play_and_pause_image.addGestureRecognizer(pauseGesture)
@@ -125,6 +129,9 @@ class VideoCell: UITableViewCell {
     @objc func goToProfile(_ sender: UITapGestureRecognizer) {
         delegate?.goToProfile(with: selected_postion)
     }
+    @objc func goToSharing(_ sender: UITapGestureRecognizer) {
+          delegate?.goToSharing(with: selected_postion)
+      }
     
     @objc func renderComments(_ sender: UITapGestureRecognizer) {
         delegate?.renderComments(with: selected_postion)

@@ -641,6 +641,31 @@ extension VideoViewController: VideoCellDelegate {
         comment_title.text = ""
         fetchComment()
     }
+
+    func goToSharing(with selected_postion: Int) {
+          let videoUrl = videos[selected_postion].video_url
+          let url = URL(string: videoUrl) ?? nil
+          if url != nil{
+              shareAndDownload(url: url!)
+          }
+      }
+
+      func shareAndDownload(url: URL) {
+          let videoFilePath = url
+          let pdfData = NSData(contentsOf: videoFilePath)
+          let temporaryFolder = FileManager.default.temporaryDirectory
+          let fileName = videoFilePath.lastPathComponent
+          let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
+          do {
+              try pdfData?.write(to: temporaryFileURL)
+              let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
+            //  showPrograssBar(show: false)
+              present(activityViewController, animated: true, completion: nil)
+          } catch {
+              print(error)
+          }
+         // showPrograssBar(show: false)
+      }
     
     func goToProfile(with selected_postion: Int) {
         if self.self_user {

@@ -80,24 +80,27 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Current User")
-        reloadPage()
+        self.navigationController?.isNavigationBarHidden = true
+
+                    let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+                    if (!isLoggedIn) {
+                        self.tabBarController?.tabBar.isHidden = true
+                        self.navigationController?.isNavigationBarHidden = true
+                        performSegue(withIdentifier: "signUpCurrentUser", sender: self)
+                    } else {
+                        topic_liked = UserDefaults.standard.getLikeTopic()
+                        setUserData()
+                        setTableView()
+                        setUserVideoView()
+                         reloadPage()
+
+                    }
+
 
     }
     func reloadPage() {
-      self.navigationController?.isNavigationBarHidden = true
-
-             let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-             if (!isLoggedIn) {
-                 self.tabBarController?.tabBar.isHidden = true
-                 self.navigationController?.isNavigationBarHidden = true
-                 performSegue(withIdentifier: "signUpCurrentUser", sender: self)
-             } else {
-                 topic_liked = UserDefaults.standard.getLikeTopic()
-                 setUserData()
-                 setTableView()
-                 setUserVideoView()
-                 fetchUserData()
-             }
+         page = 1
+         fetchUserData()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -595,6 +598,7 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
         }
         
         if (isLoading || isFinished) {
+            self.loader.isHidden = true
             return
         }
         

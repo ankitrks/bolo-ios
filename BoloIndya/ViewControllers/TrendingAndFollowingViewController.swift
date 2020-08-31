@@ -827,6 +827,8 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 }
 
 extension TrendingAndFollowingViewController: VideoCellDelegate {
+
+
     func renderComments(with selected_postion: Int) {
         self.selected_position = selected_postion
         if current_video_cell != nil {
@@ -847,6 +849,30 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         self.performSegue(withIdentifier: "ProfileView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
     }
+    func goToSharing(with selected_postion: Int) {
+        let videoUrl = videos[selected_postion].video_url
+        let url = URL(string: videoUrl) ?? nil
+        if url != nil{
+            shareAndDownload(url: url!)
+        }
+    }
+
+    func shareAndDownload(url: URL) {
+        let videoFilePath = url
+        let pdfData = NSData(contentsOf: videoFilePath)
+        let temporaryFolder = FileManager.default.temporaryDirectory
+        let fileName = videoFilePath.lastPathComponent
+        let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
+        do {
+            try pdfData?.write(to: temporaryFileURL)
+            let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
+          //  showPrograssBar(show: false)
+            present(activityViewController, animated: true, completion: nil)
+        } catch {
+            print(error)
+        }
+       // showPrograssBar(show: false)
+    }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
         if current_video_cell != nil {
@@ -854,8 +880,8 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             current_video_cell.play_and_pause_image.image = UIImage(named: "play")
         }
         
+
         let videoUrl = videos[selected_postion].video_url
-        
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
