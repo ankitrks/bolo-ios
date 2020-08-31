@@ -13,6 +13,7 @@ class Topic {
     var thumbnail: String
     var duration: String
     var video_url: String
+    var downloaded_url: String
     var id: String
     var view_count: String
     var comment_count: String
@@ -30,6 +31,7 @@ class Topic {
         self.view_count = ""
         self.comment_count = ""
         self.video_url = ""
+        self.downloaded_url = ""
         self.user = user
         self.isLiked = false
         self.like_count = ""
@@ -81,6 +83,7 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
     topic.duration = each["media_duration"] as? String ?? ""
     topic.id = "\(each["id"] as! Int)"
     topic.video_url = each["video_cdn"] as? String ?? ""
+    topic.downloaded_url = each["downloaded_url"] as? String ?? ""
     if (each["view_count"] as? Int) != nil {
        topic.view_count = "\(each["view_count"] as! Int)"
     } else {
