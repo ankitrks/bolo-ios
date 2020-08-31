@@ -645,6 +645,11 @@ extension VideoViewController: VideoCellDelegate {
     func goToSharing(with selected_postion: Int) {
           let videoUrl = videos[selected_postion].video_url
           let url = URL(string: videoUrl) ?? nil
+        DispatchQueue.main.async {
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setContainerView(self.view)
+            SVProgressHUD.show(withStatus: "Preparing")
+        }
           if url != nil{
               shareAndDownload(url: url!)
           }
