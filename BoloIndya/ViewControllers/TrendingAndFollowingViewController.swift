@@ -850,7 +850,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         self.tabBarController?.tabBar.isHidden = true
     }
     func goToSharing(with selected_postion: Int) {
-        let videoUrl = videos[selected_postion].video_url
+        let videoUrl = videos[selected_postion].downloaded_url
         let url = URL(string: videoUrl) ?? nil
         if url != nil{
             shareAndDownload(url: url!)
