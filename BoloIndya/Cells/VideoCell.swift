@@ -201,7 +201,7 @@ class VideoCell: UITableViewCell {
        username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
        
-       username.font = UIFont.systemFont(ofSize: 14.0)
+       username.font = UIFont.boldSystemFont(ofSize: 15.0)
        username.lineBreakMode = NSLineBreakMode.byWordWrapping
        username.numberOfLines = 1
        username.textColor = UIColor.white
