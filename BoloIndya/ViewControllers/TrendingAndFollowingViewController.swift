@@ -58,10 +58,9 @@ class TrendingAndFollowingViewController: UIViewController {
         
         topic_liked = UserDefaults.standard.getLikeTopic()
         comment_like = UserDefaults.standard.getLikeComment()
-        
+        setTrendingViewDelegate()
         fetcUserDetails()
         fetchData()
-        setTrendingViewDelegate()
     }
     
     @objc internal func keyboardWillShow(_ notification: NSNotification?) {
@@ -121,7 +120,7 @@ class TrendingAndFollowingViewController: UIViewController {
         comment_tab.addSubview(progress_comment)
         comment_tab.addSubview(comment_label)
         comment_tab.addSubview(go_back)
-        
+        view.backgroundColor = UIColor.black
         view.addSubview(trendingView)
         view.addSubview(trending)
         view.addSubview(following)
@@ -282,6 +281,8 @@ class TrendingAndFollowingViewController: UIViewController {
                     current_video_cell.player.player?.pause()
                 }
                 self.videos = self.followingTopics
+                self.trendingView.backgroundColor = UIColor.black
+                self.trendingView.isUserInteractionEnabled = false
                 self.trendingView.reloadData()
                 if (self.videos.count == 0) {
                     self.fetchFollowingData()
