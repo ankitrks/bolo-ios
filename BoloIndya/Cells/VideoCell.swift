@@ -75,10 +75,10 @@ class VideoCell: UITableViewCell {
         
         
         setPlayer()
+        clickPlayer()
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
-        clickPlayer()
         //setPlayAndPauseImage()
         
 //        playerSlider.isHidden = true
