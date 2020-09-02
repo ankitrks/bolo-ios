@@ -62,8 +62,9 @@ class VideoCell: UITableViewCell {
         backgroundColor = .black
         selectionStyle = .none
         
-        addSubview(video_image)
         addSubview(player)
+        addSubview(video_image)
+        addSubview(play_click)
         addSubview(title)
         addSubview(username)
         addSubview(actions_stack)
@@ -71,7 +72,6 @@ class VideoCell: UITableViewCell {
 //        addSubview(play_and_pause_image)
 //        addSubview(playerSlider)
 //        addSubview(duration)
-        addSubview(play_click)
         
         
         setPlayer()
