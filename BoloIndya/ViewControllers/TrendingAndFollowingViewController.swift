@@ -247,14 +247,6 @@ class TrendingAndFollowingViewController: UIViewController {
         trending.textColor = UIColor.red
         following.textColor = UIColor.gray
         
-        trending.layer.shadowColor = UIColor.black.cgColor
-        trending.layer.shadowRadius = 1.0
-        trending.layer.shadowOpacity = 0.5
-        
-        following.layer.shadowColor = UIColor.black.cgColor
-        following.layer.shadowRadius = 1.0
-        following.layer.shadowOpacity = 0.5
-        
         following.isUserInteractionEnabled = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeToFollowing(_:)))
