@@ -253,6 +253,7 @@ class VideoCell: UITableViewCell {
         playerSlider.center = play_and_pause_image.center
         playerSlider.tintColor = .white
         playerSlider.thumbTintColor = .white
+        playerSlider.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
     }
     
     func setLikeImage() {

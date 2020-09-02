@@ -282,7 +282,7 @@ class TrendingAndFollowingViewController: UIViewController {
                 }
                 self.videos = self.followingTopics
                 self.trendingView.backgroundColor = UIColor.black
-                self.trendingView.isUserInteractionEnabled = false
+//                self.trendingView.isUserInteractionEnabled = true
                 self.trendingView.reloadData()
                 if (self.videos.count == 0) {
                     self.fetchFollowingData()
