@@ -45,6 +45,8 @@ class VideoCell: UITableViewCell {
     
     var actions_stack = UIStackView()
     
+    var play_click = UIView()
+    
     var player = PlayerViewClass()
     
     var delegate: VideoCellDelegate?
@@ -58,6 +60,7 @@ class VideoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .black
+        selectionStyle = .none
         
         addSubview(video_image)
         addSubview(player)
@@ -65,20 +68,27 @@ class VideoCell: UITableViewCell {
         addSubview(username)
         addSubview(actions_stack)
         
-        addSubview(play_and_pause_image)
-        addSubview(playerSlider)
-        addSubview(duration)
+//        addSubview(play_and_pause_image)
+//        addSubview(playerSlider)
+//        addSubview(duration)
+        addSubview(play_click)
+        
         
         setPlayer()
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
-        setPlayAndPauseImage()
+        clickPlayer()
+        //setPlayAndPauseImage()
+        
+//        playerSlider.isHidden = true
+//        play_and_pause_image.isHidden = true
+//        duration.isHidden = true
         
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
         actions_stack.widthAnchor.constraint(equalToConstant: 40).isActive = true
         actions_stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        actions_stack.bottomAnchor.constraint(equalTo: username.topAnchor, constant: -15).isActive = true
+        actions_stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         actions_stack.axis = .vertical
         actions_stack.spacing = CGFloat(5)
         
@@ -97,11 +107,12 @@ class VideoCell: UITableViewCell {
         setCommentImage()
         setShareImage()
         setWhatsappImage()
+        clickPlayer()
         
         username.isUserInteractionEnabled = true
         user_image.isUserInteractionEnabled = true
         comment_image.isUserInteractionEnabled = true
-        play_and_pause_image.isUserInteractionEnabled = true
+        play_click.isUserInteractionEnabled = true
         like_image.isUserInteractionEnabled = true
         whatsapp_share_image.isUserInteractionEnabled = true
         share_image.isUserInteractionEnabled = true
@@ -114,7 +125,7 @@ class VideoCell: UITableViewCell {
         share_image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSharing(_:))))
                 
         let pauseGesture = UITapGestureRecognizer(target: self, action: #selector(pausePlayer(_:)))
-        play_and_pause_image.addGestureRecognizer(pauseGesture)
+        play_click.addGestureRecognizer(pauseGesture)
         
         let likeGesture = UITapGestureRecognizer(target: self, action: #selector(tapLike(_:)))
         like_image.addGestureRecognizer(likeGesture)
@@ -144,10 +155,10 @@ class VideoCell: UITableViewCell {
     @objc func pausePlayer(_ sender: UITapGestureRecognizer) {
         if player.player?.timeControlStatus == .playing {
             player.player?.pause()
-            play_and_pause_image.image = UIImage(named: "play")
+            //play_and_pause_image.image = UIImage(named: "play")
         } else {
             player.player?.play()
-            play_and_pause_image.image = UIImage(named: "pause")
+            //play_and_pause_image.image = UIImage(named: "pause")
         }
     }
 
@@ -174,24 +185,23 @@ class VideoCell: UITableViewCell {
         
         title.translatesAutoresizingMaskIntoConstraints = false
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        title.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        title.bottomAnchor.constraint(equalTo: play_and_pause_image.topAnchor, constant: -10).isActive = true
+        title.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
+        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         
-        title.font = UIFont.boldSystemFont(ofSize: 16.0)
+        title.font = UIFont.systemFont(ofSize: 14.0)
         title.lineBreakMode = NSLineBreakMode.byWordWrapping
         title.numberOfLines = 4
         title.textColor = UIColor.white
     }
     
     func setUsernameAttribute() {
-           
        let screenSize = UIScreen.main.bounds.size
        username.translatesAutoresizingMaskIntoConstraints = false
        username.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
        username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
        
-       username.font = UIFont.boldSystemFont(ofSize: 14.0)
+       username.font = UIFont.systemFont(ofSize: 14.0)
        username.lineBreakMode = NSLineBreakMode.byWordWrapping
        username.numberOfLines = 1
        username.textColor = UIColor.white
@@ -218,6 +228,15 @@ class VideoCell: UITableViewCell {
         player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         player.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
     }
+    func clickPlayer() {
+        play_click.translatesAutoresizingMaskIntoConstraints = false
+        play_click.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        play_click.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        play_click.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        play_click.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        play_click.backgroundColor = UIColor.clear
+    }
+    
     
     func setUserImage() {
         
@@ -229,33 +248,33 @@ class VideoCell: UITableViewCell {
         user_image.clipsToBounds = true
     }
     
-    func setPlayAndPauseImage() {
-        play_and_pause_image.translatesAutoresizingMaskIntoConstraints = false
-        play_and_pause_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        play_and_pause_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
-        play_and_pause_image.image = UIImage(named: "play")
-        
-        duration.translatesAutoresizingMaskIntoConstraints = false
-        duration.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        duration.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        duration.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
-        duration.center = play_and_pause_image.center
-        duration.font = UIFont.boldSystemFont(ofSize: 12.0)
-        duration.textColor = UIColor.white
-        
-        playerSlider.translatesAutoresizingMaskIntoConstraints = false
-        playerSlider.leftAnchor.constraint(equalTo: play_and_pause_image.rightAnchor, constant: 5).isActive = true
-        playerSlider.rightAnchor.constraint(equalTo: duration.leftAnchor, constant: -5).isActive = true
-        playerSlider.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        playerSlider.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
-        playerSlider.center = play_and_pause_image.center
-        playerSlider.tintColor = .white
-        playerSlider.thumbTintColor = .white
-        playerSlider.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-    }
-    
+//    func setPlayAndPauseImage() {
+//        play_and_pause_image.translatesAutoresizingMaskIntoConstraints = false
+//        play_and_pause_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        play_and_pause_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//        play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+//        play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+//        play_and_pause_image.image = UIImage(named: "play")
+//
+//        duration.translatesAutoresizingMaskIntoConstraints = false
+//        duration.heightAnchor.constraint(equalToConstant: 15).isActive = true
+//        duration.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+//        duration.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
+//        duration.center = play_and_pause_image.center
+//        duration.font = UIFont.systemFont(ofSize: 12.0)
+//        duration.textColor = UIColor.white
+//
+//        playerSlider.translatesAutoresizingMaskIntoConstraints = false
+//        playerSlider.leftAnchor.constraint(equalTo: play_and_pause_image.rightAnchor, constant: 5).isActive = true
+//        playerSlider.rightAnchor.constraint(equalTo: duration.leftAnchor, constant: -5).isActive = true
+//        playerSlider.heightAnchor.constraint(equalToConstant: 15).isActive = true
+//        playerSlider.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
+//        playerSlider.center = play_and_pause_image.center
+//        playerSlider.tintColor = .white
+//        playerSlider.thumbTintColor = .white
+//        playerSlider.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+//    }
+//
     func setLikeImage() {
         
         like_image.translatesAutoresizingMaskIntoConstraints = false
@@ -266,7 +285,7 @@ class VideoCell: UITableViewCell {
         like_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         like_count.textAlignment = .center
         
-        like_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        like_count.font = UIFont.systemFont(ofSize: 12.0)
         like_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         like_count.numberOfLines = 1
         like_count.textColor = UIColor.white
@@ -296,7 +315,7 @@ class VideoCell: UITableViewCell {
         comment_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         comment_count.textAlignment = .center
               
-        comment_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        comment_count.font = UIFont.systemFont(ofSize: 12.0)
         comment_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         comment_count.numberOfLines = 1
         comment_count.textColor = UIColor.white
@@ -324,7 +343,7 @@ class VideoCell: UITableViewCell {
         share_count.translatesAutoresizingMaskIntoConstraints = false
         share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        share_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        share_count.font = UIFont.systemFont(ofSize: 12.0)
         share_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         share_count.textAlignment = .center
         
@@ -355,7 +374,7 @@ class VideoCell: UITableViewCell {
         whatsapp_share_count.translatesAutoresizingMaskIntoConstraints = false
         whatsapp_share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        whatsapp_share_count.font = UIFont.boldSystemFont(ofSize: 12.0)
+        whatsapp_share_count.font = UIFont.systemFont(ofSize: 12.0)
         whatsapp_share_count.textAlignment = .center
         whatsapp_share_count.numberOfLines = 1
         whatsapp_share_count.textColor = UIColor.white
@@ -382,8 +401,8 @@ class VideoCell: UITableViewCell {
         video_image.isHidden = false
         video_image.kf.setImage(with: url)
         username.text = "@"+topic.user.username
-        duration.text = ""
-        play_and_pause_image.image = UIImage(named: "play")
+        //duration.text = ""
+        //play_and_pause_image.image = UIImage(named: "play")
         like_count.text = topic.like_count
         comment_count.text = topic.comment_count
         share_count.text = topic.share_count
@@ -399,8 +418,8 @@ class VideoCell: UITableViewCell {
             like_image.tintColor = UIColor.red
         }
 
-        playerSlider.value = 0
-        playerSlider.minimumValue = 0
-        playerSlider.maximumValue = 0
+//        playerSlider.value = 0
+//        playerSlider.minimumValue = 0
+//        playerSlider.maximumValue = 0
     }
 } 
