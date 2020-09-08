@@ -88,6 +88,7 @@ class TrendingAndFollowingViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
         if current_video_cell != nil {
+
             current_video_cell.player.player?.play()
             current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
         }
@@ -661,19 +662,26 @@ class TrendingAndFollowingViewController: UIViewController {
     func playVideo() {
         let videoUrl = NSURL(string: videos[selected_position].video_url)
         if videoUrl != nil {
-            avPlayer = AVPlayer(url: videoUrl! as URL)
+            let playerItem = AVPlayerItem(url: videoUrl! as URL)
+            //cell.player!.replaceCurrentItem(with: cell.playerItem)
+            avPlayer = AVPlayer(playerItem: playerItem)
+             if current_video_cell != nil {
+                 current_video_cell.player.playerLayer.player = avPlayer
+                current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+               // current_video_cell.backgroundColor = UIColVor.black.cgColor
+
+              }
+            //avPlayer = AVPlayer(url: videoUrl! as URL)
             avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
             if #available(iOS 10.0, *) {
                 avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
             } else {
                 avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
             }
-            if current_video_cell != nil {
-                current_video_cell.player.playerLayer.player = avPlayer
-            }
+
             avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
                 let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
-                
+
                 if self.current_video_cell != nil {
                     self.current_video_cell.playerSlider.value = Float(time)
                     self.current_video_cell.playerSlider.minimumValue = 0
@@ -684,6 +692,14 @@ class TrendingAndFollowingViewController: UIViewController {
             })
         }
         topicSeen()
+    }
+    func playingVideo() {
+        if #available(iOS 10.0, *) {
+            avPlayer.automaticallyWaitsToMinimizeStalling = false
+            avPlayer.playImmediately(atRate: 1.0)
+        } else {
+            avPlayer.play()
+        }
     }
     
     @objc func playerSlider() {
@@ -697,7 +713,7 @@ class TrendingAndFollowingViewController: UIViewController {
         if object as AnyObject? === avPlayer {
             if keyPath == "status" {
                 if avPlayer.status == .readyToPlay {
-                    avPlayer.play()
+                   playingVideo()
                 }
             } else if keyPath == "timeControlStatus" {
                 if #available(iOS 10.0, *) {
@@ -791,11 +807,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (tableView == self.trendingView) {
-            return tableView.frame.size.height
-        } else {
-            return 60
-        }
+       return tableView.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

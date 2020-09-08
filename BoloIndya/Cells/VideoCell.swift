@@ -69,9 +69,9 @@ class VideoCell: UITableViewCell {
         addSubview(username)
         addSubview(actions_stack)
         
-//        addSubview(play_and_pause_image)
-//        addSubview(playerSlider)
-//        addSubview(duration)
+        //        addSubview(play_and_pause_image)
+        //        addSubview(playerSlider)
+        //        addSubview(duration)
         
         
         setPlayer()
@@ -81,9 +81,9 @@ class VideoCell: UITableViewCell {
         setImageView()
         //setPlayAndPauseImage()
         
-//        playerSlider.isHidden = true
-//        play_and_pause_image.isHidden = true
-//        duration.isHidden = true
+        //        playerSlider.isHidden = true
+        //        play_and_pause_image.isHidden = true
+        //        duration.isHidden = true
         
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
         actions_stack.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -123,7 +123,7 @@ class VideoCell: UITableViewCell {
         user_image.addGestureRecognizer(tapGesture)
 
         share_image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSharing(_:))))
-                
+
         let pauseGesture = UITapGestureRecognizer(target: self, action: #selector(pausePlayer(_:)))
         play_click.addGestureRecognizer(pauseGesture)
         
@@ -141,8 +141,8 @@ class VideoCell: UITableViewCell {
         delegate?.goToProfile(with: selected_postion)
     }
     @objc func goToSharing(_ sender: UITapGestureRecognizer) {
-          delegate?.goToSharing(with: selected_postion)
-      }
+        delegate?.goToSharing(with: selected_postion)
+    }
     
     @objc func renderComments(_ sender: UITapGestureRecognizer) {
         delegate?.renderComments(with: selected_postion)
@@ -195,16 +195,16 @@ class VideoCell: UITableViewCell {
     }
     
     func setUsernameAttribute() {
-       let screenSize = UIScreen.main.bounds.size
-       username.translatesAutoresizingMaskIntoConstraints = false
-       username.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-       username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-       username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
-       
-       username.font = UIFont.boldSystemFont(ofSize: 15.0)
-       username.lineBreakMode = NSLineBreakMode.byWordWrapping
-       username.numberOfLines = 1
-       username.textColor = UIColor.white
+        let screenSize = UIScreen.main.bounds.size
+        username.translatesAutoresizingMaskIntoConstraints = false
+        username.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
+
+        username.font = UIFont.boldSystemFont(ofSize: 15.0)
+        username.lineBreakMode = NSLineBreakMode.byWordWrapping
+        username.numberOfLines = 1
+        username.textColor = UIColor.white
     }
     
     func setImageView() {
@@ -247,34 +247,7 @@ class VideoCell: UITableViewCell {
         user_image.contentMode = .scaleAspectFill
         user_image.clipsToBounds = true
     }
-    
-//    func setPlayAndPauseImage() {
-//        play_and_pause_image.translatesAutoresizingMaskIntoConstraints = false
-//        play_and_pause_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
-//        play_and_pause_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
-//        play_and_pause_image.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-//        play_and_pause_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
-//        play_and_pause_image.image = UIImage(named: "play")
-//
-//        duration.translatesAutoresizingMaskIntoConstraints = false
-//        duration.heightAnchor.constraint(equalToConstant: 15).isActive = true
-//        duration.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-//        duration.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
-//        duration.center = play_and_pause_image.center
-//        duration.font = UIFont.systemFont(ofSize: 12.0)
-//        duration.textColor = UIColor.white
-//
-//        playerSlider.translatesAutoresizingMaskIntoConstraints = false
-//        playerSlider.leftAnchor.constraint(equalTo: play_and_pause_image.rightAnchor, constant: 5).isActive = true
-//        playerSlider.rightAnchor.constraint(equalTo: duration.leftAnchor, constant: -5).isActive = true
-//        playerSlider.heightAnchor.constraint(equalToConstant: 15).isActive = true
-//        playerSlider.centerYAnchor.constraint(equalTo: play_and_pause_image.centerYAnchor, constant: 0).isActive = true
-//        playerSlider.center = play_and_pause_image.center
-//        playerSlider.tintColor = .white
-//        playerSlider.thumbTintColor = .white
-//        playerSlider.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-//    }
-//
+
     func setLikeImage() {
         
         like_image.translatesAutoresizingMaskIntoConstraints = false
@@ -314,7 +287,7 @@ class VideoCell: UITableViewCell {
         comment_count.translatesAutoresizingMaskIntoConstraints = false
         comment_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         comment_count.textAlignment = .center
-              
+
         comment_count.font = UIFont.systemFont(ofSize: 12.0)
         comment_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         comment_count.numberOfLines = 1
@@ -408,7 +381,15 @@ class VideoCell: UITableViewCell {
         share_count.text = topic.share_count
         whatsapp_share_count.text = topic.whatsapp_share_count
         if (!topic.user.profile_pic.isEmpty) {
-            let pic_url = URL(string: topic.user.profile_pic)
+            var tempUrl = topic.user.profile_pic;
+            if(topic.user.profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
+                tempUrl = topic.user.profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/30x30")
+            } else {
+                tempUrl = topic.user.profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/30x30")
+            }
+
+            let pic_url = URL(string: tempUrl)
+
             user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
         } else {
             user_image.image = UIImage(named: "user")
@@ -418,8 +399,8 @@ class VideoCell: UITableViewCell {
             like_image.tintColor = UIColor.red
         }
 
-//        playerSlider.value = 0
-//        playerSlider.minimumValue = 0
-//        playerSlider.maximumValue = 0
+        //        playerSlider.value = 0
+        //        playerSlider.minimumValue = 0
+        //        playerSlider.maximumValue = 0
     }
 } 

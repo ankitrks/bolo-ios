@@ -58,8 +58,8 @@ class User {
     
     func setProfilePic(profile_pic: String) {
         self.profile_pic = profile_pic
+
     }
-    
 }
 
 func getUserDataFromJson(result: [String:Any]) -> User{
