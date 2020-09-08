@@ -373,7 +373,7 @@ class VideoCell: UITableViewCell {
     func configure(with topic: Topic) {
         
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-        let url = URL(string: topic.thumbnail)
+        let url = URL(string: topic.thumbnailHome)
         video_image.isHidden = false
         video_image.kf.setImage(with: url)
         username.text = "@"+topic.user.username

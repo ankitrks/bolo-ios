@@ -11,6 +11,7 @@ import Foundation
 class Topic {
     var title: String
     var thumbnail: String
+    var thumbnailHome: String
     var duration: String
     var video_url: String
     var downloaded_url: String
@@ -26,6 +27,7 @@ class Topic {
     init(user: User) {
         self.title = ""
         self.thumbnail = ""
+        self.thumbnailHome = ""
         self.duration = ""
         self.id = ""
         self.view_count = ""
@@ -45,9 +47,13 @@ class Topic {
     }
     
     func setThumbnail(thumbail: String) {
-        self.thumbnail=thumbail.replacingOccurrences(of:  "https://in-boloindya.s3.ap-south-1.amazonaws.com/", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/300x500/")
+        self.thumbnail=thumbail.replacingOccurrences(of:  "https://in-boloindya.s3.ap-south-1.amazonaws.com/", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/100x200/")
 
     }
+    func setThumbnailHome(thumbail: String) {
+          self.thumbnailHome=thumbail
+
+      }
     
     func setDuration(duration: String) {
         self.duration=duration
@@ -81,6 +87,7 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
     let topic = Topic(user: user)
     topic.setTitle(title: each["title"] as? String ?? "")
     topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
+     topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
     topic.duration = each["media_duration"] as? String ?? ""
     topic.id = "\(each["id"] as! Int)"
     topic.video_url = each["video_cdn"] as? String ?? ""
@@ -90,11 +97,11 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
     } else {
        topic.view_count = "\(each["view_count"] as! String)"
     }
-    if (each["linkedin_share_count"] as? Int) != nil {
-       topic.share_count = "\(each["linkedin_share_count"] as! Int)"
-    } else {
-       topic.share_count = "\(each["linkedin_share_count"] as! String)"
-    }
+//    if (each["linkedin_share_count"] as? Int) != nil {
+//       topic.share_count = "\(each["linkedin_share_count"] as! Int)"
+//    } else {
+       topic.share_count = "\(each["other_share_count"] as! String)"
+   // }
     if (each["whatsapp_share_count"] as? Int) != nil {
        topic.whatsapp_share_count = "\(each["whatsapp_share_count"] as! Int)"
     } else {

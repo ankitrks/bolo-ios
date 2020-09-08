@@ -204,9 +204,10 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                 self.categories.append(category)
                             }
                         }
-                        
+                         self.fetchBannerHashTags()
+
                         self.categoryView.reloadData()
-                        self.fetchBannerHashTags()
+
                     }
                     catch {
                         self.fetchBannerHashTags()
