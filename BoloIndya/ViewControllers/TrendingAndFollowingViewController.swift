@@ -283,7 +283,7 @@ class TrendingAndFollowingViewController: UIViewController {
                 }
                 self.videos = self.followingTopics
                 self.trendingView.backgroundColor = UIColor.black
-//                self.trendingView.isUserInteractionEnabled = true
+                //                self.trendingView.isUserInteractionEnabled = true
                 self.trendingView.reloadData()
                 if (self.videos.count == 0) {
                     self.fetchFollowingData()
@@ -662,21 +662,22 @@ class TrendingAndFollowingViewController: UIViewController {
     func playVideo() {
         let videoUrl = NSURL(string: videos[selected_position].video_url)
         if videoUrl != nil {
-            let playerItem = AVPlayerItem(url: videoUrl! as URL)
+            //  let playerItem = AVPlayerItem(url: videoUrl! as URL)
             //cell.player!.replaceCurrentItem(with: cell.playerItem)
-            avPlayer = AVPlayer(playerItem: playerItem)
-             if current_video_cell != nil {
-                 current_video_cell.player.playerLayer.player = avPlayer
-                current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-               // current_video_cell.backgroundColor = UIColVor.black.cgColor
+            avPlayer = AVPlayer(url: videoUrl! as URL)
 
-              }
             //avPlayer = AVPlayer(url: videoUrl! as URL)
             avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
             if #available(iOS 10.0, *) {
                 avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
             } else {
                 avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
+            }
+            if current_video_cell != nil {
+                current_video_cell.player.playerLayer.player = avPlayer
+                current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                // current_video_cell.backgroundColor = UIColVor.black.cgColor
+
             }
 
             avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
@@ -713,7 +714,7 @@ class TrendingAndFollowingViewController: UIViewController {
         if object as AnyObject? === avPlayer {
             if keyPath == "status" {
                 if avPlayer.status == .readyToPlay {
-                   playingVideo()
+                    playingVideo()
                 }
             } else if keyPath == "timeControlStatus" {
                 if #available(iOS 10.0, *) {
@@ -807,7 +808,11 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return tableView.frame.size.height
+        if tableView == self.trendingView {
+             return tableView.frame.size.height
+        }else{
+        return tableView.frame.size.height
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -879,12 +884,12 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         do {
             try pdfData?.write(to: temporaryFileURL)
             let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
-          //  showPrograssBar(show: false)
+            //  showPrograssBar(show: false)
             present(activityViewController, animated: true, completion: nil)
         } catch {
             print(error)
         }
-       // showPrograssBar(show: false)
+        // showPrograssBar(show: false)
     }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {

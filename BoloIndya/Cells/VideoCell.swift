@@ -74,11 +74,12 @@ class VideoCell: UITableViewCell {
         //        addSubview(duration)
         
         
-        setPlayer()
-        clickPlayer()
+
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
+        setPlayer()
+        clickPlayer()
         //setPlayAndPauseImage()
         
         //        playerSlider.isHidden = true
@@ -158,6 +159,7 @@ class VideoCell: UITableViewCell {
             //play_and_pause_image.image = UIImage(named: "play")
         } else {
             player.player?.play()
+            video_image.isHidden = true
             //play_and_pause_image.image = UIImage(named: "pause")
         }
     }
@@ -215,18 +217,19 @@ class VideoCell: UITableViewCell {
         video_image.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         video_image.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
         
-        video_image.contentMode = .scaleAspectFit
+        video_image.contentMode = .scaleAspectFill
         video_image.clipsToBounds = true
         video_image.backgroundColor = .black
     }
     
     func setPlayer() {
         player.translatesAutoresizingMaskIntoConstraints = false
-        player.playerLayer.videoGravity = .resizeAspect
+
         player.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         player.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         player.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        player.playerLayer.videoGravity = .resizeAspectFill
     }
     func clickPlayer() {
         play_click.translatesAutoresizingMaskIntoConstraints = false
@@ -244,7 +247,7 @@ class VideoCell: UITableViewCell {
         user_image.layer.cornerRadius = 20
         user_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        user_image.contentMode = .scaleAspectFill
+        user_image.contentMode = .redraw
         user_image.clipsToBounds = true
     }
 
@@ -381,14 +384,8 @@ class VideoCell: UITableViewCell {
         share_count.text = topic.share_count
         whatsapp_share_count.text = topic.whatsapp_share_count
         if (!topic.user.profile_pic.isEmpty) {
-            var tempUrl = topic.user.profile_pic;
-            if(topic.user.profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
-                tempUrl = topic.user.profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/30x30")
-            } else {
-                tempUrl = topic.user.profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/30x30")
-            }
 
-            let pic_url = URL(string: tempUrl)
+            let pic_url = URL(string: topic.user.profile_pic)
 
             user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
         } else {

@@ -45,7 +45,7 @@ class Topic {
     }
     
     func setThumbnail(thumbail: String) {
-        self.thumbnail=thumbail.replacingOccurrences(of:  "https://in-boloindya.s3.ap-south-1.amazonaws.com/", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/100x200/")
+        self.thumbnail=thumbail.replacingOccurrences(of:  "https://in-boloindya.s3.ap-south-1.amazonaws.com/", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/300x500/")
 
     }
     

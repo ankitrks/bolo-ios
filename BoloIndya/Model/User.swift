@@ -57,7 +57,14 @@ class User {
     }
     
     func setProfilePic(profile_pic: String) {
-        self.profile_pic = profile_pic
+       var tempUrl = profile_pic;
+                 if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
+                     tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/60x60")
+                 } else {
+                     tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/60x60")
+                 }
+
+        self.profile_pic = tempUrl
 
     }
 }
