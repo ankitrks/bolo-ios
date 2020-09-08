@@ -87,7 +87,7 @@ class VideoCell: UITableViewCell {
         //        duration.isHidden = true
         
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
-        actions_stack.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        actions_stack.widthAnchor.constraint(equalToConstant: 45).isActive = true
         actions_stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         actions_stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         actions_stack.axis = .vertical
@@ -245,7 +245,7 @@ class VideoCell: UITableViewCell {
         
         user_image.translatesAutoresizingMaskIntoConstraints = false
         user_image.layer.cornerRadius = 20
-        user_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        user_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         user_image.contentMode = .redraw
         user_image.clipsToBounds = true
@@ -254,7 +254,7 @@ class VideoCell: UITableViewCell {
     func setLikeImage() {
         
         like_image.translatesAutoresizingMaskIntoConstraints = false
-        like_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        like_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
         like_image.image = UIImage(named: "like")
         
         like_count.translatesAutoresizingMaskIntoConstraints = false
@@ -284,7 +284,7 @@ class VideoCell: UITableViewCell {
     func setCommentImage() {
         
         comment_image.translatesAutoresizingMaskIntoConstraints = false
-        comment_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        comment_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
         comment_image.image = UIImage(named: "comments")
         
         comment_count.translatesAutoresizingMaskIntoConstraints = false
@@ -313,7 +313,7 @@ class VideoCell: UITableViewCell {
     
     func setShareImage() {
         
-        share_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        share_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
         share_image.image = UIImage(named: "share")
         
         share_count.translatesAutoresizingMaskIntoConstraints = false
@@ -343,7 +343,7 @@ class VideoCell: UITableViewCell {
     
     func setWhatsappImage() {
         
-        whatsapp_share_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        whatsapp_share_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
         whatsapp_share_image.image = UIImage(named: "whatsapp")
         

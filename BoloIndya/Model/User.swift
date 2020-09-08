@@ -16,6 +16,7 @@ class User {
     var bio: String
     var cover_pic: String
     var profile_pic: String
+    var user_profile_pic: String
     var vb_count: Int
     var view_count: String
     var follow_count: String
@@ -29,6 +30,7 @@ class User {
         self.bio = ""
         self.cover_pic = ""
         self.profile_pic = ""
+        self.user_profile_pic = ""
         self.vb_count = 0
         self.view_count = ""
         self.follow_count = ""
@@ -55,6 +57,15 @@ class User {
     func setCoverPic(cover_pic: String) {
         self.cover_pic = cover_pic
     }
+    func setUserProfilePic(profile_pic: String) {
+        var tempUrl = profile_pic;
+                           if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
+                               tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/150x150")
+                           } else {
+                               tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/150x150")
+                           }
+          self.user_profile_pic = tempUrl
+      }
     
     func setProfilePic(profile_pic: String) {
        var tempUrl = profile_pic;
@@ -64,7 +75,10 @@ class User {
                      tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/60x60")
                  }
 
+
+
         self.profile_pic = tempUrl
+
 
     }
 }
@@ -80,6 +94,7 @@ func getUserDataFromJson(result: [String:Any]) -> User{
     user.setBio(bio: user_profile_obj?["bio"] as? String ?? "")
     user.setCoverPic(cover_pic: user_profile_obj?["cover_pic"] as? String ?? "")
     user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
+     user.setUserProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
     user.vb_count = user_profile_obj?["vb_count"] as! Int
     if let view_count = user_profile_obj?["view_count"] as? Int {
         user.view_count = "\(view_count)"

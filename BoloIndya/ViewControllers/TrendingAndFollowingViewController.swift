@@ -808,11 +808,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == self.trendingView {
-             return tableView.frame.size.height
-        }else{
-        return tableView.frame.size.height
-        }
+          return tableView.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
