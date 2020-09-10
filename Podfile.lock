@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (4.9.0)
+  - AlamofireObjectMapper (5.2.1):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -63,6 +66,7 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
+  - ObjectMapper (3.5.3)
   - PromisesObjC (1.2.9)
   - PryntTrimmerView (4.0.0)
   - SteviaLayout (4.7.3)
@@ -74,6 +78,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlamofireObjectMapper
   - Firebase/Auth
   - GoogleSignIn
   - Kingfisher
@@ -84,6 +89,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AlamofireObjectMapper
     - AppAuth
     - Firebase
     - FirebaseAuth
@@ -97,6 +103,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - Kingfisher
     - nanopb
+    - ObjectMapper
     - PromisesObjC
     - PryntTrimmerView
     - SteviaLayout
@@ -106,6 +113,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Firebase: 919186c8e119dd9372a45fd1dd17a8a942bc1892
   FirebaseAuth: b85c064e0ac60f82486728d50a4803f235687302
@@ -119,6 +127,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
@@ -126,6 +135,6 @@ SPEC CHECKSUMS:
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
   YPImagePicker: 3b88ca0c50134af2856c48c481572c98a8b8b65b
 
-PODFILE CHECKSUM: f9b4a6832e9c5fab57550fe5314ea9d55438b609
+PODFILE CHECKSUM: 852512ef3ed5a8f003830d9ddf30fb825b6387d1
 
 COCOAPODS: 1.9.3

@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ViewController: UIViewController {
+class ViewController: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()

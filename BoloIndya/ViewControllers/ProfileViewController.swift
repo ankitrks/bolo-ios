@@ -12,7 +12,7 @@ import Kingfisher
 
 import SVProgressHUD
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseVC {
     
     var name = UILabel()
     
@@ -461,7 +461,8 @@ class ProfileViewController: UIViewController {
                 }
         }
     }
-    
+  
+
     
     func followingUser() {
         
@@ -491,13 +492,7 @@ class ProfileViewController: UIViewController {
 
  
     @objc func followUser(_ sender: UITapGestureRecognizer) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "userProfileLogin", sender: self)
-            return
-        }
+      if  isLogin() {
         if self.isFollowing {
             users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
             follow_button.setTitle("Follow", for: .normal)
@@ -512,6 +507,7 @@ class ProfileViewController: UIViewController {
         self.followingUser()
         self.isFollowing = !self.isFollowing
         UserDefaults.standard.setFollowingUsers(value: users_following)
+    }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -588,7 +584,7 @@ class ProfileViewController: UIViewController {
             let vc = segue.destination as? LoginAndSignUpViewController
             vc?.selected_tab = 0
         }else if segue.destination is UserProfileEditVC{
-            let vc = segue.destination as? UserProfileEditVC
+            _ = segue.destination as? UserProfileEditVC
 
         }
     }

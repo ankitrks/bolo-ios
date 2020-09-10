@@ -11,7 +11,7 @@ import Alamofire
 import YPImagePicker
 import SVProgressHUD
 
-class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
+class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     
     @IBOutlet weak var more: UIButton!
 
@@ -81,20 +81,16 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
         super.viewDidLoad()
         print("Current User")
         self.navigationController?.isNavigationBarHidden = true
+        if  isLogin() {
 
-                    let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-                    if (!isLoggedIn) {
-                        self.tabBarController?.tabBar.isHidden = true
-                        self.navigationController?.isNavigationBarHidden = true
-                        performSegue(withIdentifier: "signUpCurrentUser", sender: self)
-                    } else {
                         topic_liked = UserDefaults.standard.getLikeTopic()
                         setUserData()
                         setTableView()
                         setUserVideoView()
                          reloadPage()
+        }
 
-                    }
+
 
 
     }
@@ -546,7 +542,7 @@ class CurrentUserViewController: UIViewController, UserProfileEdittProtocal {
                          do {
                              let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                            //  if let result = json_object?["message"] as? [String:Any] {
-                                self.showToast(message: json_object?["message"] as! String , font: UIFont.boldSystemFont(ofSize: 13.0))
+                                self.showToast(message: json_object?["message"] as! String)
 
                          }
                          catch {
@@ -771,15 +767,23 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
             dictionary.keys.forEach {key in
                 defaults.removeObject(forKey: key)
             }
-            UserDefaults.standard.setValueForLanguageId(value: language_id)
-            let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: false)
+           resetApp()
             break
         default:
             break
         }
     }
+    func resetApp() {
+       self.navigationController?.popViewController(animated: true)
+       self.dismissPopAllViewViewControllers()
+    }
+    func dismissPopAllViewViewControllers() {
+          if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+              appDelegate.window?.rootViewController?.dismiss(animated: true, completion: nil)
+              (appDelegate.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: true)
+              appDelegate.window?.makeKeyAndVisible()
+          }
+      }
 }
 
 extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

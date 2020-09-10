@@ -23,6 +23,13 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         if collectionView == categoryView {
             return categories.count
         } else {
+            if banners.count>0 {
+                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+165, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+
+            }else{
+                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+65, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+
+            }
             return banners.count
         }
     }
@@ -76,7 +83,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let screenSize = UIScreen.main.bounds.size
+
         return ((screenSize.width/3.4)*1.5)+50
     }
     
@@ -94,6 +101,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     var category_id: String = "68"
     var current_hash_tag: HashTag = HashTag()
     var selected_position: Int = 0
+    let screenSize = UIScreen.main.bounds.size
     
     var search_text = UITextField()
     
@@ -110,8 +118,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         discoverView.dataSource = self
         discoverView.register(SectionCell.self, forCellReuseIdentifier: "Cell")
         discoverView.backgroundColor = .clear
-        
-        let screenSize = UIScreen.main.bounds.size
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -168,8 +175,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         categories.append(category)
     
         self.discoverView.separatorStyle = .none
-        self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+165, width: screenSize.width, height: screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
-        
+
         fetchCategories()
         
     }
@@ -203,9 +209,9 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                 category.id = each["id"] as! Int
                                 self.categories.append(category)
                             }
-                        }
-                         self.fetchBannerHashTags()
+                          }
 
+                         self.fetchBannerHashTags()
                         self.categoryView.reloadData()
 
                     }
@@ -237,9 +243,12 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                                     hash_tag.title = each["hashtag_name"] as! String
                                     self.banners.append(hash_tag)
                                 }
+
+                                self.bannerView.reloadData()
+
                             }
-                        self.fetchHashData()
-                        self.bannerView.reloadData()
+                     self.fetchHashData()
+
                    }
                    catch {
                         self.fetchHashData()

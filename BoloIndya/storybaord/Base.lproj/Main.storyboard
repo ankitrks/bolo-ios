@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="4352" identifier="iOS"/>
@@ -15,13 +15,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen" translatesAutoresizingMaskIntoConstraints="NO" id="tCm-xe-YuM">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tCm-xe-YuM" secondAttribute="bottom" id="8e0-pa-4au"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tCm-xe-YuM" secondAttribute="trailing" id="Fbe-KM-H60"/>
+                            <constraint firstItem="tCm-xe-YuM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qpr-i6-Byt"/>
+                            <constraint firstItem="tCm-xe-YuM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h3O-2Z-wdh"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-323.1884057971015" y="106.47321428571428"/>
+            <point key="canvasLocation" x="-1797" y="-301"/>
         </scene>
         <!--Choose Language Controller-->
         <scene sceneID="fvp-Js-dHr">
@@ -121,7 +132,7 @@
                         <segue destination="deA-3d-qbE" kind="show" identifier="updateInterset" id="Kds-Zb-Hcq"/>
                         <segue destination="SA3-tU-c8V" kind="show" identifier="termsPages" id="kAZ-Gh-86o"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoView" id="d8T-lC-yEV"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="signUpCurrentUser" id="AcQ-9e-iDp"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="AcQ-9e-iDp"/>
                         <segue destination="hN7-E0-O0O" kind="show" identifier="followingUserProfile" id="UT1-SK-RWY"/>
                         <segue destination="ydo-sx-gdf" kind="presentation" identifier="UserProfileEditVC" id="ESu-cE-HRe"/>
                     </connections>
@@ -166,7 +177,9 @@
         <scene sceneID="LcJ-Q9-1E3">
             <objects>
                 <navigationController id="BQn-33-69N" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="notification" id="bV5-7Z-HVA"/>
+                    <tabBarItem key="tabBarItem" title="" image="notification" selectedImage="notification" id="bV5-7Z-HVA">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mGR-gw-Ue2">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -183,7 +196,9 @@
         <scene sceneID="6Hc-p6-x2g">
             <objects>
                 <navigationController id="jHa-1K-xiT" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="search" id="5at-Xi-UeY"/>
+                    <tabBarItem key="tabBarItem" title="" image="search" selectedImage="search" id="5at-Xi-UeY">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="waa-tP-zNc">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -252,11 +267,14 @@
         <!--Main View Controller-->
         <scene sceneID="4bQ-4u-JD8">
             <objects>
-                <tabBarController restorationIdentifier="MainViewController" storyboardIdentifier="MainViewController" id="l6U-lJ-p5v" customClass="MainViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="w5W-UW-lpp">
+                <tabBarController restorationIdentifier="MainViewController" storyboardIdentifier="MainViewController" wantsFullScreenLayout="YES" id="l6U-lJ-p5v" customClass="MainViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" itemPositioning="fill" id="w5W-UW-lpp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.71372549019999998" green="0.15686274510000001" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="Lrf-nz-3YI" kind="relationship" relationship="viewControllers" id="TLu-Uy-sWH"/>
@@ -268,13 +286,15 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4g4-Vt-VHT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-877" y="218"/>
+            <point key="canvasLocation" x="-843" y="-249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4sO-IA-JZY">
             <objects>
                 <navigationController id="Lrf-nz-3YI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="home_tab" id="Gg6-up-0y7"/>
+                    <tabBarItem key="tabBarItem" title="" image="home_tab" selectedImage="home_tab" id="Gg6-up-0y7">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="61a-8d-xWz">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -291,7 +311,9 @@
         <scene sceneID="Oon-J1-KOo">
             <objects>
                 <navigationController id="gZC-aX-H8t" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="add" id="rvm-py-ecf"/>
+                    <tabBarItem key="tabBarItem" title="" image="add" selectedImage="add" id="rvm-py-ecf">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="A4N-hu-UO0">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -317,7 +339,7 @@
                     <navigationItem key="navigationItem" id="HOM-my-uQ2"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileView" id="Xyc-tg-wB7"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="trendingLogin" id="MBI-fN-aqE"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="MBI-fN-aqE"/>
                         <segue destination="6Kv-Ge-xNS" kind="show" identifier="thumbnailVideo" id="qqs-qN-J1N"/>
                     </connections>
                 </viewController>
@@ -393,7 +415,7 @@
                     <navigationItem key="navigationItem" id="JmK-Qu-b4Q"/>
                     <connections>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="CategoryVideoView" id="ihG-lq-j9X"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="categoryLogin" id="cy9-wd-7Om"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="cy9-wd-7Om"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6X-eg-niZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -413,7 +435,7 @@
                     <navigationItem key="navigationItem" id="t3W-6m-5IV"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="searchUser" id="vPn-gE-lEj"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="searchLogin" id="eji-Sn-YYh"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="eji-Sn-YYh"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="searchVideo" id="aaY-cy-9CT"/>
                         <segue destination="EIA-H7-SCm" kind="show" identifier="searchHash" id="B3N-mh-Amk"/>
                     </connections>
@@ -436,7 +458,7 @@
                     <navigationItem key="navigationItem" id="rIf-RK-BlB"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileNotification" id="l2F-fa-1O0"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="notificationLogin" id="fqs-FO-mCm"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="fqs-FO-mCm"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoNotification" id="6mq-G6-e0g"/>
                     </connections>
                 </viewController>
@@ -457,7 +479,7 @@
                     <navigationItem key="navigationItem" id="KOf-0V-0BO"/>
                     <connections>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="userFollowingProfile" id="Qoa-9v-DXb"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="followingLogin" id="tpt-nh-0Qt"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="tpt-nh-0Qt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acj-ZI-UGw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -536,7 +558,7 @@
                         <outlet property="user_name" destination="kMC-Lb-k4q" id="0Sd-k9-Gmq"/>
                         <segue destination="Qmp-Sc-mS7" kind="show" identifier="VideoViewOtherUser" id="tDC-fX-6PB"/>
                         <segue destination="hN7-E0-O0O" kind="show" identifier="profileFollowing" id="8mZ-Aq-txe"/>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="userProfileLogin" id="5Kg-N4-WN5"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="5Kg-N4-WN5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amH-p0-jcm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -637,7 +659,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbC-IM-F7P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1135" y="455"/>
+            <point key="canvasLocation" x="-6862" y="1491"/>
         </scene>
         <!--Discover View Controller-->
         <scene sceneID="eU4-4L-zJU">
@@ -673,7 +695,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="xfy-K9-nvc"/>
                     <connections>
-                        <segue destination="ItB-2c-c5G" kind="show" identifier="createLogin" id="W1O-hl-136"/>
+                        <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="W1O-hl-136"/>
                         <segue destination="6Kv-Ge-xNS" kind="show" identifier="videoThumbnail" id="mIq-dh-fyv"/>
                     </connections>
                 </viewController>
@@ -688,18 +710,19 @@
         <segue reference="UT1-SK-RWY"/>
         <segue reference="qqs-qN-J1N"/>
         <segue reference="x1b-Ln-B5m"/>
-        <segue reference="kAZ-Gh-86o"/>
-        <segue reference="d8T-lC-yEV"/>
+        <segue reference="5V4-Qm-xgn"/>
+        <segue reference="nsD-ou-GI7"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="add" width="30" height="30"/>
+        <image name="add" width="32" height="23"/>
         <image name="back" width="30" height="30"/>
-        <image name="home_tab" width="30" height="30"/>
+        <image name="home_tab" width="23" height="23"/>
         <image name="more" width="30" height="30"/>
         <image name="more_vertical" width="30" height="30"/>
-        <image name="notification" width="24" height="24"/>
-        <image name="search" width="30" height="30"/>
+        <image name="notification" width="25" height="25"/>
+        <image name="search" width="19" height="19"/>
         <image name="share" width="30" height="30"/>
+        <image name="splash_screen" width="205.5" height="411.5"/>
         <image name="user" width="25" height="25"/>
     </resources>
 </document>

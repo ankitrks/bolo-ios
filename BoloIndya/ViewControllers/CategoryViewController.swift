@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Kingfisher
 
-class CategoryViewController: UIViewController {
+class CategoryViewController: BaseVC {
     
     var topics: [Topic] = []
     var selected_ids: [Int] = []
@@ -130,13 +130,7 @@ class CategoryViewController: UIViewController {
     }
     
     @objc func followUser(_ sender: UITapGestureRecognizer) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "categoryLogin", sender: self)
-            return
-        }
+      isLogin()
     }
     
     

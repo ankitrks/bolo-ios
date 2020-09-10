@@ -49,7 +49,20 @@ extension UserDefaults {
     func isLoggedIn() -> Bool? {
        return value(forKey: "is_logged_in") as? Bool ?? false
     }
-    
+
+    func getGuestLoggedIn() -> Bool? {
+          return value(forKey: "is_guest_logged_in") as? Bool ?? false
+       }
+
+    func setGuestLoggedIn(value: Bool?) {
+        if value != nil {
+                   set(value, forKey: "is_guest_logged_in")
+               } else {
+                   removeObject(forKey: "auth_key")
+               }
+
+    }
+
     func setAuthToken(value: String?) {
         if value != nil {
             set(value, forKey: "auth_key")

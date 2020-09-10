@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class NotificationViewController: UIViewController {
+class NotificationViewController: BaseVC {
 
     var notificationView = UITableView()
     var loader = UIActivityIndicatorView()
@@ -28,10 +28,7 @@ class NotificationViewController: UIViewController {
         print("Notification")
         self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            goToLoginPage()
-        } else {
+        if  isLogin(){
             view.addSubview(loader)
             
             loader.center = self.view.center
@@ -41,6 +38,7 @@ class NotificationViewController: UIViewController {
             setNotificationViewDelegate()
             fetchNotifications()
         }
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

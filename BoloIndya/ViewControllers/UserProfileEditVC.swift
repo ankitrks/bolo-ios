@@ -219,7 +219,7 @@ class UserProfileEditVC: UIViewController {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                             //  if let result = json_object?["message"] as? [String:Any] {
                             self.reload = true
-                            self.showToast(message: json_object?["message"] as! String , font: UIFont.boldSystemFont(ofSize: 13.0))
+                            self.showToast(message: json_object?["message"] as! String)
 
                         }
                         catch {

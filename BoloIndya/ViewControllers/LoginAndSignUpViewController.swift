@@ -12,7 +12,7 @@ import Firebase
 import GoogleSignIn
 import Alamofire
 
-class LoginAndSignUpViewController: UIViewController {
+class LoginAndSignUpViewController: BaseVC {
 
     @IBOutlet weak var signInWithGoogle: UIButton!
     
@@ -240,6 +240,23 @@ class LoginAndSignUpViewController: UIViewController {
     @IBAction func googleSignIn(_ sender: Any) {
         GIDSignIn.sharedInstance().signIn()
     }
+    override func onSuccessResponse(response: Any, resultCode: Int = 0) {
+        //if(resultCode == 2){
+              let userInfo = response as! LoginUserInfo
+              guard let access = userInfo.accessToken, access.count > 0  else {
+                  self.showToast(message: "Please enter valid otp"  )
+                   return
+                     }
+              setDataUserInfo(info: response as! LoginUserInfo)
+              sentToTrending()
+   // }
+    }
+
+    override func onFailResponse(response: Error) {
+         print(response.localizedDescription)
+    }
+
+
 }
 
 extension LoginAndSignUpViewController : GIDSignInDelegate {
@@ -296,44 +313,7 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
             "user_ip": ""
         ]
         
-        Alamofire.request("https://www.boloindya.com/api/v1/fb_profile_settings/", method: .post, parameters: parameters, encoding: URLEncoding.default)
-            .responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        do {
-                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            
-                            UserDefaults.standard.setLoggedIn(value: true)
-                        
-                            UserDefaults.standard.setAuthToken(value: json_object?["access"] as? String)
-                        
-                            UserDefaults.standard.setUsername(value: json_object?["username"] as? String)
-                            
-                            let user_obj = json_object?["user"] as? [String: AnyObject]
-                            
-                            UserDefaults.standard.setUserId(value: user_obj?["id"] as? Int)
-                            
-                            let user_profile = user_obj?["userprofile"] as? [String: AnyObject]
-                            
-                            UserDefaults.standard.setName(value: user_profile?["name"] as? String)
-                            
-                            UserDefaults.standard.setCoverPic(value: user_profile?["cover_pic"] as? String)
-                            
-                            UserDefaults.standard.setProfilePic(value: user_profile?["profile_pic"] as? String)
-                            
-                            UserDefaults.standard.setBio(value: user_profile?["bio"] as? String)
-                            
-                            self.sentToTrending()
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    break
-                case.failure(let error):
-                    print(error)
-                }
-        }
+        setParam(url: PROFILE_URL , param: parameters, className: LoginUserInfo.self, resultCode: 2)
         
     }
     
@@ -346,55 +326,21 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
             "mobile_no": "\(mobile_no.text.unsafelyUnwrapped)",
             "otp": "\(otp.text.unsafelyUnwrapped)",
             "country_code": "+91",
-            "language": "2"
+            "language": UserDefaults.standard.getValueForLanguageId() ?? "2" as String
         ]
-        
-        Alamofire.request("https://www.boloindya.com/api/v1/otp/verify_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
-            .responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        
-                        do {
-                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            UserDefaults.standard.setLoggedIn(value: true)
-                        
-                            UserDefaults.standard.setAuthToken(value: json_object?["access_token"] as? String)
-                        
-                            let user_obj = json_object?["user"] as? [String: AnyObject]
-                            
-                            UserDefaults.standard.setUserId(value: user_obj?["id"] as? Int)
-                            
-                            let user_profile = user_obj?["userprofile"] as? [String: AnyObject]
-                            
-                            UserDefaults.standard.setUsername(value: user_obj?["username"] as? String)
-                            
-                            UserDefaults.standard.setName(value: user_profile?["name"] as? String)
-                            
-                            UserDefaults.standard.setCoverPic(value: user_profile?["cover_pic"] as? String)
-                            
-                            UserDefaults.standard.setProfilePic(value: user_profile?["profile_pic"] as? String)
-                            
-                            UserDefaults.standard.setBio(value: user_profile?["bio"] as? String)
-                            
-                            self.sentToTrending()
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    break
-                case.failure(let error):
-                    print(error)
-                }
-        }
+
+
+        setParam(url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
     
     }
+    
  
     func sentToTrending() {
         let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
+
     
 }
 

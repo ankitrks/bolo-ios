@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SearchViewController: UIViewController {
+class SearchViewController: BaseVC {
     
     var search_text = ""
     
@@ -750,13 +750,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: FollowerViewCellDelegate {
     func followUser(with selected_postion: Int) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "searchLogin", sender: self)
-            return
-        }
+        if (isLogin()){
         if users[selected_postion].isFollowing {
             users_following.remove(at: users_following.firstIndex(of: self.users[selected_postion].id)!)
         } else {
@@ -766,6 +760,7 @@ extension SearchViewController: FollowerViewCellDelegate {
         users[selected_postion].isFollowing =  !users[selected_postion].isFollowing
         UserDefaults.standard.setFollowingUsers(value: users_following)
         userView.reloadData()
+        }
     }
 }
 

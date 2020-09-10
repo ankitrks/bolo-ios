@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class FollowingFollowerViewController: UIViewController {
+class FollowingFollowerViewController: BaseVC {
     
     var go_back =  UIImageView()
     var following = UILabel()
@@ -247,13 +247,7 @@ extension FollowingFollowerViewController : UITableViewDelegate, UITableViewData
 
 extension FollowingFollowerViewController: FollowerViewCellDelegate {
     func followUser(with selected_postion: Int) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "followingLogin", sender: self)
-            return
-        }
+        if (isLogin()){
         if users[selected_postion].isFollowing {
             users_following.remove(at: users_following.firstIndex(of: self.users[selected_postion].id)!)
         } else {
@@ -263,5 +257,6 @@ extension FollowingFollowerViewController: FollowerViewCellDelegate {
         users[selected_postion].isFollowing =  !users[selected_postion].isFollowing
         UserDefaults.standard.setFollowingUsers(value: users_following)
         followerView.reloadData()
+        }
     }
 }

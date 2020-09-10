@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChooseLanguageFirstViewController: UIViewController {
+class ChooseLanguageFirstViewController: BaseVC {
     
     var languages: [Languages]!
     
@@ -109,15 +109,32 @@ class ChooseLanguageFirstViewController: UIViewController {
     }
     
     func sentToTrending() {
-        UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
-        UserDefaults.standard.setLanguageSet(value: true)
-        
-        
-        let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
+        let paramters: [String: Any] = [
+                          KEY_ACTIVITY: "android_login",
+                          KEY_LANGUAGE: languages[selected_position].id,
+                          KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
+                      ]
+
+    setParam(url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
+
+
     }
-    
+
+    override func onSuccessResponse(response: Any) {
+          switch response {
+          case is LoginUserInfo:
+            setDataUserInfo(info: response as! LoginUserInfo)
+             UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
+                      UserDefaults.standard.setLanguageSet(value: true)
+
+
+                      let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+                      vc.modalPresentationStyle = .fullScreen
+                      present(vc, animated: false)
+          default:
+            break
+          }
+      }    
 }
 
 extension ChooseLanguageFirstViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

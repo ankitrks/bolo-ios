@@ -8,14 +8,14 @@
 import UIKit
 extension UIViewController {
 
-func showToast(message : String, font: UIFont) {
+    func showToast(message : String) {
 
-    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height/2, width: 150, height: 35))
+    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 100, y: (self.view.frame.size.height - 200), width: 200, height: 35))
     toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
     toastLabel.textColor = UIColor.red
-    toastLabel.font = font
-    toastLabel.textAlignment = .center;
-    toastLabel.text = message
+    toastLabel.font = UIFont.systemFont(ofSize: 20.0)
+    toastLabel.textAlignment = .center
+        toastLabel.text = message
     toastLabel.alpha = 1.0
     toastLabel.layer.cornerRadius = 10;
     toastLabel.clipsToBounds  =  true

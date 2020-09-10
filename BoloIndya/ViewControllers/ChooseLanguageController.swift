@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ChooseLanguageController : UIViewController {
+class ChooseLanguageController : BaseVC {
     
     var languages: [Languages]!
     
@@ -131,39 +131,39 @@ class ChooseLanguageController : UIViewController {
     
     func sentToTrending() {
         
-        if isLoading {
-            return
-        }
-        
-        UserDefaults.standard.setValueForLanguageId(value: selected_position)
-        UserDefaults.standard.setLanguageSet(value: true)
-        
-        let paramters: [String: Any] = [
-            "activity": "settings_changed",
-            "language": "\(selected_position)"
-        ]
-        
-        var headers: [String: Any]? = nil
-        
-        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-        }
-        
-        loader.isHidden = false
-        loader.startAnimating()
-        
-        isLoading = true
-        
-        let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
-        
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-            .responseString  { (responseData) in
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: false)
-        }
+              if isLoading {
+                   return
+               }
+
+               UserDefaults.standard.setValueForLanguageId(value: selected_position)
+               UserDefaults.standard.setLanguageSet(value: true)
+
+               let paramters: [String: Any] = [
+                   KEY_ACTIVITY: "settings_changed",
+                   KEY_LANGUAGE: "\(selected_position)",
+                   KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
+               ]
+
+               loader.isHidden = false
+               loader.startAnimating()
+
+               isLoading = true
+
+
+               setParam(url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
         
     }
+    override func onSuccessResponse(response: Any) {
+        switch response {
+        case is LoginUserInfo:
+             let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+                            vc.modalPresentationStyle = .fullScreen
+                            self.present(vc, animated: false)
+        default:
+          break
+        }
+    }
+
 }
 
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

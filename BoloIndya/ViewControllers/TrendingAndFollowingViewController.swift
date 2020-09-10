@@ -12,7 +12,7 @@ import Kingfisher
 import AVFoundation
 import SVProgressHUD
 
-class TrendingAndFollowingViewController: UIViewController {
+class TrendingAndFollowingViewController: BaseVC {
     
     var trendingView = UITableView()
     
@@ -269,12 +269,7 @@ class TrendingAndFollowingViewController: UIViewController {
     }
     
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.isNavigationBarHidden = true
-            performSegue(withIdentifier: "trendingLogin", sender: self)
-        } else {
+        if isLogin() {
             if (isTrending) {
                 following.textColor = UIColor.red
                 trending.textColor = UIColor.gray
@@ -291,6 +286,9 @@ class TrendingAndFollowingViewController: UIViewController {
                 isTrending = false
             }
         }
+
+
+
     }
     
     @objc func changeToTrending(_ sender: UITapGestureRecognizer) {
@@ -558,6 +556,9 @@ class TrendingAndFollowingViewController: UIViewController {
             .responseString  { (responseData) in
                 
         }
+    //  setParam(showProgressBar: false, url: SEEN_VB, param: paramters, className: <#T##Mappable.Protocol#>)
+
+
     }
     
     func topicLike() {
@@ -808,7 +809,11 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-          return tableView.frame.size.height
+             if (tableView == self.trendingView) {
+                   return tableView.frame.size.height
+               } else {
+                   return 60
+               }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -844,6 +849,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
 
 
     func renderComments(with selected_postion: Int) {
+        if (isLogin()){
         self.selected_position = selected_postion
         if current_video_cell != nil {
             current_video_cell.player.player?.pause()
@@ -856,6 +862,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         commentView.reloadData()
         comment_title.text = ""
         fetchComment()
+        }
     }
     
     func goToProfile(with selected_postion: Int) {
@@ -990,6 +997,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
     
     func likedTopic(with selected_postion: Int) {
+
         self.selected_position = selected_postion
         if self.videos[selected_postion].isLiked {
             topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
