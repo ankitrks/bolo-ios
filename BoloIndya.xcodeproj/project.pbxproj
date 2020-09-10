@@ -78,6 +78,7 @@
 		6EEA92A4250A5B0900B1858B /* LoginUserprofile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */; };
 		6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A5250AAE0900B1858B /* ErrorCell.swift */; };
 		6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EEA92A6250AAE0900B1858B /* ErrorCell.xib */; };
+		6EEA92AA250ADED500B1858B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A9250ADED500B1858B /* Date.swift */; };
 		DCC086A86DE1E542FC9F9547 /* Pods_BoloIndya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */; };
 /* End PBXBuildFile section */
 
@@ -159,6 +160,7 @@
 		6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginUserprofile.swift; sourceTree = "<group>"; };
 		6EEA92A5250AAE0900B1858B /* ErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCell.swift; sourceTree = "<group>"; };
 		6EEA92A6250AAE0900B1858B /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
+		6EEA92A9250ADED500B1858B /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +346,7 @@
 			children = (
 				6EB4AEDD24FBEF0000C01D72 /* UIImageView.swift */,
 				6EB4AEDF24FC22F800C01D72 /* UIViewController.swift */,
+				6EEA92A9250ADED500B1858B /* Date.swift */,
 			);
 			path = extention;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				6EBBB8A2250933C400A1B4C0 /* AppUtils.swift in Sources */,
 				6EB4AEE024FC22F800C01D72 /* UIViewController.swift in Sources */,
 				18C771B524CB2F20007E3AC2 /* Category.swift in Sources */,
+				6EEA92AA250ADED500B1858B /* Date.swift in Sources */,
 				183BDCC624B7BA4000ACF912 /* CurrentUserViewController.swift in Sources */,
 				18CE0DC424C0DFBE003B0E51 /* HashTag.swift in Sources */,
 				182D541924B9CAB000B33ACE /* CreateVideoViewController.swift in Sources */,

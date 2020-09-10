@@ -135,7 +135,7 @@ class ChooseLanguageController : BaseVC {
                    return
                }
 
-               UserDefaults.standard.setValueForLanguageId(value: selected_position)
+               UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
                UserDefaults.standard.setLanguageSet(value: true)
 
                let paramters: [String: Any] = [

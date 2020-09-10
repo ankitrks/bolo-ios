@@ -268,6 +268,7 @@ class TrendingAndFollowingViewController: BaseVC {
         trendingView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         trendingView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         trendingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
+        trendingView.separatorStyle = .none
     }
     
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
@@ -389,8 +390,19 @@ class TrendingAndFollowingViewController: BaseVC {
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
-        
-        let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
+
+       var vb_score = "";
+
+        if ( videos != nil && videos.count > 0) {
+            vb_score = "&vb_score=" + videos[videos.count - 1].vb_score
+          }
+
+       // if let time = UserDefaults.standard.getlastUpdateTime(){
+         var lasttime = "&last_updated=\(UserDefaults.standard.getlastUpdateTime() ?? "")"
+
+
+        let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)\(vb_score)\(lasttime)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
+        print("url \(url)")
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
@@ -400,6 +412,7 @@ class TrendingAndFollowingViewController: BaseVC {
                         
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            print(" response \(json_object?["topics"])")
                             if let content = json_object?["topics"] as? [[String:Any]] {
                                 for each in content {
                                     self.trendingTopics.append(getTopicFromJson(each: each))
@@ -412,6 +425,7 @@ class TrendingAndFollowingViewController: BaseVC {
                             self.isLoading = false
                             self.page += 1
                             self.trendingView.reloadData()
+                            UserDefaults.standard.setLastUpdateTime(value: "\(Date().currentTimeMillis())")
                         }
                         catch {
                             self.isLoading = false

@@ -25,14 +25,27 @@ extension UserDefaults {
         }
         return id
    }
-    
+    func getlastUpdateTime() -> String? {
+          value(forKey: "last_update_time") as? String ?? ""
+      }
+
+    func setLastUpdateTime(value: String?) {
+          if value != nil {
+              set(value, forKey: "last_update_time")
+          } else {
+              removeObject(forKey: "last_update_time")
+          }
+      }
+
     func setLoggedIn(value: Bool?) {
-        if value != nil {
-            set(value, forKey: "is_logged_in")
-        } else {
-            removeObject(forKey: "is_logged_in")
-        }
-    }
+           if value != nil {
+               set(value, forKey: "is_logged_in")
+           } else {
+               removeObject(forKey: "is_logged_in")
+           }
+       }
+    
+
     
     func setLanguageSet(value: Bool?) {
         if value != nil {

@@ -23,6 +23,7 @@ class Topic {
     var like_count: String
     var share_count: String
     var whatsapp_share_count: String
+    var vb_score:String
     
     init(user: User) {
         self.title = ""
@@ -34,8 +35,10 @@ class Topic {
         self.comment_count = ""
         self.video_url = ""
         self.downloaded_url = ""
+        self.vb_score = ""
         self.user = user
         self.isLiked = false
+        self.like_count = ""
         self.like_count = ""
         self.comment_count = ""
         self.share_count = ""
@@ -62,7 +65,10 @@ class Topic {
     func setId(id: String) {
         self.id=id
     }
-    
+
+    func setVScore(vb_score :String)  {
+        self.vb_score = vb_score
+    }
     func setViewCount(view_count: String) {
         self.view_count=view_count
     }
@@ -101,6 +107,7 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
 //       topic.share_count = "\(each["linkedin_share_count"] as! Int)"
 //    } else {
        topic.share_count = "\(each["other_share_count"] as! String)"
+      topic.vb_score = "\(each["vb_score"] as? String ?? "")"
    // }
     if (each["whatsapp_share_count"] as? Int) != nil {
        topic.whatsapp_share_count = "\(each["whatsapp_share_count"] as! Int)"
