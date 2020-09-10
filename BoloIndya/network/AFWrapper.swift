@@ -39,10 +39,10 @@ class AFWrapper: NSObject {
     class func requestPOSTURL<T: Mappable>(showProgressBar:Bool = true,url : String, params : [String : Any]?, success:@escaping (_ response: T) -> Void, failure:@escaping (Error) -> Void){
         AppUtils.showPrograssBar(show: showProgressBar)
         var headers: [String: String]? = nil
-       // headers.
-          //   if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-                headers = ["Content-Type":"application/x-www-form-urlencoded"]
-            // }
+
+            // if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+                 headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+          //   }
 
         Alamofire.request(url, method : .post,parameters: params,headers: headers).responseObject { (response: DataResponse<T>) in
             // UIApplication.shared.isNetworkActivityIndicatorVisible = false

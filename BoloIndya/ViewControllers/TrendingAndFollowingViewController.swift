@@ -88,7 +88,7 @@ class TrendingAndFollowingViewController: BaseVC {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
         print("DEVICE ID ",UIDevice.current.identifierForVendor?.uuidString ?? "")
-        self.showToast(message: "DEVICE ID \(UIDevice.current.identifierForVendor?.uuidString ?? "")")
+      //  self.showToast(message: "DEVICE ID \(UIDevice.current.identifierForVendor?.uuidString ?? "")")
         if current_video_cell != nil {
 
             current_video_cell.player.player?.play()
