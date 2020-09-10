@@ -115,7 +115,7 @@ class ChooseLanguageFirstViewController: BaseVC {
                           KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
                       ]
 
-    setParam(url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
+    setParam(auth: false,url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
 
 
     }
@@ -123,7 +123,7 @@ class ChooseLanguageFirstViewController: BaseVC {
     override func onSuccessResponse(response: Any) {
           switch response {
           case is LoginUserInfo:
-            setDataUserInfo(info: response as! LoginUserInfo)
+             setDataUserInfo(info: response as! LoginUserInfo)
              UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
                       UserDefaults.standard.setLanguageSet(value: true)
 

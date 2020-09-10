@@ -36,12 +36,14 @@ class AFWrapper: NSObject {
 
     }
 
-    class func requestPOSTURL<T: Mappable>(showProgressBar:Bool = true,url : String, params : [String : Any]?, success:@escaping (_ response: T) -> Void, failure:@escaping (Error) -> Void){
+    class func requestPOSTURL<T: Mappable>(showProgressBar:Bool = true,auth:Bool = true,url : String, params : [String : Any]?, success:@escaping (_ response: T) -> Void, failure:@escaping (Error) -> Void){
         AppUtils.showPrograssBar(show: showProgressBar)
         var headers: [String: String]? = nil
 
             // if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+        if auth == true{
                  headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
           //   }
 
         Alamofire.request(url, method : .post,parameters: params,headers: headers).responseObject { (response: DataResponse<T>) in

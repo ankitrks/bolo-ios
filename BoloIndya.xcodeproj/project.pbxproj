@@ -76,6 +76,8 @@
 		6EEA92A2250A5B0900B1858B /* LoginUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA929F250A5B0900B1858B /* LoginUser.swift */; };
 		6EEA92A3250A5B0900B1858B /* LoginUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A0250A5B0900B1858B /* LoginUserInfo.swift */; };
 		6EEA92A4250A5B0900B1858B /* LoginUserprofile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */; };
+		6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A5250AAE0900B1858B /* ErrorCell.swift */; };
+		6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EEA92A6250AAE0900B1858B /* ErrorCell.xib */; };
 		DCC086A86DE1E542FC9F9547 /* Pods_BoloIndya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +157,8 @@
 		6EEA929F250A5B0900B1858B /* LoginUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginUser.swift; sourceTree = "<group>"; };
 		6EEA92A0250A5B0900B1858B /* LoginUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginUserInfo.swift; sourceTree = "<group>"; };
 		6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginUserprofile.swift; sourceTree = "<group>"; };
+		6EEA92A5250AAE0900B1858B /* ErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCell.swift; sourceTree = "<group>"; };
+		6EEA92A6250AAE0900B1858B /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,8 @@
 				18413AD524DF20E500F3E2A1 /* DiscoverCell.swift */,
 				18413AD724DF212300F3E2A1 /* SectionCell.swift */,
 				186234D624DF378D00A1AD74 /* HashSearchCollectionViewCell.swift */,
+				6EEA92A5250AAE0900B1858B /* ErrorCell.swift */,
+				6EEA92A6250AAE0900B1858B /* ErrorCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -435,6 +441,7 @@
 				6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */,
 				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,
 				6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */,
+				6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */,
 				18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,6 +515,7 @@
 				183BDCCA24B7BF5600ACF912 /* DiscoverViewController.swift in Sources */,
 				181A96BB24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift in Sources */,
 				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,
+				6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */,
 				18CB49DB24BC6A6700212329 /* FeedBackViewController.swift in Sources */,
 				184924E824BB9325007F731E /* MenuViewCell.swift in Sources */,
 				186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */,
@@ -716,7 +724,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 97FSNK6CAM;
+				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -740,7 +748,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 97FSNK6CAM;
+				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (

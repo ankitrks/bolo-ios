@@ -552,9 +552,9 @@ class TrendingAndFollowingViewController: BaseVC {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
         
-        let url = "https://www.boloindya.com/api/v1/vb_seen/"
+
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        Alamofire.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }
@@ -667,23 +667,24 @@ class TrendingAndFollowingViewController: BaseVC {
         if videoUrl != nil {
             //  let playerItem = AVPlayerItem(url: videoUrl! as URL)
             //cell.player!.replaceCurrentItem(with: cell.playerItem)
-            avPlayer = AVPlayer(url: videoUrl! as URL)
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                self.avPlayer = AVPlayer(url: videoUrl! as URL)
 
             //avPlayer = AVPlayer(url: videoUrl! as URL)
-            avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+                self.avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
             if #available(iOS 10.0, *) {
-                avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+                self.avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
             } else {
-                avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
+                self.avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
             }
-            if current_video_cell != nil {
-                current_video_cell.player.playerLayer.player = avPlayer
-                current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            if self.current_video_cell != nil {
+                self.current_video_cell.player.playerLayer.player = self.avPlayer
+                self.current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 // current_video_cell.backgroundColor = UIColVor.black.cgColor
 
             }
 
-            avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
+            self.avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
                 let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
 
                 if self.current_video_cell != nil {
@@ -694,8 +695,10 @@ class TrendingAndFollowingViewController: BaseVC {
                     self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
                 }
             })
+                self.topicSeen()
+            }
         }
-        topicSeen()
+
     }
     func playingVideo() {
         if #available(iOS 10.0, *) {
@@ -710,6 +713,7 @@ class TrendingAndFollowingViewController: BaseVC {
         if current_video_cell != nil {
             let seekTime = CMTime(value: Int64(current_video_cell.playerSlider.value), timescale: 1)
             avPlayer.seek(to: seekTime)
+            print("time \(seekTime)")
         }
     }
     

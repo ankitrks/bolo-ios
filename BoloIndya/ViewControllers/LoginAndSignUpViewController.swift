@@ -330,7 +330,7 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
         ]
 
 
-        setParam(url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
+        setParam(auth: false,url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
     
     }
     

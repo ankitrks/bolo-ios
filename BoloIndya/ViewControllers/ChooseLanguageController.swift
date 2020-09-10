@@ -139,7 +139,7 @@ class ChooseLanguageController : BaseVC {
                UserDefaults.standard.setLanguageSet(value: true)
 
                let paramters: [String: Any] = [
-                   KEY_ACTIVITY: "settings_changed",
+                   KEY_ACTIVITY: "android_login",
                    KEY_LANGUAGE: "\(selected_position)",
                    KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
                ]
@@ -150,12 +150,13 @@ class ChooseLanguageController : BaseVC {
                isLoading = true
 
 
-               setParam(url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
+        setParam(auth: false, url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
         
     }
     override func onSuccessResponse(response: Any) {
         switch response {
         case is LoginUserInfo:
+             setDataUserInfo(info: response as! LoginUserInfo)
              let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
                             vc.modalPresentationStyle = .fullScreen
                             self.present(vc, animated: false)

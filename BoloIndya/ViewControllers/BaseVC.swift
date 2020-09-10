@@ -9,8 +9,8 @@
 import Foundation
 import ObjectMapper
 class BaseVC: UIViewController {
-    func setParam<T: Mappable>(showProgressBar:Bool = true,url:String, param:[String:Any],className:T.Type,resultCode:Int = 0 )  {
-              AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, url: url, params: param, success: { (response:T) in
+    func setParam<T: Mappable>(showProgressBar:Bool = true,auth:Bool = true,url:String, param:[String:Any],className:T.Type,resultCode:Int = 0 )  {
+        AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, auth: auth ,url: url, params: param, success: { (response:T) in
                   print("\(url)")
                 print("\(response)")
                   self.onSuccessResponse(response: response,resultCode: resultCode)
