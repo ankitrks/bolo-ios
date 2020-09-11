@@ -252,11 +252,12 @@ class VideoCell: UITableViewCell {
     func setUserImage() {
 
         user_image.translatesAutoresizingMaskIntoConstraints = false
-        user_image.layer.cornerRadius = 20
+        user_image.layer.cornerRadius = 22
         user_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
         user_image.contentMode = .redraw
         user_image.clipsToBounds = true
+       // user_image.m
     }
 
     func setLikeImage() {
@@ -402,6 +403,7 @@ class VideoCell: UITableViewCell {
                      } else {
                          user_image.image = UIImage(named: "user")
                      }
+
         if topic.isLiked {
             like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
             like_image.tintColor = UIColor.red
