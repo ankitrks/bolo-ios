@@ -79,6 +79,7 @@
 		6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A5250AAE0900B1858B /* ErrorCell.swift */; };
 		6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EEA92A6250AAE0900B1858B /* ErrorCell.xib */; };
 		6EEA92AA250ADED500B1858B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A9250ADED500B1858B /* Date.swift */; };
+		6EEA92AE250BDB3B00B1858B /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */; };
 		DCC086A86DE1E542FC9F9547 /* Pods_BoloIndya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,7 @@
 		6EEA92A5250AAE0900B1858B /* ErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCell.swift; sourceTree = "<group>"; };
 		6EEA92A6250AAE0900B1858B /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
 		6EEA92A9250ADED500B1858B /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 			children = (
 				1864A80224B9AD7D00C08A4A /* Buttons */,
 				18B72A7A24BDF217001E4D42 /* PlayerViewClass.swift */,
+				6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EEA92AE250BDB3B00B1858B /* SelfSizedTableView.swift in Sources */,
 				183BDCCA24B7BF5600ACF912 /* DiscoverViewController.swift in Sources */,
 				181A96BB24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift in Sources */,
 				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,

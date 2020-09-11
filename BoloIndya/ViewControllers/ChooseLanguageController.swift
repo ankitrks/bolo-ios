@@ -144,6 +144,7 @@ class ChooseLanguageController : BaseVC {
                    KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
                ]
 
+        
                loader.isHidden = false
                loader.startAnimating()
 

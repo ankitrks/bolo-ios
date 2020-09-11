@@ -55,12 +55,17 @@ class VideoCell: UITableViewCell {
     
     var duration = UILabel()
     var playerSlider = UISlider()
+    var sizeFrame = CGSize()
+    override func awakeFromNib() {
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .black
         selectionStyle = .none
+        self.frame.size = sizeFrame
+
         
         addSubview(player)
         addSubview(video_image)
@@ -68,6 +73,7 @@ class VideoCell: UITableViewCell {
         addSubview(title)
         addSubview(username)
         addSubview(actions_stack)
+      //  play_click.frame.size = sizeFrame
         
         //        addSubview(play_and_pause_image)
         //        addSubview(playerSlider)
@@ -371,7 +377,8 @@ class VideoCell: UITableViewCell {
     }
     
     func configure(with topic: Topic) {
-        
+        self.frame.size = sizeFrame
+
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         let url = URL(string: topic.thumbnailHome)
         video_image.isHidden = false
@@ -385,12 +392,12 @@ class VideoCell: UITableViewCell {
         whatsapp_share_count.text = topic.whatsapp_share_count
         if (!topic.user.profile_pic.isEmpty) {
 
-            let pic_url = URL(string: topic.user.profile_pic)
+                         let pic_url = URL(string: topic.user.profile_pic)
 
-            user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
-        } else {
-            user_image.image = UIImage(named: "user")
-        }
+                         user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+                     } else {
+                         user_image.image = UIImage(named: "user")
+                     }
         if topic.isLiked {
             like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
             like_image.tintColor = UIColor.red
