@@ -10,6 +10,7 @@ import Foundation
 import ObjectMapper
 class BaseVC: UIViewController {
     func setParam<T: Mappable>(showProgressBar:Bool = true,auth:Bool = true,url:String, param:[String:Any],className:T.Type,resultCode:Int = 0 )  {
+        print(param)
         AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, auth: auth ,url: url, params: param, success: { (response:T) in
                   print("\(url)")
                 print("\(response)")
@@ -49,7 +50,9 @@ class BaseVC: UIViewController {
 
     func setDataUserInfo(info:LoginUserInfo) {
              UserDefaults.standard.setLoggedIn(value: true)
-        UserDefaults.standard.setAuthToken(value: info.accessToken ?? "")
+             UserDefaults.standard.setAuthToken(value: info.accessToken ?? "")
+
+
              UserDefaults.standard.setUsername(value: info.username ?? "")
              if let u = info.user {
                  UserDefaults.standard.setUserId(value: u.id)

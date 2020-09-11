@@ -384,12 +384,14 @@ class TrendingAndFollowingViewController: BaseVC {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: [String: String]? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            print("Auth token \("Bearer \( UserDefaults.standard.getAuthToken() ?? "")")")
         }
+        print("Auth token \(headers ?? ["":""])")
 
        var vb_score = "";
 
@@ -404,7 +406,7 @@ class TrendingAndFollowingViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)\(vb_score)\(lasttime)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
         print("url \(url)")
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers )
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

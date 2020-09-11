@@ -109,11 +109,13 @@ class ChooseLanguageFirstViewController: BaseVC {
     }
     
     func sentToTrending() {
+
         let paramters: [String: Any] = [
                           KEY_ACTIVITY: "android_login",
                           KEY_LANGUAGE: languages[selected_position].id,
                           KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
                       ]
+        print("Param \(paramters)")
 
     setParam(auth: false,url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
 
@@ -125,12 +127,10 @@ class ChooseLanguageFirstViewController: BaseVC {
           case is LoginUserInfo:
              setDataUserInfo(info: response as! LoginUserInfo)
              UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
-                      UserDefaults.standard.setLanguageSet(value: true)
-
-
-                      let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-                      vc.modalPresentationStyle = .fullScreen
-                      present(vc, animated: false)
+             UserDefaults.standard.setLanguageSet(value: true)
+             let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+             vc.modalPresentationStyle = .fullScreen
+             present(vc, animated: false)
           default:
             break
           }
