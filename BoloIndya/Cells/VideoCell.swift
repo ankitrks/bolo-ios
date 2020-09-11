@@ -222,6 +222,7 @@ class VideoCell: UITableViewCell {
         video_image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         video_image.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         video_image.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        video_image.heightAnchor.constraint(equalToConstant: sizeFrame.height).isActive = true
 
         video_image.contentMode = .scaleAspectFill
         video_image.clipsToBounds = true
@@ -234,6 +235,7 @@ class VideoCell: UITableViewCell {
         player.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         player.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         player.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        player.heightAnchor.constraint(equalToConstant: sizeFrame.height).isActive = true
         player.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
         player.playerLayer.videoGravity = .resizeAspectFill
     }
@@ -377,7 +379,8 @@ class VideoCell: UITableViewCell {
     }
 
     func configure(with topic: Topic) {
-        self.frame.size = sizeFrame
+        self.frame.size.height = sizeFrame.height
+        self.frame.size.width = sizeFrame.width
 
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         let url = URL(string: topic.thumbnailHome)
@@ -390,6 +393,7 @@ class VideoCell: UITableViewCell {
         comment_count.text = topic.comment_count
         share_count.text = topic.share_count
         whatsapp_share_count.text = topic.whatsapp_share_count
+
         if (!topic.user.profile_pic.isEmpty) {
 
                          let pic_url = URL(string: topic.user.profile_pic)

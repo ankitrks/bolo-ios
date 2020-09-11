@@ -684,8 +684,8 @@ class TrendingAndFollowingViewController: BaseVC {
         return .lightContent
     }
     
-    func playVideo() {
-        let videoUrl = NSURL(string: videos[selected_position].video_url)
+    func playVideo(url:String) {
+        let videoUrl = NSURL(string: url)
         if videoUrl != nil {
             //  let playerItem = AVPlayerItem(url: videoUrl! as URL)
             //cell.player!.replaceCurrentItem(with: cell.playerItem)
@@ -804,7 +804,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                             current_video_cell = video_cell
 
                         }
-                         self.playVideo()
+                        self.playVideo(url: videos[indexPath.row].video_url)
 
                     }else{
                       video_cell.selected_postion = indexPath.row
@@ -838,10 +838,11 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         if selected_position != video_cell?.tag ?? 0 {
             if current_video_cell != nil {
                 current_video_cell.player.player?.pause()
+                
             }
             current_video_cell = video_cell
             selected_position = video_cell?.tag ?? 0
-            self.playVideo()
+            self.playVideo(url: videos[selected_position].video_url)
         }
     }
     
