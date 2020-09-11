@@ -45,6 +45,7 @@ class TrendingAndFollowingViewController: BaseVC {
     
     var current_video_cell: VideoCell!
     weak var contrain: NSLayoutConstraint!
+     let screenSize = UIScreen.main.bounds
     
     var avPlayer = AVPlayer()
     
@@ -69,7 +70,7 @@ class TrendingAndFollowingViewController: BaseVC {
         if let info = notification?.userInfo {
             let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
             if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
-                let screenSize = UIScreen.main.bounds
+
                 let intersectRect = kbFrame.intersection(screenSize)
                 if intersectRect.isNull {
                     _kbSize = CGSize(width: screenSize.size.width, height: 0)
@@ -261,7 +262,7 @@ class TrendingAndFollowingViewController: BaseVC {
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(changeToTrending(_:)))
         trending.addGestureRecognizer(tapGesture1)
         
-        let screenSize = UIScreen.main.bounds.size
+
         
         trendingView.translatesAutoresizingMaskIntoConstraints = false
         trendingView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
@@ -414,7 +415,7 @@ class TrendingAndFollowingViewController: BaseVC {
                         
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            print(" response \(json_object?["topics"])")
+                        //    print(" response \(json_object?["topics"])")
                             if let content = json_object?["topics"] as? [[String:Any]] {
                                 for each in content {
                                     self.trendingTopics.append(getTopicFromJson(each: each))
@@ -774,8 +775,10 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (tableView == self.trendingView) {
             return videos.count
-        } else {
+        } else if(tableView == self.commentView) {
             return comments.count
+        }else{
+            return 0
         }
     }
     
@@ -832,10 +835,12 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
              if (tableView == self.trendingView) {
-                   return tableView.frame.size.height
-               } else {
+                return tableView.frame.height
+             } else if(tableView == self.commentView) {
                    return 60
-               }
+             }else{
+                return  0
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -846,7 +851,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
                 self.fetchData()
             }
-        } else {
+        } else if(tableView == self.commentView){
             let lastSectionIndex = tableView.numberOfSections - 1
             let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
             

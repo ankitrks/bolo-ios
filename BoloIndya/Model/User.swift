@@ -60,9 +60,9 @@ class User {
     func setUserProfilePic(profile_pic: String) {
         var tempUrl = profile_pic;
                            if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
-                               tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/150x150")
+                               tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/2000x200")
                            } else {
-                               tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/150x150")
+                               tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/200x200")
                            }
           self.user_profile_pic = tempUrl
       }
@@ -70,12 +70,10 @@ class User {
     func setProfilePic(profile_pic: String) {
        var tempUrl = profile_pic;
                  if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
-                     tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/60x60")
+                     tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/80x80")
                  } else {
-                     tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/60x60")
+                     tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/80x80")
                  }
-
-
 
         self.profile_pic = tempUrl
 

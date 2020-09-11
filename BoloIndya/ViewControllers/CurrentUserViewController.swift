@@ -107,6 +107,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -118,8 +119,6 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     func setUserData() {
         
         let screenSize = UIScreen.main.bounds.size
-
-
         view.addSubview(cover_pic)
         
         cover_pic.translatesAutoresizingMaskIntoConstraints = false

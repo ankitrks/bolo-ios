@@ -377,6 +377,7 @@ class SearchViewController: BaseVC {
                                     self.no_result.isHidden = false
                                 } else {
                                     self.user_page += 1
+                                    self.no_result.isHidden = true
                                 }
                                 self.stopLoader()
                                 self.userView.reloadData()
@@ -445,6 +446,7 @@ class SearchViewController: BaseVC {
                                     self.no_result.isHidden = false
                                 } else {
                                     self.hash_page += 1
+                                    self.no_result.isHidden = true
                                 }
                                 self.stopLoader()
                                 self.hashTagView.reloadData()
@@ -476,9 +478,9 @@ class SearchViewController: BaseVC {
         if videos_page == 1 {
             startLoader()
         }
-        
-        let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
-        
+
+        let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text.replacingOccurrences(of: " ", with: "+").replacingOccurrences(of: "#", with: "%23"))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
+        print(url)
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
@@ -499,6 +501,7 @@ class SearchViewController: BaseVC {
                                     self.no_result.isHidden = false
                                 } else {
                                     self.videos_page += 1
+                                    self.no_result.isHidden = true
                                 }
                                 self.stopLoader()
                                 self.videoView.reloadData()
@@ -591,6 +594,8 @@ class SearchViewController: BaseVC {
                             }
                             if self.data.count == 0 {
                                 self.no_result.isHidden = false
+                            }else{
+                              self.no_result.isHidden = true
                             }
                             self.stopLoader()
                             self.allView.reloadData()

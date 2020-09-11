@@ -18,5 +18,22 @@ class MainViewController: UITabBarController {
         UITabBar.appearance().backgroundColor = UIColor.init(displayP3Red:  0.71, green: 0.16, blue: 0.15, alpha: 1.0)
         UITabBar.appearance()
 
+
+
+//        var uu = UserDefaults.standard.getProfilePic()
+//        let pic_url:URL? = URL(string: UserDefaults.standard.getProfilePic() ?? "")
+//        if pic_url != nil  {
+//            ImageDownloader.default.downloadImage(with: pic_url!, options: [], progressBlock: nil) {
+//                    (image, error, url, data) in
+//              //  self.tabBarController?.tabBar.items?[3].image = image
+//                self.tabBar.items?[3].image = UIImage(na)
+//                }
+//            //var image = UIImageView().kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+//
+//
+//
+//        }
+
+
     }
 }

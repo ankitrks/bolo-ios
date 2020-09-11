@@ -24,10 +24,10 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             return categories.count
         } else {
             if banners.count>0 {
-                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+165, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+190, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
 
             }else{
-                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+65, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
+                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+90, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
 
             }
             return banners.count
@@ -124,7 +124,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height:20)
         categoryView.collectionViewLayout = layout
-        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+35, width: screenSize.width, height: 30)
+        categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+60, width: screenSize.width, height: 30)
         categoryView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         categoryView.backgroundColor = .clear
         categoryView.delegate = self
@@ -135,23 +135,24 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         layout_banner.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout_banner.estimatedItemSize = CGSize(width: (screenSize.width/4), height:90)
         bannerView.collectionViewLayout = layout_banner
-        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+65, width: screenSize.width, height: 100)
+        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+90, width: screenSize.width, height: 100)
         bannerView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         bannerView.backgroundColor = .clear
         bannerView.delegate = self
         bannerView.dataSource = self
-        
+
+        view.addSubview(search_text)
         view.addSubview(discoverView)
         view.addSubview(categoryView)
         view.addSubview(bannerView)
         view.addSubview(progress)
-        view.addSubview(search_text)
+
         
         search_text.translatesAutoresizingMaskIntoConstraints = false
-        search_text.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        search_text.heightAnchor.constraint(equalToConstant: 40).isActive = true
         search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
-        search_text.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        search_text.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
+        search_text.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
+        search_text.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
         search_text.layer.cornerRadius = 10.0
         search_text.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 0.8470588235)
         
