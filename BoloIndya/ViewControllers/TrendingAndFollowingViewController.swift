@@ -90,7 +90,7 @@ class TrendingAndFollowingViewController: BaseVC {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
-        print("DEVICE ID ",UIDevice.current.identifierForVendor?.uuidString ?? "")
+        print("DEVICE ID ",getUDID())
 //        print("DEVICE ID ",(UIDevice.current.name + UIDevice.current.systemName + UIDevice.current.systemVersion).replacingCharacters(in: " ", with: "boloindya") )
          //var ui:String =
       //  self.showToast(message: "DEVICE ID \(UIDevice.current.identifierForVendor?.uuidString ?? "")")

@@ -71,6 +71,7 @@ PODS:
   - PryntTrimmerView (4.0.0)
   - SteviaLayout (4.7.3)
   - SVProgressHUD (2.2.5)
+  - SwiftKeychainWrapper (3.4.0)
   - SwiftyCam (4.0.0)
   - YPImagePicker (4.2.1):
     - PryntTrimmerView (~> 4.0.0)
@@ -83,6 +84,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - Kingfisher
   - SVProgressHUD
+  - SwiftKeychainWrapper
   - SwiftyCam
   - YPImagePicker
 
@@ -108,6 +110,7 @@ SPEC REPOS:
     - PryntTrimmerView
     - SteviaLayout
     - SVProgressHUD
+    - SwiftKeychainWrapper
     - SwiftyCam
     - YPImagePicker
 
@@ -132,9 +135,10 @@ SPEC CHECKSUMS:
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
   YPImagePicker: 3b88ca0c50134af2856c48c481572c98a8b8b65b
 
-PODFILE CHECKSUM: 852512ef3ed5a8f003830d9ddf30fb825b6387d1
+PODFILE CHECKSUM: 57cef5b41f56f94d5200c84aedf2bb3fc3903f00
 
 COCOAPODS: 1.9.3

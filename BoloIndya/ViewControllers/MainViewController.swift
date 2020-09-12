@@ -25,15 +25,23 @@ class MainViewController: UITabBarController {
 //        if pic_url != nil  {
 //            ImageDownloader.default.downloadImage(with: pic_url!, options: [], progressBlock: nil) {
 //                    (image, error, url, data) in
-//              //  self.tabBarController?.tabBar.items?[3].image = image
-//                self.tabBar.items?[3].image = UIImage(na)
+//                     let button = UIImageView()
+//                      button.image = image
+//                      button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//                      self.tabBar.items?[3].image = button.image
 //                }
-//            //var image = UIImageView().kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+//
 //
 //
 //
 //        }
 
+//        let button = UIButton(type: UIButton.ButtonType.custom)
+//        button.setImage(UIImage(named: "getstarted"), for: .normal)
+//       // button.addTarget(self, action:#selector(callMethod), for: .touchDragInside)
+//        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//        let barButton = UIBarButtonItem(customView: button)
+//        self.navigationItem.leftBarButtonItems = [barButton]
 
     }
 }
