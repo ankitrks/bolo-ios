@@ -420,7 +420,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         let storyBoard = UIStoryboard(name: "UserProfileStorybaord", bundle: nil)
                let vc =  storyBoard.instantiateViewController(withIdentifier: "UserProfileEditVC") as! UserProfileEditVC
                vc.delegate = self
-                            vc.user = user
+               vc.user = user
               self.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -742,8 +742,8 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         switch indexPath.row {
          case 0:
             self.moveEditProfile()
-                       break
-        case 0:
+            break
+        case 1:
             self.tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "updateInterset", sender: self)
             break

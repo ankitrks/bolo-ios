@@ -52,7 +52,8 @@ class ChooseLanguageController : BaseVC {
         upper_tab.heightAnchor.constraint(equalToConstant: 40).isActive = true
         upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
-        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+
         
         upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
         
@@ -64,10 +65,9 @@ class ChooseLanguageController : BaseVC {
         
         back_image.isUserInteractionEnabled = true
         let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
-        back_image.addGestureRecognizer(tapGestureBack)
-        
         back_image.image = UIImage(named: "back")
         back_image.contentMode = .scaleAspectFit
+        back_image.addGestureRecognizer(tapGestureBack)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -139,9 +139,8 @@ class ChooseLanguageController : BaseVC {
                UserDefaults.standard.setLanguageSet(value: true)
 
                let paramters: [String: Any] = [
-                   KEY_ACTIVITY: "android_login",
-                   KEY_LANGUAGE: "\(selected_position)",
-                   KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
+                   KEY_ACTIVITY: "settings_changed",
+                   KEY_LANGUAGE: languages[selected_position].id
                ]
 
         
@@ -151,9 +150,10 @@ class ChooseLanguageController : BaseVC {
                isLoading = true
 
 
-        setParam(auth: false, url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
+        setParam(auth: true, url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
         
     }
+    
     override func onSuccessResponse(response: Any) {
         switch response {
         case is LoginUserInfo:
@@ -161,6 +161,7 @@ class ChooseLanguageController : BaseVC {
              let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
                             vc.modalPresentationStyle = .fullScreen
                             self.present(vc, animated: false)
+            break;
         default:
           break
         }
@@ -172,7 +173,7 @@ extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isLoading {
-            selected_position = languages[indexPath.row].id
+            selected_position = indexPath.row
             languageView.reloadData()
             sentToTrending()
         }
