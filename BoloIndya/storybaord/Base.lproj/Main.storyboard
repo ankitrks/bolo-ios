@@ -250,7 +250,10 @@
         <scene sceneID="UqG-7H-rPo">
             <objects>
                 <navigationController id="X8F-9f-jun" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="user" id="gZr-ho-hOy"/>
+                    <tabBarItem key="tabBarItem" title="" image="user" id="gZr-ho-hOy">
+                        <inset key="imageInsets" minX="-2" minY="-10" maxX="-2" maxY="-10"/>
+                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" id="eEb-iY-dep"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JkE-ku-9O3">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
