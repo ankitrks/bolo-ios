@@ -530,6 +530,7 @@ open class SwiftyCamViewController: UIViewController {
 		}
 
         //Must be fetched before on main thread
+        self.previewLayer.frame=self.view.bounds;
         let previewOrientation = previewLayer.videoPreviewLayer.connection!.videoOrientation
 
 		sessionQueue.async { [unowned self] in
