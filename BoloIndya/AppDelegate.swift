@@ -8,12 +8,47 @@
 
 import UIKit
 import Firebase
+let NextLevelAlbumTitle = "NextLevel"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate  {
     
     var window: UIWindow?
+    
+    var baseUrl:String? = "https://www.boloindya.com/api/v1/"
+//        Request request = new Request.Builder()
+//    .url(Constants.BOLO_INDYA_URL + "upload_video_to_s3_for_app/")
+//    .addHeader("content-type", "multipart/form-data;")
+//    .addHeader("Authorization", "Bearer " + cache)
+//    .addHeader("cache-control", "no-cache")
+//    .post(requestBody)
+//    .build();
 
+    var imgbaseUrl:String? = "http://domain/API/tictic/"
+    var sharURl:String? =  "http://bringthings.com/"
+    var signUp:String? = "signup"
+    var uploadVideo:String? = "upload_video_to_s3_for_app/"
+    var showAllVideos:String? = "showAllVideos"
+    var showMyAllVideos:String? = "showMyAllVideos"
+    var likeDislikeVideo:String? = "likeDislikeVideo"
+    var postComment:String? = "postComment"
+    var showVideoComments:String? = "showVideoComments"
+    var updateVideoView:String? = "updateVideoView"
+    var fav_sound:String? = "fav_sound"
+    var my_FavSound:String? = "my_FavSound"
+    var allSounds:String? = "allSounds"
+    var my_liked_video:String? = "my_liked_video"
+    var discover:String? = "discover"
+    var edit_profile:String? = "edit_profile"
+    var follow_users:String? = "follow_users"
+    var get_user_data:String? = "get_user_data"
+    var uploadImage:String? = "uploadImage"
+    var get_followers:String? = "get_followers"
+    var get_followings:String? = "get_followings"
+    var downloadFile:String? = "downloadFile"
+    var getNotifications:String? = "getNotifications"
+
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         return true

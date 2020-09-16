@@ -58,6 +58,7 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
+  - GTProgressBar (0.3.3)
   - Kingfisher (5.14.1):
     - Kingfisher/Core (= 5.14.1)
   - Kingfisher/Core (5.14.1)
@@ -66,9 +67,13 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
+  - NextLevel (0.16.3)
   - ObjectMapper (3.5.3)
   - PromisesObjC (1.2.9)
   - PryntTrimmerView (4.0.0)
+  - SDWebImage (5.9.1):
+    - SDWebImage/Core (= 5.9.1)
+  - SDWebImage/Core (5.9.1)
   - SteviaLayout (4.7.3)
   - SVProgressHUD (2.2.5)
   - SwiftyCam (4.0.0)
@@ -81,7 +86,10 @@ DEPENDENCIES:
   - AlamofireObjectMapper
   - Firebase/Auth
   - GoogleSignIn
+  - GTProgressBar
   - Kingfisher
+  - NextLevel
+  - SDWebImage
   - SVProgressHUD
   - SwiftyCam
   - YPImagePicker
@@ -101,11 +109,14 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - GTProgressBar
     - Kingfisher
     - nanopb
+    - NextLevel
     - ObjectMapper
     - PromisesObjC
     - PryntTrimmerView
+    - SDWebImage
     - SteviaLayout
     - SVProgressHUD
     - SwiftyCam
@@ -125,16 +136,19 @@ SPEC CHECKSUMS:
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  GTProgressBar: a480283ecb0ada50de16c71e634892826928f640
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  NextLevel: 76dab336f758e6a98ef6b4917de1481324cffe04
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
+  SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
   YPImagePicker: 3b88ca0c50134af2856c48c481572c98a8b8b65b
 
-PODFILE CHECKSUM: 852512ef3ed5a8f003830d9ddf30fb825b6387d1
+PODFILE CHECKSUM: c36aa0d5c303e17098fba598601a2c7088e17f65
 
 COCOAPODS: 1.9.3

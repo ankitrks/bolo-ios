@@ -62,6 +62,13 @@
 		18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B4124B72147006621DB /* ChooseLanguageController.swift */; };
 		18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FD085B24BE25A1007E55D6 /* VideoViewController.swift */; };
 		18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */; };
+		2740AB8B2510EDDE00A5FAC4 /* AddSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB8A2510EDDE00A5FAC4 /* AddSoundViewController.swift */; };
+		2740AB8D2510F0B400A5FAC4 /* FocusIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB8C2510F0B400A5FAC4 /* FocusIndicatorView.swift */; };
+		2740AB8F2510F1F700A5FAC4 /* FavSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB8E2510F1F700A5FAC4 /* FavSound.swift */; };
+		2740AB912510F24D00A5FAC4 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB902510F24D00A5FAC4 /* Sound.swift */; };
+		2740AB932510F26000A5FAC4 /* SoundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB922510F26000A5FAC4 /* SoundTableViewCell.swift */; };
+		2740AB9725113DE200A5FAC4 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740AB9625113DE200A5FAC4 /* ActionViewController.swift */; };
+		27436D222510E419004420E3 /* newObjfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 27436D212510E419004420E3 /* newObjfile.m */; };
 		6E8584442506859F00A0A7B2 /* ConstantsUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */; };
 		6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */; };
 		6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED624FB99BC00C01D72 /* UserProfileStorybaord.storyboard */; };
@@ -143,6 +150,15 @@
 		18FD085B24BE25A1007E55D6 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUploadCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.release.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.release.xcconfig"; sourceTree = "<group>"; };
+		2740AB8A2510EDDE00A5FAC4 /* AddSoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSoundViewController.swift; sourceTree = "<group>"; };
+		2740AB8C2510F0B400A5FAC4 /* FocusIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusIndicatorView.swift; sourceTree = "<group>"; };
+		2740AB8E2510F1F700A5FAC4 /* FavSound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavSound.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/FavSound.swift"; sourceTree = "<group>"; };
+		2740AB902510F24D00A5FAC4 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Sound.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/Sound.swift"; sourceTree = "<group>"; };
+		2740AB922510F26000A5FAC4 /* SoundTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundTableViewCell.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/SoundTableViewCell.swift"; sourceTree = "<group>"; };
+		2740AB9625113DE200A5FAC4 /* ActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionViewController.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/tictic/ActionViewController.swift"; sourceTree = "<group>"; };
+		27436D1E2510E31E004420E3 /* ActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		27436D202510E418004420E3 /* BoloIndya-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BoloIndya-Bridging-Header.h"; sourceTree = "<group>"; };
+		27436D212510E419004420E3 /* newObjfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = newObjfile.m; path = BoloIndya/newObjfile.m; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsUrl.swift; sourceTree = "<group>"; };
@@ -248,10 +264,12 @@
 		18F93B2024B71D1C006621DB = {
 			isa = PBXGroup;
 			children = (
+				27436D212510E419004420E3 /* newObjfile.m */,
 				18F93B2B24B71D1C006621DB /* BoloIndya */,
 				18F93B2A24B71D1C006621DB /* Products */,
 				AB22FF7753DAAF213057B005 /* Pods */,
 				39987EC8F661D94FAF95C123 /* Frameworks */,
+				27436D202510E418004420E3 /* BoloIndya-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -289,6 +307,9 @@
 		18F93B4024B7211D006621DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2740AB9625113DE200A5FAC4 /* ActionViewController.swift */,
+				2740AB8A2510EDDE00A5FAC4 /* AddSoundViewController.swift */,
+				27436D1E2510E31E004420E3 /* ActionViewController.swift */,
 				18F93B4124B72147006621DB /* ChooseLanguageController.swift */,
 				18F93B3024B71D1C006621DB /* ViewController.swift */,
 				183BDCC024B79C6D00ACF912 /* TrendingAndFollowingViewController.swift */,
@@ -327,9 +348,13 @@
 		6E8584422506854900A0A7B2 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				2740AB922510F26000A5FAC4 /* SoundTableViewCell.swift */,
+				2740AB902510F24D00A5FAC4 /* Sound.swift */,
+				2740AB8E2510F1F700A5FAC4 /* FavSound.swift */,
 				6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */,
 				6EBBB8A1250933C400A1B4C0 /* AppUtils.swift */,
 				6EBBB8A52509428F00A1B4C0 /* Constants.swift */,
+				2740AB8C2510F0B400A5FAC4 /* FocusIndicatorView.swift */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -417,6 +442,7 @@
 				TargetAttributes = {
 					18F93B2824B71D1C006621DB = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1200;
 					};
 				};
 			};
@@ -523,10 +549,12 @@
 				181A96BB24DB100A00B360BA /* UploadLanguageCollectionViewCell.swift in Sources */,
 				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,
 				6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */,
+				2740AB932510F26000A5FAC4 /* SoundTableViewCell.swift in Sources */,
 				18CB49DB24BC6A6700212329 /* FeedBackViewController.swift in Sources */,
 				184924E824BB9325007F731E /* MenuViewCell.swift in Sources */,
 				186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */,
 				183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */,
+				2740AB9725113DE200A5FAC4 /* ActionViewController.swift in Sources */,
 				1871C4A324BB233400285DEC /* Notification.swift in Sources */,
 				6EBBB8A62509428F00A1B4C0 /* Constants.swift in Sources */,
 				18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */,
@@ -548,13 +576,16 @@
 				1811310724D6C51F009DDB54 /* Languages.swift in Sources */,
 				1871C4B324BB41C600285DEC /* NotificationCell.swift in Sources */,
 				187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */,
+				27436D222510E419004420E3 /* newObjfile.m in Sources */,
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
 				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
 				6EB4AEDE24FBEF0000C01D72 /* UIImageView.swift in Sources */,
 				185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */,
+				2740AB8B2510EDDE00A5FAC4 /* AddSoundViewController.swift in Sources */,
 				6EBBB8A92509461D00A1B4C0 /* AFWrapper.swift in Sources */,
+				2740AB8D2510F0B400A5FAC4 /* FocusIndicatorView.swift in Sources */,
 				188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
@@ -567,6 +598,7 @@
 				18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */,
 				18CB49DD24BC6C8C00212329 /* UpdateIntersetViewController.swift in Sources */,
 				187DA64F24B89932005522FB /* LoginAndSignUpViewController.swift in Sources */,
+				2740AB912510F24D00A5FAC4 /* Sound.swift in Sources */,
 				18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */,
 				18C771B324CB05AD007E3AC2 /* CategoryViewController.swift in Sources */,
 				18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */,
@@ -585,6 +617,7 @@
 				18CB49DF24BC6F8C00212329 /* TermsPagesViewController.swift in Sources */,
 				183B4BAC24B86DE4003EC6D7 /* User.swift in Sources */,
 				1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */,
+				2740AB8F2510F1F700A5FAC4 /* FavSound.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,6 +762,7 @@
 			baseConfigurationReference = 3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -743,6 +777,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BoloIndya-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -753,6 +789,7 @@
 			baseConfigurationReference = 1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -767,6 +804,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BoloIndya-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

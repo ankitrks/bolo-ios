@@ -12,4 +12,8 @@ pod 'SwiftyCam'
 pod 'YPImagePicker'
 pod 'SVProgressHUD'
 pod 'AlamofireObjectMapper'
+pod 'NextLevel'
+pod 'GTProgressBar'
+pod 'SDWebImage'
+
 end
