@@ -228,12 +228,14 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     @objc func record(_ sender: UITapGestureRecognizer) {
         if isRecording {
+            print("record ## 1")
             stopTimer()
             stopVideoRecording()
             captureButton.image = UIImage(named: "start_record")
             galleryButton.isHidden = false
             switchFrontCamera.isHidden = false
         } else {
+            print("record ## 2")
             startTimer()
             startVideoRecording()
             captureButton.image = UIImage(named: "stop_record")
@@ -252,11 +254,11 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        print("Start Recording")
+        print("record ## 3")
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        print("Stop Recording")
+        print("record ## 4")
         video_url = url
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -264,22 +266,27 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        print("record ## 5")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
+        print("record ## 6")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        print("record ## 7")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+        print("record ## 8")
         
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("record ## 9")
     }
     
 }
