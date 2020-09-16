@@ -157,7 +157,6 @@
 		2740AB922510F26000A5FAC4 /* SoundTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundTableViewCell.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/SoundTableViewCell.swift"; sourceTree = "<group>"; };
 		2740AB9625113DE200A5FAC4 /* ActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionViewController.swift; path = "../../../../../Downloads/Tictic - iOS Video Mobile App 17 july/iOS source code/tictic/tictic/ActionViewController.swift"; sourceTree = "<group>"; };
 		27436D1E2510E31E004420E3 /* ActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
-		27436D202510E418004420E3 /* BoloIndya-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BoloIndya-Bridging-Header.h"; sourceTree = "<group>"; };
 		27436D212510E419004420E3 /* newObjfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = newObjfile.m; path = BoloIndya/newObjfile.m; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,7 +268,6 @@
 				18F93B2A24B71D1C006621DB /* Products */,
 				AB22FF7753DAAF213057B005 /* Pods */,
 				39987EC8F661D94FAF95C123 /* Frameworks */,
-				27436D202510E418004420E3 /* BoloIndya-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
