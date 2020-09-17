@@ -355,6 +355,7 @@ class UploadVideoDetailsViewController: UIViewController {
     }
     
     @IBAction func uploadVideo(_ sender: Any) {
+        print("calling upload video--1")
         
         if (self.topic_title.text ?? "").isEmpty {
             let alert = UIAlertController(title: "Please enter title to proceed.", message: "", preferredStyle: .alert)
@@ -379,6 +380,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         var headers: HTTPHeaders!
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            print("calling upload video--2")
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
@@ -398,6 +400,7 @@ class UploadVideoDetailsViewController: UIViewController {
             (result) in
             switch result {
             case .success( let upload, _, _):
+                print("calling upload video--3")
                 upload.uploadProgress(closure: { (progress) in
                     DispatchQueue.main.async {
                         SVProgressHUD.setDefaultMaskType(.black)
@@ -446,9 +449,10 @@ class UploadVideoDetailsViewController: UIViewController {
                         DispatchQueue.main.async {
                             SVProgressHUD.showError(withStatus: "Please Try Again")
                         }
-                        print(error)
+                        print("calling upload video--4", error)
                     }
                 }
+                break
                 
             case .failure(let encodingError):
                 DispatchQueue.main.async {
@@ -457,7 +461,7 @@ class UploadVideoDetailsViewController: UIViewController {
                 DispatchQueue.main.async {
                     SVProgressHUD.showError(withStatus: "Please Try Again")
                 }
-                print(encodingError)
+                print("calling upload video--5",encodingError)
             }
         }
         
