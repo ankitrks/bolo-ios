@@ -404,6 +404,7 @@ class UploadVideoDetailsViewController: UIViewController {
                 upload.uploadProgress(closure: { (progress) in
                     DispatchQueue.main.async {
                         SVProgressHUD.setDefaultMaskType(.black)
+                        print("calling upload video progress--", progress.fractionCompleted)
                         SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "Uploading \(Int(Float(progress.fractionCompleted)*100))%")
                         
                     }
