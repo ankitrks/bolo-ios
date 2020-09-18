@@ -773,6 +773,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         }
     }
     func resetApp() {
+        //UserDefaults.standard.setValueForLanguageId(value: language_id)
        self.navigationController?.popViewController(animated: true)
        self.dismissPopAllViewViewControllers()
     }

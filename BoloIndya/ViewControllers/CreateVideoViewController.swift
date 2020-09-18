@@ -34,7 +34,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //let isLoggedIn = UserDefaults.standard.getGuestLoggedIn() ?? true
         let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
         if (!isLoggedIn) {
             self.tabBarController?.tabBar.isHidden = true
@@ -46,7 +46,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             defaultCamera = .front
             
             view.addSubview(captureButton)
-            
+            view.addSubview(go_back)
             captureButton.translatesAutoresizingMaskIntoConstraints = false
             captureButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
             captureButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -106,23 +106,23 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             
             flashCamera.image = UIImage(named: "flash")
             
-            view.addSubview(go_back)
+            
             
             go_back.translatesAutoresizingMaskIntoConstraints = false
-            go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            go_back.widthAnchor.constraint(equalToConstant: 30).isActive = true
             
-            go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+            go_back.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
             go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
             
-            go_back.image = UIImage(named: "close")
+            go_back.image = UIImage(named: "close_white")
             go_back.tintColor = UIColor.white
             
             go_back.isUserInteractionEnabled = true
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
             go_back.addGestureRecognizer(tapGesture)
-            
+           
             view.addSubview(timer_label)
             
             timer_label.translatesAutoresizingMaskIntoConstraints = false

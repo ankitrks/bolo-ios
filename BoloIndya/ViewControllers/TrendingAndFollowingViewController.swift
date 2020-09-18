@@ -925,9 +925,17 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         let fileName = videoFilePath.lastPathComponent
         let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
         do {
+            DispatchQueue.main.async {
+                SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.setContainerView(self.view)
+                SVProgressHUD.show(withStatus: "Preparing")
+            }
             try pdfData?.write(to: temporaryFileURL)
             let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
             //  showPrograssBar(show: false)
+//            DispatchQueue.main.async {
+//                SVProgressHUD.dismiss()
+//            }
             present(activityViewController, animated: true, completion: nil)
         } catch {
             print(error)
