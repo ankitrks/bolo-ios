@@ -643,7 +643,11 @@ extension VideoViewController: VideoCellDelegate {
     }
 
     func goToSharing(with selected_postion: Int) {
-          let videoUrl = videos[selected_postion].downloaded_url
+          var videoUrl = videos[selected_postion].downloaded_url
+          if(videoUrl.isEmpty) {
+              videoUrl = videos[selected_postion].video_url
+          }
+        
           let url = URL(string: videoUrl) ?? nil
           if url != nil{
               shareAndDownload(url: url!)
@@ -686,7 +690,10 @@ extension VideoViewController: VideoCellDelegate {
             current_video_cell.play_and_pause_image.image = UIImage(named: "play")
         }
         
-        let videoUrl = videos[selected_postion].downloaded_url
+        var videoUrl = videos[selected_postion].downloaded_url
+        if(videoUrl.isEmpty) {
+            videoUrl = videos[selected_postion].video_url
+        }
         
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
