@@ -393,7 +393,7 @@ class UploadVideoDetailsViewController: UIViewController {
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setContainerView(self.view)
         }
-        
+        tick_image.isUserInteractionEnabled = false;
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(self.video_url, withName: "media", fileName: file_name, mimeType: "video/mp4")
         }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
