@@ -34,9 +34,9 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let isLoggedIn = UserDefaults.standard.getGuestLoggedIn() ?? true
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
+        let isLoggedIn = UserDefaults.standard.getGuestLoggedIn() ?? true
+        //let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (isLoggedIn) {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "LoginAndSignUpViewController", sender: self)
