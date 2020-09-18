@@ -919,6 +919,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
 
     func shareAndDownload(url: URL) {
+        print("shareAndDownload input=> ", url)
         let videoFilePath = url
         let pdfData = NSData(contentsOf: videoFilePath)
         let temporaryFolder = FileManager.default.temporaryDirectory
@@ -941,7 +942,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
             }
-            print(error)
+            print("shareAndDownload error=> ", error)
         }
         // showPrograssBar(show: false)
     }
