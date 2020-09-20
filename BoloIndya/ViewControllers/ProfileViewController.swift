@@ -537,6 +537,9 @@ class ProfileViewController: BaseVC {
         
         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
+                DispatchQueue.main.async {
+                   SVProgressHUD.dismiss()
+            }
                 
         }
     }
@@ -548,7 +551,7 @@ class ProfileViewController: BaseVC {
             (_:UIAlertAction) in
             
             let alert = UIAlertController(title: "Are you sure you want to report this user?", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: {
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {
                 (_:UIAlertAction) in
                 self.reportUser()
                 DispatchQueue.main.async {
