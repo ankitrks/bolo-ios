@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import Alamofire
-
+import Branch
 class LoginAndSignUpViewController: BaseVC {
 
     @IBOutlet weak var signInWithGoogle: UIButton!
@@ -272,6 +272,7 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
             let user = Auth.auth().currentUser
             if let user = user {
                 let userid = user.uid
+                Branch.getInstance().setIdentity(userid)
                 self.googleLogin(id: userid, profile_pic: "", name: user.displayName ?? "")
                 print(userid)
             }
@@ -328,8 +329,10 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
             "country_code": "+91",
             "language": UserDefaults.standard.getValueForLanguageId() ?? "2" as String
         ]
+        
 
-
+        let userid = String(UserDefaults.standard.getUserId() ?? 0)
+        Branch.getInstance().setIdentity(userid)
         setParam(auth: false,url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
     
     }

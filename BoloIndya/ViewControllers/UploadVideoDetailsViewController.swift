@@ -355,6 +355,7 @@ class UploadVideoDetailsViewController: UIViewController {
     }
     
     @IBAction func uploadVideo(_ sender: Any) {
+        print("calling upload video--1")
         
         if (self.topic_title.text ?? "").isEmpty {
             let alert = UIAlertController(title: "Please enter title to proceed.", message: "", preferredStyle: .alert)
@@ -379,6 +380,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         var headers: HTTPHeaders!
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            print("calling upload video--2")
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
@@ -391,16 +393,18 @@ class UploadVideoDetailsViewController: UIViewController {
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setContainerView(self.view)
         }
-        
+        tick_image.isUserInteractionEnabled = false;
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(self.video_url, withName: "media", fileName: file_name, mimeType: "video/mp4")
         }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
             (result) in
             switch result {
             case .success( let upload, _, _):
+                print("calling upload video--3")
                 upload.uploadProgress(closure: { (progress) in
                     DispatchQueue.main.async {
                         SVProgressHUD.setDefaultMaskType(.black)
+                        print("calling upload video progress--", progress.fractionCompleted)
                         SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "Uploading \(Int(Float(progress.fractionCompleted)*100))%")
                         
                     }
@@ -446,9 +450,10 @@ class UploadVideoDetailsViewController: UIViewController {
                         DispatchQueue.main.async {
                             SVProgressHUD.showError(withStatus: "Please Try Again")
                         }
-                        print(error)
+                        print("calling upload video--4", error)
                     }
                 }
+                break
                 
             case .failure(let encodingError):
                 DispatchQueue.main.async {
@@ -457,7 +462,7 @@ class UploadVideoDetailsViewController: UIViewController {
                 DispatchQueue.main.async {
                     SVProgressHUD.showError(withStatus: "Please Try Again")
                 }
-                print(encodingError)
+                print("calling upload video--5",encodingError)
             }
         }
         

@@ -422,6 +422,7 @@ class TrendingAndFollowingViewController: BaseVC {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                         //    print(" response \(json_object?["topics"])")
                             if let content = json_object?["topics"] as? [[String:Any]] {
+                                
                                 for each in content {
                                     self.trendingTopics.append(getTopicFromJson(each: each))
                                 }
@@ -911,7 +912,10 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         self.tabBarController?.tabBar.isHidden = true
     }
     func goToSharing(with selected_postion: Int) {
-        let videoUrl = videos[selected_postion].downloaded_url
+        var videoUrl = videos[selected_postion].downloaded_url
+        if(videoUrl.isEmpty) {
+            videoUrl = videos[selected_postion].video_url
+        }
         let url = URL(string: videoUrl) ?? nil
         if url != nil{
             shareAndDownload(url: url!)
@@ -919,18 +923,30 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
 
     func shareAndDownload(url: URL) {
+        print("shareAndDownload input=> ", url)
         let videoFilePath = url
         let pdfData = NSData(contentsOf: videoFilePath)
         let temporaryFolder = FileManager.default.temporaryDirectory
         let fileName = videoFilePath.lastPathComponent
         let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
         do {
+            DispatchQueue.main.async {
+                SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.setContainerView(self.view)
+                SVProgressHUD.show(withStatus: "Preparing")
+            }
             try pdfData?.write(to: temporaryFileURL)
             let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
-            //  showPrograssBar(show: false)
+             // showPrograssBar(show: false)
+//            DispatchQueue.main.async {
+//                SVProgressHUD.dismiss()
+//            }
             present(activityViewController, animated: true, completion: nil)
         } catch {
-            print(error)
+//            DispatchQueue.main.async {
+//                SVProgressHUD.dismiss()
+//            }
+            print("shareAndDownload error=> ", error)
         }
         // showPrograssBar(show: false)
     }
@@ -941,7 +957,10 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             current_video_cell.play_and_pause_image.image = UIImage(named: "play")
         }
         
-        let videoUrl = videos[selected_postion].downloaded_url
+        var videoUrl = videos[selected_postion].downloaded_url
+        if(videoUrl.isEmpty) {
+            videoUrl = videos[selected_postion].video_url
+        }
         
         let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         

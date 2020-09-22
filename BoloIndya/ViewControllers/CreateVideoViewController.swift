@@ -34,9 +34,9 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
-        if (!isLoggedIn) {
+        let isLoggedIn = UserDefaults.standard.getGuestLoggedIn() ?? true
+        //let isLoggedIn = UserDefaults.standard.isLoggedIn() ?? false
+        if (isLoggedIn) {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "LoginAndSignUpViewController", sender: self)
@@ -46,7 +46,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             defaultCamera = .front
             
             view.addSubview(captureButton)
-            
+            view.addSubview(go_back)
             captureButton.translatesAutoresizingMaskIntoConstraints = false
             captureButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
             captureButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -106,23 +106,23 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             
             flashCamera.image = UIImage(named: "flash")
             
-            view.addSubview(go_back)
+            
             
             go_back.translatesAutoresizingMaskIntoConstraints = false
-            go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            go_back.widthAnchor.constraint(equalToConstant: 30).isActive = true
             
-            go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+            go_back.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
             go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
             
-            go_back.image = UIImage(named: "close")
+            go_back.image = UIImage(named: "close_white")
             go_back.tintColor = UIColor.white
             
             go_back.isUserInteractionEnabled = true
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
             go_back.addGestureRecognizer(tapGesture)
-            
+           
             view.addSubview(timer_label)
             
             timer_label.translatesAutoresizingMaskIntoConstraints = false
@@ -228,12 +228,14 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     @objc func record(_ sender: UITapGestureRecognizer) {
         if isRecording {
+            print("record ## 1")
             stopTimer()
             stopVideoRecording()
             captureButton.image = UIImage(named: "start_record")
             galleryButton.isHidden = false
             switchFrontCamera.isHidden = false
         } else {
+            print("record ## 2")
             startTimer()
             startVideoRecording()
             captureButton.image = UIImage(named: "stop_record")
@@ -252,11 +254,11 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        print("Start Recording")
+        print("record ## 3")
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        print("Stop Recording")
+        print("record ## 4")
         video_url = url
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -264,22 +266,27 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        print("record ## 5")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
+        print("record ## 6")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        print("record ## 7")
         
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+        print("record ## 8")
         
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("record ## 9")
     }
     
 }

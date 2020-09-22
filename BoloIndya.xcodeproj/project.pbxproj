@@ -62,6 +62,7 @@
 		18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F93B4124B72147006621DB /* ChooseLanguageController.swift */; };
 		18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FD085B24BE25A1007E55D6 /* VideoViewController.swift */; };
 		18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */; };
+		274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1817215424ED84F600BF8201 /* BoloIndya.entitlements */; };
 		6E8584442506859F00A0A7B2 /* ConstantsUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */; };
 		6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */; };
 		6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED624FB99BC00C01D72 /* UserProfileStorybaord.storyboard */; };
@@ -443,6 +444,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */,
 				187DA65224B8A36D005522FB /* Main.storyboard in Resources */,
 				6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */,
 				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,

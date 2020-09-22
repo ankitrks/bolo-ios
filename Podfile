@@ -12,4 +12,5 @@ pod 'SwiftyCam'
 pod 'YPImagePicker'
 pod 'SVProgressHUD'
 pod 'AlamofireObjectMapper'
+pod 'Branch'
 end
