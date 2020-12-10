@@ -61,6 +61,8 @@ class VideoCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        contentView.isUserInteractionEnabled = true
 
         backgroundColor = .black
         selectionStyle = .none
@@ -137,10 +139,10 @@ class VideoCell: UITableViewCell {
         let likeGesture = UITapGestureRecognizer(target: self, action: #selector(tapLike(_:)))
         like_image.addGestureRecognizer(likeGesture)
 
-        let commentGesture = UITapGestureRecognizer(target: self, action: #selector(renderComments))
+        let commentGesture = UITapGestureRecognizer(target: self, action: #selector(renderComments(_:)))
         comment_image.addGestureRecognizer(commentGesture)
 
-        let whatsappGesture = UITapGestureRecognizer(target: self, action: #selector(downloadAndShareVideoWhatsapp))
+        let whatsappGesture = UITapGestureRecognizer(target: self, action: #selector(downloadAndShareVideoWhatsapp(_:)))
         whatsapp_share_image.addGestureRecognizer(whatsappGesture)
     }
 
@@ -396,13 +398,13 @@ class VideoCell: UITableViewCell {
         whatsapp_share_count.text = topic.whatsapp_share_count
 
         if (!topic.user.profile_pic.isEmpty) {
-
-                         let pic_url = URL(string: topic.user.profile_pic)
-
-                         user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
-                     } else {
-                         user_image.image = UIImage(named: "user")
-                     }
+            
+            let pic_url = URL(string: topic.user.profile_pic)
+            
+            user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+        } else {
+            user_image.image = UIImage(named: "user")
+        }
 
         if topic.isLiked {
             like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)

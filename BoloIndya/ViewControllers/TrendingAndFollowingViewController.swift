@@ -790,32 +790,31 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (tableView == self.trendingView) {
-          let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
-
-                    if !self.topic_liked.isEmpty {
-                        if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
-                            videos[indexPath.row].isLiked = true
-                        }
-                    }
-                     video_cell.sizeFrame =  screenSize.size
-                    if selected_position == indexPath.row {
-                        if current_video_cell != nil {
-                            current_video_cell.player.player?.pause()
-                        }else{
-                            current_video_cell = video_cell
-
-                        }
-                        self.playVideo(url: videos[indexPath.row].video_url)
-
-                    }else{
-                      video_cell.selected_postion = indexPath.row
-                      video_cell.tag = indexPath.row
-                    }
-                   video_cell.configure(with: videos[indexPath.row])
-
-                    video_cell.delegate = self
-
-
+            let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
+            
+            if !self.topic_liked.isEmpty {
+                if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                    videos[indexPath.row].isLiked = true
+                }
+            }
+            video_cell.sizeFrame =  screenSize.size
+            if selected_position == indexPath.row {
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
+                }else{
+                    current_video_cell = video_cell
+                    
+                }
+                self.playVideo(url: videos[indexPath.row].video_url)
+                
+            }else{
+                video_cell.selected_postion = indexPath.row
+                video_cell.tag = indexPath.row
+            }
+            video_cell.configure(with: videos[indexPath.row])
+            
+            video_cell.delegate = self
+            
             return video_cell
         } else {
             let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
