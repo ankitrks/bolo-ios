@@ -778,6 +778,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -785,7 +786,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -802,6 +803,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -809,7 +811,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

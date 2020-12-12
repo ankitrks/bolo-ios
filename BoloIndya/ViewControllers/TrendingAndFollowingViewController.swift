@@ -153,6 +153,7 @@ class TrendingAndFollowingViewController: BaseVC {
         trendingView.dataSource = self
        // trendingView.intrinsicContentSize
         trendingView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
+        trendingView.showsVerticalScrollIndicator = false
         
         commentView.isScrollEnabled = true
         commentView.delegate = self
