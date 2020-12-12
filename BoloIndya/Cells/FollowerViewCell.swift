@@ -61,7 +61,7 @@ class FollowerViewCell: UITableViewCell {
             follow_button.setTitleColor(UIColor.black, for: .normal)
         } else {
             follow_button.setTitle("Follow", for: .normal)
-            follow_button.layer.backgroundColor = UIColor.red.cgColor
+            follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
             follow_button.setTitleColor(.white, for: .normal)
         }
         follow_button.titleLabel?.font = .systemFont(ofSize: 11.0)

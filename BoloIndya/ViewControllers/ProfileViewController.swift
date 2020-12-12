@@ -132,7 +132,7 @@ class ProfileViewController: BaseVC {
         follow_button.setTitle("Follow", for: .normal)
         
         follow_button.layer.cornerRadius = 10.0
-        follow_button.layer.backgroundColor = UIColor.red.cgColor
+        follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
         follow_button.setTitleColor(.white, for: .normal)
         
         follow_button.isHidden = true
@@ -496,7 +496,7 @@ class ProfileViewController: BaseVC {
         if self.isFollowing {
             users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
             follow_button.setTitle("Follow", for: .normal)
-            follow_button.layer.backgroundColor = UIColor.red.cgColor
+            follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
             follow_button.setTitleColor(.white, for: .normal)
         } else {
             follow_button.setTitle("Following", for: .normal)

@@ -124,23 +124,28 @@ class TrendingAndFollowingViewController: BaseVC {
 //                item?.image = nil
 //            }
             
-            let imageSize: CGFloat = 24
-            let processor = ResizingImageProcessor(referenceSize: CGSize(width: imageSize, height: imageSize)) |> RoundCornerImageProcessor(cornerRadius: imageSize/2)
-            let resource = ImageResource(downloadURL: url)
-            KingfisherManager.shared.retrieveImage(with: resource, options: [.processor(processor),
-                                                                             .scaleFactor(UIScreen.main.scale),
-                                                                             .cacheOriginalImage])
-            { (result) in
-                switch result {
-                case .success(let value):
-                    let image = value.image
-                    item?.selectedImage = image.withRenderingMode(.alwaysOriginal)
-                    item?.image = image.withRenderingMode(.alwaysOriginal)
-                    
-                case .failure(let error):
-                    print("Error: \(error)")
-//                    item?.selectedImage = UIImage(named: "user")
-//                    item?.image = UIImage(named: "user")
+            ImageCache.default.clearDiskCache()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let imageSize: CGFloat = 24
+                let processor = ResizingImageProcessor(referenceSize: CGSize(width: imageSize, height: imageSize)) |> RoundCornerImageProcessor(cornerRadius: imageSize/2)
+                let resource = ImageResource(downloadURL: url)
+                KingfisherManager.shared.retrieveImage(with: resource, options: [.processor(processor),
+                                                                                 .scaleFactor(UIScreen.main.scale)])
+                { (result) in
+                    switch result {
+                    case .success(let value):
+                        let image = value.image
+                        DispatchQueue.main.async {
+                            item?.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                            item?.image = image.withRenderingMode(.alwaysOriginal)
+                        }
+                        
+                    case .failure(let error):
+                        print("Error: \(error)")
+    //                    item?.selectedImage = UIImage(named: "user")
+    //                    item?.image = UIImage(named: "user")
+                    }
                 }
             }
         }

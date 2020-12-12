@@ -11,6 +11,8 @@ import YPImagePicker
 import Alamofire
 import AVFoundation
 import SVProgressHUD
+import Kingfisher
+
 protocol UserProfileEdittProtocal {
     func reloadPage()
 }
@@ -53,7 +55,41 @@ class UserProfileEditVC: UIViewController {
         }
     }
 
-
+    private func initTabBarProfileImage() {
+        if let pic = UserDefaults.standard.getProfilePic(),
+           !pic.isEmpty,
+           let url = URL(string: pic),
+           let count = tabBarController?.tabBar.items?.count,
+           count > 4 {
+            
+            let item = tabBarController?.tabBar.items?[4]
+            
+//            if ImageCache.default.isCached(forKey: url.absoluteString) {
+//                item?.selectedImage = nil
+//                item?.image = nil
+//            }
+            
+            let imageSize: CGFloat = 24
+            let processor = ResizingImageProcessor(referenceSize: CGSize(width: imageSize, height: imageSize)) |> RoundCornerImageProcessor(cornerRadius: imageSize/2)
+            let resource = ImageResource(downloadURL: url)
+            KingfisherManager.shared.retrieveImage(with: resource, options: [.processor(processor),
+                                                                             .scaleFactor(UIScreen.main.scale),
+                                                                             .cacheOriginalImage])
+            { (result) in
+                switch result {
+                case .success(let value):
+                    let image = value.image
+                    item?.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                    item?.image = image.withRenderingMode(.alwaysOriginal)
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+//                    item?.selectedImage = UIImage(named: "user")
+//                    item?.image = UIImage(named: "user")
+                }
+            }
+        }
+    }
 
     
 
@@ -135,6 +171,8 @@ class UserProfileEditVC: UIViewController {
                                         self.profileUpdate(imageUrl: json_object["body"] as? String)
                                         
                                         UserDefaults.standard.setProfilePic(value: json_object["body"] as? String)
+                                        
+                                        self.initTabBarProfileImage()
                                     } else {
                                         print("")
                                         // self.thumnail_url_upload = ""
@@ -169,15 +207,16 @@ class UserProfileEditVC: UIViewController {
 
 
     func profileUpdate(imageUrl:String?) {
-
-
-        //         loader.isHidden = false
-        //         loader.startAnimating()
+        tvName.endEditing(true)
+        tvBio.endEditing(true)
+        tvUsername.endEditing(true)
+        
         var headers: HTTPHeaders!
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         }
+        
         let paramters: [String: Any]
         if imageUrl == nil {
             paramters = [
@@ -186,24 +225,19 @@ class UserProfileEditVC: UIViewController {
                 "name": tvName.text ?? "",
                 "bio": tvBio.text ?? "",
                 "username": tvUsername.text ?? "",
-
-
             ]
-
-        }else{
+        } else {
             paramters = [
                 // "user_id": "\(UserDefaults.standard.getUserId().unsafelyUnwrapped)",
                 "activity":"profile_save",
                 "profile_pic": imageUrl ?? ""
 
             ]
-
         }
+        
         DispatchQueue.main.async {
             SVProgressHUD.show(withStatus:  "Please wait..")
         }
-
-
 
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
 

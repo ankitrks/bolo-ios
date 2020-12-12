@@ -52,7 +52,7 @@ class HashTagViewController: UIViewController {
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
-        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        upper_tab.layer.backgroundColor = (UIColor(hex: "222020") ?? UIColor.red).cgColor
         
         back_image.translatesAutoresizingMaskIntoConstraints = false
         back_image.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -88,7 +88,7 @@ class HashTagViewController: UIViewController {
         hash_tag_label.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         hash_tag_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
         hash_tag_label.leftAnchor.constraint(equalTo: hash_image.rightAnchor, constant: 10).isActive = true
-        hash_tag_label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
+        hash_tag_label.topAnchor.constraint(equalTo: self.upper_tab.bottomAnchor, constant: 5).isActive = true
         
         views_and_videos.translatesAutoresizingMaskIntoConstraints = false
         views_and_videos.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
@@ -100,7 +100,7 @@ class HashTagViewController: UIViewController {
         hash_image.widthAnchor.constraint(equalToConstant: 90).isActive = true
         hash_image.heightAnchor.constraint(equalToConstant: 90).isActive = true
         hash_image.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        hash_image.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        hash_image.topAnchor.constraint(equalTo: self.upper_tab.bottomAnchor, constant: 5).isActive = true
         
         share_button.translatesAutoresizingMaskIntoConstraints = false
         share_button.widthAnchor.constraint(equalToConstant: 150).isActive = true
@@ -118,7 +118,7 @@ class HashTagViewController: UIViewController {
         share_button.setTitle("Share", for: .normal)
         
         share_button.layer.cornerRadius = 10.0
-        share_button.layer.backgroundColor = UIColor.blue.cgColor
+        share_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.black).cgColor
         share_button.setTitleColor(.white, for: .normal)
         
         share_button.addTarget(self, action: #selector(shareHash), for: .touchUpInside)

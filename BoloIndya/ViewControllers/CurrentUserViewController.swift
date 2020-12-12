@@ -11,6 +11,7 @@ import Alamofire
 import YPImagePicker
 import SVProgressHUD
 import Branch
+import Kingfisher
 
 class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     

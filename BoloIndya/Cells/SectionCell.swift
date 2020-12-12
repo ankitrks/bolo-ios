@@ -62,6 +62,9 @@ class SectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.isUserInteractionEnabled = true
+        
+        selectionStyle = .none
         
         self.backgroundColor = UIColor.black
         
