@@ -53,7 +53,7 @@ class CategoryViewController: BaseVC {
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
-        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        upper_tab.layer.backgroundColor = (UIColor(hex: "222020") ?? UIColor.black).cgColor
         
         back_image.translatesAutoresizingMaskIntoConstraints = false
         back_image.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -108,6 +108,7 @@ class CategoryViewController: BaseVC {
         category_label.textColor = UIColor.white
         
         category_videos.textColor = UIColor.white
+        category_videos.font = UIFont.systemFont(ofSize: 12)
         
         follow_button.translatesAutoresizingMaskIntoConstraints = false
         follow_button.widthAnchor.constraint(equalToConstant: 150).isActive = true
@@ -118,7 +119,7 @@ class CategoryViewController: BaseVC {
         follow_button.setTitle("Follow", for: .normal)
         
         follow_button.layer.cornerRadius = 10.0
-        follow_button.layer.backgroundColor = UIColor.red.cgColor
+        follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
         follow_button.setTitleColor(.white, for: .normal)
         
         follow_button.isHidden = true

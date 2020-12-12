@@ -46,7 +46,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCollectionViewCell
             cell.configure(with: categories[indexPath.row])
             if (indexPath.row == 0) {
-                cell.name.textColor = UIColor.red
+                cell.name.textColor = UIColor(hex: "10A5F9")
             } else {
                 cell.name.textColor = UIColor.white
             }
@@ -129,6 +129,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         categoryView.backgroundColor = .clear
         categoryView.delegate = self
         categoryView.dataSource = self
+        categoryView.showsHorizontalScrollIndicator = false
         
         let layout_banner = UICollectionViewFlowLayout()
         layout_banner.scrollDirection = .horizontal
