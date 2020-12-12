@@ -20,14 +20,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         
         // if you are using the TEST key
         Branch.setUseTestBranchKey(false) // make it false for live
-        // listener for Branch Deep Link data
         Branch.getInstance().enableLogging()
         Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
-                    // do stuff with deep link data (nav to page, display content, etc)
                 print(params as? [String: AnyObject] ?? {})
             }
         //Branch.getInstance().validateSDKIntegration()
+        
+        initTabBar()
+        
         return true
+    }
+    
+    private func initTabBar() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+        UITabBar.appearance().tintColor = UIColor(hex: "10A5F9")
+        UITabBar.appearance().backgroundColor = UIColor(hex: "222020")
+        UITabBar.appearance()
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

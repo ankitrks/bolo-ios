@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyCam
 import Photos
 import YPImagePicker
 
@@ -164,11 +163,20 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             timeSec = 0
             timeMin += 1
         }
+        
+        if timeMin == 2 {
+            stopTimer()
+            stopVideoRecording()
+            captureButton.image = UIImage(named: "start_record")
+            galleryButton.isHidden = false
+            switchFrontCamera.isHidden = false
+        }
+        
         let timeNow = String(format: "%02d:%02d", timeMin, timeSec)
         timer_label.text = timeNow
     }
     
-    @objc func resetTimerToZero(){
+    @objc func resetTimerToZero() {
         timeSec = 0
         timeMin = 0
         stopTimer()
@@ -184,20 +192,21 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
-         self.navigationController?.isNavigationBarHidden = true
-         self.tabBarController?.tabBar.isHidden = true
-     }
-     
-     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-         self.navigationController?.isNavigationBarHidden = true
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        
         stopVideoRecording()
         captureButton.image = UIImage(named: "start_record")
         galleryButton.isHidden = false
         switchFrontCamera.isHidden = false
-        resetTimerToZero()
-     }
+        resetTimerAndLabel()
+    }
+     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
      
      @objc func openGallery(_ sender: UITapGestureRecognizer) {
        
@@ -247,6 +256,9 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
         self.tabBarController?.selectedIndex = 0
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {

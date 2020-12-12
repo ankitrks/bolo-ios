@@ -13,12 +13,6 @@ class MainViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UITabBar.appearance().unselectedItemTintColor = UIColor.white
-         //UITabBar.appearance().tintColor = UIColor.red
-        UITabBar.appearance().backgroundColor = UIColor.init(displayP3Red:  0.71, green: 0.16, blue: 0.15, alpha: 1.0)
-        UITabBar.appearance()
-
-
 
 //        var uu = UserDefaults.standard.getProfilePic()
 //        let pic_url:URL? = URL(string: UserDefaults.standard.getProfilePic() ?? "")

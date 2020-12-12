@@ -95,21 +95,45 @@ class VideoCell: UITableViewCell {
         //        duration.isHidden = true
 
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
-        actions_stack.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        actions_stack.widthAnchor.constraint(equalToConstant: 30).isActive = true
         actions_stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        actions_stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+        actions_stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
         actions_stack.axis = .vertical
-        actions_stack.spacing = CGFloat(5)
+        actions_stack.spacing = CGFloat(20)
 
         actions_stack.addArrangedSubview(user_image)
-        actions_stack.addArrangedSubview(like_image)
-        actions_stack.addArrangedSubview(like_count)
-        actions_stack.addArrangedSubview(comment_image)
-        actions_stack.addArrangedSubview(comment_count)
-        actions_stack.addArrangedSubview(share_image)
-        actions_stack.addArrangedSubview(share_count)
-        actions_stack.addArrangedSubview(whatsapp_share_image)
-        actions_stack.addArrangedSubview(whatsapp_share_count)
+        
+        let likeStack = UIStackView()
+        likeStack.axis = .vertical
+        likeStack.spacing = CGFloat(0)
+        likeStack.alignment = .center
+        likeStack.addArrangedSubview(like_image)
+        likeStack.addArrangedSubview(like_count)
+        actions_stack.addArrangedSubview(likeStack)
+        
+        let commentStack = UIStackView()
+        commentStack.axis = .vertical
+        commentStack.spacing = CGFloat(0)
+        commentStack.alignment = .center
+        commentStack.addArrangedSubview(comment_image)
+        commentStack.addArrangedSubview(comment_count)
+        actions_stack.addArrangedSubview(commentStack)
+        
+        let shareStack = UIStackView()
+        shareStack.axis = .vertical
+        shareStack.spacing = CGFloat(0)
+        shareStack.alignment = .center
+        shareStack.addArrangedSubview(share_image)
+        shareStack.addArrangedSubview(share_count)
+        actions_stack.addArrangedSubview(shareStack)
+        
+        let whatsappStack = UIStackView()
+        whatsappStack.axis = .vertical
+        whatsappStack.spacing = CGFloat(0)
+        whatsappStack.alignment = .center
+        whatsappStack.addArrangedSubview(whatsapp_share_image)
+        whatsappStack.addArrangedSubview(whatsapp_share_count)
+        actions_stack.addArrangedSubview(whatsappStack)
 
         setUserImage()
         setLikeImage()
@@ -254,8 +278,8 @@ class VideoCell: UITableViewCell {
     func setUserImage() {
 
         user_image.translatesAutoresizingMaskIntoConstraints = false
-        user_image.layer.cornerRadius = 22
-        user_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        user_image.layer.cornerRadius = 15
+        user_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         user_image.contentMode = .redraw
         user_image.clipsToBounds = true
@@ -265,7 +289,8 @@ class VideoCell: UITableViewCell {
     func setLikeImage() {
 
         like_image.translatesAutoresizingMaskIntoConstraints = false
-        like_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        like_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        like_image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         like_image.image = UIImage(named: "like")
 
         like_count.translatesAutoresizingMaskIntoConstraints = false
@@ -295,7 +320,8 @@ class VideoCell: UITableViewCell {
     func setCommentImage() {
 
         comment_image.translatesAutoresizingMaskIntoConstraints = false
-        comment_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        comment_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        comment_image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         comment_image.image = UIImage(named: "comments")
 
         comment_count.translatesAutoresizingMaskIntoConstraints = false
@@ -324,7 +350,8 @@ class VideoCell: UITableViewCell {
 
     func setShareImage() {
 
-        share_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        share_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        share_image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         share_image.image = UIImage(named: "share")
 
         share_count.translatesAutoresizingMaskIntoConstraints = false
@@ -354,7 +381,8 @@ class VideoCell: UITableViewCell {
 
     func setWhatsappImage() {
 
-        whatsapp_share_image.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        whatsapp_share_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        whatsapp_share_image.widthAnchor.constraint(equalToConstant: 30).isActive = true
 
         whatsapp_share_image.image = UIImage(named: "whatsapp")
 

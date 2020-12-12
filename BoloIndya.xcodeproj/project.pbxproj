@@ -63,8 +63,15 @@
 		18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FD085B24BE25A1007E55D6 /* VideoViewController.swift */; };
 		18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */; };
 		274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1817215424ED84F600BF8201 /* BoloIndya.entitlements */; };
+		3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27825827FCE005B96DC /* VideoHelper.swift */; };
+		3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27E2584A48E005B96DC /* UIColor+Extension.swift */; };
 		359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEA8325810222002B31A8 /* UIView+Extension.swift */; };
 		359DEA872581023D002B31A8 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEA862581023D002B31A8 /* UITableView+Extension.swift */; };
+		359DEAD325821B3C002B31A8 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEACE25821B3C002B31A8 /* SwiftyCamButton.swift */; };
+		359DEAD425821B3C002B31A8 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEACF25821B3C002B31A8 /* PreviewView.swift */; };
+		359DEAD525821B3C002B31A8 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEAD025821B3C002B31A8 /* SwiftyCamViewController.swift */; };
+		359DEAD625821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEAD125821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift */; };
+		359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEAD225821B3C002B31A8 /* Orientation.swift */; };
 		6E8584442506859F00A0A7B2 /* ConstantsUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */; };
 		6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */; };
 		6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED624FB99BC00C01D72 /* UserProfileStorybaord.storyboard */; };
@@ -146,8 +153,15 @@
 		18FD085B24BE25A1007E55D6 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		18FDCA8024DBEF7D00113CDC /* HashUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUploadCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B623EE2182CDA4627DA28CE /* Pods-BoloIndya.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.release.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.release.xcconfig"; sourceTree = "<group>"; };
+		3594F27825827FCE005B96DC /* VideoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHelper.swift; sourceTree = "<group>"; };
+		3594F27E2584A48E005B96DC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		359DEA8325810222002B31A8 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		359DEA862581023D002B31A8 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		359DEACE25821B3C002B31A8 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamButton.swift; sourceTree = "<group>"; };
+		359DEACF25821B3C002B31A8 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		359DEAD025821B3C002B31A8 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewController.swift; sourceTree = "<group>"; };
+		359DEAD125821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
+		359DEAD225821B3C002B31A8 /* Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E778EEFEEDCFFB5F218FA18 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsUrl.swift; sourceTree = "<group>"; };
@@ -321,6 +335,18 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		359DEACD25821B3C002B31A8 /* SwiftyCam */ = {
+			isa = PBXGroup;
+			children = (
+				359DEACE25821B3C002B31A8 /* SwiftyCamButton.swift */,
+				359DEACF25821B3C002B31A8 /* PreviewView.swift */,
+				359DEAD025821B3C002B31A8 /* SwiftyCamViewController.swift */,
+				359DEAD125821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift */,
+				359DEAD225821B3C002B31A8 /* Orientation.swift */,
+			);
+			path = SwiftyCam;
+			sourceTree = "<group>";
+		};
 		39987EC8F661D94FAF95C123 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,9 +358,11 @@
 		6E8584422506854900A0A7B2 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				359DEACD25821B3C002B31A8 /* SwiftyCam */,
 				6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */,
 				6EBBB8A1250933C400A1B4C0 /* AppUtils.swift */,
 				6EBBB8A52509428F00A1B4C0 /* Constants.swift */,
+				3594F27825827FCE005B96DC /* VideoHelper.swift */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -357,6 +385,7 @@
 				6EEA92A9250ADED500B1858B /* Date.swift */,
 				359DEA8325810222002B31A8 /* UIView+Extension.swift */,
 				359DEA862581023D002B31A8 /* UITableView+Extension.swift */,
+				3594F27E2584A48E005B96DC /* UIColor+Extension.swift */,
 			);
 			path = extention;
 			sourceTree = "<group>";
@@ -560,10 +589,12 @@
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
 				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
+				359DEAD625821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
 				6EB4AEDE24FBEF0000C01D72 /* UIImageView.swift in Sources */,
 				185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */,
 				6EBBB8A92509461D00A1B4C0 /* AFWrapper.swift in Sources */,
+				3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */,
 				188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
@@ -573,18 +604,22 @@
 				6EBBB8B125094A6D00A1B4C0 /* Connectivity.swift in Sources */,
 				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
 				6EEA92A2250A5B0900B1858B /* LoginUser.swift in Sources */,
+				359DEAD425821B3C002B31A8 /* PreviewView.swift in Sources */,
 				18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */,
 				18CB49DD24BC6C8C00212329 /* UpdateIntersetViewController.swift in Sources */,
 				187DA64F24B89932005522FB /* LoginAndSignUpViewController.swift in Sources */,
 				18B56B5324CB58E600CE7DE8 /* CommentViewCell.swift in Sources */,
 				18C771B324CB05AD007E3AC2 /* CategoryViewController.swift in Sources */,
 				18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */,
+				359DEAD325821B3C002B31A8 /* SwiftyCamButton.swift in Sources */,
 				6EB4AEDB24FBA60100C01D72 /* UserProfileEditVC.swift in Sources */,
 				18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */,
 				181A96BD24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift in Sources */,
 				18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */,
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,
 				18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */,
+				359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */,
+				3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */,
 				359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */,
 				18413AD424DF1EB600F3E2A1 /* SearchViewController.swift in Sources */,
 				6EEA92A3250A5B0900B1858B /* LoginUserInfo.swift in Sources */,
@@ -594,6 +629,7 @@
 				183BDCC424B7A41200ACF912 /* UserDefaults.swift in Sources */,
 				18CB49DF24BC6F8C00212329 /* TermsPagesViewController.swift in Sources */,
 				183B4BAC24B86DE4003EC6D7 /* User.swift in Sources */,
+				359DEAD525821B3C002B31A8 /* SwiftyCamViewController.swift in Sources */,
 				1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

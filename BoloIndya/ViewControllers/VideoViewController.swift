@@ -144,7 +144,7 @@ class VideoViewController: UIViewController {
         go_back_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
         go_back_comment.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
         
-        go_back_comment.image = UIImage(named: "close")
+        go_back_comment.image = UIImage(named: "close_white")
         go_back_comment.tintColor = UIColor.white
         
         go_back_comment.isUserInteractionEnabled = true
@@ -286,7 +286,8 @@ class VideoViewController: UIViewController {
         let paramters: [String: Any] = [
             "comment": "\(comment_title.text.unsafelyUnwrapped)",
             "topic_id": "\(videos[selected_position].id)",
-            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
+            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
+            "gify_details": "{}"
         ]
         
         var headers: [String: Any]? = nil
@@ -643,33 +644,143 @@ extension VideoViewController: VideoCellDelegate {
     }
 
     func goToSharing(with selected_postion: Int) {
-          var videoUrl = videos[selected_postion].downloaded_url
-          if(videoUrl.isEmpty) {
-              videoUrl = videos[selected_postion].video_url
-          }
-        
-          let url = URL(string: videoUrl) ?? nil
-          if url != nil{
-              shareAndDownload(url: url!)
-          }
-      }
+        shareAndDownload(with: selected_postion)
+    }
 
-      func shareAndDownload(url: URL) {
-          let videoFilePath = url
-          let pdfData = NSData(contentsOf: videoFilePath)
-          let temporaryFolder = FileManager.default.temporaryDirectory
-          let fileName = videoFilePath.lastPathComponent
-          let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
-          do {
-              try pdfData?.write(to: temporaryFileURL)
-              let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
-            //  showPrograssBar(show: false)
-              present(activityViewController, animated: true, completion: nil)
-          } catch {
-              print(error)
-          }
-         // showPrograssBar(show: false)
-      }
+    func shareAndDownload(with selected_postion: Int) {
+        guard videos.count > selected_postion else { return }
+        
+        var isDownloadUrlAvailable = true
+        
+        var videoUrl = videos[selected_postion].downloaded_url
+        if videoUrl.isEmpty {
+            videoUrl = videos[selected_postion].video_url
+            isDownloadUrlAvailable = false
+        }
+        
+        guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + ".mp4")
+        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + "watermark.mp4")
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setContainerView(self.view)
+        SVProgressHUD.show(withStatus: "Preparing")
+        
+        if FileManager().fileExists(atPath: destinationUrl.path) {
+            SVProgressHUD.dismiss()
+            
+            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                if completed {
+                    print("completed")
+                } else {
+                    print("error")
+                }
+            }
+            present(activityController, animated: true)
+        } else if let url = URL(string: videoUrl) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                
+                if error == nil,
+                   let response = response as? HTTPURLResponse,
+                   response.statusCode == 200,
+                   let data = data {
+                    
+                    do {
+                        if isDownloadUrlAvailable {
+                            let _ = try data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
+                            
+                            DispatchQueue.main.async {
+                                let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                    if completed {
+                                        print("completed")
+                                    } else {
+                                        print("error")
+                                    }
+                                }
+                                
+                                self.present(activityController, animated: true)
+                                SVProgressHUD.dismiss()
+                            }
+                            
+                            if FileManager().fileExists(atPath: watermarkedUrl.path) {
+                                do {
+                                    try FileManager().removeItem(atPath: watermarkedUrl.path)
+                                } catch {
+                                    print(error)
+                                }
+                            }
+                        } else {
+                            if FileManager().fileExists(atPath: watermarkedUrl.path) {
+                                DispatchQueue.main.async {
+                                    let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
+                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                        if completed {
+                                            print("completed")
+                                        } else {
+                                            print("error")
+                                        }
+                                    }
+                                    
+                                    self.present(activityController, animated: true)
+                                    SVProgressHUD.dismiss()
+                                }
+                            } else {
+                                let _ = try data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
+                                
+                                VideoHelper().watermark(videoURL: destinationUrl, outputURL: watermarkedUrl, imageName: "boloindya_watermark", watermarkPosition: .BottomRight) { (status, session, url) in
+                                    
+                                    var videoUrl: URL
+                                    if let url = url, NSData(contentsOf: url) != nil {
+                                        videoUrl = url
+                                    } else {
+                                        videoUrl = destinationUrl
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        let activityController = UIActivityViewController(activityItems: [videoUrl], applicationActivities: nil)
+                                        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                            if completed {
+                                                print("completed")
+                                            } else {
+                                                print("error")
+                                            }
+                                        }
+                                        
+                                        self.present(activityController, animated: true)
+                                        SVProgressHUD.dismiss()
+                                    }
+                                    
+                                    if FileManager().fileExists(atPath: destinationUrl.path) {
+                                        do {
+                                            try FileManager().removeItem(atPath: destinationUrl.path)
+                                        } catch {
+                                            print(error)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    } catch {
+                        print(error)
+                        
+                        DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
+                }
+            }).resume()
+        }
+    }
     
     func goToProfile(with selected_postion: Int) {
         if self.self_user {
@@ -690,101 +801,7 @@ extension VideoViewController: VideoCellDelegate {
             current_video_cell.play_and_pause_image.image = UIImage(named: "play")
         }
         
-        var videoUrl = videos[selected_postion].downloaded_url
-        if(videoUrl.isEmpty) {
-            videoUrl = videos[selected_postion].video_url
-        }
-        
-        let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
-        
-        DispatchQueue.main.async {
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setContainerView(self.view)
-            SVProgressHUD.show(withStatus: "Preparing")
-        }
-                   
-        
-        if(FileManager().fileExists(atPath: destinationUrl.path)){
-           
-            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                
-                if completed {
-                    print("completed")
-                } else {
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    print("error")
-                }
-            }
-            //            self.video_url = destinationUrl
-            //            self.tabBarController?.tabBar.isHidden = true
-            //            self.navigationController?.isNavigationBarHidden = true
-            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
-            DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
-            }
-            self.present(activityController, animated: true) {
-                print("Done")
-            }
-            print("\n\nfile already exists\n\n")
-        } else{
-           
-            var request = URLRequest(url: URL(string: videoUrl)!)
-            request.httpMethod = "GET"
-            _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-                if(error != nil){
-                    DispatchQueue.main.async {
-                       SVProgressHUD.dismiss()
-                    }
-                    print("\n\nsome error occured\n\n")
-                    return
-                }
-                if let response = response as? HTTPURLResponse{
-                    if response.statusCode == 200 {
-                        DispatchQueue.main.async {
-                            if let data = data{
-                                if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
-                                    
-                                    print("\n\nurl data written\n\n")
-                                    print(destinationUrl)
-                                    
-                                    let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                                        if completed {
-                                            print("completed")
-                                        } else {
-                                            print("error")
-                                        }
-                                        
-                                    }
-                                    SVProgressHUD.dismiss()
-                                    self.present(activityController, animated: true) {
-                                    }
-                                    
-                                }
-                                else{
-                                    SVProgressHUD.dismiss()
-                                    print("\n\nerror again\n\n")
-                                }
-                            }
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            SVProgressHUD.dismiss()
-                        }
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                }
-            }).resume()
-            
-        }
+        shareAndDownload(with: selected_postion)
     }
     
     func likedTopic(with selected_postion: Int) {

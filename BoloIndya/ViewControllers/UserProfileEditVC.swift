@@ -132,7 +132,9 @@ class UserProfileEditVC: UIViewController {
                                     if !(json_object["body"] as? String ?? "").isEmpty {
 
                                         print(json_object["body"] as! String)
-                                        self.profileUpdate(imageUrl: json_object["body"] as! String)
+                                        self.profileUpdate(imageUrl: json_object["body"] as? String)
+                                        
+                                        UserDefaults.standard.setProfilePic(value: json_object["body"] as? String)
                                     } else {
                                         print("")
                                         // self.thumnail_url_upload = ""
