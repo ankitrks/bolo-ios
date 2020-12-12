@@ -382,7 +382,8 @@ class UploadVideoDetailsViewController: UIViewController {
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             print("calling upload video--2")
             headers = [
-                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+                "Authorization": "Bearer \(UserDefaults.standard.getAuthToken() ?? "")",
+                "Content-Type": "application/json"]
         }
         
         let timeStamp = Int(NSDate().timeIntervalSince1970)
@@ -418,7 +419,7 @@ class UploadVideoDetailsViewController: UIViewController {
                     case.success(let data):
                         if let json_data = data.data(using: .utf8) {
                             do {
-                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: .allowFragments) as? [String: Any] {
                                     if !(json_object["body"] as? String ?? "").isEmpty {
                                         self.video_url_upload = json_object["body"] as! String
                                         self.uploadImage()

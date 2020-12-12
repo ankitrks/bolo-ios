@@ -52,9 +52,11 @@ class TrendingAndFollowingViewController: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Trending")
+        
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
+        
+        initTabBarProfileImage()
         
         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -108,6 +110,42 @@ class TrendingAndFollowingViewController: BaseVC {
         }
     }
     
+    private func initTabBarProfileImage() {
+        if let pic = UserDefaults.standard.getProfilePic(),
+           !pic.isEmpty,
+           let url = URL(string: pic),
+           let count = tabBarController?.tabBar.items?.count,
+           count > 4 {
+            
+            let item = tabBarController?.tabBar.items?[4]
+            
+//            if ImageCache.default.isCached(forKey: url.absoluteString) {
+//                item?.selectedImage = nil
+//                item?.image = nil
+//            }
+            
+            let imageSize: CGFloat = 24
+            let processor = ResizingImageProcessor(referenceSize: CGSize(width: imageSize, height: imageSize)) |> RoundCornerImageProcessor(cornerRadius: imageSize/2)
+            let resource = ImageResource(downloadURL: url)
+            KingfisherManager.shared.retrieveImage(with: resource, options: [.processor(processor),
+                                                                             .scaleFactor(UIScreen.main.scale),
+                                                                             .cacheOriginalImage])
+            { (result) in
+                switch result {
+                case .success(let value):
+                    let image = value.image
+                    item?.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                    item?.image = image.withRenderingMode(.alwaysOriginal)
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+//                    item?.selectedImage = UIImage(named: "user")
+//                    item?.image = UIImage(named: "user")
+                }
+            }
+        }
+    }
+    
     func setTrendingViewDelegate() {
         trendingView.isScrollEnabled = true
         trendingView.isPagingEnabled = true
@@ -115,12 +153,14 @@ class TrendingAndFollowingViewController: BaseVC {
         trendingView.dataSource = self
        // trendingView.intrinsicContentSize
         trendingView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
+        trendingView.showsVerticalScrollIndicator = false
         
         commentView.isScrollEnabled = true
         commentView.delegate = self
         commentView.dataSource = self
         commentView.backgroundColor = .black
         commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
+        commentView.showsVerticalScrollIndicator = false
         
         comment_tab.addSubview(profile_pic)
         comment_tab.addSubview(submit_comment)
@@ -151,12 +191,11 @@ class TrendingAndFollowingViewController: BaseVC {
         go_back.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
         go_back.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
         
-        go_back.image = UIImage(named: "close")
+        go_back.image = UIImage(named: "close_white")
         go_back.tintColor = UIColor.white
         
         go_back.isUserInteractionEnabled = true
-        
-        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView(_:)))
+        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView))
         go_back.addGestureRecognizer(tapGestureBack)
         
         progress_comment.translatesAutoresizingMaskIntoConstraints = false
@@ -227,13 +266,14 @@ class TrendingAndFollowingViewController: BaseVC {
         comment_tab.isHidden = true
         
         trending.translatesAutoresizingMaskIntoConstraints = false
-        trending.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        trending.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        trending.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 10).isActive = true
+        trending.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        trending.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 0).isActive = true
         trending.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
+        trending.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 0).isActive = true
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
         label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
@@ -244,17 +284,18 @@ class TrendingAndFollowingViewController: BaseVC {
         progress.color = UIColor.white
         
         following.translatesAutoresizingMaskIntoConstraints = false
-        following.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        following.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        following.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
+        following.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        following.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 0).isActive = true
         following.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
+        following.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        
         trending.text = "Trending"
-        label.text = "|"
+        label.text = ""
         following.text = "Following"
         
-        trending.textColor = UIColor.red
-        following.textColor = UIColor.gray
+        trending.textColor = UIColor(hex: "10A5F9")
+        following.textColor = UIColor.white
         
         following.isUserInteractionEnabled = true
         
@@ -280,8 +321,8 @@ class TrendingAndFollowingViewController: BaseVC {
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
         if isLogin() {
             if (isTrending) {
-                following.textColor = UIColor.red
-                trending.textColor = UIColor.gray
+                following.textColor = UIColor(hex: "10A5F9")
+                trending.textColor = UIColor.white
                 if current_video_cell != nil {
                     current_video_cell.player.player?.pause()
                 }
@@ -302,8 +343,8 @@ class TrendingAndFollowingViewController: BaseVC {
     
     @objc func changeToTrending(_ sender: UITapGestureRecognizer) {
         if (!isTrending) {
-            trending.textColor = UIColor.red
-            following.textColor = UIColor.gray
+            trending.textColor = UIColor(hex: "10A5F9")
+            following.textColor = UIColor.white
             if current_video_cell != nil {
                 current_video_cell.player.player?.pause()
             }
@@ -466,7 +507,7 @@ class TrendingAndFollowingViewController: BaseVC {
     }
     
     
-    @objc func onClickTransparentView(_ sender: UITapGestureRecognizer){
+    @objc func onClickTransparentView() {
         self.comment_tab.isHidden = true
         self.comment_title.resignFirstResponder()
         contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
@@ -632,7 +673,8 @@ class TrendingAndFollowingViewController: BaseVC {
         let paramters: [String: Any] = [
             "comment": "\(comment_title.text.unsafelyUnwrapped)",
             "topic_id": "\(videos[selected_position].id)",
-            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
+            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
+            "gify_details": "{}"
         ]
         
         var headers: [String: Any]? = nil
@@ -790,32 +832,31 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (tableView == self.trendingView) {
-          let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
-
-                    if !self.topic_liked.isEmpty {
-                        if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
-                            videos[indexPath.row].isLiked = true
-                        }
-                    }
-                     video_cell.sizeFrame =  screenSize.size
-                    if selected_position == indexPath.row {
-                        if current_video_cell != nil {
-                            current_video_cell.player.player?.pause()
-                        }else{
-                            current_video_cell = video_cell
-
-                        }
-                        self.playVideo(url: videos[indexPath.row].video_url)
-
-                    }else{
-                      video_cell.selected_postion = indexPath.row
-                      video_cell.tag = indexPath.row
-                    }
-                   video_cell.configure(with: videos[indexPath.row])
-
-                    video_cell.delegate = self
-
-
+            let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
+            
+            if !self.topic_liked.isEmpty {
+                if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                    videos[indexPath.row].isLiked = true
+                }
+            }
+            video_cell.sizeFrame =  screenSize.size
+            if selected_position == indexPath.row {
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
+                }else{
+                    current_video_cell = video_cell
+                    
+                }
+                self.playVideo(url: videos[indexPath.row].video_url)
+                
+            }else{
+                video_cell.selected_postion = indexPath.row
+                video_cell.tag = indexPath.row
+            }
+            video_cell.configure(with: videos[indexPath.row])
+            
+            video_cell.delegate = self
+            
             return video_cell
         } else {
             let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
@@ -883,6 +924,8 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
         }
+        
+        onClickTransparentView()
     }
 }
 
@@ -890,19 +933,19 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
 
 
     func renderComments(with selected_postion: Int) {
-        if (isLogin()){
-        self.selected_position = selected_postion
-        if current_video_cell != nil {
-            current_video_cell.player.player?.pause()
-            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
-        }
-        progress_comment.isHidden = false
-        comment_tab.isHidden = false
-        comment_page = 0
-        comments.removeAll()
-        commentView.reloadData()
-        comment_title.text = ""
-        fetchComment()
+        if isLogin() {
+            self.selected_position = selected_postion
+            if current_video_cell != nil {
+                current_video_cell.player.player?.pause()
+                current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+            }
+            progress_comment.isHidden = false
+            comment_tab.isHidden = false
+            comment_page = 0
+            comments.removeAll()
+            commentView.reloadData()
+            comment_title.text = ""
+            fetchComment()
         }
     }
     
@@ -911,136 +954,99 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         self.performSegue(withIdentifier: "ProfileView", sender: self)
         self.tabBarController?.tabBar.isHidden = true
     }
+    
     func goToSharing(with selected_postion: Int) {
-        var videoUrl = videos[selected_postion].downloaded_url
-        if(videoUrl.isEmpty) {
-            videoUrl = videos[selected_postion].video_url
-        }
-        let url = URL(string: videoUrl) ?? nil
-        if url != nil{
-            shareAndDownload(url: url!)
-        }
+        shareAndDownload(with: selected_postion)
     }
 
-    func shareAndDownload(url: URL) {
-        print("shareAndDownload input=> ", url)
-        let videoFilePath = url
-        let pdfData = NSData(contentsOf: videoFilePath)
-        let temporaryFolder = FileManager.default.temporaryDirectory
-        let fileName = videoFilePath.lastPathComponent
-        let temporaryFileURL = try! URL(resolvingAliasFileAt: temporaryFolder).appendingPathComponent(fileName)
-        do {
-            DispatchQueue.main.async {
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setContainerView(self.view)
-                SVProgressHUD.show(withStatus: "Preparing")
-            }
-            try pdfData?.write(to: temporaryFileURL)
-            let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
-             // showPrograssBar(show: false)
-//            DispatchQueue.main.async {
-//                SVProgressHUD.dismiss()
-//            }
-            present(activityViewController, animated: true, completion: nil)
-        } catch {
-//            DispatchQueue.main.async {
-//                SVProgressHUD.dismiss()
-//            }
-            print("shareAndDownload error=> ", error)
-        }
-        // showPrograssBar(show: false)
-    }
-    
-    func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
-        if current_video_cell != nil {
-            current_video_cell.player.player?.pause()
-            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
-        }
+    func shareAndDownload(with selected_postion: Int) {
+        guard videos.count > selected_postion else { return }
+        
+        var isDownloadUrlAvailable = true
         
         var videoUrl = videos[selected_postion].downloaded_url
-        if(videoUrl.isEmpty) {
+        if videoUrl.isEmpty {
             videoUrl = videos[selected_postion].video_url
+            isDownloadUrlAvailable = false
         }
         
-        let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos"+videos[selected_postion].id+".mp4")
+        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + ".mp4")
+        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + "watermark.mp4")
         
-        DispatchQueue.main.async {
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setContainerView(self.view)
-            SVProgressHUD.show(withStatus: "Preparing")
-        }
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setContainerView(self.view)
+        SVProgressHUD.show(withStatus: "Preparing")
         
-        
-        if(FileManager().fileExists(atPath: destinationUrl.path)){
+        if FileManager().fileExists(atPath: watermarkedUrl.path), isDownloadUrlAvailable {
+            SVProgressHUD.dismiss()
             
-            let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
             activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                
                 if completed {
                     print("completed")
                 } else {
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
                     print("error")
                 }
             }
-            DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
-            }
-            //            self.video_url = destinationUrl
-            //            self.tabBarController?.tabBar.isHidden = true
-            //            self.navigationController?.isNavigationBarHidden = true
-            //            performSegue(withIdentifier: "thumbnailVideo", sender: self)
-            
-            self.present(activityController, animated: true) {
-                print("Done")
-            }
-            print("\n\nfile already exists\n\n")
-        } else{
-            
-            var request = URLRequest(url: URL(string: videoUrl)!)
+            present(activityController, animated: true)
+        } else if let url = URL(string: videoUrl) {
+            var request = URLRequest(url: url)
             request.httpMethod = "GET"
-            _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-                if(error != nil){
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    print("\n\nsome error occured\n\n")
-                    return
-                }
-                if let response = response as? HTTPURLResponse{
-                    if response.statusCode == 200 {
-                        DispatchQueue.main.async {
-                            if let data = data{
-                                if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
-                                    
-                                    print("\n\nurl data written\n\n")
-                                    print(destinationUrl)
-                                    
-                                    let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-                                        if completed {
-                                            print("completed")
-                                        } else {
-                                            print("error")
-                                        }
-                                        
+            URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                
+                if error == nil,
+                   let response = response as? HTTPURLResponse,
+                   response.statusCode == 200,
+                   let data = data {
+                    
+                    do {
+                        if isDownloadUrlAvailable {
+                            let _ = try data.write(to: watermarkedUrl, options: Data.WritingOptions.atomic)
+                            
+                            DispatchQueue.main.async {
+                                let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
+                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                    if completed {
+                                        print("completed")
+                                    } else {
+                                        print("error")
                                     }
-                                    SVProgressHUD.dismiss()
-                                    self.present(activityController, animated: true) {
+                                }
+                                
+                                self.present(activityController, animated: true)
+                                SVProgressHUD.dismiss()
+                            }
+                        } else {
+                            let _ = try data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
+                            
+                            VideoHelper().watermark(videoURL: destinationUrl, outputURL: watermarkedUrl, imageName: "boloindya_watermark", watermarkPosition: .BottomRight) { (status, session, url) in
+                                
+                                var videoUrl: URL
+                                if let url = url, NSData(contentsOf: url) != nil {
+                                    videoUrl = url
+                                } else {
+                                    videoUrl = destinationUrl
+                                }
+                                
+                                let activityController = UIActivityViewController(activityItems: [videoUrl], applicationActivities: nil)
+                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                    if completed {
+                                        print("completed")
+                                    } else {
+                                        print("error")
                                     }
-                                    
                                 }
-                                else{
-                                    SVProgressHUD.dismiss()
-                                    print("\n\nerror again\n\n")
-                                }
+                                
+                                self.present(activityController, animated: true)
+                                SVProgressHUD.dismiss()
                             }
                         }
-                    } else {
+                        
+                    } catch {
+                        print(error)
+                        
                         DispatchQueue.main.async {
                             SVProgressHUD.dismiss()
                         }
@@ -1051,8 +1057,16 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                     }
                 }
             }).resume()
-            
         }
+    }
+    
+    func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+        }
+        
+        shareAndDownload(with: selected_postion)
     }
     
     func likedTopic(with selected_postion: Int) {
