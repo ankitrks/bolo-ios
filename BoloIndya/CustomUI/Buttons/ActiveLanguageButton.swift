@@ -22,7 +22,7 @@ class ActiveLanguageButton: UIButton {
     
     func setUpButton() {
         layer.cornerRadius = 10.0
-        layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        layer.backgroundColor = UIColor(hex: "10A5F9")?.cgColor
         setTitleColor(.white, for: .normal)
     }
 }

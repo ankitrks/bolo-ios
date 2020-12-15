@@ -23,6 +23,11 @@ class User {
     var follower_count: String
     var isFollowing: Bool
     
+    var isSuperstar: Bool
+    var isPopular: Bool
+    var isBusiness: Bool
+    var isExpert: Bool
+    
     init() {
         self.id = 0
         self.username = ""
@@ -36,6 +41,11 @@ class User {
         self.follow_count = ""
         self.follower_count = ""
         self.isFollowing = false
+        
+        isSuperstar = false
+        isPopular = false
+        isBusiness = false
+        isExpert = false
     }
     
     func setId(id: Int) {

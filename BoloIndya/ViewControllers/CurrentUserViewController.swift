@@ -14,13 +14,10 @@ import Branch
 import Kingfisher
 
 class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
-    
     @IBOutlet weak var more: UIButton!
-
-    
     @IBOutlet weak var upper_tab: UIView!
     @IBOutlet weak var username: UILabel!
-
+    
     var btnCover = UIImageView()
     var cover_pic = UIImageView()
     var name = UILabel()
@@ -64,62 +61,64 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     
     var no_result = UILabel()
     
-    @IBAction func shareProfile(_ sender: Any) {
-        let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)/\(UserDefaults.standard.getUsername() ?? "")"
-        let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
-            if completed {
-                print("completed")
-            } else {
-                print("error")
-            }
-        }
-        self.present(activityController, animated: true) {
-            print("Done")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if isLogin() {
+            topic_liked = UserDefaults.standard.getLikeTopic()
+            setUserData()
+            setTableView()
+            setUserVideoView()
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("Current User")
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.navigationController?.isNavigationBarHidden = true
-        if  isLogin() {
-
-                        topic_liked = UserDefaults.standard.getLikeTopic()
-                        setUserData()
-                        setTableView()
-                        setUserVideoView()
-                         reloadPage()
+        self.tabBarController?.tabBar.isHidden = false
+        
+        if isLogin() {
+            reloadPage()
         }
-
-
-
-
     }
-    func reloadPage() {
-         page = 1
-         fetchUserData()
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is VideoViewController {
+            let vc = segue.destination as? VideoViewController
+            vc?.videos = topics
+            vc?.selected_position = selected_position
+            vc?.self_user = true
+        } else if segue.destination is FollowingFollowerViewController {
+            let vc = segue.destination as? FollowingFollowerViewController
+            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
+            vc?.follower = follower
+        }
+        else if segue.destination is UserProfileEditVC {
+            let vc = segue.destination as? UserProfileEditVC
+            vc?.user = user
+            vc?.delegate = self
+            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
+            // vc?.follower = follower
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-       
+    func reloadPage() {
+        page = 1
+        fetchUserData()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
     
     func setUserData() {
-        
         let screenSize = UIScreen.main.bounds.size
         view.addSubview(cover_pic)
         
@@ -130,21 +129,19 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         
         cover_pic.backgroundColor = UIColor.gray
         cover_pic.clipsToBounds = true
-
+        
         view.addSubview(btnCover)
         btnCover.translatesAutoresizingMaskIntoConstraints = false
         btnCover.widthAnchor.constraint(equalToConstant:40).isActive = true
         btnCover.heightAnchor.constraint(equalToConstant: 40).isActive = true
         btnCover.centerXAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
         btnCover.topAnchor.constraint(equalTo: cover_pic.topAnchor, constant: 10).isActive = true
-
+        
         btnCover.image = UIImage(named: "gallery")
-
+        
         btnCover.clipsToBounds = true
         btnCover.isUserInteractionEnabled = true
         btnCover.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coverClick(tapGestureRecognizer:))))
-        
-        
         
         view.addSubview(profile_pic)
         
@@ -193,8 +190,31 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
             self.profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
         }
         
+        var imageName: String?
+        if user.isSuperstar {
+            imageName = "golden_tick"
+        } else if user.isBusiness {
+            imageName = "blue_tick"
+        } else if user.isExpert {
+            imageName = "red_tick"
+        } else if user.isPopular {
+            imageName = "red_tick"
+        }
+        
+        if let imageName = imageName {
+            let nameString = UserDefaults.standard.getUsername() ?? ""
+            let attributedText = NSMutableAttributedString(string: nameString)
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = UIImage(named: imageName)
+            
+            let imageString = NSAttributedString(attachment: imageAttachment)
+            attributedText.append(imageString)
+            name.attributedText = attributedText
+        } else {
+            name.text = UserDefaults.standard.getUsername()
+        }
+        
         self.username.text = UserDefaults.standard.getUsername()
-        self.name.text = UserDefaults.standard.getName()
         self.bio.text = UserDefaults.standard.getBio()
         
         view.addSubview(videos_count)
@@ -325,21 +345,21 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         userVideoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
         
         view.addSubview(loader)
-
+        
         loader.translatesAutoresizingMaskIntoConstraints = false
         loader.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
         loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-
+        
         loader.color = UIColor.white
-
+        
         view.addSubview(no_result)
-
+        
         no_result.translatesAutoresizingMaskIntoConstraints = false
         no_result.widthAnchor.constraint(equalToConstant: 150).isActive = true
         no_result.heightAnchor.constraint(equalToConstant: 30).isActive = true
         no_result.topAnchor.constraint(equalTo: following_label.bottomAnchor, constant: 20).isActive = true
         no_result.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
-
+        
         no_result.textAlignment = .center
         no_result.text = "No Video Bytes"
         no_result.textColor = UIColor.white
@@ -349,17 +369,17 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         no_result.layer.cornerRadius = 5.0
         no_result.sizeToFit()
         no_result.numberOfLines = 1
-
+        
         no_result.isHidden = true
     }
-
+    
     func imagePicker() {
         let picker = YPImagePicker()
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
                 self.cover_pic.image = photo.image
                 self.uploadImage()
-
+                
                 // Print exif meta data of original image.
             }
             picker.dismiss(animated: true, completion: nil)
@@ -375,83 +395,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         tableView.register(MenuViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
-    @IBAction func onFollowingClick(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
-        follower = "Following"
-        performSegue(withIdentifier: "followingUserProfile", sender: self)
-    }
-    
-    @IBAction func onFollowerClick(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
-        follower = "Followers"
-        performSegue(withIdentifier: "followingUserProfile", sender: self)
-    }
-    
-    @IBAction func onMoreOptionClick(_ sender: Any) {
-        transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
-        transparentView.frame = self.view.frame
-        self.view.addSubview(transparentView)
-        
-        let screenSize = UIScreen.main.bounds.size
-        tableView.frame = CGRect(x: 0, y: screenSize.height - self.height, width: screenSize.width, height: height)
-        self.view.addSubview(tableView)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView))
-        transparentView.addGestureRecognizer(tapGesture)
-        
-        transparentView.alpha = 0
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {self.transparentView.alpha = 0.5
-            self.tableView.frame = CGRect(x: 0, y: screenSize.height - self.height, width: screenSize.width, height: self.height)}, completion: nil)
-    }
-
-    
-    @objc func onClickTransparentView() {
-        let screenSize = UIScreen.main.bounds.size
-        transparentView.alpha = 0
-        self.tableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: self.height)
-    }
-
-    @objc func profileClick(tapGestureRecognizer: UITapGestureRecognizer){
-         moveEditProfile()
-
-    }
-    func moveEditProfile() {
-        let storyBoard = UIStoryboard(name: "UserProfileStorybaord", bundle: nil)
-               let vc =  storyBoard.instantiateViewController(withIdentifier: "UserProfileEditVC") as! UserProfileEditVC
-               vc.delegate = self
-               vc.user = user
-              self.navigationController?.pushViewController(vc, animated: true)
-    }
-
-    @objc func coverClick(tapGestureRecognizer: UITapGestureRecognizer){
-
-          imagePicker()
-       }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is VideoViewController {
-            let vc = segue.destination as? VideoViewController
-            vc?.videos = topics
-            vc?.selected_position = selected_position
-            vc?.self_user = true
-        } else if segue.destination is FollowingFollowerViewController {
-            let vc = segue.destination as? FollowingFollowerViewController
-            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
-            vc?.follower = follower
-        }
-        else if segue.destination is UserProfileEditVC {
-            let vc = segue.destination as? UserProfileEditVC
-            vc?.user = user
-            vc?.delegate = self
-            vc?.user_id = UserDefaults.standard.getUserId() ?? 0
-            // vc?.follower = follower
-        }
-    }
-    
     func fetchUserData() {
-        
         if (isLoading) {
             return
         }
@@ -510,60 +454,54 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
                     self.fetchData()
                     print(error)
                 }
-        }
+            }
     }
-
-
+    
+    
     func profileUpdate(cover:String) {
-
-
-//         loader.isHidden = false
-//         loader.startAnimating()
-         var headers: HTTPHeaders!
-                      if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-                          headers = [
-                              "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-                      }
-         let paramters: [String: Any] = [
+        //         loader.isHidden = false
+        //         loader.startAnimating()
+        var headers: HTTPHeaders!
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        let paramters: [String: Any] = [
             // "user_id": "\(UserDefaults.standard.getUserId().unsafelyUnwrapped)",
             "activity":"profile_save",
             "cover_pic":cover ?? "",
-
-         ]
-
-
-         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
-
-         Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
-             .responseString  { (responseData) in
-                 switch responseData.result {
-                 case.success(let data):
-                     if let json_data = data.data(using: .utf8) {
-
-                         do {
-                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                           //  if let result = json_object?["message"] as? [String:Any] {
-                                self.showToast(message: json_object?["message"] as! String)
-
-                         }
-                         catch {
-                             self.isLoading = false
+            
+        ]
+        
+        let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
+            .responseString  { (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            //  if let result = json_object?["message"] as? [String:Any] {
+                            self.showToast(message: json_object?["message"] as! String)
+                            
+                        }
+                        catch {
+                            self.isLoading = false
                             // self.fetchData()
-                             print(error.localizedDescription)
-                         }
-                     }
-                 case.failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
                     // self.isLoading = false
-                     //self.fetchData()
-                     print(error)
-                 }
-         }
-     }
-
-
+                    //self.fetchData()
+                    print(error)
+                }
+            }
+    }
     
     func fetchData() {
-        
         if page == 1 {
             profile_pic.layer.cornerRadius = (profile_pic.frame.height / 2)
             
@@ -576,13 +514,13 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
             } else {
                 profile_pic.image = UIImage(named: "user")
             }
-
+            
             if !user.cover_pic.isEmpty {
-                           let url = URL(string: user.cover_pic)
-                           cover_pic.kf.setImage(with: url)
-                       } else {
-                          // profile_pic.image = UIImage(named: "user")
-                       }
+                let url = URL(string: user.cover_pic)
+                cover_pic.kf.setImage(with: url)
+            } else {
+                // profile_pic.image = UIImage(named: "user")
+            }
             videos_count.text = "\(user.vb_count)"
             views_count.text = "\(user.view_count)"
             following_count.text = user.follow_count
@@ -642,82 +580,167 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
                     self.isLoading = false
                     print(error)
                 }
+            }
+    }
+    
+    func uploadImage() {
+        var headers: HTTPHeaders!
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        //  let image = UIImage.init(named: "whatsapp")
+        let imageData = self.cover_pic.image?.jpegData(compressionQuality: 1)
+        
+        let timeStamp = Int(NSDate().timeIntervalSince1970)
+        
+        let file_name = "\(timeStamp).jpeg"
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.show(withStatus:  "Uploding..")
+        }
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
+        }, to: "https://www.boloindya.com/api/v1/upload_cover_pic/", headers: headers) {
+            (result) in
+            switch result {
+            case .success( let upload, _, _):
+                
+                upload.responseString  { (responseData) in
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                    }
+                    switch responseData.result {
+                    case.success(let data):
+                        if let json_data = data.data(using: .utf8) {
+                            do {
+                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                                    if !(json_object["body"] as? String ?? "").isEmpty {
+                                        //self.thumnail_url_upload = json_object["body"] as! String
+                                        //self.create_topic()
+                                        var url:String = json_object["body"] as! String
+                                        print(url)
+                                        self.profileUpdate(cover: url ?? "")
+                                    } else {
+                                        print("")
+                                        // self.thumnail_url_upload = ""
+                                        // self.create_topic()
+                                    }
+                                }
+                                
+                            }
+                            catch {
+                                // self.thumnail_url_upload = ""
+                                //  self.create_topic()
+                                print(error.localizedDescription)
+                            }
+                        }
+                    case.failure(let error):
+                        //self.thumnail_url_upload = ""
+                        // self.create_topic()
+                        print(error)
+                    }
+                }
+                
+            case .failure(let encodingError):
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                }
+                // self.thumnail_url_upload = ""
+                //  self.create_topic()
+                print(encodingError)
+            }
         }
     }
-
-    func uploadImage() {
-
-               var headers: HTTPHeaders!
-               if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-                   headers = [
-                       "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-               }
-
-              //  let image = UIImage.init(named: "whatsapp")
-              let imageData = self.cover_pic.image?.jpegData(compressionQuality: 1)
-
-               let timeStamp = Int(NSDate().timeIntervalSince1970)
-
-               let file_name = "\(timeStamp).jpeg"
-
-               DispatchQueue.main.async {
-                   SVProgressHUD.show(withStatus:  "Uploding..")
-               }
-
-               Alamofire.upload(multipartFormData: { (multipartFormData) in
-                   multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
-               }, to: "https://www.boloindya.com/api/v1/upload_cover_pic/", headers: headers) {
-                   (result) in
-                   switch result {
-                   case .success( let upload, _, _):
-
-                       upload.responseString  { (responseData) in
-                           DispatchQueue.main.async {
-                               SVProgressHUD.dismiss()
-                           }
-                           switch responseData.result {
-                           case.success(let data):
-                               if let json_data = data.data(using: .utf8) {
-                                   do {
-                                       if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                           if !(json_object["body"] as? String ?? "").isEmpty {
-                                               //self.thumnail_url_upload = json_object["body"] as! String
-                                               //self.create_topic()
-                                            var url:String = json_object["body"] as! String
-                                            print(url)
-                                            self.profileUpdate(cover: url ?? "")
-                                           } else {
-                                              print("")
-                                              // self.thumnail_url_upload = ""
-                                              // self.create_topic()
-                                           }
-                                       }
-
-                                   }
-                                   catch {
-                                      // self.thumnail_url_upload = ""
-                                     //  self.create_topic()
-                                       print(error.localizedDescription)
-                                   }
-                               }
-                               case.failure(let error):
-                               //self.thumnail_url_upload = ""
-                              // self.create_topic()
-                               print(error)
-                           }
-                       }
-
-                   case .failure(let encodingError):
-                       DispatchQueue.main.async {
-                           SVProgressHUD.dismiss()
-                       }
-                      // self.thumnail_url_upload = ""
-                     //  self.create_topic()
-                       print(encodingError)
-                   }
-               }
-           }
-
+    
+    func resetApp() {
+        //UserDefaults.standard.setValueForLanguageId(value: language_id)
+        self.navigationController?.popViewController(animated: true)
+        self.dismissPopAllViewViewControllers()
+    }
+    
+    func dismissPopAllViewViewControllers() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            (appDelegate.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: true)
+            appDelegate.window?.makeKeyAndVisible()
+        }
+    }
+    
+    func moveEditProfile() {
+        let storyBoard = UIStoryboard(name: "UserProfileStorybaord", bundle: nil)
+        let vc =  storyBoard.instantiateViewController(withIdentifier: "UserProfileEditVC") as! UserProfileEditVC
+        vc.delegate = self
+        vc.user = user
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func shareProfile(_ sender: Any) {
+        let destinationUrl = "https://www.boloindya.com/user/\(UserDefaults.standard.getUserId().unsafelyUnwrapped)/\(UserDefaults.standard.getUsername() ?? "")"
+        let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
+        activityController.completionWithItemsHandler = { (type, completed, _, error) in
+            if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+            }
+            
+            if completed {
+                print("completed")
+            } else {
+                print("error")
+            }
+        }
+        self.present(activityController, animated: true) {
+            print("Done")
+        }
+    }
+    
+    @IBAction func onFollowingClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Following"
+        performSegue(withIdentifier: "followingUserProfile", sender: self)
+    }
+    
+    @IBAction func onFollowerClick(_ sender: Any) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        follower = "Followers"
+        performSegue(withIdentifier: "followingUserProfile", sender: self)
+    }
+    
+    @IBAction func onMoreOptionClick(_ sender: Any) {
+        transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        transparentView.frame = self.view.frame
+        self.view.addSubview(transparentView)
+        
+        let screenSize = UIScreen.main.bounds.size
+        tableView.frame = CGRect(x: 0, y: screenSize.height - self.height, width: screenSize.width, height: height)
+        self.view.addSubview(tableView)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView))
+        transparentView.addGestureRecognizer(tapGesture)
+        
+        transparentView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {self.transparentView.alpha = 0.5
+                        self.tableView.frame = CGRect(x: 0, y: screenSize.height - self.height, width: screenSize.width, height: self.height)}, completion: nil)
+    }
+    
+    @objc func onClickTransparentView() {
+        let screenSize = UIScreen.main.bounds.size
+        transparentView.alpha = 0
+        self.tableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: self.height)
+    }
+    
+    @objc func profileClick(tapGestureRecognizer: UITapGestureRecognizer){
+        moveEditProfile()
+    }
+    
+    @objc func coverClick(tapGestureRecognizer: UITapGestureRecognizer){
+        imagePicker()
+    }
 }
 
 extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource {
@@ -742,7 +765,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: false)
         self.onClickTransparentView()
         switch indexPath.row {
-         case 0:
+        case 0:
             self.moveEditProfile()
             break
         case 1:
@@ -769,28 +792,15 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
                 defaults.removeObject(forKey: key)
             }
             Branch.getInstance().logout()
-           resetApp()
+            resetApp()
             break
         default:
             break
         }
     }
-    func resetApp() {
-        //UserDefaults.standard.setValueForLanguageId(value: language_id)
-       self.navigationController?.popViewController(animated: true)
-       self.dismissPopAllViewViewControllers()
-    }
-    func dismissPopAllViewViewControllers() {
-          if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-              appDelegate.window?.rootViewController?.dismiss(animated: true, completion: nil)
-              (appDelegate.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: true)
-              appDelegate.window?.makeKeyAndVisible()
-          }
-      }
 }
 
 extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.tabBarController?.tabBar.isHidden = true
         selected_position = indexPath.row
@@ -826,9 +836,5 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
             self.fetchData()
         }
     }
-
-
-    
-    
 }
 

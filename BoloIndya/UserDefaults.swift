@@ -24,64 +24,67 @@ extension UserDefaults {
             return 2
         }
         return id
-   }
-    func getlastUpdateTime() -> String? {
-          value(forKey: "last_update_time") as? String ?? ""
-      }
-
-    func setLastUpdateTime(value: String?) {
-          if value != nil {
-              set(value, forKey: "last_update_time")
-          } else {
-              removeObject(forKey: "last_update_time")
-          }
-      }
-
-    func setLoggedIn(value: Bool?) {
-           if value != nil {
-               set(value, forKey: "is_logged_in")
-           } else {
-               removeObject(forKey: "is_logged_in")
-           }
-       }
+    }
     
-
+    func getlastUpdateTime() -> String? {
+        value(forKey: "last_update_time") as? String ?? ""
+    }
+    
+    func setLastUpdateTime(value: String?) {
+        if value != nil {
+            set(value, forKey: "last_update_time")
+        } else {
+            removeObject(forKey: "last_update_time")
+        }
+        synchronize()
+    }
+    
+    func setLoggedIn(value: Bool?) {
+        if value != nil {
+            set(value, forKey: "is_logged_in")
+        } else {
+            removeObject(forKey: "is_logged_in")
+        }
+        synchronize()
+    }
     
     func setLanguageSet(value: Bool?) {
         if value != nil {
             set(value, forKey: "is_language_set")
-       } else {
-           removeObject(forKey: "is_language_set")
-       }
-   }
-
+        } else {
+            removeObject(forKey: "is_language_set")
+        }
+        synchronize()
+    }
+    
     func isLanguageSet() -> Bool? {
         return value(forKey: "is_language_set") as? Bool ?? false
     }
     
     func isLoggedIn() -> Bool? {
-       return value(forKey: "is_logged_in") as? Bool ?? false
+        return value(forKey: "is_logged_in") as? Bool ?? false
     }
-
+    
     func getGuestLoggedIn() -> Bool? {
-          return value(forKey: "is_guest_logged_in") as? Bool ?? false
-       }
-
+        return value(forKey: "is_guest_logged_in") as? Bool ?? false
+    }
+    
     func setGuestLoggedIn(value: Bool?) {
         if value != nil {
-                   set(value, forKey: "is_guest_logged_in")
-               } else {
-                   removeObject(forKey: "auth_key")
-               }
-
+            set(value, forKey: "is_guest_logged_in")
+        } else {
+            removeObject(forKey: "auth_key")
+        }
+        synchronize()
     }
-
+    
     func setAuthToken(value: String?) {
         if value != nil {
             set(value, forKey: "auth_key")
         } else {
             removeObject(forKey: "auth_key")
         }
+        synchronize()
     }
     
     func getAuthToken() -> String? {
@@ -157,12 +160,13 @@ extension UserDefaults {
     }
     
     func setIsPopular(value: Bool?) {
-       if value != nil {
-           set(value, forKey: "is_popular")
-       } else {
-           removeObject(forKey: "is_popular")
-       }
-   }
+        if value != nil {
+            set(value, forKey: "is_popular")
+        } else {
+            removeObject(forKey: "is_popular")
+        }
+        synchronize()
+    }
     
     func isPopular() -> Bool? {
         return value(forKey: "is_popular") as? Bool
@@ -174,6 +178,7 @@ extension UserDefaults {
         } else {
             removeObject(forKey: "is_superstar")
         }
+        synchronize()
     }
     
     func isSuperStar() -> Bool? {
@@ -186,10 +191,24 @@ extension UserDefaults {
         } else {
             removeObject(forKey: "is_business")
         }
+        synchronize()
     }
     
     func isBusiness() -> Bool? {
         return value(forKey: "is_business") as? Bool
+    }
+    
+    func setIsExpert(value: Bool?) {
+        if value != nil {
+            set(value, forKey: "is_expert")
+        } else {
+            removeObject(forKey: "is_expert")
+        }
+        synchronize()
+    }
+    
+    func isExpert() -> Bool? {
+        return value(forKey: "is_expert") as? Bool
     }
     
     func setBio(value: String?) {
@@ -222,7 +241,7 @@ extension UserDefaults {
     func getFollowingUsers() -> [Int] {
         return value(forKey: "all_follow") as? [Int] ?? [Int]()
     }
-
+    
     func setLikeTopic(value: [Int]) {
         set(value, forKey: "topic_like")
         synchronize()
@@ -240,5 +259,4 @@ extension UserDefaults {
     func getLikeComment() -> [Int] {
         return value(forKey: "comment_like") as? [Int] ?? [Int]()
     }
-
 }

@@ -52,6 +52,8 @@ class VideoCell: UITableViewCell {
     var delegate: VideoCellDelegate?
 
     var selected_postion: Int = 0
+    
+    var topic: Topic?
 
     var duration = UILabel()
     var playerSlider = UISlider()
@@ -95,10 +97,11 @@ class VideoCell: UITableViewCell {
         //        duration.isHidden = true
 
         actions_stack.translatesAutoresizingMaskIntoConstraints = false
-        actions_stack.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        actions_stack.widthAnchor.constraint(equalToConstant: 50).isActive = true
         actions_stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         actions_stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
         actions_stack.axis = .vertical
+        actions_stack.alignment = .center
         actions_stack.spacing = CGFloat(20)
 
         actions_stack.addArrangedSubview(user_image)
@@ -203,6 +206,19 @@ class VideoCell: UITableViewCell {
         } else {
             like_image.tintColor = UIColor.red
         }
+        
+        if let topic = topic, let intLike = Int(topic.like_count) {
+            var like: Int
+            if topic.isLiked {
+                like = intLike - 1
+            } else {
+                like = intLike + 1
+            }
+            
+            self.like_count.text = "\(like)"
+            topic.like_count = "\(like)"
+        }
+        
         delegate?.likedTopic(with: selected_postion)
     }
 
@@ -278,8 +294,9 @@ class VideoCell: UITableViewCell {
     func setUserImage() {
 
         user_image.translatesAutoresizingMaskIntoConstraints = false
-        user_image.layer.cornerRadius = 15
-        user_image.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        user_image.layer.cornerRadius = 20
+        user_image.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        user_image.widthAnchor.constraint(equalToConstant: 40).isActive = true
 
         user_image.contentMode = .redraw
         user_image.clipsToBounds = true
@@ -297,7 +314,7 @@ class VideoCell: UITableViewCell {
         like_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         like_count.textAlignment = .center
 
-        like_count.font = UIFont.systemFont(ofSize: 12.0)
+        like_count.font = UIFont.systemFont(ofSize: 11.0)
         like_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         like_count.numberOfLines = 1
         like_count.textColor = UIColor.white
@@ -328,7 +345,7 @@ class VideoCell: UITableViewCell {
         comment_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
         comment_count.textAlignment = .center
 
-        comment_count.font = UIFont.systemFont(ofSize: 12.0)
+        comment_count.font = UIFont.systemFont(ofSize: 11.0)
         comment_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         comment_count.numberOfLines = 1
         comment_count.textColor = UIColor.white
@@ -357,7 +374,7 @@ class VideoCell: UITableViewCell {
         share_count.translatesAutoresizingMaskIntoConstraints = false
         share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
-        share_count.font = UIFont.systemFont(ofSize: 12.0)
+        share_count.font = UIFont.systemFont(ofSize: 11.0)
         share_count.lineBreakMode = NSLineBreakMode.byWordWrapping
         share_count.textAlignment = .center
 
@@ -389,7 +406,7 @@ class VideoCell: UITableViewCell {
         whatsapp_share_count.translatesAutoresizingMaskIntoConstraints = false
         whatsapp_share_count.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
-        whatsapp_share_count.font = UIFont.systemFont(ofSize: 12.0)
+        whatsapp_share_count.font = UIFont.systemFont(ofSize: 11.0)
         whatsapp_share_count.textAlignment = .center
         whatsapp_share_count.numberOfLines = 1
         whatsapp_share_count.textColor = UIColor.white
@@ -412,6 +429,8 @@ class VideoCell: UITableViewCell {
     func configure(with topic: Topic) {
         self.frame.size.height = sizeFrame.height
         self.frame.size.width = sizeFrame.width
+        
+        self.topic = topic
 
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         let url = URL(string: topic.thumbnailHome)

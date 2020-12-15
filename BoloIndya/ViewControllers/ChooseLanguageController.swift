@@ -53,9 +53,9 @@ class ChooseLanguageController : BaseVC {
         upper_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 0).isActive = true
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
-
         
-        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        
+        upper_tab.layer.backgroundColor = UIColor(hex: "10A5F9")?.cgColor
         
         back_image.translatesAutoresizingMaskIntoConstraints = false
         back_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -131,25 +131,25 @@ class ChooseLanguageController : BaseVC {
     
     func sentToTrending() {
         
-              if isLoading {
-                   return
-               }
-
-               UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
-               UserDefaults.standard.setLanguageSet(value: true)
-
-               let paramters: [String: Any] = [
-                   KEY_ACTIVITY: "settings_changed",
-                   KEY_LANGUAGE: languages[selected_position].id
-               ]
-
+        if isLoading {
+            return
+        }
         
-               loader.isHidden = false
-               loader.startAnimating()
-
-               isLoading = true
-
-
+        UserDefaults.standard.setValueForLanguageId(value: languages[selected_position].id)
+        UserDefaults.standard.setLanguageSet(value: true)
+        
+        let paramters: [String: Any] = [
+            KEY_ACTIVITY: "settings_changed",
+            KEY_LANGUAGE: languages[selected_position].id
+        ]
+        
+        
+        loader.isHidden = false
+        loader.startAnimating()
+        
+        isLoading = true
+        
+        
         setParam(auth: true, url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
         
     }
@@ -157,16 +157,16 @@ class ChooseLanguageController : BaseVC {
     override func onSuccessResponse(response: Any) {
         switch response {
         case is LoginUserInfo:
-             setDataUserInfo(info: response as! LoginUserInfo)
-             let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-                            vc.modalPresentationStyle = .fullScreen
-                            self.present(vc, animated: false)
+            setDataUserInfo(info: response as! LoginUserInfo)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
             break;
         default:
-          break
+            break
         }
     }
-
+    
 }
 
 extension ChooseLanguageController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

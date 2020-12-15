@@ -317,7 +317,29 @@ class ProfileViewController: BaseVC {
         if page == 1 {
             profile_pic.layer.cornerRadius = (profile_pic.frame.height / 2)
             
-            name.text = user.name
+            var imageName: String?
+            if user.isSuperstar {
+                imageName = "golden_tick"
+            } else if user.isBusiness {
+                imageName = "blue_tick"
+            } else if user.isExpert {
+                imageName = "red_tick"
+            } else if user.isPopular {
+                imageName = "red_tick"
+            }
+            
+            if let imageName = imageName {
+                let attributedText = NSMutableAttributedString(string: user.name)
+                let imageAttachment = NSTextAttachment()
+                imageAttachment.image = UIImage(named: imageName)
+                
+                let imageString = NSAttributedString(attachment: imageAttachment)
+                attributedText.append(imageString)
+                name.attributedText = attributedText
+            } else {
+                name.text = user.name
+            }
+            
             bio.text = user.bio
             
             if !user.profile_pic.isEmpty {
@@ -447,6 +469,17 @@ class ProfileViewController: BaseVC {
                                 } else {
                                     self.user.follower_count = user_profile_obj?["follower_count"] as! String
                                 }
+                                
+                                if let isExpert = user_profile_obj?["is_expert"], "\(isExpert)" == "1" {
+                                    self.user.isExpert = true
+                                } else if let isSuperstar = user_profile_obj?["is_superstar"], "\(isSuperstar)" == "1" {
+                                    self.user.isSuperstar = true
+                                } else if let isPopular = user_profile_obj?["is_popular"], "\(isPopular)" == "1" {
+                                    self.user.isPopular = true
+                                } else if let isBusiness = user_profile_obj?["is_business"], "\(isBusiness)" == "1" {
+                                    self.user.isBusiness = true
+                                }
+                                
                                 self.dismissLoading()
                             }
                         }
@@ -638,7 +671,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     @IBAction func shareProfile(_ sender: Any) {
         let destinationUrl = "https://www.boloindya.com/user/\(user.id)/"+user.username
         let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+        activityController.completionWithItemsHandler = { (type, completed, _, error) in
+            if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+            }
+            
             if completed {
                 print("completed")
             } else {
