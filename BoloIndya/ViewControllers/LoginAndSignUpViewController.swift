@@ -209,7 +209,9 @@ class LoginAndSignUpViewController: BaseVC {
         self.image.isHidden = false
         self.otp_view.isHidden = true
         self.number_and_google_login_view.isHidden = false
-        if (selected_tab == 0) {
+        if self.navigationController == nil {
+            self.dismiss(animated: true, completion: nil)
+        } else if (selected_tab == 0) {
             self.navigationController?.popViewController(animated: true)
         } else {
             self.tabBarController?.selectedIndex = 0

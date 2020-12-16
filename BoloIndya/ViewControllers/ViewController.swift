@@ -17,8 +17,15 @@ class ViewController: BaseVC {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if (UserDefaults.standard.isLanguageSet() ?? false) {
+        super.viewDidAppear(animated)
+        
+        if UserDefaults.standard.isLoggedIn() == true && (UserDefaults.standard.getAuthToken() == nil || (UserDefaults.standard.getAuthToken() ?? "").isEmpty) {
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginAndSignUpViewController") as! LoginAndSignUpViewController
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true, completion: nil)
+        } else if UserDefaults.standard.isLanguageSet() ?? false {
             sentToTrending()
+            self.navigationController?.isNavigationBarHidden = true
         } else {
             chooseLanguage()
         }

@@ -42,7 +42,7 @@ class UpdateIntersetViewController: UIViewController {
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
-        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        upper_tab.layer.backgroundColor = UIColor(hex: "10A5F9")?.cgColor
         
         back_image.translatesAutoresizingMaskIntoConstraints = false
         back_image.heightAnchor.constraint(equalToConstant: 25).isActive = true

@@ -91,7 +91,7 @@ class UploadVideoDetailsViewController: UIViewController {
         upper_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: 0).isActive = true
         upper_tab.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
         
-        upper_tab.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        upper_tab.layer.backgroundColor = UIColor(hex: "10A5F9")?.cgColor
         
         back_image.translatesAutoresizingMaskIntoConstraints = false
         back_image.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -236,7 +236,7 @@ class UploadVideoDetailsViewController: UIViewController {
         languageView.isScrollEnabled = true
         languageView.delegate = self
         languageView.dataSource = self
-        languageView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        languageView.backgroundColor = UIColor(hex: "10A5F9")
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (languageView.frame.width/2.4), height: 30)
@@ -258,7 +258,7 @@ class UploadVideoDetailsViewController: UIViewController {
         categoryView.isScrollEnabled = true
         categoryView.delegate = self
         categoryView.dataSource = self
-        categoryView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        categoryView.backgroundColor = UIColor(hex: "10A5F9")
         
         let layout_cat = UICollectionViewFlowLayout()
         layout_cat.itemSize = CGSize(width: (categoryView.frame.width/2.4), height: 50)
@@ -307,7 +307,7 @@ class UploadVideoDetailsViewController: UIViewController {
         hashView.delegate = self
         hashView.dataSource = self
         hashView.backgroundColor = .clear
-        hash_tag.layer.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        hash_tag.layer.backgroundColor = UIColor(hex: "10A5F9")?.cgColor
         
         let layout_hash = UICollectionViewFlowLayout()
         layout_hash.itemSize = CGSize(width: (hashView.frame.width/2.4), height: 50)

@@ -671,7 +671,11 @@ extension VideoViewController: VideoCellDelegate {
             SVProgressHUD.dismiss()
             
             let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+            activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                    UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                }
+                
                 if completed {
                     print("completed")
                 } else {
@@ -695,7 +699,11 @@ extension VideoViewController: VideoCellDelegate {
                             
                             DispatchQueue.main.async {
                                 let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                                    if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                                        UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                                    }
+                                    
                                     if completed {
                                         print("completed")
                                     } else {
@@ -718,7 +726,11 @@ extension VideoViewController: VideoCellDelegate {
                             if FileManager().fileExists(atPath: watermarkedUrl.path) {
                                 DispatchQueue.main.async {
                                     let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
-                                    activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                    activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                                        if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                                            UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                                        }
+                                        
                                         if completed {
                                             print("completed")
                                         } else {
@@ -743,7 +755,11 @@ extension VideoViewController: VideoCellDelegate {
                                     
                                     DispatchQueue.main.async {
                                         let activityController = UIActivityViewController(activityItems: [videoUrl], applicationActivities: nil)
-                                        activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                        activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                                            if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                                                UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                                            }
+                                            
                                             if completed {
                                                 print("completed")
                                             } else {

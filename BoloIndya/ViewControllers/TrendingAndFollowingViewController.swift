@@ -519,9 +519,9 @@ class TrendingAndFollowingViewController: BaseVC {
     }
     
     func fetchComment() {
+        guard videos.count > selected_position else { return }
         
         var headers: [String: Any]? = nil
-        
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -625,7 +625,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         Alamofire.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
-                
+                print(responseData)
         }
     //  setParam(showProgressBar: false, url: SEEN_VB, param: paramters, className: <#T##Mappable.Protocol#>)
 
@@ -988,7 +988,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             SVProgressHUD.dismiss()
             
             let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
-            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+            activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                    UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                }
+                
                 if completed {
                     print("completed")
                 } else {
@@ -1012,7 +1016,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                             
                             DispatchQueue.main.async {
                                 let activityController = UIActivityViewController(activityItems: [watermarkedUrl], applicationActivities: nil)
-                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                                    if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                                        UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                                    }
+                                    
                                     if completed {
                                         print("completed")
                                     } else {
@@ -1036,7 +1044,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                 }
                                 
                                 let activityController = UIActivityViewController(activityItems: [videoUrl], applicationActivities: nil)
-                                activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+                                activityController.completionWithItemsHandler = { (type, completed, _, error) in
+                                    if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                                        UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+                                    }
+                                    
                                     if completed {
                                         print("completed")
                                     } else {
@@ -1075,14 +1087,24 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
     
     func likedTopic(with selected_postion: Int) {
-
+        guard videos.count > selected_postion,
+              let idInt = Int(videos[selected_postion].id)
+            else { return }
+        
         self.selected_position = selected_postion
+        
         if self.videos[selected_postion].isLiked {
-            topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
+            if let index = topic_liked.firstIndex(of: idInt), topic_liked.count > index {
+                topic_liked.remove(at: index)
+            }
         } else {
-            topic_liked.append(Int(self.videos[selected_postion].id)!)
+            topic_liked.append(idInt)
         }
+        
         UserDefaults.standard.setLikeTopic(value: topic_liked)
+        
+        videos[selected_postion].isLiked = !videos[selected_postion].isLiked
+        
         self.topicLike()
     }
 }
@@ -1090,13 +1112,21 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
 extension TrendingAndFollowingViewController: CommentViewCellDelegate {
     
     func likedComment(with selected_postion: Int) {
+        guard comments.count > selected_postion,
+              let idInt = Int(comments[selected_postion].id)
+            else { return }
+        
         if self.comments[selected_postion].isLiked {
-            comment_like.remove(at: comment_like.firstIndex(of: Int(self.comments[selected_postion].id)!)!)
+            if let index = comment_like.firstIndex(of: idInt), comment_like.count > index {
+                comment_like.remove(at: index)
+            }
         } else {
-            comment_like.append(Int(self.comments[selected_postion].id)!)
+            comment_like.append(idInt)
         }
         UserDefaults.standard.setLikeComment(value: comment_like)
-        self.commentLike(id: Int(self.comments[selected_postion].id)!)
+        self.commentLike(id: idInt)
+        
+        commentView.reloadData()
     }
 }
 

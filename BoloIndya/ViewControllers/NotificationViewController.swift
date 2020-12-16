@@ -165,9 +165,9 @@ class NotificationViewController: BaseVC {
         retry.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
         
         retry.setTitle("Retry", for: .normal)
-        retry.setTitleColor(#colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235), for: .normal)
+        retry.setTitleColor(UIColor(hex: "10A5F9"), for: .normal)
         retry.layer.borderWidth = 1
-        retry.layer.borderColor =  #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        retry.layer.borderColor = UIColor(hex: "10A5F9")?.cgColor
         retry.layer.cornerRadius = 5.0
         
         retry.addTarget(self, action: #selector(refresh), for: .touchUpInside)

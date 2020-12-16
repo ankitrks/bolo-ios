@@ -66,6 +66,7 @@
 		3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27825827FCE005B96DC /* VideoHelper.swift */; };
 		3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27E2584A48E005B96DC /* UIColor+Extension.swift */; };
 		3594F28E2585601D005B96DC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F28D2585601D005B96DC /* UIImage+Extension.swift */; };
+		3594F2B225877D8C005B96DC /* UIActivity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F2B125877D8B005B96DC /* UIActivity+Extension.swift */; };
 		359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEA8325810222002B31A8 /* UIView+Extension.swift */; };
 		359DEA872581023D002B31A8 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEA862581023D002B31A8 /* UITableView+Extension.swift */; };
 		359DEAD325821B3C002B31A8 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEACE25821B3C002B31A8 /* SwiftyCamButton.swift */; };
@@ -157,6 +158,7 @@
 		3594F27825827FCE005B96DC /* VideoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHelper.swift; sourceTree = "<group>"; };
 		3594F27E2584A48E005B96DC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		3594F28D2585601D005B96DC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		3594F2B125877D8B005B96DC /* UIActivity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivity+Extension.swift"; sourceTree = "<group>"; };
 		359DEA8325810222002B31A8 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		359DEA862581023D002B31A8 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		359DEACE25821B3C002B31A8 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamButton.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				359DEA8325810222002B31A8 /* UIView+Extension.swift */,
 				359DEA862581023D002B31A8 /* UITableView+Extension.swift */,
 				3594F27E2584A48E005B96DC /* UIColor+Extension.swift */,
+				3594F2B125877D8B005B96DC /* UIActivity+Extension.swift */,
 			);
 			path = extention;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				1853A39924BDB78F00EE2595 /* ProfileViewController.swift in Sources */,
 				1811310724D6C51F009DDB54 /* Languages.swift in Sources */,
 				1871C4B324BB41C600285DEC /* NotificationCell.swift in Sources */,
+				3594F2B225877D8C005B96DC /* UIActivity+Extension.swift in Sources */,
 				187F42E324BC934E00AC32ED /* CategoryViewCell.swift in Sources */,
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
@@ -782,7 +786,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -790,7 +794,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -807,7 +811,7 @@
 				CODE_SIGN_ENTITLEMENTS = BoloIndya/BoloIndya.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G25XAGBSCB;
 				INFOPLIST_FILE = BoloIndya/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -815,7 +819,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boloindya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

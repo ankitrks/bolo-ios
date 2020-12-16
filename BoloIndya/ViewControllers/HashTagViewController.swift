@@ -142,16 +142,18 @@ class HashTagViewController: UIViewController {
     @objc func shareHash(_ sender: UITapGestureRecognizer) {
         let destinationUrl = "https://www.boloindya.com/trending/"+hash_tag.title
         let activityController = UIActivityViewController(activityItems: [destinationUrl], applicationActivities: nil)
-            activityController.completionWithItemsHandler = { (nil, completed, _, error) in
+        activityController.completionWithItemsHandler = { (type, completed, _, error) in
+            if type == UIActivity.ActivityType.instagram, let instagramUrl = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(instagramUrl) {
+                UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
+            }
+            
             if completed {
                 print("completed")
             } else {
                 print("error")
             }
         }
-        self.present(activityController, animated: true) {
-            print("Done")
-        }
+        self.present(activityController, animated: true)
     }
     
     func setUserVideoView() {
@@ -207,9 +209,9 @@ class HashTagViewController: UIViewController {
         retry.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: (screenSize.width/2)-65).isActive = true
 
         retry.setTitle("Retry", for: .normal)
-        retry.setTitleColor(#colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235), for: .normal)
+        retry.setTitleColor(UIColor(hex: "10A5F9"), for: .normal)
         retry.layer.borderWidth = 1
-        retry.layer.borderColor =  #colorLiteral(red: 0.7098039216, green: 0.1568627451, blue: 0.1568627451, alpha: 0.8470588235)
+        retry.layer.borderColor = UIColor(hex: "10A5F9")?.cgColor
         retry.layer.cornerRadius = 5.0
 
         retry.addTarget(self, action: #selector(refresh), for: .touchUpInside)
