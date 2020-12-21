@@ -152,6 +152,8 @@ class ChooseLanguageController : BaseVC {
         
         setParam(auth: true, url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
         
+        let values = ["language": languages[selected_position].title]
+        WebEngageHelper.trackEvent(eventName: EventName.languageSelected, values: values)
     }
     
     override func onSuccessResponse(response: Any) {

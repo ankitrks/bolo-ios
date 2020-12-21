@@ -401,6 +401,10 @@ class TrendingAndFollowingViewController: BaseVC {
                                 self.isLoading = false
                                 self.following_page += 1
                                 self.trendingView.reloadData()
+                                
+                                if self.page == 2, let object = self.followingTopics.first {
+                                    self.hitEvent(eventName: EventName.videoPlayed, object: object)
+                                }
                             }
                         }
                         catch {
@@ -481,6 +485,10 @@ class TrendingAndFollowingViewController: BaseVC {
                             self.page += 1
                             self.trendingView.reloadData()
                             UserDefaults.standard.setLastUpdateTime(value: "\(Date().currentTimeMillis())")
+                            
+                            if self.page == 2, let object = self.trendingTopics.first {
+                                self.hitEvent(eventName: EventName.videoPlayed, object: object)
+                            }
                         }
                         catch {
                             self.isLoading = false
@@ -726,6 +734,8 @@ class TrendingAndFollowingViewController: BaseVC {
                     print(error)
                 }
         }
+        
+        hitEvent(eventName: EventName.videoCommented, object: videos[selected_position])
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -852,8 +862,9 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
                     current_video_cell = video_cell
                     
                 }
-                self.playVideo(url: videos[indexPath.row].video_url)
                 
+                let object = videos[indexPath.row]
+                self.playVideo(url: object.video_url)
             }else{
                 video_cell.selected_postion = indexPath.row
                 video_cell.tag = indexPath.row
@@ -881,16 +892,40 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let video_cell = self.trendingView.visibleCells[0] as? VideoCell
-        if selected_position != video_cell?.tag ?? 0 {
+        if let video_cell = trendingView.visibleCells.first as? VideoCell, selected_position != video_cell.tag {
             if current_video_cell != nil {
                 current_video_cell.player.player?.pause()
                 
             }
             current_video_cell = video_cell
-            selected_position = video_cell?.tag ?? 0
-            self.playVideo(url: videos[selected_position].video_url)
+            selected_position = video_cell.tag
+            
+            guard videos.count > selected_position else { return }
+            
+            let object = videos[selected_position]
+            self.playVideo(url: object.video_url)
+            
+            hitEvent(eventName: EventName.videoPlayed, object: object)
         }
+    }
+    
+    private func hitEvent(eventName: String, object: Topic) {
+        let values = ["WhatsApp Share Num": object.getCountNum(from: object.whatsapp_share_count),
+                      "WhatsApp Share": object.whatsapp_share_count,
+                      "Video Id": object.id,
+                      "User Id": object.user.id,
+                      "Video Link": object.video_url,
+                      "Comments": object.comment_count,
+                      "Comments Num": object.getCountNum(from: object.comment_count),
+                      "Likes": object.like_count,
+                      "Likes Num": object.getCountNum(from: object.like_count),
+                      "Name": object.user.name,
+                      "Shares": object.share_count,
+                      "Shares Num": object.getCountNum(from: object.share_count),
+                      "Language": object.languageId,
+                      "Username": object.user.username,
+                      "User Type": object.user.getUserType()] as [String: Any]
+        WebEngageHelper.trackEvent(eventName: eventName, values: values)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -969,16 +1004,18 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         
         var isDownloadUrlAvailable = true
         
-        var videoUrl = videos[selected_postion].downloaded_url
+        let object = videos[selected_postion]
+        
+        var videoUrl = object.downloaded_url
         if videoUrl.isEmpty {
-            videoUrl = videos[selected_postion].video_url
+            videoUrl = object.video_url
             isDownloadUrlAvailable = false
         }
         
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + ".mp4")
-        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + "watermark.mp4")
+        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + object.id + ".mp4")
+        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + object.id + "watermark.mp4")
         
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setContainerView(self.view)
@@ -1075,6 +1112,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                 }
             }).resume()
         }
+        
+        let values = ["User Id": object.user.id,
+                      "Video Link": object.video_url,
+                      "Name": object.user.name,
+                      "Language": object.languageId,
+                      "Username": object.user.username,
+                      "User Type": object.user.getUserType()] as [String: Any]
+        WebEngageHelper.trackEvent(eventName: EventName.sharedVideo, values: values)
     }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
@@ -1106,6 +1151,10 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         videos[selected_postion].isLiked = !videos[selected_postion].isLiked
         
         self.topicLike()
+        
+        if videos[selected_postion].isLiked {
+            hitEvent(eventName: EventName.videoLiked, object: videos[selected_postion])
+        }
     }
 }
 

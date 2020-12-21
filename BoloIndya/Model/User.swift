@@ -89,6 +89,24 @@ class User {
 
 
     }
+    
+    func getUserType() -> String {
+        var type: String
+        
+        if isSuperstar {
+            type = "Superstar"
+        } else if isBusiness {
+            type = "Business"
+        } else if isPopular {
+            type = "Popular"
+        } else if isExpert {
+            type = "Expert"
+        } else {
+            type = "General"
+        }
+        
+        return type
+    }
 }
 
 func getUserDataFromJson(result: [String:Any]) -> User{

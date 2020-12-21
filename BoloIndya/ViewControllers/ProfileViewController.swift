@@ -481,6 +481,12 @@ class ProfileViewController: BaseVC {
                                 }
                                 
                                 self.dismissLoading()
+                                
+                                let values = ["User Id": self.user.id,
+                                              "Name": self.user.name,
+                                              "Username": self.user.username,
+                                              "User Type": self.user.getUserType()] as [String: Any]
+                                WebEngageHelper.trackEvent(eventName: EventName.userProfileViewed, values: values)
                             }
                         }
                         catch {
@@ -525,22 +531,30 @@ class ProfileViewController: BaseVC {
 
  
     @objc func followUser(_ sender: UITapGestureRecognizer) {
-      if  isLogin() {
-        if self.isFollowing {
-            users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
-            follow_button.setTitle("Follow", for: .normal)
-            follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
-            follow_button.setTitleColor(.white, for: .normal)
-        } else {
-            follow_button.setTitle("Following", for: .normal)
-            follow_button.layer.backgroundColor = UIColor.white.cgColor
-            follow_button.setTitleColor(UIColor.black, for: .normal)
-            users_following.append(self.user.id)
+        if  isLogin() {
+            if self.isFollowing {
+                users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
+                follow_button.setTitle("Follow", for: .normal)
+                follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
+                follow_button.setTitleColor(.white, for: .normal)
+            } else {
+                follow_button.setTitle("Following", for: .normal)
+                follow_button.layer.backgroundColor = UIColor.white.cgColor
+                follow_button.setTitleColor(UIColor.black, for: .normal)
+                users_following.append(self.user.id)
+            }
+            self.followingUser()
+            self.isFollowing = !self.isFollowing
+            UserDefaults.standard.setFollowingUsers(value: users_following)
+            
+            if isFollowing {
+                let values = ["User Id": user.id,
+                              "Name": user.name,
+                              "Username": user.username,
+                              "User Type": user.getUserType()] as [String: Any]
+                WebEngageHelper.trackEvent(eventName: EventName.userFollowed, values: values)
+            }
         }
-        self.followingUser()
-        self.isFollowing = !self.isFollowing
-        UserDefaults.standard.setFollowingUsers(value: users_following)
-    }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -676,14 +690,20 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
             }
             
+            let values = NSMutableDictionary()
+            values["Profile User Id"] = self.user.id
+            values["Own Profile Shared"] = UserDefaults.standard.getUserId() == self.user.id
+            if let type = type {
+                values["Medium"] = "\(type.rawValue)"
+            }
+            WebEngageHelper.trackEvent(eventName: EventName.profileShared, values: values as? [String : Any])
+            
             if completed {
                 print("completed")
             } else {
                 print("error")
             }
         }
-        self.present(activityController, animated: true) {
-            print("Done")
-        }
+        self.present(activityController, animated: true)
     }
 }

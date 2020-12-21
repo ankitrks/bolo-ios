@@ -12,5 +12,6 @@ ${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework
 ${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework
 ${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework
+${PODS_ROOT}/WebEngage/xc11/WebEngage.framework
 ${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework

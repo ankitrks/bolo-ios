@@ -248,15 +248,23 @@ extension FollowingFollowerViewController : UITableViewDelegate, UITableViewData
 extension FollowingFollowerViewController: FollowerViewCellDelegate {
     func followUser(with selected_postion: Int) {
         if (isLogin()){
-        if users[selected_postion].isFollowing {
-            users_following.remove(at: users_following.firstIndex(of: self.users[selected_postion].id)!)
-        } else {
-            users_following.append(self.users[selected_postion].id)
-        }
-        self.id = "\(self.users[selected_postion].id)"
-        users[selected_postion].isFollowing =  !users[selected_postion].isFollowing
-        UserDefaults.standard.setFollowingUsers(value: users_following)
-        followerView.reloadData()
+            if users[selected_postion].isFollowing {
+                users_following.remove(at: users_following.firstIndex(of: self.users[selected_postion].id)!)
+            } else {
+                users_following.append(self.users[selected_postion].id)
+            }
+            self.id = "\(self.users[selected_postion].id)"
+            users[selected_postion].isFollowing = !users[selected_postion].isFollowing
+            UserDefaults.standard.setFollowingUsers(value: users_following)
+            followerView.reloadData()
+            
+            if users[selected_postion].isFollowing {
+                let values = ["User Id": users[selected_postion].id,
+                              "Name": users[selected_postion].name,
+                              "Username": users[selected_postion].username,
+                              "User Type": users[selected_postion].getUserType()] as [String: Any]
+                WebEngageHelper.trackEvent(eventName: EventName.userFollowed, values: values)
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ class Topic {
     var share_count: String
     var whatsapp_share_count: String
     var vb_score:String
+    var languageId: String
     
     init(user: User) {
         self.title = ""
@@ -43,6 +44,7 @@ class Topic {
         self.comment_count = ""
         self.share_count = ""
         self.whatsapp_share_count = ""
+        self.languageId = ""
     }
     
     func setTitle(title: String) {
@@ -75,6 +77,29 @@ class Topic {
     
     func setCommentCount(comment_count: String) {
         self.comment_count=comment_count
+    }
+    
+    func getCountNum(from countString: String) -> Double {
+        var finalCount: Double?
+        
+        if countString.lowercased().contains("k") || countString.lowercased().contains("m") {
+            if countString.count > 2 {
+                let substring = (countString as NSString).substring(to: countString.count - 2)
+                if let substringDouble = Double(substring) {
+                    if countString.lowercased().contains("k") {
+                        finalCount = substringDouble * 1000
+                    } else if countString.lowercased().contains("m") {
+                        finalCount = substringDouble * 1000000
+                    }
+                }
+            }
+        }
+        
+        if finalCount == nil, let substringDouble = Double(countString) {
+            finalCount = substringDouble
+        }
+        
+        return finalCount ?? 0
     }
 }
 
@@ -123,6 +148,10 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
         topic.comment_count = "\(each["comment_count"] as! Int)"
     } else {
         topic.comment_count = "\(each["comment_count"] as! String)"
+    }
+    
+    if let language = each["language_id"] {
+        topic.languageId = "\(language)"
     }
     
     return topic

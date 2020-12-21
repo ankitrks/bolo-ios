@@ -69,6 +69,8 @@ class BaseVC: UIViewController {
                 UserDefaults.standard.setIsPopular(value: profile.isPopular ?? false)
             }
         }
+        
+        WebEngageHelper.setUserAttributes()
     }
     
     

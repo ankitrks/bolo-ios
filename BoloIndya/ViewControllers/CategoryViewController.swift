@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import SVProgressHUD
 
 class CategoryViewController: BaseVC {
     
@@ -40,7 +41,7 @@ class CategoryViewController: BaseVC {
         super.viewDidLoad()
         
         topic_liked = UserDefaults.standard.getLikeTopic()
-        selected_ids = UserDefaults.standard.getFollowingUsers()
+        selected_ids = UserDefaults.standard.getCategories()
         
         upper_tab.addSubview(back_image)
         upper_tab.addSubview(label)
@@ -124,14 +125,87 @@ class CategoryViewController: BaseVC {
         
         follow_button.isHidden = true
         
-        follow_button.addTarget(self, action: #selector(followUser), for: .touchUpInside)
+        follow_button.addTarget(self, action: #selector(followUser(_:)), for: .touchUpInside)
         
         setUserVideoView()
         fetchCategory()
     }
     
-    @objc func followUser(_ sender: UITapGestureRecognizer) {
-      isLogin()
+    @objc func followUser(_ sender: UIButton) {
+        if isLogin() {
+            guard let idInt = Int(id) else { return }
+            
+            SVProgressHUD.show()
+            
+            var headers: [String: Any]? = nil
+            
+            if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+                headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+            }
+            
+            var isFollow: Bool
+            if selected_ids.contains(idInt) {
+                if let index = selected_ids.firstIndex(of: idInt) {
+                    selected_ids.remove(at: index)
+                }
+                isFollow = false
+            } else {
+                selected_ids.append(idInt)
+                isFollow = true
+            }
+            
+            var ids = ""
+            for each in selected_ids {
+                if each == selected_ids[selected_ids.count-1] {
+                    ids += "\(each)"
+                } else {
+                    ids += "\(each),"
+                }
+            }
+            
+            let parameters: [String: Any] = [
+                "activity": "settings_changed",
+                "language": "\(UserDefaults.standard.getValueForLanguageId() ?? 2)",
+                "categories": ids
+            ]
+            
+            UserDefaults.standard.setCategories(value: selected_ids)
+            
+            let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
+            
+            
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+                .responseString  { [weak self] (responseData) in
+                    SVProgressHUD.dismiss()
+                    
+                    switch responseData.result {
+                    case.success(let data):
+                        if let json_data = data.data(using: .utf8) {
+                            
+                            do {
+                                let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                                
+                                if isFollow {
+                                    self?.follow_button.setTitle("Following", for: .normal)
+                                    self?.follow_button.setTitleColor(UIColor.black, for: .normal)
+                                    self?.follow_button.layer.backgroundColor = UIColor.white.cgColor
+                                } else {
+                                    self?.follow_button.setTitle("Follow", for: .normal)
+                                    self?.follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
+                                    self?.follow_button.setTitleColor(.white, for: .normal)
+                                }
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                                SVProgressHUD.show(withStatus: "Something went wrong")
+                            }
+                        }
+                    case.failure(let error):
+                        print(error)
+                        SVProgressHUD.show(withStatus: "Something went wrong")
+                    }
+                }
+        }
     }
     
     

@@ -28,7 +28,7 @@ class UploadVideoDetailsViewController: UIViewController {
     var add_hashtag = UILabel()
     
     var choose_category_label = UILabel()
-    var add_hashtag_label = UILabel()
+    var selectedHashtagCollection = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     var choose_language = UILabel()
     
@@ -48,7 +48,6 @@ class UploadVideoDetailsViewController: UIViewController {
     var selected_categories: [Int] = []
     var selected_categories_title: [String] = []
     var category_name = ""
-    var add_hashtag_text = ""
     var isLoading: Bool = false
     var thumnail_url_upload = ""
     var video_url_upload = ""
@@ -75,7 +74,7 @@ class UploadVideoDetailsViewController: UIViewController {
         actions_stack.addArrangedSubview(choose_category)
         actions_stack.addArrangedSubview(choose_category_label)
         actions_stack.addArrangedSubview(add_hashtag)
-        actions_stack.addArrangedSubview(add_hashtag_label)
+        actions_stack.addArrangedSubview(selectedHashtagCollection)
         
         view.addSubview(upper_tab)
         view.addSubview(thumb)
@@ -193,13 +192,24 @@ class UploadVideoDetailsViewController: UIViewController {
         
         add_hashtag.text = "Add HashTags"
         
-        add_hashtag_label.translatesAutoresizingMaskIntoConstraints = false
-        add_hashtag_label.widthAnchor.constraint(equalToConstant: (screenSize.width)-20).isActive = true
-        add_hashtag_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        add_hashtag_label.textColor = UIColor.white
-        add_hashtag_label.font = UIFont.boldSystemFont(ofSize: 12.0)
-        add_hashtag_label.numberOfLines = 2
-        add_hashtag_label.isHidden = true
+        selectedHashtagCollection.isScrollEnabled = true
+        selectedHashtagCollection.delegate = self
+        selectedHashtagCollection.dataSource = self
+        selectedHashtagCollection.showsHorizontalScrollIndicator = false
+        selectedHashtagCollection.backgroundColor = .clear
+        
+        let selectedHashLayout = UICollectionViewFlowLayout()
+        selectedHashLayout.estimatedItemSize = CGSize.init(width: 150, height: 20)
+        selectedHashLayout.itemSize = UICollectionViewFlowLayout.automaticSize
+        selectedHashLayout.scrollDirection = .horizontal
+        selectedHashtagCollection.collectionViewLayout = selectedHashLayout
+        
+        selectedHashtagCollection.register(SelectedHastagCollectionCell.self, forCellWithReuseIdentifier: "Cell")
+        
+        selectedHashtagCollection.translatesAutoresizingMaskIntoConstraints = false
+        selectedHashtagCollection.widthAnchor.constraint(equalToConstant: (screenSize.width)-20).isActive = true
+        selectedHashtagCollection.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        selectedHashtagCollection.isHidden = true
         
         add_hashtag.isUserInteractionEnabled = true
         let hideGestureHash = UITapGestureRecognizer(target: self, action: #selector(hideUnhideHashTag(_:)))
@@ -294,9 +304,9 @@ class UploadVideoDetailsViewController: UIViewController {
         enter_hash.heightAnchor.constraint(equalToConstant: 20).isActive = true
         enter_hash.bottomAnchor.constraint(equalTo: hash_tag.bottomAnchor, constant: -20).isActive = true
         
-        enter_hash.placeholder = "Enter HashTag"
+        enter_hash.placeholder = "Search for Hashtag"
         enter_hash.textColor = UIColor.white
-        enter_hash.attributedPlaceholder = NSAttributedString(string: "Enter HashTag", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        enter_hash.attributedPlaceholder = NSAttributedString(string: "Search for Hashtag", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         enter_hash.font = UIFont.boldSystemFont(ofSize: 13.0)
         
@@ -423,10 +433,12 @@ class UploadVideoDetailsViewController: UIViewController {
                                     if !(json_object["body"] as? String ?? "").isEmpty {
                                         self.video_url_upload = json_object["body"] as! String
                                         self.uploadImage()
+                                        
+                                        let values = ["Language": UserDefaults.standard.getValueForLanguageId() ?? "",
+                                                      "Video Link": self.video_url_upload,
+                                                      "Video Length": self.time] as [String: Any]
+                                        WebEngageHelper.trackEvent(eventName: EventName.uploadVideo, values: values)
                                     } else {
-                                        DispatchQueue.main.async {
-                                            SVProgressHUD.dismiss()
-                                        }
                                         DispatchQueue.main.async {
                                             SVProgressHUD.showError(withStatus: "Please Try Again")
                                         }
@@ -436,9 +448,6 @@ class UploadVideoDetailsViewController: UIViewController {
                             }
                             catch {
                                 DispatchQueue.main.async {
-                                    SVProgressHUD.dismiss()
-                                }
-                                DispatchQueue.main.async {
                                     SVProgressHUD.showError(withStatus: "Please Try Again")
                                 }
                                 print(error.localizedDescription)
@@ -446,15 +455,11 @@ class UploadVideoDetailsViewController: UIViewController {
                         }
                     case.failure(let error):
                         DispatchQueue.main.async {
-                            SVProgressHUD.dismiss()
-                        }
-                        DispatchQueue.main.async {
                             SVProgressHUD.showError(withStatus: "Please Try Again")
                         }
                         print("calling upload video--4", error)
                     }
                 }
-                break
                 
             case .failure(let encodingError):
                 DispatchQueue.main.async {
@@ -555,11 +560,16 @@ class UploadVideoDetailsViewController: UIViewController {
             }
         }
         
+        var hashtag = ""
+        for tag in selected_hash {
+            hashtag += " #\(tag)"
+        }
+        
         let paramters: [String: Any] = [
             "question_video": "\(video_url_upload)",
             "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
             "question_image": "\(thumnail_url_upload)",
-            "title": "\(topic_title.text.unsafelyUnwrapped)" + add_hashtag_text,
+            "title": "\(topic_title.text.unsafelyUnwrapped)" + hashtag,
             "category_id": "58",
             "media_duration": time,
             "is_vb": "1",
@@ -638,6 +648,21 @@ class UploadVideoDetailsViewController: UIViewController {
     @objc func didChange(_ sender: Any) {
         fetchHashTag()
     }
+    
+    @objc private func didSelectRemoveHashtag(_ sender: UIButton) {
+        let tag = sender.tag
+        guard selected_hash.count > tag,
+              let index = selected_hash.firstIndex(of: selected_hash[tag])
+            else { return }
+        
+        selected_hash.remove(at: index)
+        selectedHashtagCollection.reloadData()
+        
+        if selected_hash.isEmpty {
+            selectedHashtagCollection.isHidden = true
+        }
+    }
+
     
     func fetchCategories() {
         
@@ -745,16 +770,19 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
                 }
                 choose_category_label.text = category_name
             }
+        } else if collectionView == selectedHashtagCollection {
+            let button = UIButton()
+            button.tag = indexPath.item
+            didSelectRemoveHashtag(button)
         } else {
             enter_hash.resignFirstResponder()
             contrain.constant = 10
             topic_title.resignFirstResponder()
             if !selected_hash.contains(hash_tags[indexPath.row]) {
-                add_hashtag_label.isHidden = false
+                selectedHashtagCollection.isHidden = false
                 if  (selected_hash.count < 4) {
                     selected_hash.append(hash_tags[indexPath.row])
-                    add_hashtag_text +=  "#" + hash_tags[indexPath.row] + " "
-                    add_hashtag_label.text = add_hashtag_text
+                    selectedHashtagCollection.reloadData()
                 } else {
                     let alert = UIAlertController(title: "You Can Select Upto 4 Hashtags, make sure they are relevant.", message: "", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
@@ -778,6 +806,8 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
             return languages.count
         } else if collectionView == hashView {
             return hash_tags.count
+        } else if collectionView == selectedHashtagCollection {
+            return selected_hash.count
         }
         return categories.count
     }
@@ -785,23 +815,45 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == languageView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! UploadLanguageCollectionViewCell
-            cell.configure(with: languages[indexPath.row])
+            cell.configure(with: languages[indexPath.item])
             return cell
         } else if collectionView == hashView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! HashUploadCollectionViewCell
-            cell.configure(with: hash_tags[indexPath.row])
+            cell.configure(with: hash_tags[indexPath.item])
+            return cell
+        } else if collectionView == selectedHashtagCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! SelectedHastagCollectionCell
+            cell.configure(with: "#\(selected_hash[indexPath.item])")
+//            cell.button.removeTarget(self, action: #selector(didSelectRemoveHashtag(_:)), for: .touchUpInside)
+//            cell.button.addTarget(self, action: #selector(didSelectRemoveHashtag(_:)), for: .touchUpInside)
+//            cell.button.tag = indexPath.item
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryUploadCollectionViewCell
-        cell.configure(with: categories[indexPath.row])
+        cell.configure(with: categories[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == categoryView {
+        if collectionView == selectedHashtagCollection {
+            if selected_hash.count > indexPath.item {
+                let text = "#\(selected_hash[indexPath.item])"
+                let size = (text as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold)])
+                return CGSize(width: size.width+15, height: 20)
+            }
+            return CGSize.zero
+        } else if collectionView == categoryView {
             return CGSize(width: (collectionView.frame.width/2.4), height: 50)
         }
         return CGSize(width: (collectionView.frame.width/2.4), height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == selectedHashtagCollection {
+            return 10
+        }
+        
+        return 0
     }
 }
 

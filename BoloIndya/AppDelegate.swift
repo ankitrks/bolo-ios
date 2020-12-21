@@ -9,9 +9,10 @@
 import UIKit
 import Firebase
 import Branch
+import WebEngage
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate  {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate  {
     
     var window: UIWindow?
 
@@ -25,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
                 print(params as? [String: AnyObject] ?? {})
             }
         //Branch.getInstance().validateSDKIntegration()
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        WebEngageHelper.application(application, didFinishLaunchingWithOptions: launchOptions)
+        WebEngageHelper.setUserAttributes()
         
         initTabBar()
         
@@ -70,3 +76,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 
 }
 
+extension AppDelegate: WEGAppDelegate {
+    func wegHandleDeeplink(_ deeplink: String!, userData data: [AnyHashable : Any]!) {
+        print("Deeplink URL received on click of Push Notification: \(deeplink)")
+    }
+    
+    func didReceiveAnonymousID(_ anonymousID: String!, for reason: WEGReason) {
+        print("Anonymous ID:\(anonymousID)  got refreshed for reason: \(reason)")
+    }
+}

@@ -244,13 +244,21 @@ class LoginAndSignUpViewController: BaseVC {
     }
     override func onSuccessResponse(response: Any, resultCode: Int = 0) {
         //if(resultCode == 2){
-              let userInfo = response as! LoginUserInfo
-              guard let access = userInfo.accessToken, access.count > 0  else {
-                  self.showToast(message: "Please enter valid otp"  )
-                   return
-                     }
-              setDataUserInfo(info: response as! LoginUserInfo)
-              sentToTrending()
+        
+            if let userInfo = response as? LoginUserInfo,
+               let access = userInfo.accessToken,
+               !access.isEmpty {
+                setDataUserInfo(info: userInfo)
+                sentToTrending()
+          
+                let isSignup = userInfo.message?.lowercased() == "user created"
+                let eventName = isSignup ? EventName.signUp : EventName.login
+                let values = ["mobile": mobile_no.text ?? "",
+                              "mode": "mobile"]
+                WebEngageHelper.trackEvent(eventName: eventName, values: values)
+            } else {
+                showToast(message: "Please enter valid otp"  )
+            }
    // }
     }
 
@@ -336,7 +344,6 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
         let userid = String(UserDefaults.standard.getUserId() ?? 0)
         Branch.getInstance().setIdentity(userid)
         setParam(auth: false,url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
-    
     }
     
  

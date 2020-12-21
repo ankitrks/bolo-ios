@@ -7,70 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C45D1E7F-A8C3-4F76-84F2-109F896A0B12"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/Cells/VideoCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "awakeFromNib()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C5B6C01C-F276-4175-AEA9-649898FF5E84"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
-            landmarkName = "uploadVideo(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C5B6C01C-F276-4175-AEA9-649898FF5E84 - d6f6f081549c08f4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Alamofire.DataResponse&lt;Swift.String&gt;) -&gt; () in closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
-                  moduleName = "BoloIndya"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "427"
-                  endingLineNumber = "427"
-                  offsetFromSymbolStart = "2040">
-               </Location>
-               <Location
-                  uuid = "C5B6C01C-F276-4175-AEA9-649898FF5E84 - 6b17cec0c093177c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in closure #2 (Alamofire.DataResponse&lt;Swift.String&gt;) -&gt; () in closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
-                  moduleName = "BoloIndya"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "428"
-                  endingLineNumber = "428"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "71EA83FA-4FDD-4C7E-897D-AB54A1F735CD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -78,8 +14,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "453"
+            endingLineNumber = "453"
             landmarkName = "uploadVideo(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +30,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "454"
-            endingLineNumber = "454"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "uploadVideo(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,58 +46,42 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "uploadVideo(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "656BCCFA-4E9A-4B1F-9C98-E2279CD682A9 - db2ed0c94e81a759"
+                  uuid = "656BCCFA-4E9A-4B1F-9C98-E2279CD682A9 - 1d9f796d53f2324c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
                   moduleName = "BoloIndya"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
+                  urlString = "file:///Users/rahulgarg/Documents/Workspace/boloindya/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "463"
-                  endingLineNumber = "463"
-                  offsetFromSymbolStart = "1376">
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
+                  offsetFromSymbolStart = "1371">
                </Location>
                <Location
-                  uuid = "656BCCFA-4E9A-4B1F-9C98-E2279CD682A9 - 153b83b84778cbbf"
+                  uuid = "656BCCFA-4E9A-4B1F-9C98-E2279CD682A9 - d38a2a1c5a0b5e94"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #4 () -&gt; () in closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
                   moduleName = "BoloIndya"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
+                  urlString = "file:///Users/rahulgarg/Documents/Workspace/boloindya/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "464"
-                  endingLineNumber = "464"
-                  offsetFromSymbolStart = "20">
+                  startingLineNumber = "469"
+                  endingLineNumber = "469"
+                  offsetFromSymbolStart = "8">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "02E30BCE-60BC-4F37-81DC-759594DAE2FF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/VideoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "726"
-            endingLineNumber = "726"
-            landmarkName = "shareAndDownload(with:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -177,22 +97,6 @@
             startingLineNumber = "165"
             endingLineNumber = "165"
             landmarkName = "uploadImage()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7C79F412-D868-4DC2-A66B-A98D1E30F943"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/CategoryViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
-            landmarkName = "fetchCategory()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -215,134 +119,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FB13F6FE-044C-4BA5-8486-9AEFBC1C340C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "693"
-            endingLineNumber = "693"
-            landmarkName = "submitComment(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6B237081-DCBE-400C-ABDC-DF7BFEAE5594"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "699"
-            endingLineNumber = "699"
-            landmarkName = "submitComment(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "82112A0B-0619-431B-8009-F1235A8D0ACA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/UserDefaults.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "setAuthToken(value:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "66F286E9-1FF4-404E-BA46-F8870186F0C4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/UserDefaults.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "setGuestLoggedIn(value:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4906A383-3F16-4CD9-A96C-D639190FCCDE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "666"
-            endingLineNumber = "666"
-            landmarkName = "commentLike(id:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F4A55EF0-E899-4CAB-991E-F0A3EF47082D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1047"
-            endingLineNumber = "1047"
-            landmarkName = "shareAndDownload(with:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F4A55EF0-E899-4CAB-991E-F0A3EF47082D - 6d60c6137c1fe929"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Optional&lt;__C.AVAssetExportSessionStatus&gt;, Swift.Optional&lt;__C.AVAssetExportSession&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in closure #2 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BoloIndya.TrendingAndFollowingViewController.shareAndDownload(with: Swift.Int) -&gt; ()"
-                  moduleName = "BoloIndya"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1047"
-                  endingLineNumber = "1047"
-                  offsetFromSymbolStart = "976">
-               </Location>
-               <Location
-                  uuid = "F4A55EF0-E899-4CAB-991E-F0A3EF47082D - 2c362bac4990b8df"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.UIActivityType&gt;, Swift.Bool, Swift.Optional&lt;Swift.Array&lt;Any&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #2 (Swift.Optional&lt;__C.AVAssetExportSessionStatus&gt;, Swift.Optional&lt;__C.AVAssetExportSession&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in closure #2 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BoloIndya.TrendingAndFollowingViewController.shareAndDownload(with: Swift.Int) -&gt; ()"
-                  moduleName = "BoloIndya"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rahulgarg/Documents/Workspace/BoloIndya-IOS/BoloIndya/ViewControllers/TrendingAndFollowingViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1048"
-                  endingLineNumber = "1048"
-                  offsetFromSymbolStart = "240">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "07AEE6C7-DCC5-40C5-8861-7FAA3E14321D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -350,8 +126,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
             landmarkName = "uploadImage()"
             landmarkType = "7">
          </BreakpointContent>
@@ -366,8 +142,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
             landmarkName = "uploadImage()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +158,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "uploadImage()"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,8 +174,8 @@
             filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
+            startingLineNumber = "538"
+            endingLineNumber = "538"
             landmarkName = "uploadImage()"
             landmarkType = "7">
          </BreakpointContent>
@@ -407,17 +183,129 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4BD0A130-F8AB-44D2-90A5-FDA0364FCA36"
+            uuid = "9AFE4568-823E-43D6-B0E1-4F8F82FEE76A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/ProfileViewController.swift"
+            filePath = "BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
-            landmarkName = "fetchUserData()"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
+            landmarkName = "uploadVideo(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9AFE4568-823E-43D6-B0E1-4F8F82FEE76A - 1047592549ef8517"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Alamofire.DataResponse&lt;Swift.String&gt;) -&gt; () in closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
+                  moduleName = "BoloIndya"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahulgarg/Documents/Workspace/boloindya/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "442"
+                  endingLineNumber = "442"
+                  offsetFromSymbolStart = "3467">
+               </Location>
+               <Location
+                  uuid = "9AFE4568-823E-43D6-B0E1-4F8F82FEE76A - ada66764dde09add"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in closure #2 (Alamofire.DataResponse&lt;Swift.String&gt;) -&gt; () in closure #3 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in BoloIndya.UploadVideoDetailsViewController.uploadVideo(Any) -&gt; ()"
+                  moduleName = "BoloIndya"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahulgarg/Documents/Workspace/boloindya/BoloIndya/ViewControllers/UploadVideoDetailsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "443"
+                  endingLineNumber = "443"
+                  offsetFromSymbolStart = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "85A07817-236C-47D6-B4FE-119CA7BB86F8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoloIndya/ViewControllers/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ECFDEF49-3485-459F-8E8C-09DA22B33E51"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoloIndya/ViewControllers/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "72ACBB9D-C493-4FFD-BBBD-F3115C6D6425"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoloIndya/ViewControllers/SearchViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "fetchAllTypes()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D7320A4-885B-4F47-B90A-1EA345C246AB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoloIndya/ViewControllers/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "72E6EFB3-B2F6-4E68-8C05-AC937A72F27C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoloIndya/ViewControllers/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -72,6 +72,9 @@ PODS:
   - PryntTrimmerView (4.0.0)
   - SteviaLayout (4.7.3)
   - SVProgressHUD (2.2.5)
+  - WebEngage (5.2.3):
+    - WebEngage/Xcode11 (= 5.2.3)
+  - WebEngage/Xcode11 (5.2.3)
   - YPImagePicker (4.2.1):
     - PryntTrimmerView (~> 4.0.0)
     - SteviaLayout (~> 4.7.3)
@@ -84,6 +87,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - Kingfisher
   - SVProgressHUD
+  - WebEngage
   - YPImagePicker
 
 SPEC REPOS:
@@ -109,6 +113,7 @@ SPEC REPOS:
     - PryntTrimmerView
     - SteviaLayout
     - SVProgressHUD
+    - WebEngage
     - YPImagePicker
 
 SPEC CHECKSUMS:
@@ -133,8 +138,9 @@ SPEC CHECKSUMS:
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  WebEngage: 2189082bacdade2310cc1bfbbfe2e473e8381199
   YPImagePicker: 3b88ca0c50134af2856c48c481572c98a8b8b65b
 
-PODFILE CHECKSUM: 7cbd32b3fa3af42f63c622774a191d72f95e649f
+PODFILE CHECKSUM: f5dcdb822d256a0025a9e72643da3c10e774bd9a
 
 COCOAPODS: 1.10.0

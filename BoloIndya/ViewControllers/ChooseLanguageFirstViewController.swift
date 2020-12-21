@@ -109,17 +109,18 @@ class ChooseLanguageFirstViewController: BaseVC {
     }
     
     func sentToTrending() {
-
+        
         let paramters: [String: Any] = [
-                          KEY_ACTIVITY: "android_login",
-                          KEY_LANGUAGE: languages[selected_position].id,
-                          KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
-                      ]
+            KEY_ACTIVITY: "android_login",
+            KEY_LANGUAGE: languages[selected_position].id,
+            KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
+        ]
         print("Param \(paramters)")
-
-    setParam(auth: false,url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
-
-
+        
+        setParam(auth: false,url: PROFILE_URL , param: paramters, className: LoginUserInfo.self)
+        
+        let values = ["language": languages[selected_position].title]
+        WebEngageHelper.trackEvent(eventName: EventName.languageSelected, values: values)
     }
 
     override func onSuccessResponse(response: Any) {

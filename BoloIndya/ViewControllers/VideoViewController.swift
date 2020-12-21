@@ -54,6 +54,10 @@ class VideoViewController: UIViewController {
         comment_like = UserDefaults.standard.getLikeComment()
         
         setVideoViewDelegate()
+        
+        if let object = self.videos.first {
+            hitEvent(eventName: EventName.videoPlayed, object: object)
+        }
     }
     
     @objc internal func keyboardWillShow(_ notification: NSNotification?) {
@@ -331,6 +335,8 @@ class VideoViewController: UIViewController {
                     print(error)
                 }
         }
+        
+        hitEvent(eventName: EventName.videoCommented, object: videos[selected_position])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -452,7 +458,9 @@ class VideoViewController: UIViewController {
     }
     
     func playVideo() {
-        let videoUrl = NSURL(string: videos[selected_position].video_url)
+        let object = videos[selected_position]
+        
+        let videoUrl = NSURL(string: object.video_url)
         if videoUrl != nil {
             avPlayer = AVPlayer(url: videoUrl! as URL)
             avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
@@ -581,13 +589,35 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let video_cell = self.videoView.visibleCells[0] as? VideoCell
+        guard let video_cell = self.videoView.visibleCells.first as? VideoCell else { return }
+        
         if current_video_cell != nil {
             current_video_cell.player.player?.pause()
         }
         current_video_cell = video_cell
-        selected_position = video_cell?.tag ?? 0
+        selected_position = video_cell.tag
         self.playVideo()
+        
+        hitEvent(eventName: EventName.videoPlayed, object: videos[selected_position])
+    }
+    
+    private func hitEvent(eventName: String, object: Topic) {
+        let values = ["WhatsApp Share Num": object.getCountNum(from: object.whatsapp_share_count),
+                      "WhatsApp Share": object.whatsapp_share_count,
+                      "Video Id": object.id,
+                      "User Id": object.user.id,
+                      "Video Link": object.video_url,
+                      "Comments": object.comment_count,
+                      "Comments Num": object.getCountNum(from: object.comment_count),
+                      "Likes": object.like_count,
+                      "Likes Num": object.getCountNum(from: object.like_count),
+                      "Name": object.user.name,
+                      "Shares": object.share_count,
+                      "Shares Num": object.getCountNum(from: object.share_count),
+                      "Language": object.languageId,
+                      "Username": object.user.username,
+                      "User Type": object.user.getUserType()] as [String: Any]
+        WebEngageHelper.trackEvent(eventName: eventName, values: values)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -652,16 +682,18 @@ extension VideoViewController: VideoCellDelegate {
         
         var isDownloadUrlAvailable = true
         
-        var videoUrl = videos[selected_postion].downloaded_url
+        let object = videos[selected_postion]
+        
+        var videoUrl = object.downloaded_url
         if videoUrl.isEmpty {
-            videoUrl = videos[selected_postion].video_url
+            videoUrl = object.video_url
             isDownloadUrlAvailable = false
         }
         
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + ".mp4")
-        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + videos[selected_postion].id + "watermark.mp4")
+        let destinationUrl = docsUrl.appendingPathComponent("boloindya_videos" + object.id + ".mp4")
+        let watermarkedUrl = docsUrl.appendingPathComponent("boloindya_videos" + object.id + "watermark.mp4")
         
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setContainerView(self.view)
@@ -796,6 +828,14 @@ extension VideoViewController: VideoCellDelegate {
                 }
             }).resume()
         }
+        
+        let values = ["User Id": object.user.id,
+                      "Video Link": object.video_url,
+                      "Name": object.user.name,
+                      "Language": object.languageId,
+                      "Username": object.user.username,
+                      "User Type": object.user.getUserType()] as [String: Any]
+        WebEngageHelper.trackEvent(eventName: EventName.sharedVideo, values: values)
     }
     
     func goToProfile(with selected_postion: Int) {
@@ -821,14 +861,29 @@ extension VideoViewController: VideoCellDelegate {
     }
     
     func likedTopic(with selected_postion: Int) {
+        guard videos.count > selected_postion,
+              let idInt = Int(videos[selected_postion].id)
+            else { return }
+        
         self.selected_position = selected_postion
+        
         if self.videos[selected_postion].isLiked {
-            topic_liked.remove(at: topic_liked.firstIndex(of: Int(self.videos[selected_postion].id)!)!)
+            if let index = topic_liked.firstIndex(of: idInt), topic_liked.count > index {
+                topic_liked.remove(at: index)
+            }
         } else {
-            topic_liked.append(Int(self.videos[selected_postion].id)!)
+            topic_liked.append(idInt)
         }
+        
         UserDefaults.standard.setLikeTopic(value: topic_liked)
+        
+        videos[selected_postion].isLiked = !videos[selected_postion].isLiked
+        
         self.topicLike()
+        
+        if videos[selected_postion].isLiked {
+            hitEvent(eventName: EventName.videoLiked, object: videos[selected_postion])
+        }
     }
 }
 

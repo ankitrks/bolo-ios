@@ -439,8 +439,20 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
                                 } else {
                                     self.user.follower_count = user_profile_obj?["follower_count"] as! String
                                 }
+
+                                self.user.isExpert = user_profile_obj?["is_expert"] as? Bool ?? false
+                                self.user.isPopular = user_profile_obj?["is_popular"] as? Bool ?? false
+                                self.user.isBusiness = user_profile_obj?["is_business"] as? Bool ?? false
+                                self.user.isSuperstar = user_profile_obj?["is_superstar"] as? Bool ?? false
+                                
                                 self.isLoading = false
                                 self.fetchData()
+                                
+                                let values = ["User Id": self.user.id,
+                                              "Name": self.user.name,
+                                              "Username": self.user.username,
+                                              "User Type": self.user.getUserType()] as [String: Any]
+                                WebEngageHelper.trackEvent(eventName: EventName.userProfileViewed, values: values)
                             }
                         }
                         catch {
@@ -505,7 +517,30 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         if page == 1 {
             profile_pic.layer.cornerRadius = (profile_pic.frame.height / 2)
             
-            name.text = user.name
+            var imageName: String?
+            if user.isSuperstar {
+                imageName = "golden_tick"
+            } else if user.isBusiness {
+                imageName = "blue_tick"
+            } else if user.isExpert {
+                imageName = "red_tick"
+            } else if user.isPopular {
+                imageName = "red_tick"
+            }
+            
+            if let imageName = imageName {
+                let nameString = user.name
+                let attributedText = NSMutableAttributedString(string: nameString)
+                let imageAttachment = NSTextAttachment()
+                imageAttachment.image = UIImage(named: imageName)
+                
+                let imageString = NSAttributedString(attachment: imageAttachment)
+                attributedText.append(imageString)
+                name.attributedText = attributedText
+            } else {
+                name.text = user.name
+            }
+            
             bio.text = user.bio
             
             if !user.profile_pic.isEmpty {
@@ -685,15 +720,21 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
                 UIApplication.shared.open(instagramUrl, options: [:], completionHandler: nil)
             }
             
+            let values = NSMutableDictionary()
+            values["Profile User Id"] = UserDefaults.standard.getUserId()
+            values["Own Profile Shared"] = true
+            if let type = type {
+                values["Medium"] = "\(type.rawValue)"
+            }
+            WebEngageHelper.trackEvent(eventName: EventName.profileShared, values: values as? [String : Any])
+            
             if completed {
                 print("completed")
             } else {
                 print("error")
             }
         }
-        self.present(activityController, animated: true) {
-            print("Done")
-        }
+        self.present(activityController, animated: true)
     }
     
     @IBAction func onFollowingClick(_ sender: Any) {
