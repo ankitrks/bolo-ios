@@ -19,12 +19,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
+        if let uuid = KeychainHelper.getDeviceId(), !uuid.isEmpty {
+            print(uuid)
+        } else {
+            KeychainHelper.setDeviceId()
+        }
+        
         // if you are using the TEST key
         Branch.setUseTestBranchKey(false) // make it false for live
         Branch.getInstance().enableLogging()
         Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
-                print(params as? [String: AnyObject] ?? {})
-            }
+            print(params as? [String: AnyObject] ?? {})
+        }
         //Branch.getInstance().validateSDKIntegration()
         
         UNUserNotificationCenter.current().delegate = self
@@ -33,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         WebEngageHelper.setUserAttributes()
         
         initTabBar()
+        initNavigationBar()
         
         return true
     }
@@ -41,7 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
         UITabBar.appearance().tintColor = UIColor(hex: "10A5F9")
         UITabBar.appearance().backgroundColor = UIColor(hex: "222020")
-        UITabBar.appearance()
+    }
+    
+    private func initNavigationBar() {
+        UINavigationBar.appearance().barTintColor = UIColor(hex: "10A5F9")
+        UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().isTranslucent = false
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

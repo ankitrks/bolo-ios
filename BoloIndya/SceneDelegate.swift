@@ -19,6 +19,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let userActivity = connectionOptions.userActivities.first {
+            showAppView(activity: userActivity, isDeeplink: false)
+        }
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        
+    }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        showAppView(activity: userActivity)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,6 +61,71 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
+    private func showAppView(activity: NSUserActivity, isDeeplink: Bool = false) {
+        guard activity.activityType == NSUserActivityTypeBrowsingWeb,
+                let incomingURL = activity.webpageURL,
+                let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
+                let path = components.path
+            else { return }
+        
+        var viewController: UIViewController?
+        
+        let paths = path.components(separatedBy: "/").filter { !$0.isEmpty }
+        if paths.first == "video_bytes" {
+            guard paths.count > 2,
+                  let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController
+                else { return }
+            
+            vc.topic_id = paths[2]
+            
+            viewController = vc
+        } else if paths.first == "user" {
+            guard paths.count > 1,
+                  let userId = Int(paths[1])
+                else { return }
+            
+            if userId == UserDefaults.standard.getUserId() {
+                if isDeeplink {
+                    moveToCurrentUserView()
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                        self.moveToCurrentUserView()
+                    }
+                }
+                return
+            } else if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController {
+                let user = User()
+                user.id = userId
+                vc.user = user
+                
+                viewController = vc
+            }
+        }
+        
+        if isDeeplink {
+            push(viewController: viewController)
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                self.push(viewController: viewController)
+            }
+        }
+    }
+    
+    private func push(viewController: UIViewController?) {
+        guard let vc = viewController else { return }
+        
+        let topVC = UIApplication.topMostViewController()
+        if let navVC = topVC as? UINavigationController {
+            navVC.pushViewController(vc, animated: true)
+        } else if let navVC = topVC?.navigationController {
+            navVC.pushViewController(vc, animated: true)
+        }
+    }
+    
+    private func moveToCurrentUserView() {
+        let topVC = UIApplication.topMostViewController()?.navigationController
+        topVC?.popToRootViewController(animated: false)
+        topVC?.tabBarController?.selectedIndex = 4
+    }
 }
 

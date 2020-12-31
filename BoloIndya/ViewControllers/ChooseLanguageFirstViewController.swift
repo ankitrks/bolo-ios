@@ -113,7 +113,7 @@ class ChooseLanguageFirstViewController: BaseVC {
         let paramters: [String: Any] = [
             KEY_ACTIVITY: "android_login",
             KEY_LANGUAGE: languages[selected_position].id,
-            KEY_ANDROID_DID: UIDevice.current.identifierForVendor?.uuidString ?? ""
+            KEY_ANDROID_DID: KeychainHelper.getDeviceId() ?? ""
         ]
         print("Param \(paramters)")
         

@@ -59,6 +59,7 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
+  - KeychainAccess (4.2.1)
   - Kingfisher (5.14.1):
     - Kingfisher/Core (= 5.14.1)
   - Kingfisher/Core (5.14.1)
@@ -85,6 +86,7 @@ DEPENDENCIES:
   - Branch
   - Firebase/Auth
   - GoogleSignIn
+  - KeychainAccess
   - Kingfisher
   - SVProgressHUD
   - WebEngage
@@ -106,6 +108,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - KeychainAccess
     - Kingfisher
     - nanopb
     - ObjectMapper
@@ -131,6 +134,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
@@ -141,6 +145,6 @@ SPEC CHECKSUMS:
   WebEngage: 2189082bacdade2310cc1bfbbfe2e473e8381199
   YPImagePicker: 3b88ca0c50134af2856c48c481572c98a8b8b65b
 
-PODFILE CHECKSUM: f5dcdb822d256a0025a9e72643da3c10e774bd9a
+PODFILE CHECKSUM: 01fc41270b87f7cf0ee87e72a7bcd882dac37c54
 
 COCOAPODS: 1.10.0

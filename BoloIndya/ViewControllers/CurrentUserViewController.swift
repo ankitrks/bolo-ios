@@ -448,6 +448,8 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
                                 self.isLoading = false
                                 self.fetchData()
                                 
+                                UserDefaults.standard.setName(value: self.user.name)
+                                
                                 let values = ["User Id": self.user.id,
                                               "Name": self.user.name,
                                               "Username": self.user.username,

@@ -67,27 +67,26 @@ class User {
     func setCoverPic(cover_pic: String) {
         self.cover_pic = cover_pic
     }
+    
     func setUserProfilePic(profile_pic: String) {
         var tempUrl = profile_pic;
-                           if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
-                               tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/2000x200")
-                           } else {
-                               tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/200x200")
-                           }
-          self.user_profile_pic = tempUrl
-      }
+        if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
+            tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/2000x200")
+        } else {
+            tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/200x200")
+        }
+        self.user_profile_pic = tempUrl
+    }
     
     func setProfilePic(profile_pic: String) {
-       var tempUrl = profile_pic;
-                 if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
-                     tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/80x80")
-                 } else {
-                     tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/80x80")
-                 }
-
+        var tempUrl = profile_pic;
+        if(profile_pic.contains("s3.amazonaws.com/boloindyapp-prod")) {
+            tempUrl = profile_pic.replacingOccurrences(of: "https://s3.amazonaws.com/boloindyapp-prod", with: "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/80x80")
+        } else {
+            tempUrl = profile_pic.replacingOccurrences(of:"https://in-boloindya.s3.amazonaws.com", with: "http://in-boloindya.s3-website.ap-south-1.amazonaws.com/80x80")
+        }
+        
         self.profile_pic = tempUrl
-
-
     }
     
     func getUserType() -> String {

@@ -220,7 +220,7 @@
         <!--Video View Controller-->
         <scene sceneID="uY2-DG-e7E">
             <objects>
-                <viewController id="Qmp-Sc-mS7" customClass="VideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VideoViewController" id="Qmp-Sc-mS7" customClass="VideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XbV-sH-RDd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -719,13 +719,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5Kg-N4-WN5"/>
-        <segue reference="Xyc-tg-wB7"/>
+        <segue reference="fqs-FO-mCm"/>
+        <segue reference="Qsa-8y-QQO"/>
         <segue reference="8mZ-Aq-txe"/>
         <segue reference="qqs-qN-J1N"/>
         <segue reference="x1b-Ln-B5m"/>
         <segue reference="kAZ-Gh-86o"/>
-        <segue reference="tDC-fX-6PB"/>
+        <segue reference="6mq-G6-e0g"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add" width="28" height="28"/>

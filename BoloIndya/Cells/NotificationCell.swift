@@ -25,7 +25,7 @@ class NotificationCell: UITableViewCell {
         
         if (!notification.actor_profile_pic.isEmpty) {
             let url = URL(string: notification.actor_profile_pic)
-            self.actor_profile_pic.kf.setImage(with: url, placeholder:  UIImage(named: "user"))
+            self.actor_profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
         } else {
             self.actor_profile_pic.image = UIImage(named: "user")
         }
@@ -50,30 +50,30 @@ class NotificationCell: UITableViewCell {
     func setData() {
         
         actor_profile_pic.translatesAutoresizingMaskIntoConstraints = false
-        actor_profile_pic.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        actor_profile_pic.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        actor_profile_pic.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        actor_profile_pic.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        actor_profile_pic.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        actor_profile_pic.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         actor_profile_pic.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
-        actor_profile_pic.layer.cornerRadius = 25
+        actor_profile_pic.layer.cornerRadius = 35/2
         actor_profile_pic.contentMode = .scaleAspectFill
         actor_profile_pic.clipsToBounds = true
         
         title.translatesAutoresizingMaskIntoConstraints = false
         title.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        title.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 5).isActive = true
+        title.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 10).isActive = true
         title.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         title.numberOfLines = 2
         title.textColor = .white
-
-        title.font = UIFont.boldSystemFont(ofSize: 13.0)
+        title.font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
 
         created_at.translatesAutoresizingMaskIntoConstraints = false
-        created_at.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5).isActive = true
-        created_at.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 5).isActive = true
+        created_at.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 3).isActive = true
+        created_at.leftAnchor.constraint(equalTo: actor_profile_pic.rightAnchor, constant: 10).isActive = true
         created_at.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        created_at.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
         created_at.textColor = .white
 
-        created_at.font = UIFont.boldSystemFont(ofSize: 13.0)
+        created_at.font = UIFont.systemFont(ofSize: 11.0)
     }
     
 }

@@ -531,17 +531,25 @@ class ProfileViewController: BaseVC {
 
  
     @objc func followUser(_ sender: UITapGestureRecognizer) {
-        if  isLogin() {
+        if isLogin() {
             if self.isFollowing {
                 users_following.remove(at: users_following.firstIndex(of: self.user.id)!)
                 follow_button.setTitle("Follow", for: .normal)
                 follow_button.layer.backgroundColor = (UIColor(hex: "10A5F9") ?? UIColor.red).cgColor
                 follow_button.setTitleColor(.white, for: .normal)
+                
+                if let followers = followers_count.text, let followersCount = Int(followers), followersCount > 0 {
+                    followers_count.text = "\(followersCount-1)"
+                }
             } else {
                 follow_button.setTitle("Following", for: .normal)
                 follow_button.layer.backgroundColor = UIColor.white.cgColor
                 follow_button.setTitleColor(UIColor.black, for: .normal)
                 users_following.append(self.user.id)
+                
+                if let followers = followers_count.text, let followersCount = Int(followers) {
+                    followers_count.text = "\(followersCount+1)"
+                }
             }
             self.followingUser()
             self.isFollowing = !self.isFollowing

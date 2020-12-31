@@ -10,6 +10,7 @@
 		<string>boloindya-alternate.app.link</string>
 		<string>boloindya.test-app.link</string>
 		<string>boloindya-alternate.test-app.link</string>
+		<string>applinks:www.boloindya.com</string>
 	</array>
 </dict>
 </plist>

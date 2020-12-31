@@ -1,5 +1,5 @@
 //
-//  UITableView+Extension.swift
+//  UITableViewCell+Extension.swift
 //  BoloIndya
 //
 //  Created by Rahul Garg on 09/12/20.

@@ -26,9 +26,11 @@ final class WebEngageHelper {
             let names = name.components(separatedBy: " ")
             if let firstName = names.first {
                 weUser.setFirstName(firstName)
+                weUser.setAttribute("First Name", withStringValue: firstName)
             }
             if names.count > 1 {
                 weUser.setLastName(names[1])
+                weUser.setAttribute("Last Name", withStringValue: names[1])
             }
             weUser.setAttribute("name", withStringValue: name)
         }

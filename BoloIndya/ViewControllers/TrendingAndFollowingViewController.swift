@@ -17,7 +17,6 @@ class TrendingAndFollowingViewController: BaseVC {
     var trendingView = SelfSizedTableView()
     
     var videos: [Topic] = []
-    var comments: [Comment] = []
     var trendingTopics: [Topic] = []
     var followingTopics: [Topic] = []
     var page: Int = 1
@@ -30,25 +29,19 @@ class TrendingAndFollowingViewController: BaseVC {
     var following = UILabel()
     var progress = UIActivityIndicatorView()
     var transparentView = UIView()
-    var commentView = UITableView()
-    var comment_tab = UIView()
-    var profile_pic = UIImageView()
-    var comment_title = UITextField()
-    var submit_comment = UIImageView()
-    var go_back =  UIImageView()
-    var progress_comment = UIActivityIndicatorView()
-    var comment_label = UILabel()
+    
     var video_url: URL!
-    var comment_page = 0
     var topic_liked: [Int] = []
     var comment_like: [Int] = []
     
     var current_video_cell: VideoCell!
-    weak var contrain: NSLayoutConstraint!
-     let screenSize = UIScreen.main.bounds
+    let screenSize = UIScreen.main.bounds
     var deviceHeight:CGFloat = 100.0
     
     var avPlayer = AVPlayer()
+    
+    var commentsView: BICommentView?
+    var reportViewController: BIReportViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,33 +51,12 @@ class TrendingAndFollowingViewController: BaseVC {
         
         initTabBarProfileImage()
         
-        NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         topic_liked = UserDefaults.standard.getLikeTopic()
         comment_like = UserDefaults.standard.getLikeComment()
         setTrendingViewDelegate()
         deviceHeight = self.view.frame.height
         fetcUserDetails()
         fetchData()
-    }
-    
-    @objc internal func keyboardWillShow(_ notification: NSNotification?) {
-        var _kbSize: CGSize!
-        
-        if let info = notification?.userInfo {
-            let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
-            if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
-
-                let intersectRect = kbFrame.intersection(screenSize)
-                if intersectRect.isNull {
-                    _kbSize = CGSize(width: screenSize.size.width, height: 0)
-                } else {
-                    _kbSize = intersectRect.size
-                    contrain.constant = -(_kbSize.height)
-                    
-                }
-            }
-        }
     }
     
     
@@ -160,115 +132,11 @@ class TrendingAndFollowingViewController: BaseVC {
         trendingView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
         trendingView.showsVerticalScrollIndicator = false
         
-        commentView.isScrollEnabled = true
-        commentView.delegate = self
-        commentView.dataSource = self
-        commentView.backgroundColor = .black
-        commentView.register(CommentViewCell.self, forCellReuseIdentifier: "Cell")
-        commentView.showsVerticalScrollIndicator = false
-        
-        comment_tab.addSubview(profile_pic)
-        comment_tab.addSubview(submit_comment)
-        comment_tab.addSubview(comment_title)
-        comment_tab.addSubview(commentView)
-        comment_tab.addSubview(progress_comment)
-        comment_tab.addSubview(comment_label)
-        comment_tab.addSubview(go_back)
-        view.backgroundColor = UIColor.black
+        view.addSubview(progress)
         view.addSubview(trendingView)
         view.addSubview(trending)
         view.addSubview(following)
         view.addSubview(label)
-        view.addSubview(progress)
-        view.addSubview(comment_tab)
-        
-        comment_tab.translatesAutoresizingMaskIntoConstraints = false
-        comment_tab.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        comment_tab.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-        comment_tab.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-        contrain = comment_tab.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
-        contrain.isActive = true
-        comment_tab.backgroundColor = .black
-        
-        go_back.translatesAutoresizingMaskIntoConstraints = false
-        go_back.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        go_back.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        go_back.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -5).isActive = true
-        go_back.topAnchor.constraint(equalTo: comment_tab.topAnchor, constant: 5).isActive = true
-        
-        go_back.image = UIImage(named: "close_white")
-        go_back.tintColor = UIColor.white
-        
-        go_back.isUserInteractionEnabled = true
-        let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(onClickTransparentView))
-        go_back.addGestureRecognizer(tapGestureBack)
-        
-        progress_comment.translatesAutoresizingMaskIntoConstraints = false
-        progress_comment.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        progress_comment.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        progress_comment.centerYAnchor.constraint(equalTo: comment_tab.centerYAnchor, constant: 0).isActive = true
-        progress_comment.centerXAnchor.constraint(equalTo: comment_tab.centerXAnchor, constant: 0).isActive = true
-        progress_comment.color = UIColor.white
-        
-        profile_pic.translatesAutoresizingMaskIntoConstraints = false
-        profile_pic.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        profile_pic.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        profile_pic.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
-        profile_pic.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
-        profile_pic.layer.cornerRadius = 20
-        profile_pic.contentMode = .scaleAspectFill
-        profile_pic.clipsToBounds = true
-        
-        comment_title.translatesAutoresizingMaskIntoConstraints = false
-        comment_title.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        comment_title.leftAnchor.constraint(equalTo: profile_pic.rightAnchor, constant: 5).isActive = true
-        comment_title.rightAnchor.constraint(equalTo: submit_comment.leftAnchor, constant: -5).isActive = true
-        comment_title.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
-        
-        comment_title.textColor = UIColor.white
-        comment_title.placeholder = "Add a comment"
-        comment_title.attributedPlaceholder = NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        
-        comment_title.delegate = self
-        
-        submit_comment.translatesAutoresizingMaskIntoConstraints = false
-        submit_comment.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        submit_comment.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        submit_comment.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: -10).isActive = true
-        submit_comment.bottomAnchor.constraint(equalTo: comment_tab.bottomAnchor, constant: -10).isActive = true
-        submit_comment.contentMode = .scaleAspectFill
-        submit_comment.clipsToBounds = true
-        
-        submit_comment.isUserInteractionEnabled = true
-        
-        let tapGestureSubmit = UITapGestureRecognizer(target: self, action: #selector(submitComment(_:)))
-        submit_comment.addGestureRecognizer(tapGestureSubmit)
-        
-        if (!(UserDefaults.standard.getProfilePic() ?? "").isEmpty) {
-            let url = URL(string: UserDefaults.standard.getProfilePic() ?? "")
-            profile_pic.kf.setImage(with: url, placeholder: UIImage(named: "user"))
-        } else {
-            profile_pic.image = UIImage(named: "user")
-        }
-        
-        submit_comment.image = UIImage(named: "submit")
-        
-        comment_label.translatesAutoresizingMaskIntoConstraints = false
-        comment_label.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        comment_label.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 10).isActive = true
-        comment_label.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
-        comment_label.bottomAnchor.constraint(equalTo: commentView.topAnchor, constant: -5).isActive = true
-        comment_label.textColor = UIColor.white
-        comment_label.text = "Comments"
-        
-        commentView.translatesAutoresizingMaskIntoConstraints = false
-        commentView.heightAnchor.constraint(equalToConstant: 310).isActive = true
-        commentView.leftAnchor.constraint(equalTo: comment_tab.leftAnchor, constant: 0).isActive = true
-        commentView.rightAnchor.constraint(equalTo: comment_tab.rightAnchor, constant: 0).isActive = true
-        commentView.bottomAnchor.constraint(equalTo: profile_pic.topAnchor, constant: -5).isActive = true
-        commentView.separatorStyle = .none
-        
-        comment_tab.isHidden = true
         
         trending.translatesAutoresizingMaskIntoConstraints = false
         trending.widthAnchor.constraint(equalToConstant: 88).isActive = true
@@ -521,54 +389,15 @@ class TrendingAndFollowingViewController: BaseVC {
     
     
     @objc func onClickTransparentView() {
-        self.comment_tab.isHidden = true
-        self.comment_title.resignFirstResponder()
-        contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
-    }
-    
-    func fetchComment() {
-        guard videos.count > selected_position else { return }
+        UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve, animations: {
+            self.commentsView?.frame.origin.y = self.view.bounds.height
+            self.commentsView?.layoutIfNeeded()
+        }, completion: { _ in
+            self.commentsView?.removeFromSuperview()
+            self.commentsView = nil
+        })
         
-        var headers: [String: Any]? = nil
-        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-            headers = [
-                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-        }
-        
-        let url = "https://www.boloindya.com/api/v1/topics/ddwd/" + videos[selected_position].id + "/comments/?limit=15&offset=\(comment_page*15)"
-        
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-            .responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        
-                        do {
-                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            if let content = json_object?["results"] as? [[String:Any]] {
-                                for each in content {
-                                    self.comments.append(getComment(each: each))
-                                }
-                                if self.comments.count == 0 {
-                                    self.comment_label.text = "No Comments"
-                                } else {
-                                    self.comment_label.text = "Comments"
-                                }
-                                self.progress_comment.isHidden = true
-                                self.comment_page += 1
-                                self.commentView.reloadData()
-                            }
-                        }
-                        catch {
-                            self.progress_comment.isHidden = true
-                            print(error.localizedDescription)
-                        }
-                    }
-                case.failure(let error):
-                    self.progress_comment.isHidden = true
-                    print(error)
-                }
-        }
+        current_video_cell.player.player?.play()
     }
     
     func fetcUserDetails() {
@@ -679,65 +508,6 @@ class TrendingAndFollowingViewController: BaseVC {
         }
     }
     
-    @objc func submitComment(_ sender: UITapGestureRecognizer) {
-        
-        comment_title.resignFirstResponder()
-        
-        let paramters: [String: Any] = [
-            "comment": "\(comment_title.text.unsafelyUnwrapped)",
-            "topic_id": "\(videos[selected_position].id)",
-            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
-            "gify_details": "{}"
-        ]
-        
-        var headers: [String: Any]? = nil
-        
-        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
-            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-        }
-        
-        let url = "https://www.boloindya.com/api/v1/reply_on_topic"
-        
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
-            .responseString  { (responseData) in
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        
-                        do {
-                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            if let content = json_object?["comment"] as? [String:Any] {
-                                self.comments.insert(getComment(each: content), at: 0)
-                                if self.comments.count == 0 {
-                                    self.comment_label.text = "No Comments"
-                                } else {
-                                    self.comment_label.text = "Comments"
-                                }
-                                self.comment_title.resignFirstResponder()
-                                self.contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
-                                
-                                self.comment_title.text = ""
-                                self.commentView.reloadData()
-                            }
-                        }
-                        catch {
-                            self.comment_title.resignFirstResponder()
-                            self.contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
-                            
-                            print(error.localizedDescription)
-                        }
-                    }
-                case.failure(let error):
-                    self.comment_title.resignFirstResponder()
-                    self.contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
-                    
-                    print(error)
-                }
-        }
-        
-        hitEvent(eventName: EventName.videoCommented, object: videos[selected_position])
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -838,9 +608,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (tableView == self.trendingView) {
             return videos.count
-        } else if(tableView == self.commentView) {
-            return comments.count
-        }else{
+        } else{
             return 0
         }
     }
@@ -876,16 +644,7 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
             return video_cell
         } else {
             let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
-            if indexPath.row < comments.count {
-                if !self.comment_like.isEmpty {
-                    if self.comment_like.contains(Int(comments[indexPath.row].id)!) {
-                        comments[indexPath.row].isLiked = true
-                    }
-                }
-                menucell.configure(with: comments[indexPath.row])
-                menucell.selected_postion = indexPath.row
-                menucell.delegate = self
-            }
+            menucell.selected_postion = indexPath.row
             return menucell
         }
     }
@@ -929,38 +688,21 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            if(tableView == self.commentView) {
-              //  print("Fullllhalf")
-                   return 60
-             }else{
-              //  print("Fullll")
-                return  tableView.frame.height
-        }
+        return  tableView.frame.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (tableView == self.trendingView) {
-            let lastSectionIndex = tableView.numberOfSections - 1
-            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-            
-            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
-                self.fetchData()
-            }
-        } else if(tableView == self.commentView){
-            let lastSectionIndex = tableView.numberOfSections - 1
-            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-            
-            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
-                fetchComment()
-            }
-            
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        
+        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+            self.fetchData()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (tableView == self.trendingView) {
             selected_position = indexPath.row
-            self.comment_tab.isHidden = true
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
         }
@@ -970,7 +712,63 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 }
 
 extension TrendingAndFollowingViewController: VideoCellDelegate {
-
+    func didTapOptions(with selected_postion: Int) {
+        current_video_cell.player.player?.pause()
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
+            guard self.videos.count > selected_postion else { return }
+            
+            SVProgressHUD.show()
+            
+            var headers: [String: Any]?
+            if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+                headers = ["Authorization": "Bearer \(token)"]
+            }
+            
+            let url = "https://www.boloindya.com/api/v2/report/items/?target=video"
+            
+            Alamofire.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+                .responseString  { [weak self] (responseData) in
+                    SVProgressHUD.dismiss()
+                    
+                    switch responseData.result {
+                    case.success(let data):
+                        if let json_data = data.data(using: .utf8) {
+                            do {
+                                let jsonObject = try JSONDecoder().decode(BIReportModel.self, from: json_data)
+                                
+                                let vc = BIReportViewController.loadFromNib()
+                                vc.delegate = self
+                                vc.model = jsonObject
+                                vc.video = self?.videos[selected_postion]
+                                vc.modalPresentationStyle = .overCurrentContext
+                                vc.modalTransitionStyle = .crossDissolve
+                                self?.present(vc, animated: true, completion: nil)
+                                
+                                self?.reportViewController = vc
+                                
+                                return
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    case.failure(let error):
+                        print(error)
+                    }
+                    
+                    self?.showToast(message: "Something went wrong. Please try again.")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+            self.current_video_cell.player.player?.play()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func didTapPlayer() {
+        onClickTransparentView()
+    }
 
     func renderComments(with selected_postion: Int) {
         if isLogin() {
@@ -979,13 +777,20 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                 current_video_cell.player.player?.pause()
                 current_video_cell.play_and_pause_image.image = UIImage(named: "play")
             }
-            progress_comment.isHidden = false
-            comment_tab.isHidden = false
-            comment_page = 0
-            comments.removeAll()
-            commentView.reloadData()
-            comment_title.text = ""
-            fetchComment()
+            
+            commentsView = BICommentView.fromNib()
+            let y = view.bounds.height - (self.tabBarController?.tabBar.bounds.height ?? 0) - 350
+            let frame = CGRect(x: 0, y: y, width: view.bounds.width, height: 350)
+            if videos.count > selected_position {
+                commentsView?.config(topic: videos[selected_position], originalFrame: frame, viewController: self, delegate: self, type: .trendingView)
+            }
+            self.view.addSubview(commentsView!)
+            
+            commentsView?.frame = CGRect(x: 0, y: view.bounds.height, width: view.bounds.width, height: 350)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve, animations: {
+                self.commentsView?.frame.origin.y = frame.origin.y
+                self.commentsView?.layoutIfNeeded()
+            }, completion: nil)
         }
     }
     
@@ -1037,16 +842,15 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                 }
             }
             present(activityController, animated: true)
-        } else if let url = URL(string: videoUrl) {
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-                
-                if error == nil,
-                   let response = response as? HTTPURLResponse,
-                   response.statusCode == 200,
-                   let data = data {
-                    
+        } else if !videoUrl.isEmpty {
+            SVProgressHUD.show(withStatus: "Downloading")
+            
+            Alamofire.request(videoUrl).downloadProgress(closure: { (progress) in
+                let fraction = progress.fractionCompleted
+                let percent = Int(fraction * 100)
+                SVProgressHUD.showProgress(Float(fraction), status: "Downloading... \(percent)%")
+            }).responseData{ (response) in
+                if let data = response.result.value {
                     do {
                         if isDownloadUrlAvailable {
                             let _ = try data.write(to: watermarkedUrl, options: Data.WritingOptions.atomic)
@@ -1110,7 +914,9 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                         SVProgressHUD.dismiss()
                     }
                 }
-            }).resume()
+            }
+        } else {
+            SVProgressHUD.dismiss()
         }
         
         let values = ["User Id": object.user.id,
@@ -1158,32 +964,99 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
 }
 
-extension TrendingAndFollowingViewController: CommentViewCellDelegate {
+extension TrendingAndFollowingViewController: BICommentViewDelegate {
+    func didTapCloseButton() {
+        onClickTransparentView()
+    }
     
-    func likedComment(with selected_postion: Int) {
-        guard comments.count > selected_postion,
-              let idInt = Int(comments[selected_postion].id)
+    func didTapSendButton(comment: String?, topic: Topic?) {
+        guard let text = comment,
+              let topic = topic
             else { return }
         
-        if self.comments[selected_postion].isLiked {
-            if let index = comment_like.firstIndex(of: idInt), comment_like.count > index {
-                comment_like.remove(at: index)
-            }
-        } else {
-            comment_like.append(idInt)
-        }
-        UserDefaults.standard.setLikeComment(value: comment_like)
-        self.commentLike(id: idInt)
+        let paramters: [String: Any] = [
+            "comment": text,
+            "topic_id": "\(topic.id)",
+            "language_id": "\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)",
+            "gify_details": "{}"
+        ]
         
-        commentView.reloadData()
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/reply_on_topic"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString { [weak self] (responseData) in
+                
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        do {
+                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            if let content = json_object?["comment"] as? [String:Any] {
+                                self?.commentsView?.comments.insert(getComment(each: content), at: 0)
+                                
+                                DispatchQueue.main.async {
+                                    self?.commentsView?.commentTable.removeMessage()
+                                    self?.commentsView?.commentTable.reloadData()
+                                    
+                                    if let cell = self?.trendingView.visibleCells.first as? VideoCell, let commentString = cell.comment_count.text, let comment = Int(commentString) {
+                                        cell.comment_count.text = "\(comment+1)"
+                                    }
+                                }
+                            }
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                case.failure(let error):
+                    print(error)
+                }
+        }
+        
+        hitEvent(eventName: EventName.videoCommented, object: videos[selected_position])
+    }
+    
+    func didTapLikeComment(isLike: Bool, comment: Comment, topic: Topic?) {
+        
+        if let idInt = Int(comment.id) {
+            if isLike {
+                comment_like.append(idInt)
+            } else {
+                if let index = comment_like.firstIndex(of: idInt), comment_like.count > index {
+                    comment_like.remove(at: index)
+                }
+            }
+            UserDefaults.standard.setLikeComment(value: comment_like)
+        }
+        
+        let paramters: [String: Any] = [
+            "comment_id": "\(comment.id)"
+        ]
+        
+        var headers: [String: Any]? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/like/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString  { (responseData) in
+                
+            }
     }
 }
 
 extension TrendingAndFollowingViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        comment_title.resignFirstResponder()
-        contrain.constant = -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)
         return true
     }
     
@@ -1191,4 +1064,60 @@ extension TrendingAndFollowingViewController : UITextFieldDelegate {
         return true
     }
     
+}
+
+extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
+    func didTapDismissButton() {
+        reportViewController?.dismiss(animated: true, completion: {
+            self.reportViewController = nil
+        })
+        current_video_cell.player.player?.play()
+    }
+    
+    func didTapSubmit(text: String, object: BIReportResult, video: Topic?) {
+        guard let videoId = video?.id else { return }
+        
+        SVProgressHUD.show()
+        
+        var headers: [String: Any]?
+        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+        
+        let paramters: [String: Any] = [
+            "report": "\(object.id)",
+            "description": text
+        ]
+        
+        let url = "https://www.boloindya.com/api/v2/video/\(videoId)/report/"
+        
+        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            .responseString { [weak self] (responseData) in
+                SVProgressHUD.dismiss()
+                
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        do {
+                            let _ = try
+                                JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                            
+                            self?.reportViewController?.dismiss(animated: true, completion: {
+                                self?.reportViewController = nil
+                            })
+                            self?.current_video_cell.player.player?.play()
+                            
+                            self?.showToast(message: "Video Reported Successfully")
+                            return
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+                
+                self?.showToast(message: "Something went wrong. Please try again.")
+            }
+    }
 }

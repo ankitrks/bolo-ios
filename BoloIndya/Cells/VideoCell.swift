@@ -9,6 +9,7 @@
 import UIKit
 
 protocol VideoCellDelegate {
+    func didTapOptions(with selected_postion: Int)
     func goToProfile(with selected_postion: Int)
     func goToSharing(with selected_postion: Int)
 
@@ -17,6 +18,8 @@ protocol VideoCellDelegate {
     func downloadAndShareVideoWhatsapp(with selected_postion: Int)
 
     func likedTopic(with selected_postion: Int)
+    
+    func didTapPlayer()
 }
 
 class VideoCell: UITableViewCell {
@@ -28,6 +31,8 @@ class VideoCell: UITableViewCell {
     var comment_count = UILabel()
     var share_count = UILabel()
     var whatsapp_share_count = UILabel()
+    
+    var optionButton = UIButton()
 
     var video_image =  UIImageView()
 
@@ -77,6 +82,7 @@ class VideoCell: UITableViewCell {
         addSubview(title)
         addSubview(username)
         addSubview(actions_stack)
+        addSubview(optionButton)
       //  play_click.frame.size = sizeFrame
 
         //        addSubview(play_and_pause_image)
@@ -144,6 +150,14 @@ class VideoCell: UITableViewCell {
         setShareImage()
         setWhatsappImage()
         clickPlayer()
+        
+        optionButton.translatesAutoresizingMaskIntoConstraints = false
+        optionButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        optionButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        optionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
+        optionButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -25).isActive = true
+        optionButton.setImage(UIImage(named: "more_vertical"), for: .normal)
+        optionButton.addTarget(self, action: #selector(didTapOptionButton), for: .touchUpInside)
 
         username.isUserInteractionEnabled = true
         user_image.isUserInteractionEnabled = true
@@ -197,6 +211,8 @@ class VideoCell: UITableViewCell {
             video_image.isHidden = true
             //play_and_pause_image.image = UIImage(named: "pause")
         }
+        
+        delegate?.didTapPlayer()
     }
 
     @objc func tapLike(_ sender: UITapGestureRecognizer) {
@@ -220,6 +236,10 @@ class VideoCell: UITableViewCell {
         }
         
         delegate?.likedTopic(with: selected_postion)
+    }
+    
+    @objc func didTapOptionButton() {
+        delegate?.didTapOptions(with: selected_postion)
     }
 
     required init?(coder: NSCoder) {

@@ -64,6 +64,7 @@ class UploadVideoDetailsViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         let screenSize = UIScreen.main.bounds.size
         
@@ -359,6 +360,10 @@ class UploadVideoDetailsViewController: UIViewController {
         }
     }
     
+    @objc internal func keyboardWillHide(_ notification: NSNotification?) {
+        contrain.constant = 10
+    }
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -632,6 +637,7 @@ class UploadVideoDetailsViewController: UIViewController {
         } else {
             categoryView.isHidden = true
         }
+        self.view.endEditing(true)
     }
     
     @IBAction func hideUnhideHashTag(_ sender: Any) {
