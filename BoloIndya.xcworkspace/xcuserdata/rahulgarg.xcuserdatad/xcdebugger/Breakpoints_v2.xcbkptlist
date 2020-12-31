@@ -64,7 +64,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "473"
                   endingLineNumber = "473"
-                  offsetFromSymbolStart = "1376">
+                  offsetFromSymbolStart = "1371">
                </Location>
                <Location
                   uuid = "656BCCFA-4E9A-4B1F-9C98-E2279CD682A9 - d38a2a1c5a0b5f71"
@@ -79,7 +79,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "474"
                   endingLineNumber = "474"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "8">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -208,7 +208,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "447"
                   endingLineNumber = "447"
-                  offsetFromSymbolStart = "2712">
+                  offsetFromSymbolStart = "3467">
                </Location>
                <Location
                   uuid = "9AFE4568-823E-43D6-B0E1-4F8F82FEE76A - ada66764dde09a70"
@@ -223,7 +223,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "448"
                   endingLineNumber = "448"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "8">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -257,22 +257,6 @@
             startingLineNumber = "172"
             endingLineNumber = "172"
             landmarkName = "followUser(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "72ACBB9D-C493-4FFD-BBBD-F3115C6D6425"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/SearchViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "529"
-            endingLineNumber = "529"
-            landmarkName = "fetchAllTypes()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

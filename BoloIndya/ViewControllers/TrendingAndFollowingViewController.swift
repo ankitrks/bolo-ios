@@ -512,16 +512,19 @@ class TrendingAndFollowingViewController: BaseVC {
         return .lightContent
     }
     
-    func playVideo(url:String) {
-        let videoUrl = NSURL(string: url)
-        if videoUrl != nil {
-            //  let playerItem = AVPlayerItem(url: videoUrl! as URL)
-            //cell.player!.replaceCurrentItem(with: cell.playerItem)
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.avPlayer = AVPlayer(url: videoUrl! as URL)
-
+    func playVideo(url: String) {
+        
+        guard let videoUrl = URL(string: url) else { return }
+        
+        let mimeType = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
+        let asset = AVURLAsset(url: videoUrl, options:["AVURLAssetOutOfBandMIMETypeKey": mimeType])
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.avPlayer = AVPlayer(playerItem: playerItem)
+            
             //avPlayer = AVPlayer(url: videoUrl! as URL)
-                self.avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+            self.avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
             if #available(iOS 10.0, *) {
                 self.avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
             } else {
@@ -531,12 +534,12 @@ class TrendingAndFollowingViewController: BaseVC {
                 self.current_video_cell.player.playerLayer.player = self.avPlayer
                 self.current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 // current_video_cell.backgroundColor = UIColVor.black.cgColor
-
+                
             }
-
+            
             self.avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
                 let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
-
+                
                 if self.current_video_cell != nil {
                     self.current_video_cell.playerSlider.value = Float(time)
                     self.current_video_cell.playerSlider.minimumValue = 0
@@ -545,8 +548,7 @@ class TrendingAndFollowingViewController: BaseVC {
                     self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
                 }
             })
-                self.topicSeen()
-            }
+            self.topicSeen()
         }
 
     }

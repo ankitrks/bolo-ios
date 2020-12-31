@@ -210,32 +210,37 @@ class VideoViewController: UIViewController {
     
     
     func playVideo() {
-        let object = videos[selected_position]
+        guard let videoUrl = URL(string: videos[selected_position].video_url) else { return }
         
-        let videoUrl = NSURL(string: object.video_url)
-        if videoUrl != nil {
-            avPlayer = AVPlayer(url: videoUrl! as URL)
-            avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
-            if #available(iOS 10.0, *) {
-                avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-            } else {
-                avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
-            }
-            if current_video_cell != nil {
-                current_video_cell.player.playerLayer.player = avPlayer
-            }
-            avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
-                let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
-                
-                if self.current_video_cell != nil {
-                    self.current_video_cell.playerSlider.value = Float(time)
-                    self.current_video_cell.playerSlider.minimumValue = 0
-                    self.current_video_cell.playerSlider.maximumValue = Float(CMTimeGetSeconds( (self.avPlayer.currentItem?.asset.duration)!))
-                    let durationTime = Int(time)
-                    self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
-                }
-            })
+        let mimeType = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
+        let asset = AVURLAsset(url: videoUrl, options:["AVURLAssetOutOfBandMIMETypeKey": mimeType])
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        avPlayer = AVPlayer(playerItem: playerItem)
+        avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+        
+        if #available(iOS 10.0, *) {
+            avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+        } else {
+            avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
         }
+        
+        if current_video_cell != nil {
+            current_video_cell.player.playerLayer.player = avPlayer
+        }
+        
+        avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
+            let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
+            
+            if self.current_video_cell != nil {
+                self.current_video_cell.playerSlider.value = Float(time)
+                self.current_video_cell.playerSlider.minimumValue = 0
+                self.current_video_cell.playerSlider.maximumValue = Float(CMTimeGetSeconds( (self.avPlayer.currentItem?.asset.duration)!))
+                let durationTime = Int(time)
+                self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
+            }
+        })
+        
         topicSeen()
     }
     

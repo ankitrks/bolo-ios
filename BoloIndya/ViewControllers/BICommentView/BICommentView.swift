@@ -50,6 +50,11 @@ final class BICommentView: UIView {
         didSet {
             commentTextfield.attributedPlaceholder = NSAttributedString(string: "Add a comment..",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
             
+            if #available(iOS 11.0, *) {
+                commentTextfield.textContentType = .username
+            } else {
+                // Fallback on earlier versions
+            }
             commentTextfield.delegate = self
         }
     }
