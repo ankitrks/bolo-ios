@@ -65,6 +65,8 @@
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To Save Photos and Videos</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Play using while you are recording</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

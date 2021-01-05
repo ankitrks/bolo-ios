@@ -1,0 +1,74 @@
+warp_mesh = "morph.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+draw_order = ['retouch', '!glfx_WARP_IMAGE', 'morph_mat', 'mat_WhiteGlasses', 'mat_nose', 'mat_BearEar']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+selection_tex="REDMASK_v3_256.png"
+lookupTexTeeth="teeth_middle.png"
+lookupTexEyes="eyes_middle.png"
+tex_softLight="white_soft.png"
+tex_normalMakeup="white_makeup.png"
+
+# Cut
+[materials.morph_mat]
+vs = "morph_mat.vert"
+fs = "morph_mat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# PBR
+[materials.mat_WhiteGlasses]
+vs = "mat_whiteglasses.vert"
+fs = "mat_whiteglasses.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.mat_WhiteGlasses.samplers]
+tex_diffuse="WhiteGlasses_Base_Color.ktx"
+tex_normal="WhiteGlasses_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="WhiteGlasses_MRAO.ktx"
+
+# PBR
+[materials.mat_nose]
+vs = "billboard.vert"
+fs = "sprite.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.mat_nose.samplers]
+tex_diffuse="white_nose.png"
+
+# PBR
+[materials.mat_BearEar]
+vs = "billboard.vert"
+fs = "video_a.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+samplers = {}

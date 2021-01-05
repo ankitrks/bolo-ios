@@ -174,7 +174,7 @@ class CategoryViewController: BaseVC {
             let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
             
             
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -294,7 +294,7 @@ class CategoryViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/get_category_detail_with_views/"
         
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -383,7 +383,7 @@ class CategoryViewController: BaseVC {
         
         print(url)
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

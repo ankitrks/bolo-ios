@@ -1,0 +1,19 @@
+{
+    "name": "FemaleNightMask2",
+    "effectVersionInfo": {
+        "commit": "2cd488e6535bb2e1d6188e0cb5bc1c99230dc478",
+        "date": "2019-11-05",
+        "time": "14:40:15",
+        "author": "v.makarevich"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "6c4f87b75f214de1559d54e5d957aef08adb08ac",
+        "date": "2020-03-12",
+        "time": "18:06:58",
+        "author": "Aleksey Cherkes"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 1
+    }
+}

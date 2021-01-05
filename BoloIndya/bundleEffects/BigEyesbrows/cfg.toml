@@ -1,0 +1,60 @@
+warp_mesh = "BigEyesbrows.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 500
+adjust_zfar = 1500
+draw_order = ['retouch', '!glfx_WARP_IMAGE', 'facemat', 'Brows2','plane_2']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+lookupTexTeeth="lut3d_TEETH_medium.png"
+lookupTexEyes="lut3d_EYES_medium.png"
+tex_softLight="soft_princess.png"
+tex_highlight="FLARE_40_768.png"
+
+# Cut
+[materials.facemat]
+vs = "facemat.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# PBR
+[materials.Brows2]
+vs = "brows2.vert"
+fs = "brows2.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.Brows2.samplers]
+tex_diffuse=0
+tex_normal="Brows2_Normal.png"
+tex_metallic="Brows2_Metallic.png"
+tex_roughness="Brows2_Roughness.png"
+
+[materials.plane_2]
+vs = "plane2.vert"
+fs = "video2.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = true
+colorwrite = true
+zwrite = false
+ztest = false
+shadow = false
+samplers = {}

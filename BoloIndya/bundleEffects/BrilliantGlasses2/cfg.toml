@@ -1,0 +1,164 @@
+warp_mesh = "BeautyFaceSP_Optimased.bsm2"
+adjust_znear = 0
+draw_order = ['retouch','!glfx_WARP_IMAGE','dummy', 'GlassDiamond', 'GlassDiamond_', '!glfx_UPDATE_BG', '!glfx_WARP_IMAGE', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+# draw_order = ['retouch','!glfx_WARP_IMAGE','dummy', 'GlassDiamond', 'GlassDiamond_', '!glfx_UPDATE_BG','2']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+lookupTexTeeth="lut3d_TEETH_medium.png"
+lookupTexEyes="lut3d_EYES_medium.png"
+tex_softLight="SOFT_princess_256.png"
+tex_normalMakeup="makeup.png"
+tex_highlight="FLARE_40_768.png"
+
+[materials.dummy]
+vs = "dummy.vert"
+fs = "dummy.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = true
+colorwrite = true
+zwrite = false
+[materials.dummy.samplers]
+
+# PBR
+[materials.GlassDiamond]
+vs = "glassdiamond.vert"
+fs = "glassdiamond.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = true
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.GlassDiamond.samplers]
+tex_diffuse="GlassDiamond_Base_Color.ktx"
+tex_normal="GlassDiamond_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="GlassDiamond_MRAO.ktx"
+
+# PBR
+[materials.GlassDiamond_]
+vs = "glassdiamond.vert"
+fs = "glassdiamond.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.GlassDiamond_.samplers]
+tex_diffuse="GlassDiamond_Base_Color.ktx"
+tex_normal="GlassDiamond_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="GlassDiamond_MRAO.ktx"
+
+[materials."1"]
+vs = "tile1.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."1".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."2"]
+vs = "tile2.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."2".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."3"]
+vs = "tile3.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."3".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."4"]
+vs = "tile4.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."4".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."5"]
+vs = "tile5.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."5".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."6"]
+vs = "tile6.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."6".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."7"]
+vs = "tile7.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."7".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."8"]
+vs = "tile8.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."8".samplers]
+lut="lut.png"
+opacity="opacity.png"
+
+[materials."9"]
+vs = "tile9.vert"
+fs = "tile.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = false
+[materials."9".samplers]
+lut="lut.png"
+opacity="opacity.png"

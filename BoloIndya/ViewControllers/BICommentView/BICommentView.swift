@@ -102,7 +102,7 @@ final class BICommentView: UIView {
         }
         
         let url = "https://www.boloindya.com/api/v1/topics/ddwd/\(topic.id)/comments/?limit=15&offset=\(page*15)"
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {

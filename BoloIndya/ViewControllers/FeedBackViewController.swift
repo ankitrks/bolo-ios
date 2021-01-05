@@ -210,7 +210,7 @@ class FeedBackViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/submit_user_feedback/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 self.loader.isHidden = true
                 self.loader.stopAnimating()

@@ -136,6 +136,29 @@ typedef NS_ENUM(NSInteger, WEGLocationAccuracy){
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions notificationDelegate:(id<WEGInAppNotificationProtocol>)notificationDelegate autoRegister:(BOOL)apnRegister;
 
+/**
+ *  Initialize the SDK with the given License code. App can access user or analytics after calling this method. This must be called from application delegate's application:didFinishLaunchingWithOptions: method (hence the same selector name) and preferably as the last statement of implementation.
+ *
+ *  @param application   The instance of application received in UIApplicationDelegate's callback.
+ *  @param launchOptions The launchOptions dictionary received in UIApplicationDelegate's callback.
+ *  @param licenseCode The license code for your WebEngage account, that you can copy from the WebEngage dashboard.
+ *
+ *  @return YES if the initialization was successful and SDK is ready to use. NO otherwise
+ */
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions setLicenseCode:(NSString *)licenseCode;
+
+/**
+ *  Initialize the SDK with the given License code. App can access user or analytics after calling this method. This must be called from application delegate's application:didFinishLaunchingWithOptions: method (hence the same selector name) and preferably as the last statement of implementation.
+ *
+ *  @param application   The instance of application received in UIApplicationDelegate's callback.
+ *  @param launchOptions The launchOptions dictionary received in UIApplicationDelegate's callback.
+ *  @param notificationDelegate A reference to an implementation of WEGInAppNotificationProtocol. @warning SDK keeps only a week reference to notificationDelegate, its application's responsibility to maintain the ownership of this class and keep it in memory.
+ *  @param apnRegister          If SDK should register for Push Notifications automatically after setup is complete, pass NO if app wants to perform registration on its own, for Eg. after showing some UI to the user.
+ *  @param licenseCode The license code for your WebEngage account, that you can copy from the WebEngage dashboard.
+ *
+ *  @return YES if the initialization was successful and SDK is ready to use. NO otherwise
+ */
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions notificationDelegate:(id<WEGInAppNotificationProtocol>)notificationDelegate autoRegister:(BOOL)apnRegister setLicenseCode:(NSString *)licenseCode;
 
 /**
  *  Enable or disable user location tracking in WebEngage SDK.

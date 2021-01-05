@@ -250,7 +250,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_follow_post/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(following_page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -308,12 +308,11 @@ class TrendingAndFollowingViewController: BaseVC {
         
         isLoading = true
         
-        var headers: [String: String]? = nil
+        var headers: HTTPHeaders? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
-                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
-            print("Auth token \("Bearer \( UserDefaults.standard.getAuthToken() ?? "")")")
+                "Authorization": "Bearer \(UserDefaults.standard.getAuthToken() ?? "")"]
         }
         print("Auth token \(headers ?? ["":""])")
 
@@ -330,7 +329,7 @@ class TrendingAndFollowingViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)\(vb_score)\(lasttime)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
         print("url \(url)")
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers )
+        AF.request(url, method: .get, parameters: nil, headers: headers, interceptor: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -412,7 +411,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_user_follow_and_like_list/"
         
-        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
+        AF.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -460,7 +459,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
 
         
-        Alamofire.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 print(responseData)
         }
@@ -483,7 +482,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }
@@ -502,7 +501,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }
@@ -730,7 +729,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             
             let url = "https://www.boloindya.com/api/v2/report/items/?target=video"
             
-            Alamofire.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -847,12 +846,15 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
         } else if !videoUrl.isEmpty {
             SVProgressHUD.show(withStatus: "Downloading")
             
-            Alamofire.request(videoUrl).downloadProgress(closure: { (progress) in
+            AF.request(videoUrl).downloadProgress(closure: { (progress) in
                 let fraction = progress.fractionCompleted
                 let percent = Int(fraction * 100)
                 SVProgressHUD.showProgress(Float(fraction), status: "Downloading... \(percent)%")
             }).responseData{ (response) in
-                if let data = response.result.value {
+                let result = response.result
+                
+                switch result {
+                case .success(let data):
                     do {
                         if isDownloadUrlAvailable {
                             let _ = try data.write(to: watermarkedUrl, options: Data.WritingOptions.atomic)
@@ -911,7 +913,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                             SVProgressHUD.dismiss()
                         }
                     }
-                } else {
+                case .failure(let error):
                     DispatchQueue.main.async {
                         SVProgressHUD.dismiss()
                     }
@@ -991,7 +993,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/reply_on_topic"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {
@@ -1049,7 +1051,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
             }
@@ -1093,7 +1095,7 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
         
         let url = "https://www.boloindya.com/api/v2/video/\(videoId)/report/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 SVProgressHUD.dismiss()
                 

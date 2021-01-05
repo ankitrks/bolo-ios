@@ -13,21 +13,21 @@ class MainViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delegate = self
+    }
+}
 
-//        var uu = UserDefaults.standard.getProfilePic()
-//        let pic_url:URL? = URL(string: UserDefaults.standard.getProfilePic() ?? "")
-//        if pic_url != nil  {
-//            ImageDownloader.default.downloadImage(with: pic_url!, options: [], progressBlock: nil) {
-//                    (image, error, url, data) in
-//              //  self.tabBarController?.tabBar.items?[3].image = image
-//                self.tabBar.items?[3].image = UIImage(na)
-//                }
-//            //var image = UIImageView().kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
+extension MainViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//        if tabBarController.selectedIndex == 2 {
+//            let vc = BIVideoEditorViewController.loadFromNib()
+//            vc.modalPresentationStyle = .fullScreen
+//            (viewControllers?.first as? UINavigationController)?.viewControllers.first?.present(vc, animated: true, completion: nil)
 //
-//
-//
+//            return false
 //        }
-
-
+        
+        return true
     }
 }

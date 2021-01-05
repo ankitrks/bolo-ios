@@ -1,0 +1,24 @@
+{
+  "name": "PinkGlasses",
+  "frx": {
+    "type": "3d_anim",
+    "3d_anim": {
+      "type": "vfx"
+    }
+  },
+  "foreground": {
+    "type": "MEDIA",
+    "media": {
+      "type": "VIDEO",
+      "file": "pink.mp4",
+      "opacity": 1.0,
+      "videoSpeed": 1.0,
+      "blend": "SCREEN",
+      "mode": "RGB"
+    }
+  },
+  "sounds" : [
+                  { "trackName" : "music_L_Ch.ogg" }
+                  ],  
+  "recordDuration": 15
+}

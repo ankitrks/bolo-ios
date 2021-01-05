@@ -374,7 +374,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(user.id)&page=\(page)"
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -432,7 +432,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_userprofile/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -523,7 +523,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/follow_user/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 self.isFollowingUser = false
         }
@@ -590,7 +590,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/report/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 DispatchQueue.main.async {
                    SVProgressHUD.dismiss()

@@ -1,0 +1,31 @@
+{
+  "name": "1001NightsUpd",
+  "recordDuration": 15,
+  "sounds": [
+    {
+      "trackName": "1001Night_music_L_Channel.ogg",
+      "volume": 1.0,
+      "type": "background"
+    }
+  ],
+  "frx": {
+    "type": "3d_anim",
+    "3d_anim": {
+      "type": "vfx"
+    }
+  },
+  "final" : {
+      "type" : "FILTER",
+
+      "filter" : {
+        "fragmentCode" : "finalColorFilter.fsh",
+        "textures" : [{
+          "file" : "sunny.png",
+          "sampler" : "lookupTexture",
+          "magFilter" : "LINEAR",
+          "minFilter" : "LINEAR"
+        }] 
+      }
+    },
+  "rotation_vector": true
+}

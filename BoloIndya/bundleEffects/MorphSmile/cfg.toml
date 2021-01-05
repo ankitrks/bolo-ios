@@ -1,0 +1,15 @@
+warp_mesh = "smile.bsm2"
+
+draw_order = ["retouch"]
+
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+samplers = { selection_tex="redmasksuperpuperbest.png", lookupTexTeeth="teeth_highlighter5.png", lookupTexEyes="lut_80_percent.png"}

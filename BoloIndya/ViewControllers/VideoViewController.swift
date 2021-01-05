@@ -118,7 +118,7 @@ class VideoViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/notification_topic/?topic_id=\(topic_id)"
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -182,7 +182,7 @@ class VideoViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/vb_seen/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }
@@ -202,7 +202,7 @@ class VideoViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }
@@ -415,7 +415,7 @@ extension VideoViewController: VideoCellDelegate {
             
             let url = "https://www.boloindya.com/api/v2/report/items/?target=video"
             
-            Alamofire.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -524,12 +524,14 @@ extension VideoViewController: VideoCellDelegate {
         } else if !videoUrl.isEmpty {
             SVProgressHUD.show(withStatus: "Downloading")
             
-            Alamofire.request(videoUrl).downloadProgress(closure: { (progress) in
+            AF.request(videoUrl).downloadProgress(closure: { (progress) in
                 let fraction = progress.fractionCompleted
                 let percent = Int(fraction * 100)
                 SVProgressHUD.showProgress(Float(fraction), status: "Downloading... \(percent)%")
             }).responseData{ (response) in
-                if let data = response.result.value {
+                let result = response.result
+                switch result {
+                case .success(let data):
                     do {
                         if isDownloadUrlAvailable {
                             let _ = try data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
@@ -626,7 +628,7 @@ extension VideoViewController: VideoCellDelegate {
                             SVProgressHUD.dismiss()
                         }
                     }
-                } else {
+                case .failure(let error):
                     DispatchQueue.main.async {
                         SVProgressHUD.dismiss()
                     }
@@ -719,7 +721,7 @@ extension VideoViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/reply_on_topic"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {
@@ -776,7 +778,7 @@ extension VideoViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
             }
@@ -818,7 +820,7 @@ extension VideoViewController: BIReportViewControllerDelegate {
         
         let url = "https://www.boloindya.com/api/v2/video/\(videoId)/report/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 SVProgressHUD.dismiss()
                 

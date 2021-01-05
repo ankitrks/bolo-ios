@@ -71,7 +71,7 @@ class TermsPagesViewController: UIViewController {
         termView.topAnchor.constraint(equalTo: upper_tab.bottomAnchor, constant: 0).isActive = true
         termView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
-        Alamofire.request("https://www.boloindya.com/get-html-content-app/?name=\(current_page)", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request("https://www.boloindya.com/get-html-content-app/?name=\(current_page)", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
                    .responseString  { (responseData) in
                        switch responseData.result {
                        case.success(let data):

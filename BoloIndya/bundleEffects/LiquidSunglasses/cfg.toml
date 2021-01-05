@@ -1,0 +1,67 @@
+warp_mesh = "BeautyFaceSP_Optimased.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+draw_order = ['retouch', '!glfx_WARP_IMAGE', 'facemat', '!glfx_UPDATE_BG' ,'TriMa1', 'metal', 'glasses']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+lookupTexTeeth="lut3d_TEETH_medium.png"
+tex_softLight="SOFT_princess_256.png"
+
+# Cut
+[materials.facemat]
+vs = "facemat.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# PBR
+[materials.metal]
+vs = "metal.vert"
+fs = "metal.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.metal.samplers]
+tex_diffuse="glasses_Base_Color.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="glasses_MRAO.ktx"
+
+# PBR
+[materials.glasses]
+vs = "metal.vert"
+fs = "video_a.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = true
+colorwrite = true
+zwrite = false
+shadow = false
+samplers = {}
+
+[materials.TriMa1]
+vs = "fstri.vert"
+fs = "lut.frag"
+blend = "alpha"
+backfaces = false
+shadow = false
+zwrite = false
+samplers = {luttex=0}

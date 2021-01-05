@@ -1,0 +1,19 @@
+{
+    "name": "WhiteBear",
+    "effectVersionInfo": {
+        "commit": "3d2db7b693a4f983b3d0963db65dd26129d561fd",
+        "date": "2018-12-07",
+        "time": "14:51:41",
+        "author": "v.makarevich"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "c3bb602d861a814f189273ada45b297172091b9a",
+        "date": "2018-12-07",
+        "time": "14:18:20",
+        "author": "Antony"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 0
+    }
+}

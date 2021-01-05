@@ -1,0 +1,37 @@
+{
+  "name": "TrollGrandma",
+  "frx": {
+    "type": "3d_anim",
+    "3d_anim": {
+      "type": "vfx"
+    }
+  },
+  "final" : {
+      "type" : "FILTER",
+
+      "filter" : {
+        "fragmentCode" : "finalColorFilter.fsh",
+        "textures" : [{
+          "file" : "LUT_bubblegum_bright.png",
+          "sampler" : "lookupTexture",
+          "magFilter" : "LINEAR",
+          "minFilter" : "LINEAR"
+      }] 
+   }
+  },
+  "sounds" : [
+                 {
+                 "type" : "background",
+                 "trackName" : "music.m4a",
+                 "volume" : 0.1 }
+                 ],
+
+  "voiceChanger": {
+    "audioFilters": [{
+      "pitch": {
+        "pitchShift": 700
+      }
+    }]
+  },
+  "recordDuration": 15
+}

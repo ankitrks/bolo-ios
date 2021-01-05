@@ -410,7 +410,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         
         let url = "https://www.boloindya.com/api/v1/get_userprofile/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -489,7 +489,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -581,7 +581,7 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)&page=\(page)"
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -638,58 +638,31 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
             SVProgressHUD.show(withStatus:  "Uploding..")
         }
         
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
-        }, to: "https://www.boloindya.com/api/v1/upload_cover_pic/", headers: headers) {
-            (result) in
-            switch result {
-            case .success( let upload, _, _):
-                
-                upload.responseString  { (responseData) in
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    switch responseData.result {
-                    case.success(let data):
-                        if let json_data = data.data(using: .utf8) {
-                            do {
-                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                    if !(json_object["body"] as? String ?? "").isEmpty {
-                                        //self.thumnail_url_upload = json_object["body"] as! String
-                                        //self.create_topic()
-                                        var url:String = json_object["body"] as! String
-                                        print(url)
-                                        self.profileUpdate(cover: url ?? "")
-                                    } else {
-                                        print("")
-                                        // self.thumnail_url_upload = ""
-                                        // self.create_topic()
-                                    }
-                                }
-                                
-                            }
-                            catch {
-                                // self.thumnail_url_upload = ""
-                                //  self.create_topic()
-                                print(error.localizedDescription)
-                            }
+        }, to: "https://www.boloindya.com/api/v1/upload_cover_pic/", method: .post, headers: headers)
+        .responseJSON(completionHandler: { response in
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
+            }
+            if let json_data = response.data {
+                do {
+                    if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                        if !(json_object["body"] as? String ?? "").isEmpty {
+                            let url = json_object["body"] as! String
+                            self.profileUpdate(cover: url)
                         }
-                    case.failure(let error):
-                        //self.thumnail_url_upload = ""
-                        // self.create_topic()
-                        print(error)
                     }
+                    
+                } catch {
+                    print(error.localizedDescription)
                 }
-                
-            case .failure(let encodingError):
+            } else {
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                 }
-                // self.thumnail_url_upload = ""
-                //  self.create_topic()
-                print(encodingError)
             }
-        }
+        })
     }
     
     func resetApp() {
@@ -880,4 +853,3 @@ extension CurrentUserViewController: UICollectionViewDelegate, UICollectionViewD
         }
     }
 }
-

@@ -353,7 +353,7 @@ class SearchViewController: BaseVC {
             startLoader()
         }
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -413,7 +413,7 @@ class SearchViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/solr/search/hash_tag?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&page=\(hash_page)"
         
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -482,7 +482,7 @@ class SearchViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/solr/search/?term=\(search_text.replacingOccurrences(of: " ", with: "+").replacingOccurrences(of: "#", with: "%23"))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(videos_page)"
         print(url)
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -535,7 +535,7 @@ class SearchViewController: BaseVC {
         
         startLoader()
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -636,7 +636,7 @@ class SearchViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/follow_user/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }

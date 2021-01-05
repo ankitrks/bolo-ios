@@ -697,10 +697,10 @@
             </objects>
             <point key="canvasLocation" x="438" y="1809"/>
         </scene>
-        <!--Create Video View Controller-->
+        <!--Video Editor View Controller-->
         <scene sceneID="VIN-5l-HrF">
             <objects>
-                <viewController restorationIdentifier="CreateVideoViewController" storyboardIdentifier="CreateVideoViewController" id="qYv-fu-rie" customClass="CreateVideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="BIVideoEditorViewController" storyboardIdentifier="BIVideoEditorViewController" id="qYv-fu-rie" customClass="BIVideoEditorViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Zq-Y1-oo9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -719,10 +719,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fqs-FO-mCm"/>
+        <segue reference="W1O-hl-136"/>
         <segue reference="Qsa-8y-QQO"/>
         <segue reference="8mZ-Aq-txe"/>
-        <segue reference="qqs-qN-J1N"/>
+        <segue reference="mIq-dh-fyv"/>
         <segue reference="x1b-Ln-B5m"/>
         <segue reference="kAZ-Gh-86o"/>
         <segue reference="6mq-G6-e0g"/>

@@ -1,0 +1,37 @@
+{
+  "name": "TrollGrandson",
+  "frx": {
+    "type": "3d_anim",
+    "3d_anim": {
+      "type": "vfx"
+    }
+  },
+  "final" : {
+      "type" : "FILTER",
+
+      "filter" : {
+        "fragmentCode" : "finalColorFilter.fsh",
+        "textures" : [{
+          "file" : "sunny.png",
+          "sampler" : "lookupTexture",
+          "magFilter" : "LINEAR",
+          "minFilter" : "LINEAR"
+      }] 
+   }
+  },
+  "sounds" : [
+                 {
+                 "type" : "background",
+                 "trackName" : "music.ogg",
+                 "volume" : 0.1 }
+                 ],
+
+  "voiceChanger": {
+    "audioFilters": [{
+      "pitch": {
+        "pitchShift": 800
+      }
+    }]
+  },
+  "recordDuration": 15
+}

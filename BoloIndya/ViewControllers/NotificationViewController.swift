@@ -97,7 +97,7 @@ final class NotificationViewController: BaseVC {
         let headers: [String: Any] = [
             "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
         
-        Alamofire.request("https://www.boloindya.com/api/v1/notification/get", method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request("https://www.boloindya.com/api/v1/notification/get", method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString { [weak self] (responseData) in
                 
                 self?.isLoading = false

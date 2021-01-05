@@ -136,7 +136,7 @@ class FollowingFollowerViewController: BaseVC {
             url = "https://www.boloindya.com/api/v1/get_follower_list/?user_id=\(user_id)&offset=\(page*15)"
         }
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -194,7 +194,7 @@ class FollowingFollowerViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/follow_user/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
         }

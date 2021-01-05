@@ -148,61 +148,36 @@ class UserProfileEditVC: UIViewController {
         DispatchQueue.main.async {
             SVProgressHUD.show(withStatus:  "Uploding..")
         }
-
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        
+        AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(imageData!, withName: "file", fileName: file_name, mimeType: "image/jpg")
-        }, to: "https://www.boloindya.com/api/v1/upload_profile_image", headers: headers) {
-            (result) in
-            switch result {
-            case .success( let upload, _, _):
+        }, to: "https://www.boloindya.com/api/v1/upload_profile_image", method: .post, headers: headers)
+        .responseJSON(completionHandler: { response in
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
+            }
+            if let json_data = response.data {
+                do {
+                    if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                        if !(json_object["body"] as? String ?? "").isEmpty {
 
-                upload.responseString  { (responseData) in
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    switch responseData.result {
-                    case.success(let data):
-                        if let json_data = data.data(using: .utf8) {
-                            do {
-                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                    if !(json_object["body"] as? String ?? "").isEmpty {
-
-                                        print(json_object["body"] as! String)
-                                        self.profileUpdate(imageUrl: json_object["body"] as? String)
-                                        
-                                        UserDefaults.standard.setProfilePic(value: json_object["body"] as? String)
-                                        
-                                        self.initTabBarProfileImage()
-                                    } else {
-                                        print("")
-                                        // self.thumnail_url_upload = ""
-                                        // self.create_topic()
-                                    }
-                                }
-
-                            }
-                            catch {
-                                // self.thumnail_url_upload = ""
-                                //  self.create_topic()
-                                print(error.localizedDescription)
-                            }
+                            print(json_object["body"] as! String)
+                            self.profileUpdate(imageUrl: json_object["body"] as? String)
+                            
+                            UserDefaults.standard.setProfilePic(value: json_object["body"] as? String)
+                            
+                            self.initTabBarProfileImage()
                         }
-                    case.failure(let error):
-                        //self.thumnail_url_upload = ""
-                        // self.create_topic()
-                        print(error)
                     }
+                } catch {
+                    print(error.localizedDescription)
                 }
-
-            case .failure(let encodingError):
+            } else {
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                 }
-                // self.thumnail_url_upload = ""
-                //  self.create_topic()
-                print(encodingError)
             }
-        }
+        })
     }
 
 
@@ -241,7 +216,7 @@ class UserProfileEditVC: UIViewController {
 
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
 
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()

@@ -1,0 +1,19 @@
+{
+    "name": "AsaiButterflies",
+    "effectVersionInfo": {
+        "commit": "2d3297ed151c288eae8fba987db3b19306376e63",
+        "date": "2019-02-12",
+        "time": "10:52:21",
+        "author": "v.makarevich"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "6c4f87b75f214de1559d54e5d957aef08adb08ac",
+        "date": "2020-03-12",
+        "time": "18:06:58",
+        "author": "Aleksey Cherkes"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 1
+    }
+}

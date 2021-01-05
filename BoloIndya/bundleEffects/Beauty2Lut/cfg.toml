@@ -1,0 +1,120 @@
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+# draw_order = ["TriMa2"]
+draw_order = ["!glfx_WARP_IMAGE", "retouch", "!glfx_UPDATE_BG", "TriMa2", "cut_1", "cut_2", "Rayban_glasses", "Rayban_2_glasses", "!glfx_UPDATE_BG", "TriMa3"]
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = false
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+lookupTexTeeth="lut3d_TEETH_medium.png"
+lookupTexEyes="lut3d_EYES_medium.png"
+tex_softLight="SOFT_princess_256.png"
+tex_highlight="FLARE_40_768.png"
+
+[materials.TriMat]
+vs = "fstri.vert"
+fs = "lut.frag"
+blend = "off"
+backfaces = true
+shadow = false
+zwrite = false
+samplers = {luttex=0}
+
+[materials.TriMa2]
+vs = "bgMask.vert"
+fs = "bgMask.frag"
+blend = "off"
+backfaces = true
+shadow = false
+zwrite = false
+samplers = {bgMask="screen_mask.png"}
+
+[materials.TriMa3]
+vs = "swipe.vert"
+fs = "swipe.frag"
+blend = "off"
+backfaces = true
+shadow = false
+zwrite = false
+samplers = {lut1="BWLUT.png", lut2="sunny.png"}
+
+# Cut
+[materials.facemat]
+vs = "facemat.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# PBR
+[materials.Rayban_2_glasses]
+vs = "rayban_2_glasses.vert"
+fs = "rayban_2_glasses.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.Rayban_2_glasses.samplers]
+tex_diffuse="Rayban_2_glasses_BaseColor.png"
+tex_normal="Rayban_glasses_Normal.png"
+tex_metallic="Rayban_2_glasses_Metallic.png"
+tex_roughness="Rayban_2_glasses_Roughness.png"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+bgMask="screen_mask.png"
+
+# PBR
+[materials.Rayban_glasses]
+vs = "rayban_glasses.vert"
+fs = "rayban_glasses.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.Rayban_glasses.samplers]
+tex_diffuse="Rayban_glasses_BaseColor.png"
+tex_normal="Rayban_glasses_Normal.png"
+tex_metallic="Rayban_glasses_Metallic.png"
+tex_roughness="Rayban_glasses_Roughness.png"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+bgMask="screen_mask.png"
+
+# Cut
+[materials.cut_1]
+vs = "facemat_1.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# Cut
+[materials.cut_2]
+vs = "facemat_2.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}

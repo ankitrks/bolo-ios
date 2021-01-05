@@ -1,0 +1,19 @@
+{
+    "name": "LiquidSunglasses2",
+    "effectVersionInfo": {
+        "commit": "a852474d0d0bee12581c8cc4f9e5ce1381253855",
+        "date": "2019-07-26",
+        "time": "14:53:02",
+        "author": "Yulya Pavlovets"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "6c4f87b75f214de1559d54e5d957aef08adb08ac",
+        "date": "2020-03-12",
+        "time": "18:06:58",
+        "author": "Aleksey Cherkes"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 1
+    }
+}

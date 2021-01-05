@@ -7,11 +7,11 @@
 //
 
 import UIKit
-
 import Firebase
 import GoogleSignIn
 import Alamofire
 import Branch
+
 class LoginAndSignUpViewController: BaseVC {
 
     @IBOutlet weak var signInWithGoogle: UIButton!
@@ -47,7 +47,7 @@ class LoginAndSignUpViewController: BaseVC {
             "mobile_no": "+91\(mobile_no.text.unsafelyUnwrapped)"
         ]
         
-        Alamofire.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

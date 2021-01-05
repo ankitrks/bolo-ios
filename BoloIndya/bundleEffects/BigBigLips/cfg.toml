@@ -1,0 +1,56 @@
+warp_mesh = "face.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+draw_order = ['retouch', '!glfx_UPDATE_BG', 'android_fix_mat', '!glfx_WARP_IMAGE','fix_mat2', '!glfx_UPDATE_BG','mount']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+selection_tex="REDMASK_v3_256.png"
+lookupTexTeeth="teeth_highlighter5.png"
+lookupTexEyes="lut_80_percent.png"
+tex_softLight="soft_princess_256.png"
+
+# PBR
+[materials.mount]
+vs = "mount.vert"
+fs = "bg_tex.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.mount.samplers]
+tex = "mount_mask.png"
+
+[materials.android_fix_mat]
+vs = "mount.vert"
+fs = "bg_tex.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.android_fix_mat.samplers]
+tex = "mount_mask.png"
+
+[materials.fix_mat2]
+vs = "mount.vert"
+fs = "bg_tex.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.fix_mat2.samplers]
+tex = "mount_mask.png"

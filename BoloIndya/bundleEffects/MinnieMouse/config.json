@@ -1,0 +1,25 @@
+{
+  "name": "MinnieMouse",
+  "frx": {
+    "type" : "3d_anim",
+    "3d_anim" : {
+      "type" : "vfx"
+    } 
+  },
+  "final": {
+    "type": "FILTER",
+    "filter": {
+      "fragmentCode": "finalColorFilter.fsh",
+      "textures": [{
+        "file": "heart.png",
+        "sampler": "lookupTexture",
+        "magFilter": "LINEAR",
+        "minFilter": "LINEAR"
+      }]
+    }
+  },
+   "sounds" : [
+                  { "trackName" : "minniemouse_L_Channel1.ogg" }
+                  ],
+  "recordDuration" : 10
+}

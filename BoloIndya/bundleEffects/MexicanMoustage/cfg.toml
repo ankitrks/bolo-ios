@@ -1,0 +1,85 @@
+warp_mesh = "morph.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+adjust_zfar = 100
+draw_order = ['retouch', '!glfx_WARP_IMAGE', '!glfx_FACE_MOUTH_Z', 'cut', 'sombrero', 'checker', 'spheres']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+selection_tex="REDMASK_v3_256.png"
+lookupTexTeeth="TEETH_medium.png"
+lookupTexEyes="EYES_medium.png"
+tex_softLight="SOFT_princess_256.png"
+tex_normalMakeup="shadow_Base_Color.ktx"
+tex_highlight="FLARE_38_768.png"
+
+[materials.cut]
+vs = "cut.vert"
+fs = "cut.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = true
+[materials.cut.samplers]
+
+# PBR
+[materials.sombrero]
+vs = "sombrero.vert"
+fs = "sombrero.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = true
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.sombrero.samplers]
+tex_diffuse="mexican_Base_Color.ktx"
+tex_normal="mexican_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="mexican_MRAO.ktx"
+
+# PBR
+[materials.checker]
+vs = "checker.vert"
+fs = "checker.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.checker.samplers]
+tex_diffuse="moustage_Base_Color.ktx"
+tex_normal="moustage_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="moustage_MRAO.ktx"
+
+[materials.spheres]
+vs = "vertex.vert"
+fs = "sombrero.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.spheres.samplers]
+tex_diffuse="mexican_Base_Color.ktx"
+tex_normal="mexican_Normal.ktx"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_mrao="mexican_MRAO.ktx"

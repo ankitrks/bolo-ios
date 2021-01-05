@@ -122,7 +122,7 @@ class UpdateIntersetViewController: UIViewController {
         loader.isHidden = false
         loader.startAnimating()
         
-        Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -204,7 +204,7 @@ class UpdateIntersetViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 
                 self.loader.isHidden = true

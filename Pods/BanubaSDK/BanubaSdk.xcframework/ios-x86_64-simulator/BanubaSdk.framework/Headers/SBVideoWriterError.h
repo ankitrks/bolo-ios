@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+
+FOUNDATION_EXPORT NSErrorDomain const kVideoWriterErrorDomain;
+FOUNDATION_EXPORT NSInteger const kUnknownRecordingErrorCode;
+FOUNDATION_EXPORT NSInteger const kNotEnoughSpaceForRecordingErrorCode;

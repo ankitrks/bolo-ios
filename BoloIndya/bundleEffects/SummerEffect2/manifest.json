@@ -1,0 +1,19 @@
+{
+    "name": "SummerEffect2",
+    "effectVersionInfo": {
+        "commit": "637731a958d4e454ad8716ec14d2cbf64a4db71b",
+        "date": "2019-06-06",
+        "time": "08:35:20",
+        "author": "Vladislav Khudziakov"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "6c4f87b75f214de1559d54e5d957aef08adb08ac",
+        "date": "2020-03-12",
+        "time": "18:06:58",
+        "author": "Aleksey Cherkes"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 1
+    }
+}

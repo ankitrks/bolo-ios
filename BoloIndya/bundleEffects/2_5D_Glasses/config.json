@@ -1,0 +1,37 @@
+{
+  "name": "2_5D_Glasses",
+  "recordDuration": 15,
+  "sounds": [
+    {
+      "trackName": "music.ogg",
+      "volume": 1.0,
+      "type": "background"
+    }
+  ],  
+  "frx": {
+    "type": "3d_anim",
+    "3d_anim": {
+      "type": "vfx"
+    }
+  },
+  "voiceChanger": {
+    "audioFilters": [{
+      "pitch": {
+        "pitchShift": 1000
+      }
+    }]
+  },
+  "final" : {
+      "type" : "FILTER",
+
+      "filter" : {
+        "fragmentCode" : "finalColorFilter.fsh",
+        "textures" : [{
+          "file" : "nash.png",
+          "sampler" : "lookupTexture",
+          "magFilter" : "LINEAR",
+          "minFilter" : "LINEAR"
+        }] 
+      }
+  }  
+}

@@ -410,73 +410,52 @@ class UploadVideoDetailsViewController: UIViewController {
             SVProgressHUD.setContainerView(self.view)
         }
         tick_image.isUserInteractionEnabled = false;
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        
+        AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(self.video_url, withName: "media", fileName: file_name, mimeType: "video/mp4")
-        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
-            (result) in
-            switch result {
-            case .success( let upload, _, _):
-                print("calling upload video--3")
-                upload.uploadProgress(closure: { (progress) in
-                    DispatchQueue.main.async {
-                        SVProgressHUD.setDefaultMaskType(.black)
-                        print("calling upload video progress--", progress.fractionCompleted)
-                        SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "Uploading \(Int(Float(progress.fractionCompleted)*100))%")
-                        
-                    }
-                })
+        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", method: .post, headers: headers)
+        .uploadProgress(queue: .main, closure: { progress in
+            DispatchQueue.main.async {
+                SVProgressHUD.setDefaultMaskType(.black)
+                print("calling upload video progress--", progress.fractionCompleted)
+                SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "Uploading \(Int(Float(progress.fractionCompleted)*100))%")
                 
-                upload.responseString  { (responseData) in
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    switch responseData.result {
-                    case.success(let data):
-                        if let json_data = data.data(using: .utf8) {
-                            do {
-                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: .allowFragments) as? [String: Any] {
-                                    if !(json_object["body"] as? String ?? "").isEmpty {
-                                        self.video_url_upload = json_object["body"] as! String
-                                        self.uploadImage()
-                                        
-                                        let values = ["Language": UserDefaults.standard.getValueForLanguageId() ?? "",
-                                                      "Video Link": self.video_url_upload,
-                                                      "Video Length": self.time] as [String: Any]
-                                        WebEngageHelper.trackEvent(eventName: EventName.uploadVideo, values: values)
-                                    } else {
-                                        DispatchQueue.main.async {
-                                            SVProgressHUD.showError(withStatus: "Please Try Again")
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            catch {
-                                DispatchQueue.main.async {
-                                    SVProgressHUD.showError(withStatus: "Please Try Again")
-                                }
-                                print(error.localizedDescription)
+            }
+        })
+        .responseJSON(completionHandler: { response in
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
+            }
+            if let json_data = response.data {
+                do {
+                    if let json_object = try JSONSerialization.jsonObject(with: json_data, options: .allowFragments) as? [String: Any] {
+                        if !(json_object["body"] as? String ?? "").isEmpty {
+                            self.video_url_upload = json_object["body"] as! String
+                            self.uploadImage()
+                            
+                            let values = ["Language": UserDefaults.standard.getValueForLanguageId() ?? "",
+                                          "Video Link": self.video_url_upload,
+                                          "Video Length": self.time] as [String: Any]
+                            WebEngageHelper.trackEvent(eventName: EventName.uploadVideo, values: values)
+                        } else {
+                            DispatchQueue.main.async {
+                                SVProgressHUD.showError(withStatus: "Please Try Again")
                             }
                         }
-                    case.failure(let error):
-                        DispatchQueue.main.async {
-                            SVProgressHUD.showError(withStatus: "Please Try Again")
-                        }
-                        print("calling upload video--4", error)
                     }
+                    
+                } catch {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showError(withStatus: "Please Try Again")
+                    }
+                    print(error.localizedDescription)
                 }
-                
-            case .failure(let encodingError):
-                DispatchQueue.main.async {
-                    SVProgressHUD.dismiss()
-                }
+            } else {
                 DispatchQueue.main.async {
                     SVProgressHUD.showError(withStatus: "Please Try Again")
                 }
-                print("calling upload video--5",encodingError)
             }
-        }
-        
+        })
     }
     
     func uploadImage() {
@@ -497,54 +476,38 @@ class UploadVideoDetailsViewController: UIViewController {
             SVProgressHUD.show(withStatus: "Getting Ready")
         }
         
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(imageData!, withName: "media", fileName: file_name, mimeType: "image/jpg")
-        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", headers: headers) {
-            (result) in
-            switch result {
-            case .success( let upload, _, _):
-                
-                upload.responseString  { (responseData) in
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                    }
-                    switch responseData.result {
-                    case.success(let data):
-                        if let json_data = data.data(using: .utf8) {
-                            do {
-                                if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
-                                    if !(json_object["body"] as? String ?? "").isEmpty {
-                                        self.thumnail_url_upload = json_object["body"] as! String
-                                        self.create_topic()
-                                    } else {
-                                        self.thumnail_url_upload = ""
-                                        self.create_topic()
-                                    }
-                                }
-                                
-                            }
-                            catch {
-                                self.thumnail_url_upload = ""
-                                self.create_topic()
-                                print(error.localizedDescription)
-                            }
+        }, to: "https://www.boloindya.com/api/v1/upload_video_to_s3_for_app/", method: .post, headers: headers)
+        .responseJSON(completionHandler: { response in
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
+            }
+            if let json_data = response.data {
+                do {
+                    if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: Any] {
+                        if !(json_object["body"] as? String ?? "").isEmpty {
+                            self.thumnail_url_upload = json_object["body"] as! String
+                            self.create_topic()
+                        } else {
+                            self.thumnail_url_upload = ""
+                            self.create_topic()
                         }
-                        case.failure(let error):
-                        self.thumnail_url_upload = ""
-                        self.create_topic()
-                        print(error)
                     }
+                    
+                } catch {
+                    self.thumnail_url_upload = ""
+                    self.create_topic()
+                    print(error.localizedDescription)
                 }
-                
-            case .failure(let encodingError):
+            } else {
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                 }
                 self.thumnail_url_upload = ""
                 self.create_topic()
-                print(encodingError)
             }
-        }
+        })
     }
     
     func create_topic() {
@@ -594,7 +557,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/create_topic"
         
-        Alamofire.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
@@ -672,7 +635,7 @@ class UploadVideoDetailsViewController: UIViewController {
     
     func fetchCategories() {
         
-        Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -710,7 +673,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         let parameters: [String: Any] = [ "term": "\(enter_hash.text.unsafelyUnwrapped)"]
         
-        Alamofire.request("https://www.boloindya.com/api/v1/hashtag_suggestion/", method: .post, parameters: parameters, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/hashtag_suggestion/", method: .post, parameters: parameters, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

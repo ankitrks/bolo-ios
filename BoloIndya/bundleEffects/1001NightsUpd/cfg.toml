@@ -1,0 +1,100 @@
+warp_mesh = "BeautyFaceSP_Optimased.bsm2"
+msaa = 1
+shadowmap_size = 512
+adjust_znear = 150
+draw_order = ['retouch', '!glfx_WARP_IMAGE', 'facemat', 'shadow_plane', 'shadow_plane_physics', 'gold_physics', 'gold']
+
+# Retouch
+[materials.retouch]
+vs = "retouch.vert"
+fs = "retouch.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+onface = true
+mouth = true
+[materials.retouch.samplers]
+lookupTexTeeth="lut3d_TEETH_medium.png"
+lookupTexEyes="lut3d_EYES_medium.png"
+tex_softLight="soft.png"
+tex_normalMakeup="shadow_face_BaseColor.png"
+
+# Cut
+[materials.facemat]
+vs = "facemat.vert"
+fs = "facemat.frag"
+blend = "off"
+backfaces = false
+colorwrite = false
+zwrite = true
+shadow = false
+samplers = {}
+
+# PBR
+[materials.shadow_plane]
+vs = "shadow_plane.vert"
+fs = "shadow_plane.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.shadow_plane.samplers]
+tex_diffuse="shadow_plane_BaseColor.png"
+tex_normal="no_Normal.png"
+tex_metallic="no_Metallic.png"
+tex_roughness="sh_rough.png"
+
+# PBR
+[materials.shadow_plane_physics]
+vs = "shadow_plane_physics.vert"
+fs = "shadow_plane_physics.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.shadow_plane_physics.samplers]
+tex_diffuse="shadow_plane_BaseColor.png"
+tex_normal="no_Normal.png"
+tex_metallic="no_Metallic.png"
+tex_roughness="sh_rough.png"
+
+# PBR
+[materials.gold_physics]
+vs = "gold_physics.vert"
+fs = "gold_physics.frag"
+blend = "alpha" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = false
+[materials.gold_physics.samplers]
+tex_diffuse="gold_BaseColor.png"
+tex_normal="gold_Normal.png"
+tex_metallic="gold_Metallic.png"
+tex_roughness="gold_Roughness.png"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"
+tex_skybox="cubemap.ktx"
+
+# PBR
+[materials.gold]
+vs = "gold.vert"
+fs = "gold.frag"
+blend = "off" # "alpha", "premul_alpha", "screen", "add", "multiply", "coverage", "off"
+backfaces = false
+colorwrite = true
+zwrite = true
+shadow = true
+[materials.gold.samplers]
+tex_diffuse="gold_BaseColor.png"
+tex_normal="gold_Normal.png"
+tex_metallic="gold_Metallic.png"
+tex_roughness="gold_Roughness.png"
+tex_brdf="brdf.ktx"
+tex_ibl_diff="ibl_diff.ktx"
+tex_ibl_spec="ibl_spec.ktx"

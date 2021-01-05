@@ -1,0 +1,19 @@
+{
+    "name": "MinnieMouse",
+    "effectVersionInfo": {
+        "commit": "afee026bc8fe52311e754783e66f7452baa583aa",
+        "date": "2018-05-28",
+        "time": "09:16:15",
+        "author": "Ryhor Spivak"
+    },
+    "buildToolsVersionInfo": {
+        "commit": "6761f8527c8d325672747bf23fb91f10882632cd",
+        "date": "2018-10-08",
+        "time": "12:18:50",
+        "author": "Antony"
+    },
+    "capabilities": {
+        "effectPlayerMajorVersion": 5,
+        "effectPlayerMinorVersion": 0
+    }
+}

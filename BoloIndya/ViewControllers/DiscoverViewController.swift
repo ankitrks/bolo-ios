@@ -198,7 +198,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         progress.isHidden = false
         progress.startAnimating()
         
-        Alamofire.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/get_sub_category", method: .get, parameters: nil, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -231,7 +231,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     
     func fetchBannerHashTags() {
            
-       Alamofire.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
+        AF.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
            .responseString  { (responseData) in
                switch responseData.result {
                case.success(let data):
@@ -273,7 +273,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         
         let url = "https://www.boloindya.com/api/v1/get_hash_discover/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)"
         
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -351,7 +351,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         
         let url = "https://www.boloindya.com/api/v1/get_popular_hash_tag/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&hashtag_ids="+hash_ids
     
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
