@@ -209,7 +209,6 @@
 		3545CE892589F68E0067B37A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3545CE8B2589F69B0067B37A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3545CE8D2589F6A60067B37A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		3563E33525A334C1009A8F77 /* BanubaEffectPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BanubaEffectPlayer.framework; sourceTree = "<group>"; };
 		3563E4E225A46713009A8F77 /* DiscoverBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverBannerTableCell.swift; sourceTree = "<group>"; };
 		3563E52825A479A6009A8F77 /* BIBannerLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIBannerLandingViewController.swift; sourceTree = "<group>"; };
 		3563E52B25A479C9009A8F77 /* BIBannerLandingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIBannerLandingViewController.xib; sourceTree = "<group>"; };
@@ -609,7 +608,6 @@
 			isa = PBXGroup;
 			children = (
 				357DD52C258A41E300396775 /* WebEngage.framework */,
-				3563E33525A334C1009A8F77 /* BanubaEffectPlayer.framework */,
 				3545CE8D2589F6A60067B37A /* AdSupport.framework */,
 				3545CE8B2589F69B0067B37A /* CoreLocation.framework */,
 				3545CE892589F68E0067B37A /* SystemConfiguration.framework */,
