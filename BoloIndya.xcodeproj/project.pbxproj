@@ -72,29 +72,8 @@
 		35067C7725A5C5FE00E7AF5B /* BIBannerWinnerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C7625A5C5FE00E7AF5B /* BIBannerWinnerTableCell.swift */; };
 		35067C7925A5C61700E7AF5B /* BIBannerWinnerTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35067C7825A5C61700E7AF5B /* BIBannerWinnerTableCell.xib */; };
 		35067C7B25A5D81000E7AF5B /* BIDeeplinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */; };
-		35067C7D25A8658300E7AF5B /* BIMusicTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C7C25A8658300E7AF5B /* BIMusicTrackModel.swift */; };
-		35067C7F25A8660800E7AF5B /* BIMusicTrackSuccessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C7E25A8660800E7AF5B /* BIMusicTrackSuccessModel.swift */; };
-		35067C8125A8762400E7AF5B /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C8025A8762400E7AF5B /* TrackCell.swift */; };
-		35067C8325A8763A00E7AF5B /* TrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35067C8225A8763A00E7AF5B /* TrackCell.xib */; };
 		3516D646258B399F00E05720 /* EventName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3516D645258B399F00E05720 /* EventName.swift */; };
 		3545CE8E2589F6A60067B37A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3545CE8D2589F6A60067B37A /* AdSupport.framework */; };
-		3563E33725A334C6009A8F77 /* BanubaEffectPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3563E33525A334C1009A8F77 /* BanubaEffectPlayer.framework */; };
-		3563E33825A334C6009A8F77 /* BanubaEffectPlayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3563E33525A334C1009A8F77 /* BanubaEffectPlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3563E4C425A33857009A8F77 /* LottieAnimation in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4BF25A33856009A8F77 /* LottieAnimation */; };
-		3563E4C525A33857009A8F77 /* luts in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4C025A33857009A8F77 /* luts */; };
-		3563E4C625A33857009A8F77 /* bundleEffects in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4C125A33857009A8F77 /* bundleEffects */; };
-		3563E4C825A33857009A8F77 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4C325A33857009A8F77 /* Music */; };
-		3563E4D025A3432E009A8F77 /* MusicEditorViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4CB25A3432D009A8F77 /* MusicEditorViewControllerFactory.swift */; };
-		3563E4D125A3432E009A8F77 /* CountdownTimerViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4CC25A3432D009A8F77 /* CountdownTimerViewControllerFactory.swift */; };
-		3563E4D225A3432E009A8F77 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4CD25A3432D009A8F77 /* ViewControllerFactory.swift */; };
-		3563E4D325A3432E009A8F77 /* AudioBrowserAdoptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4CE25A3432D009A8F77 /* AudioBrowserAdoptor.swift */; };
-		3563E4D425A3432E009A8F77 /* AnimationView+CountdownTimerAnimatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4CF25A3432E009A8F77 /* AnimationView+CountdownTimerAnimatableView.swift */; };
-		3563E4DA25A343D9009A8F77 /* EffectPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4D625A343D9009A8F77 /* EffectPickerViewController.swift */; };
-		3563E4DB25A343D9009A8F77 /* TrackPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4D725A343D9009A8F77 /* TrackPickerViewController.swift */; };
-		3563E4DC25A343D9009A8F77 /* TrackSelection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4D825A343D9009A8F77 /* TrackSelection.storyboard */; };
-		3563E4DD25A343D9009A8F77 /* EffectSelection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4D925A343D9009A8F77 /* EffectSelection.storyboard */; };
-		3563E4DF25A363EE009A8F77 /* BIVideoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4DE25A363EE009A8F77 /* BIVideoEditorViewController.swift */; };
-		3563E4E125A36695009A8F77 /* BIVideoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3563E4E025A36695009A8F77 /* BIVideoEditorViewController.xib */; };
 		3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4E225A46713009A8F77 /* DiscoverBannerTableCell.swift */; };
 		3563E52925A479A6009A8F77 /* BIBannerLandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E52825A479A6009A8F77 /* BIBannerLandingViewController.swift */; };
 		3563E52C25A479C9009A8F77 /* BIBannerLandingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3563E52B25A479C9009A8F77 /* BIBannerLandingViewController.xib */; };
@@ -156,20 +135,6 @@
 		6EEA92AA250ADED500B1858B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A9250ADED500B1858B /* Date.swift */; };
 		6EEA92AE250BDB3B00B1858B /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		3563E33425A33217009A8F77 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				3563E33825A334C6009A8F77 /* BanubaEffectPlayer.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1811310624D6C51F009DDB54 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
@@ -239,31 +204,12 @@
 		35067C7625A5C5FE00E7AF5B /* BIBannerWinnerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIBannerWinnerTableCell.swift; sourceTree = "<group>"; };
 		35067C7825A5C61700E7AF5B /* BIBannerWinnerTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIBannerWinnerTableCell.xib; sourceTree = "<group>"; };
 		35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIDeeplinkHandler.swift; sourceTree = "<group>"; };
-		35067C7C25A8658300E7AF5B /* BIMusicTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicTrackModel.swift; sourceTree = "<group>"; };
-		35067C7E25A8660800E7AF5B /* BIMusicTrackSuccessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicTrackSuccessModel.swift; sourceTree = "<group>"; };
-		35067C8025A8762400E7AF5B /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
-		35067C8225A8763A00E7AF5B /* TrackCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackCell.xib; sourceTree = "<group>"; };
 		3516D645258B399F00E05720 /* EventName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventName.swift; sourceTree = "<group>"; };
 		3545CE7E2589F6180067B37A /* WebEngage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebEngage.framework; path = ../../../Downloads/WebEngageFramework/xc9/WebEngage.framework; sourceTree = "<group>"; };
 		3545CE892589F68E0067B37A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3545CE8B2589F69B0067B37A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3545CE8D2589F6A60067B37A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		3563E33525A334C1009A8F77 /* BanubaEffectPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BanubaEffectPlayer.framework; sourceTree = "<group>"; };
-		3563E4BF25A33856009A8F77 /* LottieAnimation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LottieAnimation; sourceTree = "<group>"; };
-		3563E4C025A33857009A8F77 /* luts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = luts; sourceTree = "<group>"; };
-		3563E4C125A33857009A8F77 /* bundleEffects */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundleEffects; sourceTree = "<group>"; };
-		3563E4C325A33857009A8F77 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
-		3563E4CB25A3432D009A8F77 /* MusicEditorViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicEditorViewControllerFactory.swift; sourceTree = "<group>"; };
-		3563E4CC25A3432D009A8F77 /* CountdownTimerViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownTimerViewControllerFactory.swift; sourceTree = "<group>"; };
-		3563E4CD25A3432D009A8F77 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
-		3563E4CE25A3432D009A8F77 /* AudioBrowserAdoptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioBrowserAdoptor.swift; sourceTree = "<group>"; };
-		3563E4CF25A3432E009A8F77 /* AnimationView+CountdownTimerAnimatableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AnimationView+CountdownTimerAnimatableView.swift"; sourceTree = "<group>"; };
-		3563E4D625A343D9009A8F77 /* EffectPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectPickerViewController.swift; sourceTree = "<group>"; };
-		3563E4D725A343D9009A8F77 /* TrackPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackPickerViewController.swift; sourceTree = "<group>"; };
-		3563E4D825A343D9009A8F77 /* TrackSelection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TrackSelection.storyboard; sourceTree = "<group>"; };
-		3563E4D925A343D9009A8F77 /* EffectSelection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EffectSelection.storyboard; sourceTree = "<group>"; };
-		3563E4DE25A363EE009A8F77 /* BIVideoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIVideoEditorViewController.swift; sourceTree = "<group>"; };
-		3563E4E025A36695009A8F77 /* BIVideoEditorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIVideoEditorViewController.xib; sourceTree = "<group>"; };
 		3563E4E225A46713009A8F77 /* DiscoverBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverBannerTableCell.swift; sourceTree = "<group>"; };
 		3563E52825A479A6009A8F77 /* BIBannerLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIBannerLandingViewController.swift; sourceTree = "<group>"; };
 		3563E52B25A479C9009A8F77 /* BIBannerLandingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIBannerLandingViewController.xib; sourceTree = "<group>"; };
@@ -336,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3545CE8E2589F6A60067B37A /* AdSupport.framework in Frameworks */,
-				3563E33725A334C6009A8F77 /* BanubaEffectPlayer.framework in Frameworks */,
 				1697B60E53D4F2610A3F661F /* Pods_BoloIndya.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,10 +386,6 @@
 				6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */,
 				1817215424ED84F600BF8201 /* BoloIndya.entitlements */,
 				359117252589F994005ECF65 /* BoloIndya-Bridging-Header.h */,
-				3563E4C125A33857009A8F77 /* bundleEffects */,
-				3563E4BF25A33856009A8F77 /* LottieAnimation */,
-				3563E4C025A33857009A8F77 /* luts */,
-				3563E4C325A33857009A8F77 /* Music */,
 				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
 				188C84CB24DDF6D0000DAE10 /* commonUtils */,
 				1864A80024B9AD6400C08A4A /* CustomUI */,
@@ -487,7 +428,6 @@
 				6EB4AEDA24FBA60100C01D72 /* UserProfileEditVC.swift */,
 				6EEA92962509599200B1858B /* BaseVC.swift */,
 				3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */,
-				3563E4CA25A34318009A8F77 /* Banuba */,
 				35E7716D259B1D4E00BE4529 /* BIReportViewController */,
 				3563E53625A48704009A8F77 /* BIVideoCollectionViewController */,
 				3563E52D25A48666009A8F77 /* BIHTMLViewController */,
@@ -522,52 +462,6 @@
 				35067C7825A5C61700E7AF5B /* BIBannerWinnerTableCell.xib */,
 			);
 			path = BIBannerWinnerTableCell;
-			sourceTree = "<group>";
-		};
-		35067C8425A87CF700E7AF5B /* TrackCell */ = {
-			isa = PBXGroup;
-			children = (
-				35067C8025A8762400E7AF5B /* TrackCell.swift */,
-				35067C8225A8763A00E7AF5B /* TrackCell.xib */,
-			);
-			path = TrackCell;
-			sourceTree = "<group>";
-		};
-		35067C8525A87D0500E7AF5B /* TrackPickerViewController */ = {
-			isa = PBXGroup;
-			children = (
-				3563E4D725A343D9009A8F77 /* TrackPickerViewController.swift */,
-				3563E4D825A343D9009A8F77 /* TrackSelection.storyboard */,
-				35067C8425A87CF700E7AF5B /* TrackCell */,
-			);
-			path = TrackPickerViewController;
-			sourceTree = "<group>";
-		};
-		3563E4CA25A34318009A8F77 /* Banuba */ = {
-			isa = PBXGroup;
-			children = (
-				3563E4D525A343D9009A8F77 /* MusicSelection */,
-				3563E4CF25A3432E009A8F77 /* AnimationView+CountdownTimerAnimatableView.swift */,
-				3563E4CE25A3432D009A8F77 /* AudioBrowserAdoptor.swift */,
-				3563E4CC25A3432D009A8F77 /* CountdownTimerViewControllerFactory.swift */,
-				3563E4CB25A3432D009A8F77 /* MusicEditorViewControllerFactory.swift */,
-				3563E4CD25A3432D009A8F77 /* ViewControllerFactory.swift */,
-				3563E4DE25A363EE009A8F77 /* BIVideoEditorViewController.swift */,
-				3563E4E025A36695009A8F77 /* BIVideoEditorViewController.xib */,
-			);
-			path = Banuba;
-			sourceTree = "<group>";
-		};
-		3563E4D525A343D9009A8F77 /* MusicSelection */ = {
-			isa = PBXGroup;
-			children = (
-				3563E4D625A343D9009A8F77 /* EffectPickerViewController.swift */,
-				35067C8525A87D0500E7AF5B /* TrackPickerViewController */,
-				35067C7C25A8658300E7AF5B /* BIMusicTrackModel.swift */,
-				35067C7E25A8660800E7AF5B /* BIMusicTrackSuccessModel.swift */,
-				3563E4D925A343D9009A8F77 /* EffectSelection.storyboard */,
-			);
-			path = MusicSelection;
 			sourceTree = "<group>";
 		};
 		3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */ = {
@@ -807,7 +701,6 @@
 				18F93B2724B71D1C006621DB /* Resources */,
 				DAC90A7456BF40E68491B8FB /* [CP] Embed Pods Frameworks */,
 				34432DACCF742E9CED3D8B30 /* [CP] Copy Pods Resources */,
-				3563E33425A33217009A8F77 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -856,31 +749,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3563E4DC25A343D9009A8F77 /* TrackSelection.storyboard in Resources */,
 				3563E52C25A479C9009A8F77 /* BIBannerLandingViewController.xib in Resources */,
 				274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */,
-				35067C8325A8763A00E7AF5B /* TrackCell.xib in Resources */,
 				35E77176259B23C700BE4529 /* BIReportTableCell.xib in Resources */,
 				187DA65224B8A36D005522FB /* Main.storyboard in Resources */,
 				6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */,
 				357B42152590820B009229D8 /* BICommentView.xib in Resources */,
 				3563E53A25A48736009A8F77 /* BIBannerWinnerViewController.xib in Resources */,
 				357B421B259084F5009229D8 /* BICommentTableCell.xib in Resources */,
-				3563E4C825A33857009A8F77 /* Music in Resources */,
 				35067C7925A5C61700E7AF5B /* BIBannerWinnerTableCell.xib in Resources */,
 				35E25C4525909A9000F15EF3 /* BICommentLoadingCell.xib in Resources */,
-				3563E4C425A33857009A8F77 /* LottieAnimation in Resources */,
 				35E77171259B1D7A00BE4529 /* BIReportViewController.xib in Resources */,
 				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,
-				3563E4E125A36695009A8F77 /* BIVideoEditorViewController.xib in Resources */,
 				6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */,
 				3563E54025A48AFE009A8F77 /* BIVideoCollectionCell.xib in Resources */,
 				6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */,
-				3563E4C525A33857009A8F77 /* luts in Resources */,
 				18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */,
 				3563E53125A48699009A8F77 /* BIHTMLViewController.xib in Resources */,
-				3563E4DD25A343D9009A8F77 /* EffectSelection.storyboard in Resources */,
-				3563E4C625A33857009A8F77 /* bundleEffects in Resources */,
 				35067C7325A5B95E00E7AF5B /* BIBannerRulesViewController.xib in Resources */,
 				3563E53525A486ED009A8F77 /* BIVideoCollectionViewController.xib in Resources */,
 			);
@@ -970,14 +855,10 @@
 				35E25C4325909A5700F15EF3 /* BICommentLoadingCell.swift in Sources */,
 				18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */,
 				185CDBA424D9450F00DCC756 /* FollowerViewCell.swift in Sources */,
-				3563E4D425A3432E009A8F77 /* AnimationView+CountdownTimerAnimatableView.swift in Sources */,
 				18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */,
-				35067C8125A8762400E7AF5B /* TrackCell.swift in Sources */,
 				1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */,
 				18F93B3124B71D1C006621DB /* ViewController.swift in Sources */,
 				3563E53825A48723009A8F77 /* BIBannerWinnerViewController.swift in Sources */,
-				3563E4D225A3432E009A8F77 /* ViewControllerFactory.swift in Sources */,
-				3563E4D025A3432E009A8F77 /* MusicEditorViewControllerFactory.swift in Sources */,
 				1869071A24E0073700F6B2D7 /* Search.swift in Sources */,
 				35E7716F259B1D6000BE4529 /* BIReportViewController.swift in Sources */,
 				359DEA872581023D002B31A8 /* UITableViewCell+Extension.swift in Sources */,
@@ -1015,9 +896,7 @@
 				185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */,
 				35067C7725A5C5FE00E7AF5B /* BIBannerWinnerTableCell.swift in Sources */,
 				6EBBB8A92509461D00A1B4C0 /* AFWrapper.swift in Sources */,
-				3563E4DB25A343D9009A8F77 /* TrackPickerViewController.swift in Sources */,
 				3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */,
-				35067C7D25A8658300E7AF5B /* BIMusicTrackModel.swift in Sources */,
 				188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */,
@@ -1029,7 +908,6 @@
 				18F93B2D24B71D1C006621DB /* AppDelegate.swift in Sources */,
 				6EBBB8B125094A6D00A1B4C0 /* Connectivity.swift in Sources */,
 				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
-				35067C7F25A8660800E7AF5B /* BIMusicTrackSuccessModel.swift in Sources */,
 				3563E52925A479A6009A8F77 /* BIBannerLandingViewController.swift in Sources */,
 				35067C6B25A59E8000E7AF5B /* BICampaignModel.swift in Sources */,
 				35C24FB425947A7300CF5200 /* KeychainHelper.swift in Sources */,
@@ -1050,14 +928,12 @@
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,
 				18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */,
 				35E25C6F2590AEBE00F15EF3 /* KeyboardHandler.swift in Sources */,
-				3563E4DA25A343D9009A8F77 /* EffectPickerViewController.swift in Sources */,
 				359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */,
 				3594F28E2585601D005B96DC /* UIImage+Extension.swift in Sources */,
 				3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */,
 				359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */,
 				18413AD424DF1EB600F3E2A1 /* SearchViewController.swift in Sources */,
 				6EEA92A3250A5B0900B1858B /* LoginUserInfo.swift in Sources */,
-				3563E4DF25A363EE009A8F77 /* BIVideoEditorViewController.swift in Sources */,
 				18F93B2F24B71D1C006621DB /* SceneDelegate.swift in Sources */,
 				6EEA92A4250A5B0900B1858B /* LoginUserprofile.swift in Sources */,
 				6EEA92972509599200B1858B /* BaseVC.swift in Sources */,
@@ -1065,8 +941,6 @@
 				18CB49DF24BC6F8C00212329 /* TermsPagesViewController.swift in Sources */,
 				183B4BAC24B86DE4003EC6D7 /* User.swift in Sources */,
 				359DEAD525821B3C002B31A8 /* SwiftyCamViewController.swift in Sources */,
-				3563E4D125A3432E009A8F77 /* CountdownTimerViewControllerFactory.swift in Sources */,
-				3563E4D325A3432E009A8F77 /* AudioBrowserAdoptor.swift in Sources */,
 				1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */,
 				35E7716C259A06AE00BE4529 /* UIApplication+Extension.swift in Sources */,
 			);

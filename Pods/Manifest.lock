@@ -8,11 +8,6 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - BanubaAudioBrowserSDK (0.0.13)
-  - BanubaMusicEditorSDK (0.0.13.2)
-  - BanubaOverlayEditorSDK (0.0.13.2)
-  - BanubaSDK (0.0.13.2)
-  - BanubaVideoEditorSDK (0.0.13.3)
   - Branch (0.36.0)
   - Firebase/Auth (7.3.0):
     - Firebase/CoreOnly
@@ -64,7 +59,6 @@ PODS:
     - GTMSessionFetcher/Core (= 1.5.0)
   - KeychainAccess (4.2.1)
   - Kingfisher (6.0.0)
-  - lottie-ios (3.1.8)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -75,7 +69,6 @@ PODS:
   - PryntTrimmerView (4.0.2)
   - SteviaLayout (4.7.3)
   - SVProgressHUD (2.2.5)
-  - VideoEditor (0.0.13.2)
   - WebEngage (5.2.4):
     - WebEngage/Xcode11 (= 5.2.4)
   - WebEngage/Xcode11 (5.2.4)
@@ -86,30 +79,16 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - AlamofireObjectMapper
-  - BanubaAudioBrowserSDK (= 0.0.13)
-  - BanubaMusicEditorSDK (= 0.0.13.2)
-  - BanubaOverlayEditorSDK (= 0.0.13.2)
-  - BanubaSDK (= 0.0.13.2)
-  - BanubaVideoEditorSDK (= 0.0.13.3)
   - Branch
   - Firebase/Auth
   - GoogleSignIn
   - KeychainAccess
   - Kingfisher
-  - lottie-ios (= 3.1.8)
   - SVProgressHUD
-  - VideoEditor (= 0.0.13.2)
   - WebEngage
   - YPImagePicker
 
 SPEC REPOS:
-  "git@github.com:Banuba/specs.git":
-    - BanubaAudioBrowserSDK
-    - BanubaMusicEditorSDK
-    - BanubaOverlayEditorSDK
-    - BanubaSDK
-    - BanubaVideoEditorSDK
-    - VideoEditor
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - AlamofireObjectMapper
@@ -126,7 +105,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - KeychainAccess
     - Kingfisher
-    - lottie-ios
     - nanopb
     - ObjectMapper
     - PromisesObjC
@@ -140,11 +118,6 @@ SPEC CHECKSUMS:
   Alamofire: f9450d3c7f6bea2ad62e7a541c3e9b186c7991d6
   AlamofireObjectMapper: 74d1440c92c42bbcc2b5f4dc81654ac095ec669f
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  BanubaAudioBrowserSDK: 7e3da0066af1b4af8582c91412a531df9a37a270
-  BanubaMusicEditorSDK: 582bdecd4162f4cedafee364d2345d2e4a8644d6
-  BanubaOverlayEditorSDK: 2f91192925af77afeefe6e2785a2c5f47927af07
-  BanubaSDK: 9e75422ab8fd0780c9bca7f83ba1ef33e9265edd
-  BanubaVideoEditorSDK: e7227be27ae47b31536aa42a5122d0b9ec227230
   Branch: 8aebcb7a6465f19f9f4d315acced369ae078d3f2
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   FirebaseAuth: c224a0cf1afa0949bd5c7bfcf154b4f5ce8ddef2
@@ -157,17 +130,15 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   Kingfisher: 13f6e68c928eb50439b5cb2ea75d6035018438ea
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  VideoEditor: 2d2bfbc9d79eca93ce059ce89ad158e3da58a285
   WebEngage: e50708cc9dc849bd969312b603e8a7f3068ed2b0
   YPImagePicker: 15aed8bcaa4dad976e11b6114126d731a2f9f3c9
 
-PODFILE CHECKSUM: 75ddbd968b62a1eb0961c510c07ee446c24f6681
+PODFILE CHECKSUM: 60c1c22fa64c6c6daea1fdc2d6b7d4587dc75f07
 
 COCOAPODS: 1.10.0

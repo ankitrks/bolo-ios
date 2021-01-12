@@ -19,11 +19,4 @@ ${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework
 ${PODS_ROOT}/WebEngage/xc11/WebEngage.framework
 ${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework
-${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/BanubaAudioBrowserSDK/BanubaAudioBrowserSDK.framework/BanubaAudioBrowserSDK
-${PODS_XCFRAMEWORKS_BUILD_DIR}/BanubaMusicEditorSDK/BanubaMusicEditorSDK.framework/BanubaMusicEditorSDK
-${PODS_XCFRAMEWORKS_BUILD_DIR}/BanubaOverlayEditorSDK/BanubaOverlayEditorSDK.framework/BanubaOverlayEditorSDK
-${PODS_XCFRAMEWORKS_BUILD_DIR}/BanubaSdk/BanubaSdk.framework/BanubaSdk
-${PODS_XCFRAMEWORKS_BUILD_DIR}/BanubaVideoEditorSDK/BanubaVideoEditorSDK.framework/BanubaVideoEditorSDK
-${PODS_XCFRAMEWORKS_BUILD_DIR}/VideoEditor/VideoEditor.framework/VideoEditor

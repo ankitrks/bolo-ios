@@ -83,15 +83,6 @@ class BaseVC: UIViewController {
 
 extension BaseVC: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if let viewControllers = tabBarController.viewControllers, viewControllers.count > 2, viewControllers[2] == viewController {
-            let vc = BIVideoEditorViewController.loadFromNib()
-            vc.modalPresentationStyle = .fullScreen
-//            (viewControllers?.first as? UINavigationController)?.viewControllers.first?.present(vc, animated: true, completion: nil)
-            present(vc, animated: false, completion: nil)
-
-            return false
-        }
-        
         return true
     }
 }

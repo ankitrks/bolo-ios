@@ -16,13 +16,4 @@ target 'BoloIndya' do
   pod 'Branch'
   pod 'WebEngage'
   pod 'KeychainAccess'
-  
-  pod 'BanubaVideoEditorSDK', '0.0.13.3'
-  pod 'BanubaAudioBrowserSDK', '0.0.13'
-  pod 'BanubaMusicEditorSDK', '0.0.13.2'
-  pod 'BanubaOverlayEditorSDK', '0.0.13.2'
-  pod 'BanubaSDK', '0.0.13.2'
-  pod 'VideoEditor', '0.0.13.2'
-  pod 'lottie-ios', "3.1.8"
-  
 end

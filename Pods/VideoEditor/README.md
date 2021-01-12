@@ -1,2 +1,0 @@
-# VideoEditor-iOS
-VideoEditor-iOS
