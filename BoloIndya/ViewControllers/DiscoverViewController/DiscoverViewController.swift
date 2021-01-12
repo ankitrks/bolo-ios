@@ -379,7 +379,11 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return banners.isEmpty ? CGFloat.leastNormalMagnitude : 100
+            if banners.isEmpty {
+                return CGFloat.leastNormalMagnitude
+            } else {
+                return CGFloat(0.3797) * tableView.bounds.width
+            }
         }
         
         return ((screenSize.width/3.4)*1.5)+50

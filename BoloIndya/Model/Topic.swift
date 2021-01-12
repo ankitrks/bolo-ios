@@ -18,7 +18,7 @@ class Topic {
     var id: String
     var view_count: String
     var comment_count: String
-    var user: User
+    var user: User?
     var isLiked: Bool
     var like_count: String
     var share_count: String
@@ -38,6 +38,27 @@ class Topic {
         self.downloaded_url = ""
         self.vb_score = ""
         self.user = user
+        self.isLiked = false
+        self.like_count = ""
+        self.like_count = ""
+        self.comment_count = ""
+        self.share_count = ""
+        self.whatsapp_share_count = ""
+        self.languageId = ""
+    }
+    
+    init() {
+        self.title = ""
+        self.thumbnail = ""
+        self.thumbnailHome = ""
+        self.duration = ""
+        self.id = ""
+        self.view_count = ""
+        self.comment_count = ""
+        self.video_url = ""
+        self.downloaded_url = ""
+        self.vb_score = ""
+        self.user = nil
         self.isLiked = false
         self.like_count = ""
         self.like_count = ""

@@ -145,6 +145,7 @@ class ThumbailViewController: UIViewController {
         add_icon.centerXAnchor.constraint(equalTo: selected_thumb.centerXAnchor, constant: 0).isActive = true
         
         add_icon.image = UIImage(named: "choose_thumb")
+        add_icon.tintColor = UIColor(hex: "10A5F9")
         
         view.addSubview(play_and_pause_image)
         

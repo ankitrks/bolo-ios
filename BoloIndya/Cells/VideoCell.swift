@@ -456,7 +456,7 @@ class VideoCell: UITableViewCell {
         let url = URL(string: topic.thumbnailHome)
         video_image.isHidden = false
         video_image.kf.setImage(with: url)
-        username.text = "@"+topic.user.username
+        username.text = "@" + (topic.user?.username ?? "")
         //duration.text = ""
         //play_and_pause_image.image = UIImage(named: "play")
         like_count.text = topic.like_count
@@ -464,9 +464,9 @@ class VideoCell: UITableViewCell {
         share_count.text = topic.share_count
         whatsapp_share_count.text = topic.whatsapp_share_count
 
-        if (!topic.user.profile_pic.isEmpty) {
+        if let pic = topic.user?.profile_pic, pic.isEmpty == false {
             
-            let pic_url = URL(string: topic.user.profile_pic)
+            let pic_url = URL(string: pic)
             
             user_image.kf.setImage(with: pic_url, placeholder: UIImage(named: "user"))
         } else {

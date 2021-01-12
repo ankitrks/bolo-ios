@@ -16,7 +16,7 @@ struct BICampaignModel: Codable {
     let isWinnerDeclared: Bool
     let popupImgURL: String?
     let showPopupOnApp: Bool
-    var winners: [BICampaignWinner]
+    var winners: [BICampaignWinner]?
 
     enum CodingKeys: String, CodingKey {
         case activeFrom = "active_from"
@@ -33,13 +33,15 @@ struct BICampaignModel: Codable {
 }
 
 struct BICampaignWinner: Codable {
-    let rank: String?
+    let rank: Int?
     let extraText: String?
-    let video: String?
+    let video: Int?
+    let user: BIUserModel?
     
     enum CodingKeys: String, CodingKey {
         case rank
         case extraText = "extra_text"
         case video
+        case user
     }
 }

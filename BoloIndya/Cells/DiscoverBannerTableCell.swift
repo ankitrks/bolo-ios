@@ -29,13 +29,15 @@ final class DiscoverBannerTableCell: UITableViewCell {
         
         addSubview(userVideoView)
         
+        let height = CGFloat(0.3797) * UIScreen.main.bounds.width
+        
         let screenSize = UIScreen.main.bounds.size
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: screenSize.width - 20, height: 100)
+        layout.itemSize = CGSize(width: screenSize.width - 20, height: height)
         userVideoView.collectionViewLayout = layout
-        userVideoView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 100)
+        userVideoView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: height)
         userVideoView.showsHorizontalScrollIndicator = false
         userVideoView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         userVideoView.isPagingEnabled = true
@@ -52,7 +54,7 @@ final class DiscoverBannerTableCell: UITableViewCell {
         
         var height: CGFloat
         if !banner.isEmpty {
-            height = 100
+            height = CGFloat(0.3797) * UIScreen.main.bounds.width
             
             userVideoView.reloadData()
             userVideoView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
@@ -82,7 +84,7 @@ extension DiscoverBannerTableCell: UICollectionViewDelegate, UICollectionViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height: CGFloat = banner.isEmpty ? CGFloat.leastNormalMagnitude : 100
+        let height: CGFloat = banner.isEmpty ? CGFloat.leastNormalMagnitude : CGFloat(0.3797) * UIScreen.main.bounds.width
         return CGSize(width: collectionView.frame.width - 10, height: height)
     }
 }

@@ -842,7 +842,7 @@ class SearchViewVideoCell : UICollectionViewCell {
             like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
             like_image.tintColor = UIColor.red
         }
-        user_name.text = topic.user.username
+        user_name.text = topic.user?.username
         duration.text = topic.duration
     }
     

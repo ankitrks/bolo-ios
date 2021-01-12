@@ -378,7 +378,9 @@ class TrendingAndFollowingViewController: BaseVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ProfileViewController {
             let vc = segue.destination as? ProfileViewController
-            vc?.user = videos[selected_position].user
+            if let user = videos[selected_position].user {
+                vc?.user = user
+            }
         } else  if segue.destination is LoginAndSignUpViewController {
             let vc = segue.destination as? LoginAndSignUpViewController
             vc?.selected_tab = 0
@@ -675,18 +677,18 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         let values = ["WhatsApp Share Num": object.getCountNum(from: object.whatsapp_share_count),
                       "WhatsApp Share": object.whatsapp_share_count,
                       "Video Id": object.id,
-                      "User Id": object.user.id,
+                      "User Id": object.user?.id ?? 0,
                       "Video Link": object.video_url,
                       "Comments": object.comment_count,
                       "Comments Num": object.getCountNum(from: object.comment_count),
                       "Likes": object.like_count,
                       "Likes Num": object.getCountNum(from: object.like_count),
-                      "Name": object.user.name,
+                      "Name": object.user?.name ?? "",
                       "Shares": object.share_count,
                       "Shares Num": object.getCountNum(from: object.share_count),
                       "Language": object.languageId,
-                      "Username": object.user.username,
-                      "User Type": object.user.getUserType()] as [String: Any]
+                      "Username": object.user?.username ?? "",
+                      "User Type": object.user?.getUserType() ?? ""] as [String: Any]
         WebEngageHelper.trackEvent(eventName: eventName, values: values)
     }
     
@@ -927,12 +929,12 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             SVProgressHUD.dismiss()
         }
         
-        let values = ["User Id": object.user.id,
+        let values = ["User Id": object.user?.id ?? 0,
                       "Video Link": object.video_url,
-                      "Name": object.user.name,
+                      "Name": object.user?.name ?? "",
                       "Language": object.languageId,
-                      "Username": object.user.username,
-                      "User Type": object.user.getUserType()] as [String: Any]
+                      "Username": object.user?.username ?? "",
+                      "User Type": object.user?.getUserType() ?? ""] as [String: Any]
         WebEngageHelper.trackEvent(eventName: EventName.sharedVideo, values: values)
     }
     

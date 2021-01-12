@@ -19,9 +19,13 @@ final class BIBannerWinnerTableCell: UITableViewCell {
     
     var winner: BICampaignWinner? {
         didSet {
-            sNoLabel.text = winner?.rank
-            nameLabel.text = winner?.extraText
-            linkButton.setTitle(winner?.video, for: .normal)
+            if let rank = winner?.rank {
+                sNoLabel.text = "\(rank)"
+            } else {
+                sNoLabel.text = ""
+            }
+            nameLabel.text = winner?.user?.userprofile.name
+            linkButton.setTitle("Click Here", for: .normal)
         }
     }
     weak var delegate: BIBannerWinnerTableCellDelegate?

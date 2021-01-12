@@ -9,6 +9,7 @@
 import UIKit
 
 final class BIBannerLandingViewController: UIViewController {
+    @IBOutlet private weak var titleLable: UILabel!
     @IBOutlet private weak var bannerImageView: UIImageView!
     @IBOutlet private weak var viewContainer: UIView!
     
@@ -66,7 +67,7 @@ final class BIBannerLandingViewController: UIViewController {
         if let image = banner?.bannerImgURL, let url = URL(string: image) {
             bannerImageView.kf.setImage(with: url)
         }
-        title = banner?.hashtagName
+        titleLable.text = banner?.hashtagName
         
         setupPageController()
         setPageIndexSelection(indexPage: 0)
@@ -75,7 +76,7 @@ final class BIBannerLandingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         tabBarController?.tabBar.isHidden = true
         
         BIDeeplinkHandler.campaignHashtag2 = nil
@@ -188,6 +189,10 @@ final class BIBannerLandingViewController: UIViewController {
             else { return }
         
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    @IBAction private func didTapBackButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 

@@ -137,6 +137,9 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             timer_label.textColor = UIColor.white
         }
         
+        if !isFromCampaign {
+            BIDeeplinkHandler.campaignHashtag2 = nil
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
