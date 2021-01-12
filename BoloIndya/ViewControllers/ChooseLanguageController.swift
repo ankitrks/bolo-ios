@@ -154,6 +154,8 @@ class ChooseLanguageController : BaseVC {
         
         let values = ["language": languages[selected_position].title]
         WebEngageHelper.trackEvent(eventName: EventName.languageSelected, values: values)
+        
+        WebEngageHelper.setLanguageAttribute(id: languages[selected_position].id, name: languages[selected_position].title)
     }
     
     override func onSuccessResponse(response: Any) {

@@ -57,6 +57,8 @@ class TrendingAndFollowingViewController: BaseVC {
         deviceHeight = self.view.frame.height
         fetcUserDetails()
         fetchData()
+        
+//        tabBarController?.delegate = self
     }
     
     
@@ -241,7 +243,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
@@ -250,7 +252,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_follow_post/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(following_page)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -318,12 +320,12 @@ class TrendingAndFollowingViewController: BaseVC {
 
        var vb_score = "";
 
-        if ( videos != nil && videos.count > 0) {
+        if !videos.isEmpty {
             vb_score = "&vb_score=" + videos[videos.count - 1].vb_score
-          }
+        }
 
        // if let time = UserDefaults.standard.getlastUpdateTime(){
-         var lasttime = "&last_updated=\(UserDefaults.standard.getlastUpdateTime() ?? "")"
+        let lasttime = "&last_updated=\(UserDefaults.standard.getlastUpdateTime() ?? "")"
 
 
         let url = "https://www.boloindya.com/api/v1/get_popular_video_bytes/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&page=\(page)\(vb_score)\(lasttime)&uid=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)"
@@ -451,7 +453,7 @@ class TrendingAndFollowingViewController: BaseVC {
             "topic_id": "\(videos[selected_position].id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -459,7 +461,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
 
         
-        AF.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(SEEN_VB, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 print(responseData)
         }
@@ -474,7 +476,7 @@ class TrendingAndFollowingViewController: BaseVC {
             "topic_id": "\(videos[selected_position].id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -482,7 +484,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
         }
@@ -493,7 +495,7 @@ class TrendingAndFollowingViewController: BaseVC {
             "comment_id": "\(id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -501,7 +503,7 @@ class TrendingAndFollowingViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
         }
@@ -722,14 +724,14 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             
             SVProgressHUD.show()
             
-            var headers: [String: Any]?
+            var headers: HTTPHeaders?
             if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
                 headers = ["Authorization": "Bearer \(token)"]
             }
             
             let url = "https://www.boloindya.com/api/v2/report/items/?target=video"
             
-            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -917,6 +919,8 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                     DispatchQueue.main.async {
                         SVProgressHUD.dismiss()
                     }
+                    
+                    print(error)
                 }
             }
         } else {
@@ -985,7 +989,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
             "gify_details": "{}"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -993,7 +997,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/reply_on_topic"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {
@@ -1043,7 +1047,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
             "comment_id": "\(comment.id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -1051,7 +1055,7 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
             }
@@ -1083,7 +1087,7 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
         
         SVProgressHUD.show()
         
-        var headers: [String: Any]?
+        var headers: HTTPHeaders?
         if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
             headers = ["Authorization": "Bearer \(token)"]
         }
@@ -1095,7 +1099,7 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
         
         let url = "https://www.boloindya.com/api/v2/video/\(videoId)/report/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 SVProgressHUD.dismiss()
                 

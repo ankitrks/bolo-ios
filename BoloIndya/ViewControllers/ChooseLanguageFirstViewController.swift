@@ -132,6 +132,8 @@ class ChooseLanguageFirstViewController: BaseVC {
              let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
              vc.modalPresentationStyle = .fullScreen
              present(vc, animated: false)
+            
+            WebEngageHelper.setLanguageAttribute(id: languages[selected_position].id, name: languages[selected_position].title)
           default:
             break
           }

@@ -198,7 +198,7 @@ class FeedBackViewController: UIViewController {
             "feedback_image": ""
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -210,7 +210,7 @@ class FeedBackViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/submit_user_feedback/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 self.loader.isHidden = true
                 self.loader.stopAnimating()

@@ -366,7 +366,7 @@ class ProfileViewController: BaseVC {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
                 "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -374,7 +374,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(user.id)&page=\(page)"
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -515,7 +515,7 @@ class ProfileViewController: BaseVC {
             "user_following_id": "\(user.id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -523,7 +523,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/follow_user/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 self.isFollowingUser = false
         }
@@ -582,7 +582,7 @@ class ProfileViewController: BaseVC {
              "target_type": "user"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -590,7 +590,7 @@ class ProfileViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/report/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 DispatchQueue.main.async {
                    SVProgressHUD.dismiss()

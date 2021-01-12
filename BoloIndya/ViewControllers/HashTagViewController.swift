@@ -235,7 +235,7 @@ class HashTagViewController: UIViewController {
         loader.isHidden = false
         loader.startAnimating()
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -250,7 +250,7 @@ class HashTagViewController: UIViewController {
         
         print(url)
         
-        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -289,7 +289,7 @@ class HashTagViewController: UIViewController {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -299,7 +299,7 @@ class HashTagViewController: UIViewController {
         
         print(url)
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

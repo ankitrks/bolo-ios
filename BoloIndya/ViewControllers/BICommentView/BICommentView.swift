@@ -50,11 +50,7 @@ final class BICommentView: UIView {
         didSet {
             commentTextfield.attributedPlaceholder = NSAttributedString(string: "Add a comment..",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
             
-            if #available(iOS 11.0, *) {
-                commentTextfield.textContentType = .username
-            } else {
-                // Fallback on earlier versions
-            }
+            commentTextfield.textContentType = .username
             commentTextfield.delegate = self
         }
     }
@@ -96,13 +92,13 @@ final class BICommentView: UIView {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
             headers = ["Authorization": "Bearer \(token)"]
         }
         
         let url = "https://www.boloindya.com/api/v1/topics/ddwd/\(topic.id)/comments/?limit=15&offset=\(page*15)"
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {

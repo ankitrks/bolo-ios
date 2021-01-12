@@ -100,6 +100,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 viewController = vc
             }
+        } else if paths.first == "campaign" {
+            guard paths.count > 1,
+                  !paths[1].isEmpty
+                else { return }
+            
+            BIDeeplinkHandler.campaignHashtag = paths[1]
+            
+            if isDeeplink {
+                moveToDiscoverView()
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                    self.moveToDiscoverView()
+                }
+            }
+            return
         }
         
         if isDeeplink {
@@ -126,6 +141,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let topVC = UIApplication.topMostViewController()?.navigationController
         topVC?.popToRootViewController(animated: false)
         topVC?.tabBarController?.selectedIndex = 4
+    }
+    
+    private func moveToDiscoverView() {
+        let navVC = UIApplication.topMostViewController()?.navigationController
+        navVC?.popToRootViewController(animated: false)
+        
+        if let discoverVC = UIApplication.topMostViewController() as? DiscoverViewController {
+            discoverVC.viewWillAppear(true)
+        } else {
+            navVC?.tabBarController?.selectedIndex = 1
+        }
     }
 }
 

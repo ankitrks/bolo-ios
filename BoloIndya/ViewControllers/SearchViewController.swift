@@ -526,7 +526,7 @@ class SearchViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/solr/search/top/?term=\(search_text.replacingOccurrences(of: " ", with: "", options: .regularExpression, range: nil))&language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)"
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
@@ -535,7 +535,7 @@ class SearchViewController: BaseVC {
         
         startLoader()
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -628,7 +628,7 @@ class SearchViewController: BaseVC {
             "user_following_id": "\(id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -636,7 +636,7 @@ class SearchViewController: BaseVC {
         
         let url = "https://www.boloindya.com/api/v1/follow_user/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
         }

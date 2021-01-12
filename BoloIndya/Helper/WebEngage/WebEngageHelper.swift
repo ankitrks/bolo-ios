@@ -41,6 +41,30 @@ final class WebEngageHelper {
         }
     }
     
+    static func setLanguageAttribute(id: Int? = nil, name: String? = nil) {
+        var languageId: Int?
+        if let id = id {
+            languageId = id
+        } else if let id = UserDefaults.standard.getValueForLanguageId() {
+            languageId = id
+        }
+        
+        var languageName: String?
+        if let name = name {
+            languageName = name
+        }
+        
+        let weUser: WEGUser = WebEngage.sharedInstance().user
+        
+        if let languageId = languageId {
+            weUser.setAttribute("language_id", withValue: languageId as NSNumber)
+        }
+        
+        if let languageName = languageName {
+            weUser.setAttribute("language", withStringValue: languageName)
+        }
+    }
+    
     static func trackEvent(eventName: String, values: [String: Any]? = nil) {
         WebEngage.sharedInstance().analytics.trackEvent(withName: eventName, andValue: values)
     }

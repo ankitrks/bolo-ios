@@ -482,8 +482,8 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         }
         let paramters: [String: Any] = [
             // "user_id": "\(UserDefaults.standard.getUserId().unsafelyUnwrapped)",
-            "activity":"profile_save",
-            "cover_pic":cover ?? "",
+            "activity": "profile_save",
+            "cover_pic": cover,
             
         ]
         
@@ -576,12 +576,16 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
         
         isLoading = true
         
-        let headers: [String: Any] = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        var headers: HTTPHeaders? = nil
+        
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
         
         let url = "https://www.boloindya.com/api/v1/get_vb_list/?user_id=\(UserDefaults.standard.getUserId().unsafelyUnwrapped)&page=\(page)"
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -802,7 +806,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
             break
         case 5:
             let defaults = UserDefaults.standard
-            let language_id = defaults.getValueForLanguageId()
+//            let language_id = defaults.getValueForLanguageId()
             let dictionary = defaults.dictionaryRepresentation()
             dictionary.keys.forEach {key in
                 defaults.removeObject(forKey: key)

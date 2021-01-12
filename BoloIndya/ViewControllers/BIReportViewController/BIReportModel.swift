@@ -8,13 +8,11 @@
 
 import Foundation
 
-// MARK: - Welcome
 struct BIReportModel: Codable {
     let count: Int
     let results: [BIReportResult]
 }
 
-// MARK: - Result
 struct BIReportResult: Codable {
     let id: Int
     let text: String

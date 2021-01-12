@@ -192,7 +192,7 @@ class UpdateIntersetViewController: UIViewController {
         
         
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -204,7 +204,7 @@ class UpdateIntersetViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
                 self.loader.isHidden = true

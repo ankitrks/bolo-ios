@@ -137,7 +137,7 @@ class CategoryViewController: BaseVC {
             
             SVProgressHUD.show()
             
-            var headers: [String: Any]? = nil
+            var headers: HTTPHeaders?
             
             if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
                 headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -174,7 +174,7 @@ class CategoryViewController: BaseVC {
             let url = "https://www.boloindya.com/api/v1/fb_profile_settings/"
             
             
-            AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -183,7 +183,7 @@ class CategoryViewController: BaseVC {
                         if let json_data = data.data(using: .utf8) {
                             
                             do {
-                                let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
+                                let _ = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
                                 
                                 if isFollow {
                                     self?.follow_button.setTitle("Following", for: .normal)
@@ -280,7 +280,7 @@ class CategoryViewController: BaseVC {
         loader.startAnimating()
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -294,7 +294,7 @@ class CategoryViewController: BaseVC {
         let url = "https://www.boloindya.com/api/v1/get_category_detail_with_views/"
         
         
-        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -364,7 +364,7 @@ class CategoryViewController: BaseVC {
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = [
@@ -383,7 +383,7 @@ class CategoryViewController: BaseVC {
         
         print(url)
         
-        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):

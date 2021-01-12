@@ -10,20 +10,13 @@ import Foundation
 import ObjectMapper
 
 class BaseVC: UIViewController {
-    func setParam<T: Mappable>(showProgressBar: Bool = true, auth: Bool = true, url: String, param: [String:Any], className: T.Type, resultCode: Int = 0 )  {
-        AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, auth: auth, url: url, params: param, success: { (response: T) in
+    func setParam<T: Mappable>(showProgressBar: Bool = true, auth: Bool = true, url: String, param: [String:Any], className: T.Type, resultCode: Int = 0) {
+        AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, auth: auth, url: url, params: param, success: { [weak self] (response: T) in
             print("\(url)")
             print("\(response)")
-            self.onSuccessResponse(response: response,resultCode: resultCode)
-            //              if showProgressBar == false{
-            //                  self.refreshHide()
-            //              }
-        }, failure: { (error:Error) in
-            self.onFailResponse(response: error,resultCode: resultCode)
-            //              if showProgressBar == false{
-            //                  self.refreshHide()
-            //              }
-            
+            self?.onSuccessResponse(response: response,resultCode: resultCode)
+        }, failure: { [weak self] (error: Error) in
+            self?.onFailResponse(response: error, resultCode: resultCode)
         })
     }
     
@@ -75,13 +68,27 @@ class BaseVC: UIViewController {
     
     
     func isLogin() -> Bool {
-        let isLoggedIn = UserDefaults.standard.getGuestLoggedIn() ?? true
-        
-        if isLoggedIn {
+        if let isLoggedIn = UserDefaults.standard.getGuestLoggedIn(), isLoggedIn {
             tabBarController?.tabBar.isHidden = true
             navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "LoginAndSignUpViewController", sender: self)
             
+            return false
+        }
+        
+        return true
+    }
+}
+
+
+extension BaseVC: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let viewControllers = tabBarController.viewControllers, viewControllers.count > 2, viewControllers[2] == viewController {
+            let vc = BIVideoEditorViewController.loadFromNib()
+            vc.modalPresentationStyle = .fullScreen
+//            (viewControllers?.first as? UINavigationController)?.viewControllers.first?.present(vc, animated: true, completion: nil)
+            present(vc, animated: false, completion: nil)
+
             return false
         }
         

@@ -34,7 +34,8 @@ class VideoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        
+        navigationController?.isNavigationBarHidden = true
         
         topic_liked = UserDefaults.standard.getLikeTopic()
         comment_like = UserDefaults.standard.getLikeComment()
@@ -47,7 +48,10 @@ class VideoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = true
     }
     
     func setVideoViewDelegate() {
@@ -111,14 +115,16 @@ class VideoViewController: UIViewController {
     }
     
     func fetchVideoBytes() {
+        var headers: HTTPHeaders? = nil
         
-        
-        let headers: [String: Any] = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
         
         let url = "https://www.boloindya.com/api/v1/notification_topic/?topic_id=\(topic_id)"
         
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -174,7 +180,7 @@ class VideoViewController: UIViewController {
             "topic_id": "\(videos[selected_position].id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -182,7 +188,7 @@ class VideoViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/vb_seen/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
         }
@@ -194,7 +200,7 @@ class VideoViewController: UIViewController {
             "topic_id": "\(videos[selected_position].id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -202,7 +208,7 @@ class VideoViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
         }
@@ -408,14 +414,14 @@ extension VideoViewController: VideoCellDelegate {
             
             SVProgressHUD.show()
             
-            var headers: [String: Any]?
+            var headers: HTTPHeaders?
             if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
                 headers = ["Authorization": "Bearer \(token)"]
             }
             
             let url = "https://www.boloindya.com/api/v2/report/items/?target=video"
             
-            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+            AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
                 .responseString  { [weak self] (responseData) in
                     SVProgressHUD.dismiss()
                     
@@ -632,6 +638,8 @@ extension VideoViewController: VideoCellDelegate {
                     DispatchQueue.main.async {
                         SVProgressHUD.dismiss()
                     }
+                    
+                    print(error)
                 }
             }
         } else {
@@ -713,7 +721,7 @@ extension VideoViewController: BICommentViewDelegate {
             "gify_details": "{}"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -721,7 +729,7 @@ extension VideoViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/reply_on_topic"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 
                 switch responseData.result {
@@ -770,7 +778,7 @@ extension VideoViewController: BICommentViewDelegate {
             "comment_id": "\(comment.id)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -778,7 +786,7 @@ extension VideoViewController: BICommentViewDelegate {
         
         let url = "https://www.boloindya.com/api/v1/like/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 
             }
@@ -808,7 +816,7 @@ extension VideoViewController: BIReportViewControllerDelegate {
         
         SVProgressHUD.show()
         
-        var headers: [String: Any]?
+        var headers: HTTPHeaders?
         if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
             headers = ["Authorization": "Bearer \(token)"]
         }
@@ -820,7 +828,7 @@ extension VideoViewController: BIReportViewControllerDelegate {
         
         let url = "https://www.boloindya.com/api/v2/video/\(videoId)/report/"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 SVProgressHUD.dismiss()
                 

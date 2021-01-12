@@ -94,10 +94,14 @@ final class NotificationViewController: BaseVC {
             "offset": next_offset
         ]
         
-        let headers: [String: Any] = [
-            "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        var headers: HTTPHeaders? = nil
         
-        AF.request("https://www.boloindya.com/api/v1/notification/get", method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
+            headers = [
+                "Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
+        }
+        
+        AF.request("https://www.boloindya.com/api/v1/notification/get", method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
             .responseString { [weak self] (responseData) in
                 
                 self?.isLoading = false

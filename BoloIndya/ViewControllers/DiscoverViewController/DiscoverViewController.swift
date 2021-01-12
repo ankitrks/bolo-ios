@@ -8,121 +8,46 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 
-class DiscoverViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, CategoryCellDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func goToCategory(with category: Category) {
-        category_name = category.title
-        category_id = "\(category.id)"
-        self.performSegue(withIdentifier: "CategoryView", sender: self)
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == categoryView {
-            return categories.count
-        } else {
-            if banners.count>0 {
-                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+190, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
-
-            }else{
-                self.discoverView.frame = CGRect(x: 0, y: getStatusBarHeight()+90, width: self.screenSize.width, height: self.screenSize.height-(self.tabBarController?.tabBar.frame.size.height ?? 49.0))
-
-            }
-            return banners.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
-        if collectionView == bannerView {
-            goToHashTag(with: banners[indexPath.row])
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == categoryView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCollectionViewCell
-            cell.configure(with: categories[indexPath.row])
-            if (indexPath.row == 0) {
-                cell.name.textColor = UIColor(hex: "10A5F9")
-            } else {
-                cell.name.textColor = UIColor.white
-            }
-            cell.delegate = self
-            return cell
-        } else  {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! BannerCollectionViewCell
-            cell.configure(with: banners[indexPath.row])
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == categoryView {
-            let label = UILabel(frame: CGRect.zero)
-            label.text = categories[indexPath.row].title
-            label.font = UIFont.boldSystemFont(ofSize: 13.0)
-            label.sizeToFit()
-            return CGSize(width: label.frame.width, height: 20)
-        } else {
-            return CGSize(width: collectionView.frame.width, height: 90)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return hash_tag.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SectionCell
-        video_cell.setVideo(hash_tag: hash_tag[indexPath.row])
-        video_cell.delegate = self
-        return video_cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        return ((screenSize.width/3.4)*1.5)+50
-    }
-    
+class DiscoverViewController: UIViewController, CategoryCellDelegate {
     var discoverView = UITableView()
-    var categoryView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-    var bannerView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    var categoryView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var progress = UIActivityIndicatorView()
     
     var hash_tag: [HashTag] = []
     var categories: [Category] = []
-    var banners: [HashTag] = []
-    var page: Int = 1
-    var isLoading: Bool = false
-    var category_name: String = "Fitness"
-    var category_id: String = "68"
+    var banners: [BICampaignModel] = []
+    var page = 1
+    var isLoading = false
+    var category_name = "Fitness"
+    var category_id = "68"
     var current_hash_tag: HashTag = HashTag()
-    var selected_position: Int = 0
+    var selected_position = 0
     let screenSize = UIScreen.main.bounds.size
     
     var search_text = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Discover")
         
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
         
+        discoverView.register(SectionCell.self, forCellReuseIdentifier: "Cell")
+        discoverView.register(DiscoverBannerTableCell.self, forCellReuseIdentifier: "DiscoverBannerTableCell")
+        discoverView.backgroundColor = .clear
+        discoverView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         discoverView.isScrollEnabled = true
-        
+        discoverView.separatorStyle = .none
+        discoverView.showsVerticalScrollIndicator = false
         discoverView.delegate = self
         discoverView.dataSource = self
-        discoverView.register(SectionCell.self, forCellReuseIdentifier: "Cell")
-        discoverView.backgroundColor = .clear
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height:20)
+        layout.estimatedItemSize = CGSize(width: (screenSize.width/4), height: 20)
         categoryView.collectionViewLayout = layout
         categoryView.frame = CGRect(x: 0, y: getStatusBarHeight()+60, width: screenSize.width, height: 30)
         categoryView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
@@ -130,25 +55,12 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         categoryView.delegate = self
         categoryView.dataSource = self
         categoryView.showsHorizontalScrollIndicator = false
-        
-        let layout_banner = UICollectionViewFlowLayout()
-        layout_banner.scrollDirection = .horizontal
-        layout_banner.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout_banner.estimatedItemSize = CGSize(width: (screenSize.width/4), height:90)
-        bannerView.collectionViewLayout = layout_banner
-        bannerView.frame = CGRect(x: 0, y: getStatusBarHeight()+90, width: screenSize.width, height: 100)
-        bannerView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        bannerView.backgroundColor = .clear
-        bannerView.delegate = self
-        bannerView.dataSource = self
 
         view.addSubview(search_text)
         view.addSubview(discoverView)
         view.addSubview(categoryView)
-        view.addSubview(bannerView)
         view.addSubview(progress)
 
-        
         search_text.translatesAutoresizingMaskIntoConstraints = false
         search_text.heightAnchor.constraint(equalToConstant: 40).isActive = true
         search_text.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
@@ -175,26 +87,65 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         let category = Category()
         category.title = "What's New"
         categories.append(category)
-    
-        self.discoverView.separatorStyle = .none
 
         fetchCategories()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
+        
+        checkCampaingDeeplionk()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    func fetchCategories() {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
         
+        if segue.destination is HashTagViewController {
+            let vc = segue.destination as? HashTagViewController
+            vc?.hash_tag = current_hash_tag
+        } else if segue.destination is VideoViewController {
+            let vc = segue.destination as? VideoViewController
+            vc?.videos = current_hash_tag.videos
+            vc?.selected_position = selected_position
+        } else if segue.destination is CategoryViewController {
+            let vc = segue.destination as? CategoryViewController
+            vc?.name = category_name
+            vc?.id = category_id
+        } else if segue.destination is SearchViewController{
+            let vc = segue.destination as? SearchViewController
+            vc?.search_text = "\(search_text.text.unsafelyUnwrapped)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            search_text.text = ""
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    private func checkCampaingDeeplionk() {
+        guard let campaign = BIDeeplinkHandler.campaignHashtag else { return }
+        
+        fetchBannerHashTags() { [weak self] in
+            if let banner = self?.banners.first(where: { $0.hashtagName == campaign }) {
+                let vc = BIBannerLandingViewController.loadFromNib()
+                vc.banner = banner
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            BIDeeplinkHandler.campaignHashtag = nil
+        }
+    }
+    
+    func fetchCategories() {
         progress.isHidden = false
         progress.startAnimating()
         
@@ -203,70 +154,69 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
-                    do {
-                        if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
-                            for each in json_object {
-                                let category = Category()
-                                category.title = each["title"] as! String
-                                category.id = each["id"] as! Int
-                                self.categories.append(category)
+                        do {
+                            if let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [[String: Any]] {
+                                for each in json_object {
+                                    let category = Category()
+                                    category.title = each["title"] as! String
+                                    category.id = each["id"] as! Int
+                                    self.categories.append(category)
+                                }
                             }
-                          }
-
-                         self.fetchBannerHashTags()
-                        self.categoryView.reloadData()
-
+                            
+                            self.categoryView.reloadData()
+                            
+                        } catch {
+                            print(error.localizedDescription)
+                        }
                     }
-                    catch {
-                        self.fetchBannerHashTags()
-                        print(error.localizedDescription)
-                    }
+                case.failure(let error):
+                    print(error)
                 }
-            case.failure(let error):
-                self.fetchBannerHashTags()
-                print(error)
+                
+                self.fetchBannerHashTags() { [weak self] in
+                    if let wSelf = self {
+                        let viewInsets = wSelf.view.safeAreaInsets
+                        wSelf.discoverView.frame = CGRect(x: 0,
+                                                          y: getStatusBarHeight() + 100,
+                                                          width: wSelf.screenSize.width,
+                                                          height: wSelf.screenSize.height - viewInsets.top - wSelf.search_text.bounds.height - (wSelf.tabBarController?.tabBar.frame.size.height ?? 49.0) - viewInsets.bottom)
+                    }
+                    
+                    self?.fetchHashData()
+                }
             }
-        }
     }
     
-    func fetchBannerHashTags() {
-           
-        AF.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default)
-           .responseString  { (responseData) in
-               switch responseData.result {
-               case.success(let data):
-                   if let json_data = data.data(using: .utf8) {
-                   do {
-                       let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            if let content = json_object?["message"] as? [[String:Any]] {
-                                for each in content {
-                                    let hash_tag = HashTag()
-                                    hash_tag.image = each["banner_img_url"] as! String
-                                    hash_tag.title = each["hashtag_name"] as! String
-                                    self.banners.append(hash_tag)
-                                }
-
-                                self.bannerView.reloadData()
-
-                            }
-                     self.fetchHashData()
-
-                   }
-                   catch {
-                        self.fetchHashData()
-                       print(error.localizedDescription)
-                   }
-               }
-           case.failure(let error):
-                self.fetchHashData()
-                print(error)
-           }
-       }
+    func fetchBannerHashTags(completion: @escaping () -> Void) {
+        var headers: HTTPHeaders?
+        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+        
+        AF.request("https://www.boloindya.com/api/v1/get_campaigns/", method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
+            .responseString { [weak self] (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        do {
+                            let model = try JSONDecoder().decode(BICamapignStatusMessageModel.self, from: json_data)
+                            self?.banners = model.message
+                            self?.discoverView.reloadData()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+                
+                completion()
+            }
    }
     
     func fetchHashData() {
-        
-        if (page == 1) {
+        if page == 1 {
             progress.isHidden = false
             discoverView.isHidden = true
         }
@@ -318,14 +268,13 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
     }
     
     func fetchData() {
-        
         if isLoading {
             return
         }
         
         isLoading = true
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders? = nil
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
         headers = [
@@ -351,7 +300,7 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         
         let url = "https://www.boloindya.com/api/v1/get_popular_hash_tag/?language_id=\(UserDefaults.standard.getValueForLanguageId().unsafelyUnwrapped)&hashtag_ids="+hash_ids
     
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
@@ -389,29 +338,13 @@ class DiscoverViewController: UIViewController , UITableViewDelegate, UITableVie
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is HashTagViewController {
-            let vc = segue.destination as? HashTagViewController
-            vc?.hash_tag = current_hash_tag
-        } else if segue.destination is VideoViewController {
-            let vc = segue.destination as? VideoViewController
-            vc?.videos = current_hash_tag.videos
-            vc?.selected_position = selected_position
-        } else if segue.destination is CategoryViewController {
-            let vc = segue.destination as? CategoryViewController
-            vc?.name = category_name
-            vc?.id = category_id
-        } else if segue.destination is SearchViewController{
-            let vc = segue.destination as? SearchViewController
-            vc?.search_text = "\(search_text.text.unsafelyUnwrapped)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            search_text.text = ""
-        }
+    func goToCategory(with category: Category) {
+        category_name = category.title
+        category_id = "\(category.id)"
+        self.performSegue(withIdentifier: "CategoryView", sender: self)
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
 }
 
 
@@ -431,8 +364,73 @@ extension DiscoverViewController: SectionCellDelegate {
     
 }
 
-extension DiscoverViewController : UITextFieldDelegate {
+extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return hash_tag.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return banners.isEmpty ? CGFloat.leastNormalMagnitude : 100
+        }
+        
+        return ((screenSize.width/3.4)*1.5)+50
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DiscoverBannerTableCell") as! DiscoverBannerTableCell
+            cell.configure(banner: banners)
+            cell.delegate = self
+            return cell
+        }
+        
+        let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SectionCell
+        video_cell.setVideo(hash_tag: hash_tag[indexPath.row])
+        video_cell.delegate = self
+        return video_cell
+    }
+}
+
+extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCollectionViewCell
+        cell.configure(with: categories[indexPath.row])
+        if indexPath.row == 0 {
+            cell.name.textColor = UIColor(hex: "10A5F9")
+        } else {
+            cell.name.textColor = UIColor.white
+        }
+        cell.delegate = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let label = UILabel(frame: CGRect.zero)
+        label.text = categories[indexPath.row].title
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.sizeToFit()
+        return CGSize(width: label.frame.width, height: 20)
+    }
+}
+
+extension DiscoverViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.search_text.resignFirstResponder()
         self.performSegue(withIdentifier: "searchPage", sender: self)
@@ -443,5 +441,12 @@ extension DiscoverViewController : UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-    
+}
+
+extension DiscoverViewController: DiscoverBannerTableCellDelegate {
+    func goToBanner(banner: BICampaignModel) {
+        let vc = BIBannerLandingViewController.loadFromNib()
+        vc.banner = banner
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }

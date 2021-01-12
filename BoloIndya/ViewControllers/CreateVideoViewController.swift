@@ -27,6 +27,8 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     var isRecording: Bool = false
     var video_url: URL!
     
+    var isFromCampaign = false
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -255,10 +257,14 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
     }
     
     @objc func goBack(_ sender: UITapGestureRecognizer) {
-        self.tabBarController?.selectedIndex = 0
-        
-        self.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.tabBar.isHidden = false
+        if isFromCampaign {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.tabBarController?.selectedIndex = 0
+            
+            self.navigationController?.isNavigationBarHidden = false
+            self.tabBarController?.tabBar.isHidden = false
+        }
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {

@@ -212,10 +212,6 @@ class UploadVideoDetailsViewController: UIViewController {
         selectedHashtagCollection.heightAnchor.constraint(equalToConstant: 20).isActive = true
         selectedHashtagCollection.isHidden = true
         
-        add_hashtag.isUserInteractionEnabled = true
-        let hideGestureHash = UITapGestureRecognizer(target: self, action: #selector(hideUnhideHashTag(_:)))
-        add_hashtag.addGestureRecognizer(hideGestureHash)
-        
         choose_language.translatesAutoresizingMaskIntoConstraints = false
         choose_language.widthAnchor.constraint(equalToConstant: (screenSize.width)-20).isActive = true
         choose_language.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -339,6 +335,16 @@ class UploadVideoDetailsViewController: UIViewController {
         let duration = asset.duration
         let durationTime = Int(duration.seconds)
         time = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
+        
+        if let hash = BIDeeplinkHandler.campaignHashtag2, !hash.isEmpty {
+            selected_hash.append(hash)
+            selectedHashtagCollection.isHidden = false
+            selectedHashtagCollection.reloadData()
+        } else {
+            add_hashtag.isUserInteractionEnabled = true
+            let hideGestureHash = UITapGestureRecognizer(target: self, action: #selector(hideUnhideHashTag(_:)))
+            add_hashtag.addGestureRecognizer(hideGestureHash)
+        }
     }
     
     @objc internal func keyboardWillShow(_ notification: NSNotification?) {
@@ -549,7 +555,7 @@ class UploadVideoDetailsViewController: UIViewController {
             "token": "\( UserDefaults.standard.getAuthToken().unsafelyUnwrapped)"
         ]
         
-        var headers: [String: Any]? = nil
+        var headers: HTTPHeaders?
         
         if !(UserDefaults.standard.getAuthToken() ?? "").isEmpty {
             headers = ["Authorization": "Bearer \( UserDefaults.standard.getAuthToken() ?? "")"]
@@ -557,7 +563,7 @@ class UploadVideoDetailsViewController: UIViewController {
         
         let url = "https://www.boloindya.com/api/v1/create_topic"
         
-        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers as? HTTPHeaders)
+        AF.request(url, method: .post, parameters: paramters, encoding: URLEncoding.default, headers: headers)
             .responseString  { (responseData) in
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
@@ -740,6 +746,10 @@ extension UploadVideoDetailsViewController : UICollectionViewDelegate, UICollect
                 choose_category_label.text = category_name
             }
         } else if collectionView == selectedHashtagCollection {
+            if let hash = BIDeeplinkHandler.campaignHashtag2, !hash.isEmpty {
+                return
+            }
+            
             let button = UIButton()
             button.tag = indexPath.item
             didSelectRemoveHashtag(button)

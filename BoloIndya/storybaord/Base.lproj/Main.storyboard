@@ -384,7 +384,7 @@
         <!--Thumbail View Controller-->
         <scene sceneID="2C4-QO-q45">
             <objects>
-                <viewController id="6Kv-Ge-xNS" customClass="ThumbailViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="6Kv-Ge-xNS" customClass="ThumbailViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mRJ-Pw-9Uw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -403,7 +403,7 @@
         <!--Upload Video Details View Controller-->
         <scene sceneID="jDP-bX-FjP">
             <objects>
-                <viewController id="hUQ-1X-MME" customClass="UploadVideoDetailsViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="hUQ-1X-MME" customClass="UploadVideoDetailsViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yTJ-aC-Dul">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -697,10 +697,10 @@
             </objects>
             <point key="canvasLocation" x="438" y="1809"/>
         </scene>
-        <!--Video Editor View Controller-->
+        <!--Create Video View Controller-->
         <scene sceneID="VIN-5l-HrF">
             <objects>
-                <viewController restorationIdentifier="BIVideoEditorViewController" storyboardIdentifier="BIVideoEditorViewController" id="qYv-fu-rie" customClass="BIVideoEditorViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="CreateVideoViewController" storyboardIdentifier="CreateVideoViewController" id="qYv-fu-rie" customClass="CreateVideoViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Zq-Y1-oo9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -50,12 +50,11 @@ class LoginAndSignUpViewController: BaseVC {
         AF.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
             .responseString  { (responseData) in
                 switch responseData.result {
-                case.success(let data):
+                case.success(_):
                     self.otp_image.isHidden = false
                     self.image.isHidden = true
                     self.otp_view.isHidden = false
                     self.number_and_google_login_view.isHidden = true
-                    break
                 case.failure(let error):
                     print(error)
                 }

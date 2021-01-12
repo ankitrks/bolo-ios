@@ -10,16 +10,22 @@ import UIKit
 
 class BannerCollectionViewCell: UICollectionViewCell {
     
-    var image =  UIImageView()
+    var imageView =  UIImageView()
     
-    public func configure(with hash_tag: HashTag) {
+    func configure(with hash_tag: HashTag) {
         let url = URL(string: hash_tag.image)
-        image.kf.setImage(with: url)
+        imageView.kf.setImage(with: url)
+    }
+    
+    func configure(with image: String?) {
+        if let image = image, let url = URL(string: image) {
+            imageView.kf.setImage(with: url)
+        }
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(image)
+        addSubview(imageView)
         
         setImageView()
     }
@@ -29,12 +35,12 @@ class BannerCollectionViewCell: UICollectionViewCell {
     }
     
     func setImageView() {
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.widthAnchor.constraint(equalToConstant: self.frame.width-10).isActive = true
-        image.heightAnchor.constraint(equalToConstant: self.frame.height-10).isActive = true
-        image.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
-        image.layer.cornerRadius = 10.0
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalToConstant: self.frame.width-10).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: self.frame.height-10).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+        imageView.layer.cornerRadius = 10.0
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
     }
 }
