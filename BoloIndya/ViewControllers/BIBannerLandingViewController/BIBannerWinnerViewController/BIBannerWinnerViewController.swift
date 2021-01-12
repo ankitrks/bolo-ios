@@ -84,48 +84,12 @@ extension BIBannerWinnerViewController: UITableViewDelegate, UITableViewDataSour
 
 extension BIBannerWinnerViewController: BIBannerWinnerTableCellDelegate {
     func didTapVideo(winner: BICampaignWinner?) {
-        guard let id = winner?.video else { return }
+        guard let id = winner?.video,
+              let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController
+            else { return }
+         
+        vc.topic_id = "\(id)"
         
-        SVProgressHUD.show()
-        
-        var headers: HTTPHeaders? = nil
-        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
-            headers = ["Authorization": "Bearer \(token)"]
-        }
-        
-        let url = "https://www.boloindya.com/api/v1/get_m3u8_of_ids/?ids=\(id)"
-        
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
-            .responseString { [weak self] (responseData) in
-                
-                SVProgressHUD.dismiss()
-                
-                switch responseData.result {
-                case.success(let data):
-                    if let json_data = data.data(using: .utf8) {
-                        
-                        do {
-                            let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            if let content = (json_object?["results"] as? [[String: Any]])?.first,
-                               let video_url = content["question_video"] as? String,
-                               let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController {
-                                
-                                let topic = Topic()
-                                topic.video_url = video_url
-                                
-                                vc.videos = [topic]
-                                vc.self_user = false
-                                vc.selected_position = 0
-                                
-                                self?.navigationController?.pushViewController(vc, animated: true)
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                case.failure(let error):
-                    print(error)
-                }
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
