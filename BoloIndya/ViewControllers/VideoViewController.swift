@@ -405,6 +405,13 @@ extension VideoViewController : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension VideoViewController: VideoCellDelegate {
+    func goToAudioSelect(with selected_postion: Int) {
+        current_video_cell.player.player?.pause()
+        
+        let vc = BIAudioSelectViewController.loadFromNib()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func didTapOptions(with selected_postion: Int) {
         current_video_cell.player.player?.pause()
         

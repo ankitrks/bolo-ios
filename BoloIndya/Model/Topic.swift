@@ -25,6 +25,7 @@ class Topic {
     var whatsapp_share_count: String
     var vb_score:String
     var languageId: String
+    var music: Music?
     
     init(user: User) {
         self.title = ""
@@ -137,6 +138,7 @@ func getTopicFromJson(each: [String:Any]) -> Topic{
     user.setProfilePic(profile_pic: user_profile_obj?["profile_pic"] as? String ?? "")
     
     let topic = Topic(user: user)
+    topic.music = getMusicDataFromJson(result: each["music"] as? [String:Any])
     topic.setTitle(title: each["title"] as? String ?? "")
     topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")
      topic.setThumbnail(thumbail: each["question_image"] as? String ?? "")

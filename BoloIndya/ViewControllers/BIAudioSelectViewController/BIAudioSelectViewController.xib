@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BIAudioSelectViewController" customModule="BoloIndya" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="AaM-PR-KJy" id="Qos-Gx-mcS"/>
+                <outlet property="musicButton" destination="Jp4-id-Dyy" id="uH6-Nv-ZCz"/>
+                <outlet property="musicSlider" destination="h4N-Zf-aUg" id="t5W-1x-oor"/>
+                <outlet property="remTimeLabel" destination="rYj-bP-d5b" id="AHb-Wo-ktT"/>
+                <outlet property="subtitleLabel" destination="nIj-Yd-6rn" id="ktj-p2-ciZ"/>
+                <outlet property="titleImageView" destination="BFT-KC-AD5" id="uBF-hk-Ydp"/>
+                <outlet property="titleLabel" destination="ffN-A6-RNk" id="2Hx-KB-E7M"/>
+                <outlet property="useAudioButton" destination="XLY-e6-qf4" id="8IM-GY-5u3"/>
+                <outlet property="videoCountLabel" destination="mMS-7E-dzb" id="RLs-DK-jd0"/>
+                <outlet property="view" destination="lG9-Co-yNH" id="4me-tb-9SS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="lG9-Co-yNH">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BkJ-73-P3g">
+                    <rect key="frame" x="12" y="100" width="390" height="125"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="vEl-EA-pPS">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="80"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BFT-KC-AD5">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="80" id="aWH-Vp-KdV"/>
+                                        <constraint firstAttribute="height" constant="80" id="fAY-Ma-pEv"/>
+                                    </constraints>
+                                </imageView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vXW-mQ-OSE">
+                                    <rect key="frame" x="92" y="2.5" width="298" height="75"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffN-A6-RNk">
+                                            <rect key="frame" x="0.0" y="0.0" width="298" height="26"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIj-Yd-6rn">
+                                            <rect key="frame" x="0.0" y="31" width="298" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="14"/>
+                                            <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMS-7E-dzb">
+                                            <rect key="frame" x="0.0" y="55.5" width="298" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="14"/>
+                                            <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HeY-2Z-lh7">
+                            <rect key="frame" x="0.0" y="90" width="390" height="35"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jp4-id-Dyy">
+                                    <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="35" id="hvr-zK-7YT"/>
+                                        <constraint firstAttribute="height" constant="35" id="yOJ-Cl-6xU"/>
+                                    </constraints>
+                                    <color key="tintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <state key="normal" image="play"/>
+                                    <connections>
+                                        <action selector="didTapPlayButton:" destination="-1" eventType="touchUpInside" id="ePN-mq-PHM"/>
+                                    </connections>
+                                </button>
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="h4N-Zf-aUg">
+                                    <rect key="frame" x="41" y="2.5" width="308" height="31"/>
+                                    <color key="minimumTrackTintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="thumbTintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <action selector="sliderValueChanged:" destination="-1" eventType="valueChanged" id="mrT-Hh-cqE"/>
+                                    </connections>
+                                </slider>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rYj-bP-d5b">
+                                    <rect key="frame" x="355" y="8.5" width="35" height="18"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="13"/>
+                                    <color key="textColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="AaM-PR-KJy">
+                    <rect key="frame" x="0.0" y="235" width="414" height="627"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ue1-N0-AeO">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0rl-mm-iXM">
+                    <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHP-aD-JFF">
+                            <rect key="frame" x="5" y="0.0" width="40" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="Adl-dj-GeH"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="8" maxX="0.0" maxY="8"/>
+                            <state key="normal" image="back"/>
+                            <connections>
+                                <action selector="didTapBackButton:" destination="-1" eventType="touchUpInside" id="7tJ-ka-ShE"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1333333333" green="0.12549019610000001" blue="0.12549019610000001" alpha="1" colorSpace="deviceRGB"/>
+                    <constraints>
+                        <constraint firstItem="hHP-aD-JFF" firstAttribute="top" secondItem="0rl-mm-iXM" secondAttribute="top" id="2L1-4c-fZS"/>
+                        <constraint firstItem="hHP-aD-JFF" firstAttribute="leading" secondItem="0rl-mm-iXM" secondAttribute="leading" constant="5" id="YUy-Vs-yfj"/>
+                        <constraint firstAttribute="bottom" secondItem="hHP-aD-JFF" secondAttribute="bottom" id="nsj-zs-es8"/>
+                        <constraint firstAttribute="height" constant="44" id="zaZ-dP-7uL"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLY-e6-qf4">
+                    <rect key="frame" x="150" y="818" width="114" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="114" id="AnI-bt-VJc"/>
+                        <constraint firstAttribute="height" constant="44" id="LX2-td-IBO"/>
+                    </constraints>
+                    <state key="normal" image="use_audio"/>
+                    <connections>
+                        <action selector="didTapUseAudio:" destination="-1" eventType="touchUpInside" id="Ksx-DR-ypw"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="64e-Vp-pZZ"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="64e-Vp-pZZ" firstAttribute="bottom" secondItem="XLY-e6-qf4" secondAttribute="bottom" id="BQa-z3-Mdv"/>
+                <constraint firstItem="64e-Vp-pZZ" firstAttribute="trailing" secondItem="BkJ-73-P3g" secondAttribute="trailing" constant="12" id="Bsg-lr-fWg"/>
+                <constraint firstItem="0rl-mm-iXM" firstAttribute="top" secondItem="64e-Vp-pZZ" secondAttribute="top" id="YSE-Ym-kcY"/>
+                <constraint firstItem="64e-Vp-pZZ" firstAttribute="bottom" secondItem="AaM-PR-KJy" secondAttribute="bottom" id="Z1f-ov-g86"/>
+                <constraint firstItem="BkJ-73-P3g" firstAttribute="top" secondItem="0rl-mm-iXM" secondAttribute="bottom" constant="12" id="hpv-AS-VMa"/>
+                <constraint firstItem="0rl-mm-iXM" firstAttribute="leading" secondItem="lG9-Co-yNH" secondAttribute="leading" id="jLr-Mg-NJL"/>
+                <constraint firstItem="AaM-PR-KJy" firstAttribute="top" secondItem="BkJ-73-P3g" secondAttribute="bottom" constant="10" id="kw2-A1-DQW"/>
+                <constraint firstItem="XLY-e6-qf4" firstAttribute="centerX" secondItem="lG9-Co-yNH" secondAttribute="centerX" id="luY-Uq-iTa"/>
+                <constraint firstItem="AaM-PR-KJy" firstAttribute="leading" secondItem="64e-Vp-pZZ" secondAttribute="leading" id="udz-Pr-oib"/>
+                <constraint firstItem="64e-Vp-pZZ" firstAttribute="trailing" secondItem="0rl-mm-iXM" secondAttribute="trailing" id="upF-ZI-2hY"/>
+                <constraint firstItem="64e-Vp-pZZ" firstAttribute="trailing" secondItem="AaM-PR-KJy" secondAttribute="trailing" id="vpp-kP-0jn"/>
+                <constraint firstItem="BkJ-73-P3g" firstAttribute="leading" secondItem="64e-Vp-pZZ" secondAttribute="leading" constant="12" id="wWG-0f-TjG"/>
+            </constraints>
+            <point key="canvasLocation" x="-97.101449275362327" y="17.410714285714285"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="back" width="30" height="30"/>
+        <image name="play" width="30" height="30"/>
+        <image name="use_audio" width="168.5" height="65"/>
+    </resources>
+</document>

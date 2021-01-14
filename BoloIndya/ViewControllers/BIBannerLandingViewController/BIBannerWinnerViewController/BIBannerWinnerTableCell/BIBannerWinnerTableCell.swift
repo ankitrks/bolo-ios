@@ -24,7 +24,7 @@ final class BIBannerWinnerTableCell: UITableViewCell {
             } else {
                 sNoLabel.text = ""
             }
-            nameLabel.text = winner?.user?.userprofile.name
+            nameLabel.text = winner?.user?.userprofile?.name
             linkButton.setTitle("Click Here", for: .normal)
         }
     }

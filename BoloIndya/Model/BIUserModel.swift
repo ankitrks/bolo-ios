@@ -9,11 +9,11 @@
 import Foundation
 
 struct BIUserModel: Codable {
-    let email, firstName: String
-    let id: Int
-    let isActive: Bool
-    let lastName, username: String
-    let userprofile: Userprofile
+    let email, firstName: String?
+    let id: Int?
+    let isActive: Bool?
+    let lastName, username: String?
+    let userprofile: Userprofile?
 
     enum CodingKeys: String, CodingKey {
         case email

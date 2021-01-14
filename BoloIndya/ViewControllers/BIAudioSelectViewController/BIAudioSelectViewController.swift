@@ -1,0 +1,277 @@
+//
+//  BIAudioSelectViewController.swift
+//  BoloIndya
+//
+//  Created by Rahul Garg on 13/01/21.
+//  Copyright © 2021 Synergybyte Media Private Limited. All rights reserved.
+//
+
+import UIKit
+import Alamofire
+import Kingfisher
+import SVProgressHUD
+import AVKit
+
+final class BIAudioSelectViewController: UIViewController {
+    @IBOutlet private weak var titleImageView: UIImageView! {
+        didSet {
+            titleImageView.contentMode = .scaleAspectFill
+            titleImageView.layer.cornerRadius = 5
+            titleImageView.clipsToBounds = true
+        }
+    }
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var subtitleLabel: UILabel!
+    @IBOutlet private weak var videoCountLabel: UILabel!
+    
+    @IBOutlet private weak var musicButton: UIButton!
+    @IBOutlet private weak var musicSlider: UISlider! {
+        didSet {
+            musicSlider.isContinuous = true
+            if #available(iOS 13.0, *) {
+                let image = UIImage(named: "circle_black")?.withTintColor(UIColor(hex: "10A5F9") ?? .white)
+                musicSlider.setThumbImage(image, for: .normal)
+            }
+        }
+    }
+    @IBOutlet private weak var remTimeLabel: UILabel!
+    
+    @IBOutlet private weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 50, right: 10)
+            collectionView.showsVerticalScrollIndicator = false
+            collectionView.isPrefetchingEnabled = true
+            
+            collectionView.register(cellType: BIAudioSelectCell.self)
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.prefetchDataSource = self
+        }
+    }
+    
+    @IBOutlet private weak var useAudioButton: UIButton! {
+        didSet {
+            useAudioButton.imageView?.contentMode = .scaleAspectFill
+            useAudioButton.contentMode = .scaleAspectFill
+        }
+    }
+    
+    private var player: AVPlayer?
+    
+    private var musicModel: BIMusicResultNextCountModel?
+    
+    private var isLoading = false
+    private var isLastPageReached = false
+    
+    var music: Music?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        tabBarController?.tabBar.isHidden = true
+        
+        videoCountLabel.isHidden = true
+        
+        if let music = music?.s3_file_path, let url = URL(string: music) {
+            let playerItem = AVPlayerItem(url: url)
+            player = AVPlayer(playerItem: playerItem)
+            
+            let duration = playerItem.asset.duration
+            let seconds: Float64 = CMTimeGetSeconds(duration)
+            remTimeLabel.text = stringFromTimeInterval(interval: seconds)
+            
+            musicSlider.maximumValue = Float(seconds)
+            musicSlider.isContinuous = true
+            
+            player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] _ in
+                guard let player = self?.player else { return }
+                
+                if player.currentItem?.status == .readyToPlay {
+                    let time = CMTimeGetSeconds(player.currentTime())
+                    self?.musicSlider.value = Float(time)
+                    self?.remTimeLabel.text = self?.stringFromTimeInterval(interval: time)
+                }
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)),
+               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        titleLabel.text = music?.title
+        subtitleLabel.text = music?.author_name
+        if let image = music?.image_path, let url = URL(string: image) {
+            titleImageView.kf.setImage(with: url)
+        }
+        
+        SVProgressHUD.show()
+        fetchData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        SVProgressHUD.dismiss()
+        
+        player?.pause()
+    }
+    
+    private func fetchData() {
+        var url: String
+        if let next = musicModel?.next, !next.isEmpty {
+            url = next
+        } else if let musicId = music?.id {
+            url = "https://www.boloindya.com/api/v1/music/\(musicId)/videos/"
+        } else {
+            return
+        }
+
+        isLoading = true
+
+        var headers: HTTPHeaders? = nil
+        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers)
+            .responseString { [weak self] (responseData) in
+
+                self?.isLoading = false
+                SVProgressHUD.dismiss()
+
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+
+                        do {
+                           let model = try JSONDecoder().decode(BIMusicResultNextCountModel.self, from: json_data)
+                            self?.musicModel = model
+                            
+                            let count = model.count ?? 0
+                            if count == 0 {
+                                self?.videoCountLabel.isHidden = true
+                            } else if count == 1 {
+                                self?.videoCountLabel.isHidden = false
+                                self?.videoCountLabel.text = "1 Video"
+                            } else {
+                                self?.videoCountLabel.isHidden = false
+                                self?.videoCountLabel.text = "\(count) Videos"
+                            }
+                            
+                            if let result = model.results, !result.isEmpty {
+                                self?.isLastPageReached = false
+                            } else {
+                                self?.isLastPageReached = true
+                            }
+                            
+                            self?.collectionView.reloadData()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+        }
+    }
+    
+    private func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    @objc private func playerDidFinishPlaying(_ notification: NSNotification) {
+        musicButton.setImage(UIImage(named: "play"), for: .normal)
+        player?.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+    }
+    
+    @IBAction private func didTapPlayButton(_ sender: UIButton) {
+        if player?.rate == 0 {
+            player?.play()
+            musicButton.setImage(UIImage(named: "pause"), for: .normal)
+        } else {
+            player?.pause()
+            musicButton.setImage(UIImage(named: "play"), for: .normal)
+        }
+    }
+    
+    @IBAction private func sliderValueChanged(_ sender: Any) {
+        let seconds = Int64(musicSlider.value)
+        let targetTime = CMTimeMake(value: seconds, timescale: 1)
+        player?.seek(to: targetTime)
+    }
+    
+    @IBAction private func didTapBackButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction private func didTapUseAudio(_ sender: UIButton) {
+        
+    }
+}
+
+extension BIAudioSelectViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return musicModel?.results?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let results = musicModel?.results, indexPath.item > results.count - 5, !isLastPageReached, !isLoading {
+            fetchData()
+        }
+        
+        let cell = collectionView.dequeueReusableCell(with: BIAudioSelectCell.self, for: indexPath)
+        if let results = musicModel?.results, results.count > indexPath.item {
+            cell.config(music: results[indexPath.item])
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let results = musicModel?.results,
+              results.count > indexPath.item,
+              let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController
+            else { return }
+        
+        vc.topic_id = "\(results[indexPath.item].id)"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension BIAudioSelectViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let spacing: CGFloat = 40
+        let itemWidth = (collectionView.bounds.width - spacing) / 3
+        return CGSize(width: itemWidth, height: itemWidth*1.5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+}
+
+extension BIAudioSelectViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        var urls = [URL]()
+        for indexpath in indexPaths {
+            guard let results = musicModel?.results,
+                  results.count > indexpath.row,
+                  let url = URL(string: results[indexpath.row].questionImage)
+                else { continue }
+            
+            urls.append(url)
+        }
+        
+        ImagePrefetcher(urls: urls).start()
+    }
+}

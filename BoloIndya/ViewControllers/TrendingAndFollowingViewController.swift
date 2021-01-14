@@ -717,6 +717,16 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
 }
 
 extension TrendingAndFollowingViewController: VideoCellDelegate {
+    func goToAudioSelect(with selected_postion: Int) {
+        guard videos.count > selected_postion else { return }
+        
+        current_video_cell.player.player?.pause()
+        
+        let vc = BIAudioSelectViewController.loadFromNib()
+        vc.music = videos[selected_postion].music
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func didTapOptions(with selected_postion: Int) {
         current_video_cell.player.player?.pause()
         

@@ -12,6 +12,7 @@ protocol VideoCellDelegate {
     func didTapOptions(with selected_postion: Int)
     func goToProfile(with selected_postion: Int)
     func goToSharing(with selected_postion: Int)
+    func goToAudioSelect(with selected_postion: Int)
 
     func renderComments(with selected_postion: Int)
 
@@ -25,6 +26,8 @@ protocol VideoCellDelegate {
 class VideoCell: UITableViewCell {
 
     var title = UILabel()
+    
+    var songLabel = UILabel()
 
     var username = UILabel()
     var like_count = UILabel()
@@ -80,6 +83,7 @@ class VideoCell: UITableViewCell {
         addSubview(video_image)
         addSubview(play_click)
         addSubview(title)
+        addSubview(songLabel)
         addSubview(username)
         addSubview(actions_stack)
         addSubview(optionButton)
@@ -90,7 +94,7 @@ class VideoCell: UITableViewCell {
         //        addSubview(duration)
 
 
-
+        setSongAttribute()
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
@@ -166,6 +170,7 @@ class VideoCell: UITableViewCell {
         like_image.isUserInteractionEnabled = true
         whatsapp_share_image.isUserInteractionEnabled = true
         share_image.isUserInteractionEnabled = true
+        songLabel.isUserInteractionEnabled = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
@@ -185,6 +190,9 @@ class VideoCell: UITableViewCell {
 
         let whatsappGesture = UITapGestureRecognizer(target: self, action: #selector(downloadAndShareVideoWhatsapp(_:)))
         whatsapp_share_image.addGestureRecognizer(whatsappGesture)
+        
+        let audioSongGesture = UITapGestureRecognizer(target: self, action: #selector(tapAudioSong(_:)))
+        songLabel.addGestureRecognizer(audioSongGesture)
     }
 
     @objc func goToProfile(_ sender: UITapGestureRecognizer) {
@@ -200,6 +208,10 @@ class VideoCell: UITableViewCell {
 
     @objc func downloadAndShareVideoWhatsapp(_ sender: UITapGestureRecognizer) {
         delegate?.downloadAndShareVideoWhatsapp(with: selected_postion)
+    }
+    
+    @objc func tapAudioSong(_ sender: UITapGestureRecognizer) {
+        delegate?.goToAudioSelect(with: selected_postion)
     }
 
     @objc func pausePlayer(_ sender: UITapGestureRecognizer) {
@@ -256,12 +268,24 @@ class VideoCell: UITableViewCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         title.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
-        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+        title.bottomAnchor.constraint(equalTo: songLabel.topAnchor, constant: -15).isActive = true
 
         title.font = UIFont.systemFont(ofSize: 14.0)
         title.lineBreakMode = NSLineBreakMode.byWordWrapping
         title.numberOfLines = 4
         title.textColor = UIColor.white
+    }
+    
+    func setSongAttribute() {
+        songLabel.translatesAutoresizingMaskIntoConstraints = false
+        songLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        songLabel.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
+        songLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+
+        songLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
+        songLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        songLabel.numberOfLines = 2
+        songLabel.textColor = UIColor.white
     }
 
     func setUsernameAttribute() {
@@ -269,7 +293,7 @@ class VideoCell: UITableViewCell {
         username.translatesAutoresizingMaskIntoConstraints = false
         username.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
         username.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -10).isActive = true
+        username.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -5).isActive = true
 
         username.font = UIFont.boldSystemFont(ofSize: 15.0)
         username.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -453,6 +477,23 @@ class VideoCell: UITableViewCell {
         self.topic = topic
 
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        
+        if let music = topic.music?.title {
+            let iconImage = UIImage(named: "music_note_white")!
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = iconImage
+            imageAttachment.bounds = CGRect(x: 0, y: (songLabel.font.capHeight - iconImage.size.height).rounded() / 2, width: iconImage.size.width, height: iconImage.size.height)
+            let imageString = NSAttributedString(attachment: imageAttachment)
+
+            let fullString = NSMutableAttributedString(string: "")
+            fullString.append(imageString)
+            fullString.append(NSAttributedString(string: "  \(music)"))
+            songLabel.attributedText = fullString
+        } else {
+            songLabel.text = nil
+        }
+        
+        
         let url = URL(string: topic.thumbnailHome)
         video_image.isHidden = false
         video_image.kf.setImage(with: url)

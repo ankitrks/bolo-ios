@@ -74,6 +74,15 @@
 		35067C7B25A5D81000E7AF5B /* BIDeeplinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */; };
 		3507386A25ADE3FE00D0A542 /* BIUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507386925ADE3FE00D0A542 /* BIUserModel.swift */; };
 		3507386D25ADE41300D0A542 /* BIUserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507386C25ADE41300D0A542 /* BIUserProfileModel.swift */; };
+		3507387025AEDE1E00D0A542 /* BIAudioSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507386F25AEDE1E00D0A542 /* BIAudioSelectViewController.swift */; };
+		3507387325AEDE3300D0A542 /* BIAudioSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3507387225AEDE3300D0A542 /* BIAudioSelectViewController.xib */; };
+		3507387825AEE49400D0A542 /* BISmallThumbSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507387725AEE49400D0A542 /* BISmallThumbSlider.swift */; };
+		3507387B25AEEED200D0A542 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507387A25AEEED200D0A542 /* Music.swift */; };
+		3507387E25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507387D25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift */; };
+		3507388125AEFCAF00D0A542 /* BIMusicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507388025AEFCAF00D0A542 /* BIMusicModel.swift */; };
+		3507388425AEFD1800D0A542 /* BIMusicResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507388325AEFD1800D0A542 /* BIMusicResultModel.swift */; };
+		3507388725AEFF4D00D0A542 /* BIAudioSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507388625AEFF4D00D0A542 /* BIAudioSelectCell.swift */; };
+		3507388A25AEFF6400D0A542 /* BIAudioSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */; };
 		3516D646258B399F00E05720 /* EventName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3516D645258B399F00E05720 /* EventName.swift */; };
 		3545CE8E2589F6A60067B37A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3545CE8D2589F6A60067B37A /* AdSupport.framework */; };
 		3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4E225A46713009A8F77 /* DiscoverBannerTableCell.swift */; };
@@ -208,6 +217,15 @@
 		35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIDeeplinkHandler.swift; sourceTree = "<group>"; };
 		3507386925ADE3FE00D0A542 /* BIUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIUserModel.swift; sourceTree = "<group>"; };
 		3507386C25ADE41300D0A542 /* BIUserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIUserProfileModel.swift; sourceTree = "<group>"; };
+		3507386F25AEDE1E00D0A542 /* BIAudioSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIAudioSelectViewController.swift; sourceTree = "<group>"; };
+		3507387225AEDE3300D0A542 /* BIAudioSelectViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIAudioSelectViewController.xib; sourceTree = "<group>"; };
+		3507387725AEE49400D0A542 /* BISmallThumbSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISmallThumbSlider.swift; sourceTree = "<group>"; };
+		3507387A25AEEED200D0A542 /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
+		3507387D25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicResultNextCountModel.swift; sourceTree = "<group>"; };
+		3507388025AEFCAF00D0A542 /* BIMusicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicModel.swift; sourceTree = "<group>"; };
+		3507388325AEFD1800D0A542 /* BIMusicResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicResultModel.swift; sourceTree = "<group>"; };
+		3507388625AEFF4D00D0A542 /* BIAudioSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIAudioSelectCell.swift; sourceTree = "<group>"; };
+		3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIAudioSelectCell.xib; sourceTree = "<group>"; };
 		3516D645258B399F00E05720 /* EventName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventName.swift; sourceTree = "<group>"; };
 		3545CE7E2589F6180067B37A /* WebEngage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebEngage.framework; path = ../../../Downloads/WebEngageFramework/xc9/WebEngage.framework; sourceTree = "<group>"; };
 		3545CE892589F68E0067B37A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -298,8 +316,12 @@
 				6EBBB89425092B7300A1B4C0 /* userInfo */,
 				183B4BA924B86954003EC6D7 /* Topic.swift */,
 				183B4BAB24B86DE4003EC6D7 /* User.swift */,
+				3507387A25AEEED200D0A542 /* Music.swift */,
 				3507386925ADE3FE00D0A542 /* BIUserModel.swift */,
 				3507386C25ADE41300D0A542 /* BIUserProfileModel.swift */,
+				3507387D25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift */,
+				3507388325AEFD1800D0A542 /* BIMusicResultModel.swift */,
+				3507388025AEFCAF00D0A542 /* BIMusicModel.swift */,
 				1871C4A224BB233400285DEC /* Notification.swift */,
 				18CE0DC324C0DFBE003B0E51 /* HashTag.swift */,
 				18C771B424CB2F20007E3AC2 /* Category.swift */,
@@ -432,6 +454,7 @@
 				18413AD324DF1EB600F3E2A1 /* SearchViewController.swift */,
 				6EB4AEDA24FBA60100C01D72 /* UserProfileEditVC.swift */,
 				6EEA92962509599200B1858B /* BaseVC.swift */,
+				3507387525AEDE5B00D0A542 /* BIAudioSelectViewController */,
 				3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */,
 				35E7716D259B1D4E00BE4529 /* BIReportViewController */,
 				3563E53625A48704009A8F77 /* BIVideoCollectionViewController */,
@@ -467,6 +490,25 @@
 				35067C7825A5C61700E7AF5B /* BIBannerWinnerTableCell.xib */,
 			);
 			path = BIBannerWinnerTableCell;
+			sourceTree = "<group>";
+		};
+		3507387525AEDE5B00D0A542 /* BIAudioSelectViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3507386F25AEDE1E00D0A542 /* BIAudioSelectViewController.swift */,
+				3507387225AEDE3300D0A542 /* BIAudioSelectViewController.xib */,
+				3507388C25AEFF6900D0A542 /* BIAudioSelectCell */,
+			);
+			path = BIAudioSelectViewController;
+			sourceTree = "<group>";
+		};
+		3507388C25AEFF6900D0A542 /* BIAudioSelectCell */ = {
+			isa = PBXGroup;
+			children = (
+				3507388625AEFF4D00D0A542 /* BIAudioSelectCell.swift */,
+				3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */,
+			);
+			path = BIAudioSelectCell;
 			sourceTree = "<group>";
 		};
 		3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */ = {
@@ -576,6 +618,7 @@
 				35E25C6E2590AEBE00F15EF3 /* KeyboardHandler.swift */,
 				35C24FB325947A7300CF5200 /* KeychainHelper.swift */,
 				35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */,
+				3507387725AEE49400D0A542 /* BISmallThumbSlider.swift */,
 				35C24FB5259483C200CF5200 /* WebEngage */,
 			);
 			path = Helper;
@@ -753,6 +796,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3507387325AEDE3300D0A542 /* BIAudioSelectViewController.xib in Resources */,
 				3563E52C25A479C9009A8F77 /* BIBannerLandingViewController.xib in Resources */,
 				274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */,
 				35E77176259B23C700BE4529 /* BIReportTableCell.xib in Resources */,
@@ -768,6 +812,7 @@
 				6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */,
 				3563E54025A48AFE009A8F77 /* BIVideoCollectionCell.xib in Resources */,
 				6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */,
+				3507388A25AEFF6400D0A542 /* BIAudioSelectCell.xib in Resources */,
 				18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */,
 				3563E53125A48699009A8F77 /* BIHTMLViewController.xib in Resources */,
 				35067C7325A5B95E00E7AF5B /* BIBannerRulesViewController.xib in Resources */,
@@ -841,6 +886,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3507387E25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift in Sources */,
 				35E77174259B23AE00BE4529 /* BIReportTableCell.swift in Sources */,
 				6EEA92AE250BDB3B00B1858B /* SelfSizedTableView.swift in Sources */,
 				183BDCCA24B7BF5600ACF912 /* DiscoverViewController.swift in Sources */,
@@ -854,12 +900,14 @@
 				186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */,
 				183B4BAA24B86954003EC6D7 /* Topic.swift in Sources */,
 				35911729258A0502005ECF65 /* WebEngageHelper.swift in Sources */,
+				3507387025AEDE1E00D0A542 /* BIAudioSelectViewController.swift in Sources */,
 				1871C4A324BB233400285DEC /* Notification.swift in Sources */,
 				6EBBB8A62509428F00A1B4C0 /* Constants.swift in Sources */,
 				35A2D8CE258DEB8F00DA85ED /* SelectedHastagCollectionCell.swift in Sources */,
 				35E25C4325909A5700F15EF3 /* BICommentLoadingCell.swift in Sources */,
 				18B56B5124CB49BB00CE7DE8 /* Comment.swift in Sources */,
 				185CDBA424D9450F00DCC756 /* FollowerViewCell.swift in Sources */,
+				3507388425AEFD1800D0A542 /* BIMusicResultModel.swift in Sources */,
 				18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */,
 				1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */,
 				18F93B3124B71D1C006621DB /* ViewController.swift in Sources */,
@@ -912,6 +960,7 @@
 				35E25C4025908B5600F15EF3 /* UITableView+Extension.swift in Sources */,
 				18F93B2D24B71D1C006621DB /* AppDelegate.swift in Sources */,
 				6EBBB8B125094A6D00A1B4C0 /* Connectivity.swift in Sources */,
+				3507388125AEFCAF00D0A542 /* BIMusicModel.swift in Sources */,
 				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
 				3563E52925A479A6009A8F77 /* BIBannerLandingViewController.swift in Sources */,
 				35067C6B25A59E8000E7AF5B /* BICampaignModel.swift in Sources */,
@@ -926,14 +975,17 @@
 				18C771B324CB05AD007E3AC2 /* CategoryViewController.swift in Sources */,
 				18F93B4224B72147006621DB /* ChooseLanguageController.swift in Sources */,
 				359DEAD325821B3C002B31A8 /* SwiftyCamButton.swift in Sources */,
+				3507387B25AEEED200D0A542 /* Music.swift in Sources */,
 				6EB4AEDB24FBA60100C01D72 /* UserProfileEditVC.swift in Sources */,
 				18FDCA8124DBEF7D00113CDC /* HashUploadCollectionViewCell.swift in Sources */,
 				181A96BD24DB17ED00B360BA /* CategoryUploadCollectionViewCell.swift in Sources */,
 				18708AB024DAC9EA0006F356 /* UploadVideoDetailsViewController.swift in Sources */,
 				18B72A7B24BDF217001E4D42 /* PlayerViewClass.swift in Sources */,
 				18FD085C24BE25A1007E55D6 /* VideoViewController.swift in Sources */,
+				3507388725AEFF4D00D0A542 /* BIAudioSelectCell.swift in Sources */,
 				35E25C6F2590AEBE00F15EF3 /* KeyboardHandler.swift in Sources */,
 				359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */,
+				3507387825AEE49400D0A542 /* BISmallThumbSlider.swift in Sources */,
 				3594F28E2585601D005B96DC /* UIImage+Extension.swift in Sources */,
 				3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */,
 				359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */,
