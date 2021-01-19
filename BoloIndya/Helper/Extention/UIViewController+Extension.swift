@@ -44,8 +44,8 @@ extension UIViewController {
         let a4 = NSLayoutConstraint(item: toastLabel, attribute: .top, relatedBy: .equal, toItem: toastContainer, attribute: .top, multiplier: 1, constant: 10)
         toastContainer.addConstraints([a1, a2, a3, a4])
         
-        let c1 = NSLayoutConstraint(item: toastContainer, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: self.view, attribute: .leading, multiplier: 1, constant: 50)
-        let c2 = NSLayoutConstraint(item: toastContainer, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -50)
+        let c1 = NSLayoutConstraint(item: toastContainer, attribute: .width, relatedBy: .lessThanOrEqual, toItem: view, attribute: .width, multiplier: 1, constant: -90)
+        let c2 = NSLayoutConstraint(item: toastContainer, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 1)
         let c3 = NSLayoutConstraint(item: toastContainer, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -125)
         self.view.addConstraints([c1, c2, c3])
         

@@ -83,6 +83,16 @@
 		3507388425AEFD1800D0A542 /* BIMusicResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507388325AEFD1800D0A542 /* BIMusicResultModel.swift */; };
 		3507388725AEFF4D00D0A542 /* BIAudioSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507388625AEFF4D00D0A542 /* BIAudioSelectCell.swift */; };
 		3507388A25AEFF6400D0A542 /* BIAudioSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */; };
+		350738AE25B0362A00D0A542 /* BIAudioTrimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350738AD25B0362A00D0A542 /* BIAudioTrimmerView.swift */; };
+		350738B125B0363E00D0A542 /* BIAudioTrimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 350738B025B0363E00D0A542 /* BIAudioTrimmerView.xib */; };
+		350738B625B039F300D0A542 /* AudioContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350738B525B039F300D0A542 /* AudioContext.swift */; };
+		3507390925B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507390825B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift */; };
+		3507390C25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3507390B25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib */; };
+		3507391125B200A400D0A542 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507391025B200A400D0A542 /* TrackCell.swift */; };
+		3507391425B200B700D0A542 /* TrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3507391325B200B700D0A542 /* TrackCell.xib */; };
+		3507391925B2012300D0A542 /* BIMusicTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507391825B2012300D0A542 /* BIMusicTrackModel.swift */; };
+		3507391C25B2013800D0A542 /* BIMusicTrackSuccessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507391B25B2013800D0A542 /* BIMusicTrackSuccessModel.swift */; };
+		3507392125B577FF00D0A542 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507392025B577FF00D0A542 /* Double+Extension.swift */; };
 		3516D646258B399F00E05720 /* EventName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3516D645258B399F00E05720 /* EventName.swift */; };
 		3545CE8E2589F6A60067B37A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3545CE8D2589F6A60067B37A /* AdSupport.framework */; };
 		3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563E4E225A46713009A8F77 /* DiscoverBannerTableCell.swift */; };
@@ -226,6 +236,16 @@
 		3507388325AEFD1800D0A542 /* BIMusicResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicResultModel.swift; sourceTree = "<group>"; };
 		3507388625AEFF4D00D0A542 /* BIAudioSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIAudioSelectCell.swift; sourceTree = "<group>"; };
 		3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIAudioSelectCell.xib; sourceTree = "<group>"; };
+		350738AD25B0362A00D0A542 /* BIAudioTrimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIAudioTrimmerView.swift; sourceTree = "<group>"; };
+		350738B025B0363E00D0A542 /* BIAudioTrimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIAudioTrimmerView.xib; sourceTree = "<group>"; };
+		350738B525B039F300D0A542 /* AudioContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioContext.swift; sourceTree = "<group>"; };
+		3507390825B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIAudioGallerySelectorViewController.swift; sourceTree = "<group>"; };
+		3507390B25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIAudioGallerySelectorViewController.xib; sourceTree = "<group>"; };
+		3507391025B200A400D0A542 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
+		3507391325B200B700D0A542 /* TrackCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackCell.xib; sourceTree = "<group>"; };
+		3507391825B2012300D0A542 /* BIMusicTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicTrackModel.swift; sourceTree = "<group>"; };
+		3507391B25B2013800D0A542 /* BIMusicTrackSuccessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIMusicTrackSuccessModel.swift; sourceTree = "<group>"; };
+		3507392025B577FF00D0A542 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		3516D645258B399F00E05720 /* EventName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventName.swift; sourceTree = "<group>"; };
 		3545CE7E2589F6180067B37A /* WebEngage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebEngage.framework; path = ../../../Downloads/WebEngageFramework/xc9/WebEngage.framework; sourceTree = "<group>"; };
 		3545CE892589F68E0067B37A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -454,6 +474,8 @@
 				18413AD324DF1EB600F3E2A1 /* SearchViewController.swift */,
 				6EB4AEDA24FBA60100C01D72 /* UserProfileEditVC.swift */,
 				6EEA92962509599200B1858B /* BaseVC.swift */,
+				3507390E25B1FFA900D0A542 /* BIAudioGallerySelectorViewController */,
+				350738B325B0364400D0A542 /* BIAudioTrimmerView */,
 				3507387525AEDE5B00D0A542 /* BIAudioSelectViewController */,
 				3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */,
 				35E7716D259B1D4E00BE4529 /* BIReportViewController */,
@@ -509,6 +531,37 @@
 				3507388925AEFF6400D0A542 /* BIAudioSelectCell.xib */,
 			);
 			path = BIAudioSelectCell;
+			sourceTree = "<group>";
+		};
+		350738B325B0364400D0A542 /* BIAudioTrimmerView */ = {
+			isa = PBXGroup;
+			children = (
+				350738AD25B0362A00D0A542 /* BIAudioTrimmerView.swift */,
+				350738B525B039F300D0A542 /* AudioContext.swift */,
+				350738B025B0363E00D0A542 /* BIAudioTrimmerView.xib */,
+			);
+			path = BIAudioTrimmerView;
+			sourceTree = "<group>";
+		};
+		3507390E25B1FFA900D0A542 /* BIAudioGallerySelectorViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3507390825B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift */,
+				3507390B25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib */,
+				3507391825B2012300D0A542 /* BIMusicTrackModel.swift */,
+				3507391B25B2013800D0A542 /* BIMusicTrackSuccessModel.swift */,
+				3507391625B200BC00D0A542 /* TrackCell */,
+			);
+			path = BIAudioGallerySelectorViewController;
+			sourceTree = "<group>";
+		};
+		3507391625B200BC00D0A542 /* TrackCell */ = {
+			isa = PBXGroup;
+			children = (
+				3507391025B200A400D0A542 /* TrackCell.swift */,
+				3507391325B200B700D0A542 /* TrackCell.xib */,
+			);
+			path = TrackCell;
 			sourceTree = "<group>";
 		};
 		3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */ = {
@@ -701,6 +754,7 @@
 				6EB4AEDD24FBEF0000C01D72 /* UIImageView+Extension.swift */,
 				3594F28D2585601D005B96DC /* UIImage+Extension.swift */,
 				6EEA92A9250ADED500B1858B /* Date.swift */,
+				3507392025B577FF00D0A542 /* Double+Extension.swift */,
 				35067C6E25A5A46A00E7AF5B /* String+Extension.swift */,
 				3594F27E2584A48E005B96DC /* UIColor+Extension.swift */,
 			);
@@ -799,14 +853,17 @@
 				3507387325AEDE3300D0A542 /* BIAudioSelectViewController.xib in Resources */,
 				3563E52C25A479C9009A8F77 /* BIBannerLandingViewController.xib in Resources */,
 				274871B02516139600FE0A8A /* BoloIndya.entitlements in Resources */,
+				3507391425B200B700D0A542 /* TrackCell.xib in Resources */,
 				35E77176259B23C700BE4529 /* BIReportTableCell.xib in Resources */,
 				187DA65224B8A36D005522FB /* Main.storyboard in Resources */,
+				350738B125B0363E00D0A542 /* BIAudioTrimmerView.xib in Resources */,
 				6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */,
 				357B42152590820B009229D8 /* BICommentView.xib in Resources */,
 				3563E53A25A48736009A8F77 /* BIBannerWinnerViewController.xib in Resources */,
 				357B421B259084F5009229D8 /* BICommentTableCell.xib in Resources */,
 				35067C7925A5C61700E7AF5B /* BIBannerWinnerTableCell.xib in Resources */,
 				35E25C4525909A9000F15EF3 /* BICommentLoadingCell.xib in Resources */,
+				3507390C25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib in Resources */,
 				35E77171259B1D7A00BE4529 /* BIReportViewController.xib in Resources */,
 				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,
 				6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */,
@@ -934,6 +991,7 @@
 				3563E53325A486D5009A8F77 /* BIVideoCollectionViewController.swift in Sources */,
 				1853A39924BDB78F00EE2595 /* ProfileViewController.swift in Sources */,
 				1811310724D6C51F009DDB54 /* Languages.swift in Sources */,
+				3507391C25B2013800D0A542 /* BIMusicTrackSuccessModel.swift in Sources */,
 				1871C4B324BB41C600285DEC /* NotificationCell.swift in Sources */,
 				3594F2B225877D8C005B96DC /* UIActivity+Extension.swift in Sources */,
 				3563E52F25A48685009A8F77 /* BIHTMLViewController.swift in Sources */,
@@ -942,6 +1000,7 @@
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
 				35E25C3B259088F800F15EF3 /* ClassNameProtocol.swift in Sources */,
+				350738B625B039F300D0A542 /* AudioContext.swift in Sources */,
 				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
 				359DEAD625821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
@@ -952,6 +1011,7 @@
 				3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */,
 				188C84CD24DDF6F4000DAE10 /* BoloIndya.swift in Sources */,
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
+				3507390925B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift in Sources */,
 				3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */,
 				35E77178259B587500BE4529 /* BIReportModel.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
@@ -961,12 +1021,14 @@
 				18F93B2D24B71D1C006621DB /* AppDelegate.swift in Sources */,
 				6EBBB8B125094A6D00A1B4C0 /* Connectivity.swift in Sources */,
 				3507388125AEFCAF00D0A542 /* BIMusicModel.swift in Sources */,
+				3507391125B200A400D0A542 /* TrackCell.swift in Sources */,
 				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
 				3563E52925A479A6009A8F77 /* BIBannerLandingViewController.swift in Sources */,
 				35067C6B25A59E8000E7AF5B /* BICampaignModel.swift in Sources */,
 				35C24FB425947A7300CF5200 /* KeychainHelper.swift in Sources */,
 				6EEA92A2250A5B0900B1858B /* LoginUser.swift in Sources */,
 				359DEAD425821B3C002B31A8 /* PreviewView.swift in Sources */,
+				3507391925B2012300D0A542 /* BIMusicTrackModel.swift in Sources */,
 				18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */,
 				18CB49DD24BC6C8C00212329 /* UpdateIntersetViewController.swift in Sources */,
 				3563E53E25A48A72009A8F77 /* BIVideoCollectionCell.swift in Sources */,
@@ -985,6 +1047,7 @@
 				3507388725AEFF4D00D0A542 /* BIAudioSelectCell.swift in Sources */,
 				35E25C6F2590AEBE00F15EF3 /* KeyboardHandler.swift in Sources */,
 				359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */,
+				3507392125B577FF00D0A542 /* Double+Extension.swift in Sources */,
 				3507387825AEE49400D0A542 /* BISmallThumbSlider.swift in Sources */,
 				3594F28E2585601D005B96DC /* UIImage+Extension.swift in Sources */,
 				3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */,
@@ -997,6 +1060,7 @@
 				183BDCC424B7A41200ACF912 /* UserDefaults.swift in Sources */,
 				18CB49DF24BC6F8C00212329 /* TermsPagesViewController.swift in Sources */,
 				3507386D25ADE41300D0A542 /* BIUserProfileModel.swift in Sources */,
+				350738AE25B0362A00D0A542 /* BIAudioTrimmerView.swift in Sources */,
 				183B4BAC24B86DE4003EC6D7 /* User.swift in Sources */,
 				359DEAD525821B3C002B31A8 /* SwiftyCamViewController.swift in Sources */,
 				1864A80624B9B13300C08A4A /* ActiveLanguageButton.swift in Sources */,

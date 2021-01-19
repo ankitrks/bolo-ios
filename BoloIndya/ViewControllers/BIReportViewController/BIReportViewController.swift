@@ -9,9 +9,15 @@
 import UIKit
 import Alamofire
 
+enum BIReportViewControllerType {
+    case video
+    case music
+}
+
 protocol BIReportViewControllerDelegate: class {
     func didTapDismissButton()
     func didTapSubmit(text: String, object: BIReportResult, video: Topic?)
+    func didTapSubmit(object: BIReportResult)
 }
 
 final class BIReportViewController: UIViewController {
@@ -61,6 +67,7 @@ final class BIReportViewController: UIViewController {
     weak var delegate: BIReportViewControllerDelegate?
     var model: BIReportModel?
     var video: Topic?
+    var type: BIReportViewControllerType = .video
     
     private var placeholder = "Please type here..."
     private var selectedIndex = 0
@@ -70,14 +77,20 @@ final class BIReportViewController: UIViewController {
         
         optionTableView.reloadData()
 
-        let count = model?.results.count ?? 0
-        let height = CGFloat(count * 30)
+        let count = self.model?.results.count ?? 0
+        let height = CGFloat(count * 30) + 10
         if height > 200 {
-            tableHeightConstraint.constant = 200
-            optionTableView.isScrollEnabled = true
+            self.tableHeightConstraint.constant = 200
+            self.optionTableView.isScrollEnabled = true
         } else {
-            tableHeightConstraint.constant = height
-            optionTableView.isScrollEnabled = false
+            self.tableHeightConstraint.constant = height
+            self.optionTableView.isScrollEnabled = true
+        }
+        
+        if type == .video {
+            textView.isHidden = false
+        } else {
+            textView.isHidden = true
         }
     }
     
@@ -90,14 +103,22 @@ final class BIReportViewController: UIViewController {
     }
     
     @IBAction private func didTapSubmit(_ sender: UIButton) {
-        guard let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !text.isEmpty,
-              text != placeholder,
-              let result = model?.results,
-              result.count > selectedIndex
-            else { return }
-        
-        delegate?.didTapSubmit(text: text, object: result[selectedIndex], video: video)
+        if type == .video {
+            guard let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !text.isEmpty,
+                  text != placeholder,
+                  let result = model?.results,
+                  result.count > selectedIndex
+                else { return }
+            
+            delegate?.didTapSubmit(text: text, object: result[selectedIndex], video: video)
+        } else {
+            guard let result = model?.results,
+                  result.count > selectedIndex
+                else { return }
+            
+            delegate?.didTapSubmit(object: result[selectedIndex])
+        }
     }
 }
 
@@ -107,7 +128,7 @@ extension BIReportViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return model?.results.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

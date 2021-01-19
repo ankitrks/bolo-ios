@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BIAudioTrimmerView" customModule="BoloIndya" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="325"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLL-gm-iZP">
+                    <rect key="frame" x="20" y="75" width="374" height="80"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="CPd-uO-fEA"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="e6v-Qb-buB">
+                    <rect key="frame" x="15" y="15" width="384" height="35"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0n-Np-VPl">
+                            <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="35" id="2Ff-Eb-GyY"/>
+                                <constraint firstAttribute="height" constant="35" id="LvJ-vN-May"/>
+                            </constraints>
+                            <color key="tintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" image="play"/>
+                            <connections>
+                                <action selector="didTapPlayButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Q7k-jH-3iB"/>
+                            </connections>
+                        </button>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="eLd-ls-Vd4">
+                            <rect key="frame" x="53" y="2.5" width="278" height="31"/>
+                            <color key="minimumTrackTintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="thumbTintColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="sliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="wRw-dg-rek"/>
+                            </connections>
+                        </slider>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOQ-p1-SZM">
+                            <rect key="frame" x="349" y="8.5" width="35" height="18"/>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="13"/>
+                            <color key="textColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="Oqh-FI-Wiu">
+                    <rect key="frame" x="82" y="190" width="250" height="38"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqG-Lo-aV2">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="38"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="38" id="Yg6-Kj-rRu"/>
+                                <constraint firstAttribute="width" constant="100" id="xs3-Ce-idj"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapCancelButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="N2k-gi-lJ7"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ud-Gk-WLa">
+                            <rect key="frame" x="150" y="0.0" width="100" height="38"/>
+                            <color key="backgroundColor" red="0.062745098040000002" green="0.64705882349999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="38" id="FBK-6a-8Nb"/>
+                                <constraint firstAttribute="width" constant="100" id="tzE-4q-8zs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
+                            <state key="normal" title="Done">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapDoneButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Esd-fW-D2d"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.1780380905" green="0.1676498055" blue="0.16742107270000001" alpha="1" colorSpace="deviceRGB"/>
+            <constraints>
+                <constraint firstItem="Oqh-FI-Wiu" firstAttribute="top" secondItem="cLL-gm-iZP" secondAttribute="bottom" constant="35" id="Eck-Sj-MtN"/>
+                <constraint firstItem="cLL-gm-iZP" firstAttribute="top" secondItem="e6v-Qb-buB" secondAttribute="bottom" constant="25" id="RxB-Uo-Za0"/>
+                <constraint firstItem="e6v-Qb-buB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="Vgs-dt-PzX"/>
+                <constraint firstItem="e6v-Qb-buB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="YfK-go-ocL"/>
+                <constraint firstItem="Oqh-FI-Wiu" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="aqn-fK-UNq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cLL-gm-iZP" secondAttribute="trailing" constant="20" id="mVw-B2-JUT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="e6v-Qb-buB" secondAttribute="trailing" constant="15" id="mqX-Ei-cnu"/>
+                <constraint firstItem="cLL-gm-iZP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="pHO-vy-AmP"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="cancelButton" destination="gqG-Lo-aV2" id="ntK-CV-4xN"/>
+                <outlet property="doneButton" destination="3ud-Gk-WLa" id="Z0f-GR-TkP"/>
+                <outlet property="musicButton" destination="G0n-Np-VPl" id="kUn-vr-Efw"/>
+                <outlet property="musicSlider" destination="eLd-ls-Vd4" id="2SD-fK-T3M"/>
+                <outlet property="remTimeLabel" destination="BOQ-p1-SZM" id="swy-3r-Sp2"/>
+                <outlet property="waveformView" destination="cLL-gm-iZP" id="5k8-2y-Jbj"/>
+            </connections>
+            <point key="canvasLocation" x="-278.26086956521743" y="506.58482142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="play" width="30" height="30"/>
+    </resources>
+</document>

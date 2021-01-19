@@ -23,7 +23,7 @@ struct BIMusicResultModel: Codable {
     let title: String
     let questionAudio: String?
     let questionVideo: String
-    let slug, lastActive, languageID: String
+//    let slug, lastActive, languageID: String
     let questionImage: String
     let isMedia: Bool
     let mediaDuration: String
@@ -38,19 +38,19 @@ struct BIMusicResultModel: Codable {
     let safeBackupURL: String
     let transcodeJobID: String
     let downloadedURL: String
-    let hasDownloadedURL: Bool
-    let vbScore: Int
-    let isBoosted, popularBoosted: Bool
-    let popularBoostedTime: String
-    let isViolent: Bool
-    let violentContent: Int
-    let isAdult: Bool
-    let adultContent: Int
-    let logoDetected: Bool
+    let hasDownloadedURL: Bool?
+    let vbScore: Int?
+    let isBoosted, popularBoosted: Bool?
+    let popularBoostedTime: String?
+    let isViolent: Bool?
+    let violentContent: Int?
+    let isAdult: Bool?
+    let adultContent: Int?
+    let logoDetected: Bool?
     let profanityCollageURL: String?
-    let isSticky, isAudioExtracted: Bool
-    let firstHashTag, lastModeratedBy, location: String?
-    let hashTags: [String]?
+    let isSticky, isAudioExtracted: Bool?
+//    let firstHashTag, lastModeratedBy, location: String?
+//    let hashTags: [String]?
 
     enum CodingKeys: String, CodingKey {
         case id, user
@@ -73,9 +73,9 @@ struct BIMusicResultModel: Codable {
         case music, title
         case questionAudio = "question_audio"
         case questionVideo = "question_video"
-        case slug
-        case lastActive = "last_active"
-        case languageID = "language_id"
+//        case slug
+//        case lastActive = "last_active"
+//        case languageID = "language_id"
         case questionImage = "question_image"
         case isMedia = "is_media"
         case mediaDuration = "media_duration"
@@ -110,9 +110,9 @@ struct BIMusicResultModel: Codable {
         case profanityCollageURL = "profanity_collage_url"
         case isSticky = "is_sticky"
         case isAudioExtracted = "is_audio_extracted"
-        case firstHashTag = "first_hash_tag"
-        case lastModeratedBy = "last_moderated_by"
-        case location
-        case hashTags = "hash_tags"
+//        case firstHashTag = "first_hash_tag"
+//        case lastModeratedBy = "last_moderated_by"
+//        case location
+//        case hashTags = "hash_tags"
     }
 }

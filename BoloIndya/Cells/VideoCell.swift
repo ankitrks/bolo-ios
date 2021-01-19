@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MarqueeLabel
 
 protocol VideoCellDelegate {
     func didTapOptions(with selected_postion: Int)
@@ -27,7 +28,8 @@ class VideoCell: UITableViewCell {
 
     var title = UILabel()
     
-    var songLabel = UILabel()
+    let songStack = UIStackView()
+    var songLabel = MarqueeLabel()
 
     var username = UILabel()
     var like_count = UILabel()
@@ -87,14 +89,15 @@ class VideoCell: UITableViewCell {
         addSubview(username)
         addSubview(actions_stack)
         addSubview(optionButton)
+        addSubview(songStack)
+        
       //  play_click.frame.size = sizeFrame
 
         //        addSubview(play_and_pause_image)
         //        addSubview(playerSlider)
         //        addSubview(duration)
-
-
-        setSongAttribute()
+        
+        setSongStacViewAttribute()
         setTitleAttribute()
         setUsernameAttribute()
         setImageView()
@@ -170,7 +173,6 @@ class VideoCell: UITableViewCell {
         like_image.isUserInteractionEnabled = true
         whatsapp_share_image.isUserInteractionEnabled = true
         share_image.isUserInteractionEnabled = true
-        songLabel.isUserInteractionEnabled = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
@@ -192,7 +194,7 @@ class VideoCell: UITableViewCell {
         whatsapp_share_image.addGestureRecognizer(whatsappGesture)
         
         let audioSongGesture = UITapGestureRecognizer(target: self, action: #selector(tapAudioSong(_:)))
-        songLabel.addGestureRecognizer(audioSongGesture)
+        songStack.addGestureRecognizer(audioSongGesture)
     }
 
     @objc func goToProfile(_ sender: UITapGestureRecognizer) {
@@ -262,30 +264,45 @@ class VideoCell: UITableViewCell {
         like_image.image = like_image.image?.withRenderingMode(.alwaysTemplate)
         like_image.tintColor = UIColor.white
     }
+    
+    func setSongStacViewAttribute() {
+        let songImageView = UIImageView()
+        songImageView.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        songImageView.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        songImageView.image = UIImage(named: "music_note_white")
+        
+        songLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
+        songLabel.fadeLength = 5
+        songLabel.speed = MarqueeLabel.SpeedLimit.rate(50)
+        songLabel.animationDelay = 2
+        songLabel.trailingBuffer = 50
+        songLabel.textColor = UIColor.white
+        
+        songStack.axis = .horizontal
+        songStack.spacing = 8
+        songStack.alignment = .fill
+        songStack.distribution = .fill
+        songStack.addArrangedSubview(songImageView)
+        songStack.addArrangedSubview(songLabel)
+        songStack.isUserInteractionEnabled = true
+        
+        songStack.translatesAutoresizingMaskIntoConstraints = false
+        songStack.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        songStack.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
+        songStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+    }
 
     func setTitleAttribute() {
 
         title.translatesAutoresizingMaskIntoConstraints = false
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         title.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
-        title.bottomAnchor.constraint(equalTo: songLabel.topAnchor, constant: -15).isActive = true
+        title.bottomAnchor.constraint(equalTo: songStack.topAnchor, constant: -15).isActive = true
 
         title.font = UIFont.systemFont(ofSize: 14.0)
         title.lineBreakMode = NSLineBreakMode.byWordWrapping
         title.numberOfLines = 4
         title.textColor = UIColor.white
-    }
-    
-    func setSongAttribute() {
-        songLabel.translatesAutoresizingMaskIntoConstraints = false
-        songLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        songLabel.rightAnchor.constraint(equalTo: actions_stack.leftAnchor, constant: -5).isActive = true
-        songLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
-
-        songLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
-        songLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-        songLabel.numberOfLines = 2
-        songLabel.textColor = UIColor.white
     }
 
     func setUsernameAttribute() {
@@ -478,21 +495,30 @@ class VideoCell: UITableViewCell {
 
         title.text = topic.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         
-        if let music = topic.music?.title {
-            let iconImage = UIImage(named: "music_note_white")!
-            let imageAttachment = NSTextAttachment()
-            imageAttachment.image = iconImage
-            imageAttachment.bounds = CGRect(x: 0, y: (songLabel.font.capHeight - iconImage.size.height).rounded() / 2, width: iconImage.size.width, height: iconImage.size.height)
-            let imageString = NSAttributedString(attachment: imageAttachment)
-
-            let fullString = NSMutableAttributedString(string: "")
-            fullString.append(imageString)
-            fullString.append(NSAttributedString(string: "  \(music)"))
-            songLabel.attributedText = fullString
+        if let music = topic.music?.title, !music.isEmpty {
+            let attributedText = NSMutableAttributedString()
+            
+            if let name = topic.user?.username, !name.isEmpty {
+                let attrbutedText2 = NSAttributedString(string: "Original Sound by ")
+                attributedText.append(attrbutedText2)
+                
+                let attrbutedText3 = NSAttributedString(string: "\(name)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "10A5F9") ?? .white])
+                attributedText.append(attrbutedText3)
+                
+                let attrbutedText4 = NSAttributedString(string: " - ")
+                attributedText.append(attrbutedText4)
+            }
+            
+            let attrbutedText5 = NSAttributedString(string: music)
+            attributedText.append(attrbutedText5)
+            
+            songLabel.attributedText = attributedText
+            songStack.isHidden = false
+            songStack.heightAnchor.constraint(equalToConstant: 16).isActive = true
         } else {
-            songLabel.text = nil
+            songStack.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            songStack.isHidden = true
         }
-        
         
         let url = URL(string: topic.thumbnailHome)
         video_image.isHidden = false

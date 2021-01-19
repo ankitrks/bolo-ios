@@ -40,8 +40,8 @@
                                         <constraint firstAttribute="height" constant="80" id="fAY-Ma-pEv"/>
                                     </constraints>
                                 </imageView>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vXW-mQ-OSE">
-                                    <rect key="frame" x="92" y="2.5" width="298" height="75"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="vXW-mQ-OSE">
+                                    <rect key="frame" x="92" y="3.5" width="298" height="73"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffN-A6-RNk">
                                             <rect key="frame" x="0.0" y="0.0" width="298" height="26"/>
@@ -50,13 +50,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIj-Yd-6rn">
-                                            <rect key="frame" x="0.0" y="31" width="298" height="19.5"/>
+                                            <rect key="frame" x="0.0" y="30" width="298" height="19.5"/>
                                             <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="14"/>
                                             <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMS-7E-dzb">
-                                            <rect key="frame" x="0.0" y="55.5" width="298" height="19.5"/>
+                                            <rect key="frame" x="0.0" y="53.5" width="298" height="19.5"/>
                                             <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="14"/>
                                             <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
@@ -122,12 +122,26 @@
                                 <action selector="didTapBackButton:" destination="-1" eventType="touchUpInside" id="7tJ-ka-ShE"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tYS-RJ-i3f">
+                            <rect key="frame" x="370" y="0.0" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="dzD-nh-yrQ"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                            <state key="normal" image="more_vertical"/>
+                            <connections>
+                                <action selector="didTapOptionsView:" destination="-1" eventType="touchUpInside" id="Z1f-4r-lg9"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.1333333333" green="0.12549019610000001" blue="0.12549019610000001" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
                         <constraint firstItem="hHP-aD-JFF" firstAttribute="top" secondItem="0rl-mm-iXM" secondAttribute="top" id="2L1-4c-fZS"/>
                         <constraint firstItem="hHP-aD-JFF" firstAttribute="leading" secondItem="0rl-mm-iXM" secondAttribute="leading" constant="5" id="YUy-Vs-yfj"/>
+                        <constraint firstAttribute="trailing" secondItem="tYS-RJ-i3f" secondAttribute="trailing" id="YZ6-gZ-ch2"/>
                         <constraint firstAttribute="bottom" secondItem="hHP-aD-JFF" secondAttribute="bottom" id="nsj-zs-es8"/>
+                        <constraint firstAttribute="bottom" secondItem="tYS-RJ-i3f" secondAttribute="bottom" id="nyF-rl-bG1"/>
+                        <constraint firstItem="tYS-RJ-i3f" firstAttribute="top" secondItem="0rl-mm-iXM" secondAttribute="top" id="tOR-xj-00k"/>
                         <constraint firstAttribute="height" constant="44" id="zaZ-dP-7uL"/>
                     </constraints>
                 </view>
@@ -164,6 +178,7 @@
     </objects>
     <resources>
         <image name="back" width="30" height="30"/>
+        <image name="more_vertical" width="30" height="30"/>
         <image name="play" width="30" height="30"/>
         <image name="use_audio" width="168.5" height="65"/>
     </resources>

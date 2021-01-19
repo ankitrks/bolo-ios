@@ -16,4 +16,7 @@ target 'BoloIndya' do
   pod 'Branch'
   pod 'WebEngage'
   pod 'KeychainAccess'
+  
+  pod 'MarqueeLabel'
+  pod 'ZHWaveform', '~> 1.0.2'
 end

@@ -59,6 +59,7 @@ PODS:
     - GTMSessionFetcher/Core (= 1.5.0)
   - KeychainAccess (4.2.1)
   - Kingfisher (6.0.0)
+  - MarqueeLabel (4.0.5)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -75,6 +76,7 @@ PODS:
   - YPImagePicker (4.4.0):
     - PryntTrimmerView (~> 4.0.2)
     - SteviaLayout (~> 4.7.3)
+  - ZHWaveform (1.0.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -84,9 +86,11 @@ DEPENDENCIES:
   - GoogleSignIn
   - KeychainAccess
   - Kingfisher
+  - MarqueeLabel
   - SVProgressHUD
   - WebEngage
   - YPImagePicker
+  - ZHWaveform (~> 1.0.2)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -105,6 +109,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - KeychainAccess
     - Kingfisher
+    - MarqueeLabel
     - nanopb
     - ObjectMapper
     - PromisesObjC
@@ -113,6 +118,7 @@ SPEC REPOS:
     - SVProgressHUD
     - WebEngage
     - YPImagePicker
+    - ZHWaveform
 
 SPEC CHECKSUMS:
   Alamofire: f9450d3c7f6bea2ad62e7a541c3e9b186c7991d6
@@ -130,6 +136,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   Kingfisher: 13f6e68c928eb50439b5cb2ea75d6035018438ea
+  MarqueeLabel: 00cc0bcd087111dca575878b3531af980559707d
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
@@ -138,7 +145,8 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   WebEngage: e50708cc9dc849bd969312b603e8a7f3068ed2b0
   YPImagePicker: 15aed8bcaa4dad976e11b6114126d731a2f9f3c9
+  ZHWaveform: 847ecaf2ae3b941e5403d81762742610e659ebe0
 
-PODFILE CHECKSUM: 60c1c22fa64c6c6daea1fdc2d6b7d4587dc75f07
+PODFILE CHECKSUM: 66fe975b4c0845561ba94d1ba8d3ccccb0b835a6
 
 COCOAPODS: 1.10.0

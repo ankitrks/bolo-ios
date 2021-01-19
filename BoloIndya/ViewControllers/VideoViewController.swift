@@ -812,6 +812,10 @@ extension VideoViewController : UITextFieldDelegate {
 }
 
 extension VideoViewController: BIReportViewControllerDelegate {
+    func didTapSubmit(object: BIReportResult) {
+        
+    }
+    
     func didTapDismissButton() {
         reportViewController?.dismiss(animated: true, completion: {
             self.reportViewController = nil

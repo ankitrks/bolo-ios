@@ -10,9 +10,11 @@ import Foundation
 
 struct Userprofile: Codable {
     let about, androidDid, bio: String?
-    let boloScore, boloScoreNew: Int?
+//    let boloScore, boloScoreNew: String?
     let countryCode, coverPic: String?
-    let followCount, followerCount, id: Int?
+    let id: Int?
+//    let followCount: Int?
+//    let followerCount: String?
     let isBusiness, isEventCreator, isExpert, isGuestUser: Bool?
     let isPopular, isSuperstar: Bool?
     let name: String?
@@ -27,12 +29,12 @@ struct Userprofile: Codable {
         case about
         case androidDid = "android_did"
         case bio
-        case boloScore = "bolo_score"
-        case boloScoreNew = "bolo_score_new"
+//        case boloScore = "bolo_score"
+//        case boloScoreNew = "bolo_score_new"
         case countryCode = "country_code"
         case coverPic = "cover_pic"
-        case followCount = "follow_count"
-        case followerCount = "follower_count"
+//        case followCount = "follow_count"
+//        case followerCount = "follower_count"
         case id
         case isBusiness = "is_business"
         case isEventCreator = "is_event_creator"

@@ -1,0 +1,6 @@
+framework module ZHWaveform {
+  umbrella header "ZHWaveform-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1087,6 +1087,10 @@ extension TrendingAndFollowingViewController : UITextFieldDelegate {
 }
 
 extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
+    func didTapSubmit(object: BIReportResult) {
+        
+    }
+    
     func didTapDismissButton() {
         reportViewController?.dismiss(animated: true, completion: {
             self.reportViewController = nil

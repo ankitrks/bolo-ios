@@ -13,7 +13,8 @@ struct BIMusicModel: Codable {
     let title: String?
     let s3FilePath: String?
     let imagePath: String?
-    let authorName, languageID: String?
+//    let languageID: String?
+    let authorName: String?
     let languages: [String]?
     let orderNo: Int?
     let lastModified: String?
@@ -24,7 +25,7 @@ struct BIMusicModel: Codable {
         case s3FilePath = "s3_file_path"
         case imagePath = "image_path"
         case authorName = "author_name"
-        case languageID = "language_id"
+//        case languageID = "language_id"
         case languages
         case orderNo = "order_no"
         case lastModified = "last_modified"

@@ -34,7 +34,7 @@ final class BIAudioSelectCell: UICollectionViewCell {
             userImageView.kf.setImage(with: url)
         }
         durationLabel.text = music?.mediaDuration
-        titleLabel.text = music?.title
+        titleLabel.text = music?.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         viewsLabel.text = music?.viewCount
         likeLabel.text = music?.likesCount
         
