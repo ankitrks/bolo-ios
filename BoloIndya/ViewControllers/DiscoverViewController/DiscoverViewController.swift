@@ -178,7 +178,7 @@ class DiscoverViewController: UIViewController, CategoryCellDelegate {
                     if let wSelf = self {
                         let viewInsets = wSelf.view.safeAreaInsets
                         wSelf.discoverView.frame = CGRect(x: 0,
-                                                          y: getStatusBarHeight() + 100,
+                                                          y: wSelf.getStatusBarHeight() + 100,
                                                           width: wSelf.screenSize.width,
                                                           height: wSelf.screenSize.height - viewInsets.top - wSelf.search_text.bounds.height - (wSelf.tabBarController?.tabBar.frame.size.height ?? 49.0) - viewInsets.bottom)
                     }

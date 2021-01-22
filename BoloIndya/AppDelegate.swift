@@ -91,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 extension AppDelegate: WEGAppDelegate {
     func wegHandleDeeplink(_ deeplink: String!, userData data: [AnyHashable : Any]!) {
-        print("Deeplink URL received on click of Push Notification: \(deeplink)")
+        print("Deeplink URL received on click of Push Notification: \(deeplink ?? "")")
     }
     
     func didReceiveAnonymousID(_ anonymousID: String!, for reason: WEGReason) {

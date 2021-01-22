@@ -17,23 +17,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen" translatesAutoresizingMaskIntoConstraints="NO" id="tCm-xe-YuM">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_green_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="tCm-xe-YuM">
+                                <rect key="frame" x="0.0" y="742.5" width="414" height="153.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="tCm-xe-YuM" secondAttribute="height" multiplier="2.7:1" id="OnP-en-bRO"/>
+                                </constraints>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_orange_top" translatesAutoresizingMaskIntoConstraints="NO" id="Nga-9q-wv4">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="153.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Nga-9q-wv4" secondAttribute="height" multiplier="2.7:1" id="Os9-a0-BM8"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="160" translatesAutoresizingMaskIntoConstraints="NO" id="566-5M-DW7">
+                                <rect key="frame" x="0.0" y="269.5" width="414" height="357.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="XKH-eZ-IO9">
+                                        <rect key="frame" x="76.5" y="0.0" width="261.5" height="167"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="boloindya_logo" translatesAutoresizingMaskIntoConstraints="NO" id="kb1-vT-URT">
+                                                <rect key="frame" x="68" y="0.0" width="125" height="125"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="125" id="5Us-4h-VMa"/>
+                                                    <constraint firstAttribute="height" constant="125" id="eh9-Af-1MW"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#HarBhaashaEkSamaan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdZ-CV-kB7">
+                                                <rect key="frame" x="0.0" y="134" width="261.5" height="33"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Made with Love in India" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vy-ig-bDg">
+                                        <rect key="frame" x="83.5" y="327" width="247" height="30.5"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tCm-xe-YuM" secondAttribute="bottom" id="8e0-pa-4au"/>
+                            <constraint firstItem="Nga-9q-wv4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4fc-gU-VGc"/>
+                            <constraint firstAttribute="bottom" secondItem="tCm-xe-YuM" secondAttribute="bottom" id="CTe-bD-g09"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tCm-xe-YuM" secondAttribute="trailing" id="Fbe-KM-H60"/>
-                            <constraint firstItem="tCm-xe-YuM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qpr-i6-Byt"/>
+                            <constraint firstItem="566-5M-DW7" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GUn-sV-gJd"/>
+                            <constraint firstItem="Nga-9q-wv4" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="I7I-sA-skG"/>
+                            <constraint firstItem="566-5M-DW7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QXA-Fq-f39"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="566-5M-DW7" secondAttribute="trailing" id="ZlU-QU-mwL"/>
                             <constraint firstItem="tCm-xe-YuM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h3O-2Z-wdh"/>
+                            <constraint firstAttribute="trailing" secondItem="Nga-9q-wv4" secondAttribute="trailing" id="mJa-Jv-EXO"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1797" y="-301"/>
+            <point key="canvasLocation" x="-1797.1014492753625" y="-301.33928571428572"/>
         </scene>
         <!--Choose Language Controller-->
         <scene sceneID="fvp-Js-dHr">
@@ -730,6 +773,7 @@
     <resources>
         <image name="add" width="28" height="28"/>
         <image name="back" width="30" height="30"/>
+        <image name="boloindya_logo" width="127" height="127"/>
         <image name="home" width="23" height="23"/>
         <image name="more" width="30" height="30"/>
         <image name="more_vertical" width="30" height="30"/>
@@ -737,7 +781,8 @@
         <image name="notification_blue" width="27" height="27.5"/>
         <image name="search" width="28" height="28"/>
         <image name="share" width="30" height="30"/>
-        <image name="splash_screen" width="205.5" height="411.5"/>
+        <image name="splash_green_bottom" width="411" height="201"/>
+        <image name="splash_orange_top" width="411" height="185"/>
         <image name="user" width="25" height="25.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

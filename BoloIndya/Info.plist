@@ -57,6 +57,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Play using while you are recording</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To Take Photos and Videos</string>
 	<key>NSDocumentsFolderUsageDescription</key>
@@ -65,8 +67,6 @@
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To Save Photos and Videos</string>
-    <key>NSAppleMusicUsageDescription</key>
-    <string>Play using while you are recording</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

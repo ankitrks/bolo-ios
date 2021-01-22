@@ -7,17 +7,33 @@
 //
 
 import Foundation
+import Alamofire
 import ObjectMapper
+import AlamofireObjectMapper
+import SVProgressHUD
 
 class BaseVC: UIViewController {
     func setParam<T: Mappable>(showProgressBar: Bool = true, auth: Bool = true, url: String, param: [String:Any], className: T.Type, resultCode: Int = 0) {
-        AFWrapper.requestPOSTURL(showProgressBar: showProgressBar, auth: auth, url: url, params: param, success: { [weak self] (response: T) in
-            print("\(url)")
-            print("\(response)")
-            self?.onSuccessResponse(response: response,resultCode: resultCode)
-        }, failure: { [weak self] (error: Error) in
-            self?.onFailResponse(response: error, resultCode: resultCode)
-        })
+        showPrograssBar(show: showProgressBar)
+        
+        var headers: HTTPHeaders?
+        
+        if auth, let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+        
+        AF.request(url, method: .post, parameters: param, encoding: URLEncoding.default, headers: headers).responseObject { [weak self] (response: AFDataResponse<T>) in
+            print("url : \(response.request!)" as Any)
+            
+            switch response.result {
+            case .success(let mappable):
+                self?.onSuccessResponse(response: mappable, resultCode: resultCode)
+                self?.showPrograssBar(show: false)
+            case .failure(let error):
+                self?.onFailResponse(response: error, resultCode: resultCode)
+                self?.showPrograssBar(show: false)
+            }
+        }
     }
     
     func onSuccessResponse(response: Any, resultCode: Int = 0) {
@@ -25,7 +41,7 @@ class BaseVC: UIViewController {
     }
     
     func onSuccessResponse(response: Any) {
-        AppUtils.showPrograssBar(show: false)
+        showPrograssBar(show: false)
     }
     
     func onFailResponse(response: Error, resultCode: Int = 0) {
@@ -33,7 +49,7 @@ class BaseVC: UIViewController {
     }
     
     func onFailResponse(response: Error) {
-        AppUtils.showPrograssBar(show: false)
+        showPrograssBar(show: false)
     }
     
     func setDataUserInfo(info: LoginUserInfo) {
@@ -66,7 +82,6 @@ class BaseVC: UIViewController {
         WebEngageHelper.setUserAttributes()
     }
     
-    
     func isLogin() -> Bool {
         if let isLoggedIn = UserDefaults.standard.getGuestLoggedIn(), isLoggedIn {
             tabBarController?.tabBar.isHidden = true
@@ -77,6 +92,15 @@ class BaseVC: UIViewController {
         }
         
         return true
+    }
+    
+    private func showPrograssBar(show: Bool) {
+        if show {
+            SVProgressHUD.show()
+            SVProgressHUD.setBackgroundColor(.white)
+        } else {
+            SVProgressHUD.dismiss()
+        }
     }
 }
 

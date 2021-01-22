@@ -24,6 +24,8 @@ class ChooseLanguageFirstViewController: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
         selected_position = UserDefaults.standard.getValueForLanguageId() ?? 1
         
         languages = getLanguages()
@@ -111,9 +113,9 @@ class ChooseLanguageFirstViewController: BaseVC {
     func sentToTrending() {
         
         let paramters: [String: Any] = [
-            KEY_ACTIVITY: "android_login",
-            KEY_LANGUAGE: languages[selected_position].id,
-            KEY_ANDROID_DID: KeychainHelper.getDeviceId() ?? ""
+            "activity": "android_login",
+            "language": languages[selected_position].id,
+            "android_did": KeychainHelper.getDeviceId() ?? ""
         ]
         print("Param \(paramters)")
         

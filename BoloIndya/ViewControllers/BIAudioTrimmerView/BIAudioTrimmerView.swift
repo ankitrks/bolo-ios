@@ -208,7 +208,7 @@ final class BIAudioTrimmerView: UIView {
                 }
                 
             default:
-                print(exporter?.error)
+                print(exporter?.error ?? "Error")
             }
         })
     }

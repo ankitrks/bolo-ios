@@ -29,6 +29,8 @@ class ChooseLanguageController : BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
         selected_position = UserDefaults.standard.getValueForLanguageId() ?? 1
         
         languages = getLanguages()
@@ -139,8 +141,8 @@ class ChooseLanguageController : BaseVC {
         UserDefaults.standard.setLanguageSet(value: true)
         
         let paramters: [String: Any] = [
-            KEY_ACTIVITY: "settings_changed",
-            KEY_LANGUAGE: languages[selected_position].id
+            "activity": "settings_changed",
+            "language": languages[selected_position].id
         ]
         
         

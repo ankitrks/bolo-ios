@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,18 +17,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen" translatesAutoresizingMaskIntoConstraints="NO" id="O0P-jU-D3f">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_orange_top" translatesAutoresizingMaskIntoConstraints="NO" id="LXC-z6-X1J">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="153.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="LXC-z6-X1J" secondAttribute="height" multiplier="2.7:1" id="HG0-Df-dP4"/>
+                                </constraints>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_green_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="uqi-fs-SQE">
+                                <rect key="frame" x="0.0" y="742.5" width="414" height="153.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uqi-fs-SQE" secondAttribute="height" multiplier="2.7:1" id="wGn-vS-3Ts"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="160" translatesAutoresizingMaskIntoConstraints="NO" id="aoD-OU-kNn">
+                                <rect key="frame" x="0.0" y="270" width="414" height="356.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="a5l-wM-PRC">
+                                        <rect key="frame" x="76.5" y="0.0" width="261.5" height="166"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="boloindya_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fkQ-Rb-HEy">
+                                                <rect key="frame" x="68" y="0.0" width="125" height="125"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="125" id="NYK-u0-fIP"/>
+                                                    <constraint firstAttribute="width" constant="125" id="qkl-lW-gDf"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#HarBhaashaEkSamaan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0a-dq-QDc">
+                                                <rect key="frame" x="0.0" y="133" width="261.5" height="33"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Made with Love in India" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2M2-Ed-tcx">
+                                        <rect key="frame" x="83.5" y="326" width="247" height="30.5"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="O0P-jU-D3f" secondAttribute="trailing" id="OoR-kA-EEf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="O0P-jU-D3f" secondAttribute="bottom" id="SPS-2K-A4o"/>
-                            <constraint firstItem="O0P-jU-D3f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nTM-H9-1nJ"/>
-                            <constraint firstItem="O0P-jU-D3f" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xWk-Xb-DBu"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uqi-fs-SQE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="3eH-uU-EQw"/>
+                            <constraint firstItem="LXC-z6-X1J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Veg-Jd-Rgz"/>
+                            <constraint firstItem="LXC-z6-X1J" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Z2u-9w-fdm"/>
+                            <constraint firstAttribute="bottom" secondItem="uqi-fs-SQE" secondAttribute="bottom" id="d2B-Nv-Hf3"/>
+                            <constraint firstItem="aoD-OU-kNn" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="lVy-VX-C8z"/>
+                            <constraint firstItem="uqi-fs-SQE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pM8-Hp-uhk"/>
+                            <constraint firstItem="LXC-z6-X1J" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pgA-1F-FoS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aoD-OU-kNn" secondAttribute="trailing" id="w8t-MG-F1F"/>
+                            <constraint firstItem="aoD-OU-kNn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wwo-rc-foA"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -36,6 +80,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splash_screen" width="205.5" height="411.5"/>
+        <image name="boloindya_logo" width="127" height="127"/>
+        <image name="splash_green_bottom" width="411" height="201"/>
+        <image name="splash_orange_top" width="411" height="185"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 let ImageBaseUrl = "https://s3.amazonaws.com/boloindy"
 let ProfileThumbnilUrl = "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/30x30/"
 let SearchthumbnilUrl = "http://boloindyapp-prod.s3-website-us-east-1.amazonaws.com/100x200"
@@ -21,6 +20,3 @@ let HOST_URL = "https://www.boloindya.com/api/v1/"
 let PROFILE_URL = HOST_URL + "fb_profile_settings/"
 let OTP_VERIFY_URL = HOST_URL + "otp/verify_with_country_code/"
 let SEEN_VB = HOST_URL + "vb_seen/"
-
-
-

@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import Alamofire
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
+    enum AppUpdatePopupType {
+        case forced
+        case optional
+    }
+    
     var window: UIWindow?
-
+    
+    private var isUpdateRequestSent = false
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         (UIApplication.shared.delegate as? AppDelegate)?.self.window = window
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -20,53 +28,159 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        if let userActivity = connectionOptions.userActivities.first {
-            showAppView(activity: userActivity, isDeeplink: false)
-        }
-    }
-    
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        
+        isUpdateRequestSent = true
+        fetchUpdateDetails(activity: connectionOptions.userActivities.first)
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        showAppView(activity: userActivity)
+        pushViewController(activity: userActivity, isDeeplink: true)
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
-    }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        if !isUpdateRequestSent {
+            let topViewController = UIApplication.topMostViewController()
+            if topViewController?.isKind(of: UIAlertController.self) == true {
+                //alert controller is already shown. To avoid duplicate alert controllers
+                
+                if topViewController?.view.tag == Constants.viewTags.updateView {
+                    //update alert controller is already shown
+                    return
+                } else {
+//                    topViewController?.dismiss(animated: true, completion: nil)
+                }
+            }
+            
+            fetchUpdateDetails(didBecomeActive: true)
+        }
     }
+}
 
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+//MARK: - Update Helpers
+@available(iOS 13.0, *)
+extension SceneDelegate {
+    private func fetchUpdateDetails(activity: NSUserActivity? = nil, didBecomeActive: Bool = false) {
+        var headers: HTTPHeaders?
+        
+        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/my_app_version/"
+        AF.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
+            .responseString { [weak self] (responseData) in
+                
+                self?.isUpdateRequestSent = false
+                
+                switch responseData.result {
+                case.success(let data):
+                    guard let json_data = data.data(using: .utf8) else { break }
+                        
+                    do {
+                        let object = try JSONDecoder().decode(BIAppVersionModel.self, from: json_data)
+                        
+                        if let popupType = self?.isShowUpdatePopup(object: object.appVersion) {
+                            switch popupType {
+                            case .forced:
+                                self?.showUpdatePopup(type: .forced)
+                                return
+                            case .optional:
+                                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                                    self?.showUpdatePopup(type: .optional)
+                                }
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                case.failure(let error):
+                    print(error)
+                }
+                
+                if !didBecomeActive {
+                    self?.showAppView()
+                }
+                
+                if let activity = activity {
+                    self?.pushViewController(activity: activity, isDeeplink: false)
+                }
+            }
     }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+    
+    private func isShowUpdatePopup(object: BIAppVersionNestedModel?) -> AppUpdatePopupType? {
+        if let object = object,
+           let remoteVersion = object.versionToBePushed,
+           let currentVersion = BIUtility.getAppVersion(),
+           "\(remoteVersion)" > currentVersion {
+            
+            if let hardPush = object.isHardPush, hardPush {
+                return .forced
+            } else {
+                return .optional
+            }
+        }
+        
+        return nil
     }
+}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-    private func showAppView(activity: NSUserActivity, isDeeplink: Bool = false) {
-        guard activity.activityType == NSUserActivityTypeBrowsingWeb,
-                let incomingURL = activity.webpageURL,
-                let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
-                let path = components.path
+//MARK: - UI Helpers
+@available(iOS 13.0, *)
+extension SceneDelegate {
+    private func showUpdatePopup(type: AppUpdatePopupType) {
+        var title: String
+        var message: String
+        
+        if type == .forced {
+            title = "Update Available!"
+            message = "A new version of Bolo Indya is live on the App Store. Please update the app to continue using Bolo Indya."
+        } else {
+            title = "Update Available!"
+            message = "A new version of Bolo Indya is live on the App Store. Please update the app to enjoy the latest features of Bolo Indya."
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { _ in
+            guard let url  = URL(string: "https://apps.apple.com/us/app/bolo-indya-short-video-app/id1527082221"),
+                  UIApplication.shared.canOpenURL(url)
             else { return }
+            
+            UIApplication.shared.open(url)
+        }))
+        
+        if type == .optional {
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        }
+        
+        alert.view.tag = Constants.viewTags.updateView
+        
+        if type == .forced {
+            let vc = UIViewController()
+            vc.view.backgroundColor = UIColor(hex: "10A5F9")
+            
+            window?.rootViewController = vc
+            window?.windowLevel = UIWindow.Level.alert + 1
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
+        } else {
+            UIApplication.topMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func showAppView() {
+        if UserDefaults.standard.isLoggedIn() == true && (UserDefaults.standard.getAuthToken() == nil || (UserDefaults.standard.getAuthToken() ?? "").isEmpty) {
+            moveToLoginSignupView()
+        } else if UserDefaults.standard.isLanguageSet() ?? false {
+            moveToTrendingView()
+        } else {
+            moveToChooseLanguageView()
+        }
+    }
+    
+    private func pushViewController(activity: NSUserActivity, isDeeplink: Bool) {
+        guard activity.activityType == NSUserActivityTypeBrowsingWeb,
+              let incomingURL = activity.webpageURL,
+              let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
+              let path = components.path
+        else { return }
         
         var viewController: UIViewController?
         
@@ -74,7 +188,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if paths.first == "video_bytes" {
             guard paths.count > 2,
                   let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController
-                else { return }
+            else { return }
             
             vc.topic_id = paths[2]
             
@@ -82,7 +196,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else if paths.first == "user" {
             guard paths.count > 1,
                   let userId = Int(paths[1])
-                else { return }
+            else { return }
             
             if userId == UserDefaults.standard.getUserId() {
                 if isDeeplink {
@@ -103,7 +217,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else if paths.first == "campaign" {
             guard paths.count > 1,
                   !paths[1].isEmpty
-                else { return }
+            else { return }
             
             BIDeeplinkHandler.campaignHashtag = paths[1]
             
@@ -153,5 +267,70 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             navVC?.tabBarController?.selectedIndex = 1
         }
     }
+    
+    private func moveToLoginSignupView() {
+        let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginAndSignUpViewController")
+        let rootNC = UINavigationController(rootViewController: rootVC)
+        
+        if let snapshot = window?.snapshotView(afterScreenUpdates: true) {
+            rootNC.view.addSubview(snapshot)
+            
+            window?.rootViewController = rootNC
+            
+            UIView.animate(withDuration: 0.5, animations: {() in
+                snapshot.layer.opacity = 0
+                snapshot.layer.transform = CATransform3DMakeScale(2, 2, 2)
+            }, completion: { _ in
+                snapshot.removeFromSuperview()
+            })
+        } else {
+            window?.rootViewController = rootNC
+        }
+        
+        window?.makeKeyAndVisible()
+    }
+    
+    private func moveToChooseLanguageView() {
+        let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChooseLanguageFirstViewController")
+        let rootNC = UINavigationController(rootViewController: rootVC)
+        
+        if let snapshot = window?.snapshotView(afterScreenUpdates: true) {
+            rootNC.view.addSubview(snapshot)
+            
+            window?.rootViewController = rootNC
+            
+            UIView.animate(withDuration: 0.5, animations: {() in
+                snapshot.layer.opacity = 0
+                snapshot.layer.transform = CATransform3DMakeScale(2, 2, 2)
+            }, completion: { _ in
+                snapshot.removeFromSuperview()
+            })
+        } else {
+            window?.rootViewController = rootNC
+        }
+        
+        window?.makeKeyAndVisible()
+    }
+    
+    private func moveToTrendingView() {
+        let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainViewController")
+        let rootNC = UINavigationController(rootViewController: rootVC)
+        
+        if let snapshot = window?.snapshotView(afterScreenUpdates: true) {
+            rootNC.view.addSubview(snapshot)
+            
+            window?.rootViewController = rootNC
+            
+            UIView.animate(withDuration: 0.5, animations: {() in
+                snapshot.layer.opacity = 0
+                snapshot.layer.transform = CATransform3DMakeScale(2, 2, 2)
+            }, completion: { _ in
+                snapshot.removeFromSuperview()
+            })
+        } else {
+            window?.rootViewController = rootNC
+        }
+        
+        window?.makeKeyAndVisible()
+    }
 }
-
