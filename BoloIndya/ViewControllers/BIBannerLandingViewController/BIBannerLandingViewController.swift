@@ -161,17 +161,21 @@ final class BIBannerLandingViewController: UIViewController {
     }
     
     @IBAction private func didTapCreateVideoButton(_ sender: UIButton) {
-        guard let hashtag = banner?.hashtagName,
-              !hashtag.isEmpty
-            else { return }
-        
-        BIDeeplinkHandler.campaignHashtag2 = hashtag
-        
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreateVideoViewController") as! CreateVideoViewController
-        vc.isFromCampaign = true
-//        vc.modalPresentationStyle = .fullScreen
-//        present(vc, animated: true, completion: nil)
-        navigationController?.pushViewController(vc, animated: true)
+        if isLoggedIn() {
+            guard let hashtag = banner?.hashtagName,
+                  !hashtag.isEmpty
+                else { return }
+            
+            BIDeeplinkHandler.campaignHashtag2 = hashtag
+            
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreateVideoViewController") as! CreateVideoViewController
+            vc.isFromCampaign = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginAndSignUpViewController")
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true, completion: nil)
+        }
     }
     
     @IBAction private func didTapInviteButton(_ sender: UIButton) {

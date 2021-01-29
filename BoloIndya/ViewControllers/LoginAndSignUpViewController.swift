@@ -54,6 +54,7 @@ final class LoginAndSignUpViewController: BaseVC {
     private var model = BISignupModel()
     
     var selected_tab = 1
+    var isPresented = false
     
     private var current_page = "terms_and_condition"
     
@@ -250,7 +251,10 @@ extension LoginAndSignUpViewController: BISignupVerifyPhoneViewConrollerDelegate
         
         if let name = model.name, !name.isEmpty, let gender = model.gender, let dob = model.dob {
             dismissView()
-            sentToTrending()
+            
+            if !isPresented {
+                sentToTrending()
+            }
         } else {
             currentIndex = 3
             setPageIndexSelection(direction: .forward)
@@ -272,7 +276,10 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         }
         
         dismissView()
-        sentToTrending()
+        
+        if !isPresented {
+            sentToTrending()
+        }
     }
     
     func didTapSignupDetailsVCBack(model: BISignupModel?) {

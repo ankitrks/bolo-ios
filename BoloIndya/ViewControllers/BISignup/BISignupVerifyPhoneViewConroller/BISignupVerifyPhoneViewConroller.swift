@@ -85,8 +85,6 @@ final class BISignupVerifyPhoneViewConroller: BaseVC {
             textFieldsIndexes[textFieldsOutletCollection[index]] = index
         }
         
-        textFieldsOutletCollection.first?.becomeFirstResponder()
-        
         addKeyboardObservers()
     }
     
@@ -97,6 +95,14 @@ final class BISignupVerifyPhoneViewConroller: BaseVC {
         
         otpButton.setAttributedTitle(NSAttributedString(string: "Resend OTP"), for: .normal)
         otpButton.isUserInteractionEnabled = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.textFieldsOutletCollection.first?.becomeFirstResponder()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -182,7 +188,7 @@ final class BISignupVerifyPhoneViewConroller: BaseVC {
                                 if let dob = loginObject.user?.userprofile?.dOB {
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.locale = Locale.current
-                                    dateFormatter.dateFormat = "dd/MM/YYYY"
+                                    dateFormatter.dateFormat = "dd/MM/yyyy"
                                     self?.model?.dob = dateFormatter.date(from: dob)
                                 }
                                 

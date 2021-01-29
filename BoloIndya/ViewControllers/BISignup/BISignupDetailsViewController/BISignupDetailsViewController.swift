@@ -253,7 +253,7 @@ final class BISignupDetailsViewController: BaseVC {
         } else if let dob = model?.enteredDob {
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale.current
-            dateFormatter.dateFormat = "dd/MM/YYYY"
+            dateFormatter.dateFormat = "dd/MM/yyyy"
             userDob = dateFormatter.string(from: dob)
         } else {
             showToast(message: "Please enter your Date of Birth")
@@ -277,7 +277,7 @@ final class BISignupDetailsViewController: BaseVC {
         if let userDob = userDob {
             parameters.setValue(userDob, forKey: "d_o_b")
         }
-        
+
         if let gender = userGender {
             parameters.setValue("\(gender.rawValue)", forKey: "gender")
         }
@@ -325,7 +325,7 @@ final class BISignupDetailsViewController: BaseVC {
                                         if let dob = userInfo.user?.userprofile?.dOB {
                                             let dateFormatter = DateFormatter()
                                             dateFormatter.locale = Locale.current
-                                            dateFormatter.dateFormat = "dd/MM/YYYY"
+                                            dateFormatter.dateFormat = "dd/MM/yyyy"
                                             self?.model?.dob = dateFormatter.date(from: dob)
                                         } else {
                                             self?.model?.dob = self?.model?.enteredDob

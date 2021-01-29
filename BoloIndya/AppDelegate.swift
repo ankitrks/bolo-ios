@@ -44,9 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let _ = RemoteConfigHelper.shared
         
-//        UserDefaults.standard.setDOB(value: nil)
-//        UserDefaults.standard.setGender(value: nil)
-        
         return true
     }
     

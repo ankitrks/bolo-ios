@@ -473,7 +473,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
                     
                 }
             }
-        } else if tabBarController?.selectedIndex == 2 {
+        } else {
             video_url = url
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.isNavigationBarHidden = true

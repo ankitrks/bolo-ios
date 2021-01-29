@@ -41,7 +41,7 @@ extension Date {
     
     func year() -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY"
+        dateFormatter.dateFormat = "yyyy"
         return dateFormatter.string(from: self)
     }
 }

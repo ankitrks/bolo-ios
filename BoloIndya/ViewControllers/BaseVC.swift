@@ -95,7 +95,7 @@ class BaseVC: UIViewController {
     
     func isLogin() -> Bool {
         var isLoggedin: Bool
-        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest, let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), let dob = UserDefaults.standard.getDOB() {
+        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest, let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), !gender.isEmpty, let dob = UserDefaults.standard.getDOB(), !dob.isEmpty {
             isLoggedin = true
         } else {
             isLoggedin = false
