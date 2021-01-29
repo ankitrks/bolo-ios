@@ -8,8 +8,8 @@
 
 import UIKit
 import Firebase
-import Branch
 import WebEngage
+import Branch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate  {
@@ -25,13 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             KeychainHelper.setDeviceId()
         }
         
-        // if you are using the TEST key
-        Branch.setUseTestBranchKey(false) // make it false for live
-        Branch.getInstance().enableLogging()
-        Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
-            print(params as? [String: AnyObject] ?? {})
-        }
-        //Branch.getInstance().validateSDKIntegration()
+        BranchHelper().initBranch(launchOptions: launchOptions)
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -40,6 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         initTabBar()
         initNavigationBar()
+        
+        if let id = UserDefaults.standard.getUserId2() {
+            BranchHelper().setId(userId: "\(id)")
+            CrashlyticsHelper().setUserId(id: "\(id)")
+        }
+        
+        CrashlyticsHelper().setUserName()
+        
+        let _ = RemoteConfigHelper.shared
+        
+//        UserDefaults.standard.setDOB(value: nil)
+//        UserDefaults.standard.setGender(value: nil)
         
         return true
     }

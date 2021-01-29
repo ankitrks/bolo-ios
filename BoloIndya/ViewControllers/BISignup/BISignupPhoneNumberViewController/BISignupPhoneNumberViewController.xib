@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BISignupPhoneNumberViewController" customModule="BoloIndya" customModuleProvider="target">
+            <connections>
+                <outlet property="contentStackView" destination="mQ3-lM-Lem" id="MAS-pO-D0a"/>
+                <outlet property="contentStackViewCenterConstraint" destination="pdU-av-CJa" id="3jH-3L-kJS"/>
+                <outlet property="countryCodeView" destination="WLc-Nq-xB4" id="YWV-EV-vWT"/>
+                <outlet property="phoneNumberView" destination="pdg-Qf-DxE" id="crV-Pa-EHI"/>
+                <outlet property="phoneTextfield" destination="mVQ-bK-9Et" id="Cuc-iz-GEk"/>
+                <outlet property="view" destination="iN0-l3-epB" id="lHN-jJ-cwF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNV-nP-Ek0">
+                    <rect key="frame" x="5" y="44" width="40" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="B5B-0I-7ms"/>
+                        <constraint firstAttribute="height" constant="35" id="F2T-qk-09F"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="12" minY="7" maxX="7" maxY="7"/>
+                    <state key="normal" image="back_arrow"/>
+                    <connections>
+                        <action selector="didTapBack:" destination="-1" eventType="touchUpInside" id="y0r-cH-81a"/>
+                    </connections>
+                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="mQ3-lM-Lem">
+                    <rect key="frame" x="12" y="360.5" width="390" height="175.5"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="UeN-O5-P90">
+                            <rect key="frame" x="10.5" y="0.0" width="369" height="99.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rl8-od-xye">
+                                    <rect key="frame" x="0.0" y="0.0" width="369" height="22"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="W4Z-bn-oW0">
+                                    <rect key="frame" x="0.0" y="36" width="369" height="63.5"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="8V4-mW-Xsc">
+                                            <rect key="frame" x="0.0" y="0.0" width="369" height="45"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WLc-Nq-xB4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="59" height="45"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="H9f-dd-LIw">
+                                                            <rect key="frame" x="7.5" y="12" width="44" height="20.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+91" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry0-0I-HYf">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="28" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
+                                                                    <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_arrow_grey" translatesAutoresizingMaskIntoConstraints="NO" id="6MS-p3-FTg">
+                                                                    <rect key="frame" x="30" y="3.5" width="14" height="14"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="14" id="83y-sv-zqY"/>
+                                                                        <constraint firstAttribute="width" constant="14" id="bip-kH-zd6"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="44" id="5ev-9k-uM3"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="deviceRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="DUU-oV-rbx"/>
+                                                        <constraint firstAttribute="width" constant="59" id="SvD-NN-azW"/>
+                                                        <constraint firstItem="H9f-dd-LIw" firstAttribute="centerY" secondItem="WLc-Nq-xB4" secondAttribute="centerY" id="oH8-WN-5FI"/>
+                                                        <constraint firstItem="H9f-dd-LIw" firstAttribute="centerX" secondItem="WLc-Nq-xB4" secondAttribute="centerX" id="r1a-Ty-yJS"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pdg-Qf-DxE">
+                                                    <rect key="frame" x="74" y="0.0" width="295" height="45"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your Mobile Number" textAlignment="natural" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="mVQ-bK-9Et">
+                                                            <rect key="frame" x="0.0" y="0.0" width="295" height="45"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="deviceRGB"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
+                                                            <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
+                                                        </textField>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="mVQ-bK-9Et" secondAttribute="trailing" id="NJs-2b-HZO"/>
+                                                        <constraint firstAttribute="bottom" secondItem="mVQ-bK-9Et" secondAttribute="bottom" id="dtF-TX-QyM"/>
+                                                        <constraint firstItem="mVQ-bK-9Et" firstAttribute="top" secondItem="pdg-Qf-DxE" secondAttribute="top" id="fTa-Hc-XgN"/>
+                                                        <constraint firstAttribute="height" constant="45" id="kpc-Gn-HNL"/>
+                                                        <constraint firstItem="mVQ-bK-9Et" firstAttribute="leading" secondItem="pdg-Qf-DxE" secondAttribute="leading" id="qOW-9Q-KKh"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* An OTP will be sent on this number" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OKT-BR-lve">
+                                            <rect key="frame" x="0.0" y="48" width="369" height="15.5"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwd-PX-NNG" customClass="BIGradientButton" customModule="BoloIndya" customModuleProvider="target">
+                            <rect key="frame" x="95" y="131.5" width="200" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="EUQ-10-iKs"/>
+                                <constraint firstAttribute="height" constant="44" id="wJc-jR-uvT"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                            <state key="normal" title="Get OTP">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="didTapGetOTP:" destination="-1" eventType="touchUpInside" id="rdN-sZ-zyl"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="wNV-nP-Ek0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="gJ9-W3-Bc8"/>
+                <constraint firstItem="wNV-nP-Ek0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="jk7-Pd-7Dd"/>
+                <constraint firstItem="mQ3-lM-Lem" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="pdU-av-CJa"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="mQ3-lM-Lem" secondAttribute="trailing" constant="12" id="sgs-vC-bMz"/>
+                <constraint firstItem="mQ3-lM-Lem" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="xCu-Tz-E2X"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="67"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="back_arrow" width="50" height="50"/>
+        <image name="down_arrow_grey" width="14" height="14"/>
+    </resources>
+</document>

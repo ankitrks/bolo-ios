@@ -10,192 +10,87 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import Alamofire
-import Branch
 
-class LoginAndSignUpViewController: BaseVC {
-
-    @IBOutlet weak var signInWithGoogle: UIButton!
+final class LoginAndSignUpViewController: BaseVC {
+    @IBOutlet private weak var viewContainer: UIView!
     
-    @IBOutlet weak var verifyOtp: UIButton!
-    @IBOutlet weak var continueWithMobile: UIButton!
-    //IBOutlet weak var signInWithGoogle: UIButton!
-    @IBOutlet weak var mobile_no: UITextField!
-    
-    @IBOutlet weak var otp: UITextField!
-    
-    @IBOutlet weak var number_and_google_login_view: UIStackView!
-    
-    @IBOutlet weak var otp_view: UIStackView!
-    
-    var image = UIImageView()
-    var otp_image = UIImageView()
-    
-    var selected_tab: Int = 1
-    
-    var current_page = "terms_and_condition"
-    var go_back =  UIImageView()
-    var privacy_policy = UILabel()
-    var terms_and_condition = UILabel()
-    var earn_money = UILabel()
-    
-    @IBAction func continueWithNumber(_ sender: UIButton) {
-    
-        self.mobile_no.resignFirstResponder()
-        self.otp.resignFirstResponder()
-        
-        let parameters: [String: Any] = [
-            "mobile_no": "+91\(mobile_no.text.unsafelyUnwrapped)"
-        ]
-        
-        AF.request("https://www.boloindya.com/api/v1/otp/send_with_country_code/", method: .post, parameters: parameters, encoding: URLEncoding.default)
-            .responseString  { (responseData) in
-                switch responseData.result {
-                case.success(_):
-                    self.otp_image.isHidden = false
-                    self.image.isHidden = true
-                    self.otp_view.isHidden = false
-                    self.number_and_google_login_view.isHidden = true
-                case.failure(let error):
-                    print(error)
-                }
+    @IBOutlet private var bottomTabsView: [UIView]! {
+        didSet {
+            for tab in bottomTabsView {
+                tab.layer.cornerRadius = tab.bounds.height/2
+                tab.clipsToBounds = true
+            }
         }
-        
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+    private var pageController: UIPageViewController?
+    private var currentIndex: Int = 0
+    private var controllers = [UIViewController]()
+    
+    private lazy var signupVC: BISignupViewController = {
+       let vc = BISignupViewController.loadFromNib()
+        vc.delegate = self
+        return vc
+    }()
+    
+    private lazy var phoneVC: BISignupPhoneNumberViewController = {
+       let vc = BISignupPhoneNumberViewController.loadFromNib()
+        vc.delegate = self
+        return vc
+    }()
+    
+    private lazy var verifyVC: BISignupVerifyPhoneViewConroller = {
+       let vc = BISignupVerifyPhoneViewConroller.loadFromNib()
+        vc.delegate = self
+        return vc
+    }()
+    
+    private lazy var detailsVC: BISignupDetailsViewController = {
+       let vc = BISignupDetailsViewController.loadFromNib()
+        vc.delegate = self
+        return vc
+    }()
+    
+    private var model = BISignupModel()
+    
+    var selected_tab = 1
+    
+    private var current_page = "terms_and_condition"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(go_back)
-        
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
-        
-        let myColor = UIColor.white
-        mobile_no.layer.borderColor = myColor.cgColor
-        otp.layer.borderColor = myColor.cgColor
 
-        mobile_no.layer.borderWidth = 0.5
-        otp.layer.borderWidth = 0.5
+//        GIDSignIn.sharedInstance().clientID = "581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com"
+//        GIDSignIn.sharedInstance().delegate = self
+//
+//        GIDSignIn.sharedInstance()?.presentingViewController = self
         
-        go_back.translatesAutoresizingMaskIntoConstraints = false
-        go_back.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        bottomTabsView = bottomTabsView.sorted(by: { $0.tag < $1.tag})
         
-        go_back.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        go_back.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
-        go_back.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+//        pageController?.dataSource = self
+        pageController?.delegate = self
+        pageController?.view.backgroundColor = .clear
+        pageController?.view.frame = CGRect(x: 0, y: 0, width: viewContainer.frame.width, height: viewContainer.frame.height)
+        addChild(pageController!)
+        viewContainer.addSubview(pageController!.view)
         
-        go_back.image = UIImage(named: "close_white")
-        go_back.tintColor = UIColor.white
-        
-        go_back.isUserInteractionEnabled = true
-        
-        view.addSubview(privacy_policy)
-        view.addSubview(terms_and_condition)
-        view.addSubview(earn_money)
-        
-        let screenSize = UIScreen.main.bounds.size
-        
-        earn_money.translatesAutoresizingMaskIntoConstraints = false
-        earn_money.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        earn_money.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
-        earn_money.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        earn_money.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
-        
-        earn_money.font = UIFont.boldSystemFont(ofSize: 13.0)
-        earn_money.text = "Earn money with Video bytes"
-        earn_money.textColor = UIColor.white
-        earn_money.textAlignment = .center
-        
-        earn_money.isUserInteractionEnabled = true
-        let earn = UITapGestureRecognizer(target: self, action: #selector(earnpages(_:)))
-        
-        earn_money.addGestureRecognizer(earn)
-        
-        privacy_policy.translatesAutoresizingMaskIntoConstraints = false
-        privacy_policy.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        privacy_policy.widthAnchor.constraint(equalToConstant: screenSize.width/2-CGFloat(10)).isActive = true
-        privacy_policy.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        privacy_policy.bottomAnchor.constraint(equalTo: earn_money.topAnchor, constant: -10).isActive = true
-        privacy_policy.font = UIFont.boldSystemFont(ofSize: 13.0)
-        
-        privacy_policy.text = "Privacy Policy"
-        privacy_policy.textColor = UIColor.white
-        
-        privacy_policy.isUserInteractionEnabled = true
-        let privacy = UITapGestureRecognizer(target: self, action: #selector(privacypages(_:)))
-        
-        privacy_policy.addGestureRecognizer(privacy)
-        
-        terms_and_condition.translatesAutoresizingMaskIntoConstraints = false
-        terms_and_condition.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        terms_and_condition.widthAnchor.constraint(equalToConstant:  screenSize.width/2-CGFloat(10)).isActive = true
-        terms_and_condition.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10).isActive = true
-        terms_and_condition.bottomAnchor.constraint(equalTo: earn_money.topAnchor, constant: -10).isActive = true
-        terms_and_condition.font = UIFont.boldSystemFont(ofSize: 13.0)
-        
-        terms_and_condition.text = "Terms and Conditions"
-        terms_and_condition.textColor = UIColor.white
-        terms_and_condition.textAlignment = .right
-        
-        terms_and_condition.isUserInteractionEnabled = true
-        let termsandcondition = UITapGestureRecognizer(target: self, action: #selector(termpages))
-        
-        terms_and_condition.addGestureRecognizer(termsandcondition)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBack(_:)))
-        go_back.addGestureRecognizer(tapGesture)
-        
-        mobile_no.delegate = self
-        otp.delegate = self
-        
-//        otp_image.layoutMargins = UIEdgeInsets(top: 198, left: 8, bottom: 8, right: 8)
-//        image.layoutMargins = UIEdgeInsets(top: 180, left: 8, bottom: 500, right: 8)
-        
-        view.addSubview(image)
-        
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        image.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        image.bottomAnchor.constraint(equalTo: number_and_google_login_view.topAnchor, constant: 10).isActive = true
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFit
-        image.image = UIImage(named: "logo")
-        
-        
-
-        view.addSubview(otp_image)
-        
-        
-        otp_image.translatesAutoresizingMaskIntoConstraints = false
-        otp_image.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        otp_image.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        otp_image.bottomAnchor.constraint(equalTo: otp_view.topAnchor, constant: 10).isActive = true
-        otp_image.image = UIImage(named: "logo")
-        otp_image.contentMode = .scaleAspectFit
-        otp_image.clipsToBounds = true
-        otp_image.isHidden = true
-        
-        if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
-        }
-
-        GIDSignIn.sharedInstance().clientID = "581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance().delegate = self
-        
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-    
-        // signInWithGoogle.layer.cornerRadius = 10.0
-        verifyOtp.layer.cornerRadius = 10.0
-        continueWithMobile.layer.cornerRadius = 10.0
-        mobile_no.layer.cornerRadius = 10.0
-        otp.layer.cornerRadius = 10.0
-        //continueWithMobile.backgroundColor = UIColor.white;
-        
+        controllers.append(signupVC)
+        controllers.append(phoneVC)
+        controllers.append(verifyVC)
+        controllers.append(detailsVC)
+ 
+        pageController?.setViewControllers([controllers[currentIndex]], direction: .forward, animated: true, completion: nil)
+        pageController?.didMove(toParent: self)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is TermsPagesViewController {
            let vc = segue.destination as? TermsPagesViewController
@@ -203,18 +98,42 @@ class LoginAndSignUpViewController: BaseVC {
         }
     }
     
-    @objc func goBack(_ sender: UITapGestureRecognizer) {
-        self.otp_image.isHidden = true
-        self.image.isHidden = false
-        self.otp_view.isHidden = true
-        self.number_and_google_login_view.isHidden = false
-        if self.navigationController == nil {
-            self.dismiss(animated: true, completion: nil)
-        } else if (selected_tab == 0) {
-            self.navigationController?.popViewController(animated: true)
+    private func dismissView() {
+        if navigationController == nil {
+            dismiss(animated: true, completion: nil)
+        } else if selected_tab == 0 {
+            navigationController?.popViewController(animated: true)
         } else {
-            self.tabBarController?.selectedIndex = 0
+            tabBarController?.selectedIndex = 0
         }
+    }
+    
+    private func sentToTrending() {
+        guard let rootVC = storyboard?.instantiateViewController(withIdentifier: "MainViewController") else { return }
+        
+        UIApplication.shared.currentWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+        
+        let rootNC = UINavigationController(rootViewController: rootVC)
+        UIApplication.shared.currentWindow?.rootViewController = rootNC
+        UIApplication.shared.currentWindow?.makeKeyAndVisible()
+    }
+    
+    private func setPageIndexSelection(direction: UIPageViewController.NavigationDirection) {
+        guard bottomTabsView.count > currentIndex else { return }
+        
+        for (index, view) in bottomTabsView.enumerated() {
+            if index == currentIndex {
+                view.backgroundColor = UIColor(hex: "10A5F9")
+            } else {
+                view.backgroundColor = UIColor(hex: "393636")
+            }
+        }
+        
+        pageController?.setViewControllers([controllers[currentIndex]], direction: direction, animated: true, completion: nil)
+    }
+    
+    @IBAction func googleSignIn(_ sender: Any) {
+        GIDSignIn.sharedInstance().signIn()
     }
     
     @objc func termpages(_ sender: UITapGestureRecognizer) {
@@ -232,40 +151,138 @@ class LoginAndSignUpViewController: BaseVC {
        performSegue(withIdentifier: "contentpages", sender: self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    @IBAction func googleSignIn(_ sender: Any) {
-        GIDSignIn.sharedInstance().signIn()
-    }
     override func onSuccessResponse(response: Any, resultCode: Int = 0) {
         //if(resultCode == 2){
-        
-            if let userInfo = response as? LoginUserInfo,
-               let access = userInfo.accessToken,
-               !access.isEmpty {
-                setDataUserInfo(info: userInfo)
-                sentToTrending()
-          
-                let isSignup = userInfo.message?.lowercased() == "user created"
-                let eventName = isSignup ? EventName.signUp : EventName.login
-                let values = ["mobile": mobile_no.text ?? "",
-                              "mode": "mobile"]
-                WebEngageHelper.trackEvent(eventName: eventName, values: values)
-            } else {
-                showToast(message: "Please enter valid otp"  )
-            }
+//
+//            if let userInfo = response as? LoginUserInfo,
+//               let access = userInfo.accessToken,
+//               !access.isEmpty {
+//                setDataUserInfo(info: userInfo)
+//                sentToTrending()
+//
+//                let isSignup = userInfo.message?.lowercased() == "user created"
+//                let eventName = isSignup ? EventName.signUp : EventName.login
+//                let values = ["mobile": mobile_no.text ?? "",
+//                              "mode": "mobile"]
+//                WebEngageHelper.trackEvent(eventName: eventName, values: values)
+//            } else {
+//                showToast(message: "Please enter valid otp"  )
+//            }
    // }
     }
 
     override func onFailResponse(response: Error) {
          print(response.localizedDescription)
     }
+}
 
+extension LoginAndSignUpViewController: UIPageViewControllerDelegate {
+//    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+//        if let index = controllers.firstIndex(of: viewController) {
+//            //setPageIndexSelection(indexPage: index)
+//            if index > 0 {
+//                return controllers[index - 1]
+//            } else {
+//                return nil
+//            }
+//        }
+//        return nil
+//    }
+//
+//    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+//        if let index = controllers.firstIndex(of: viewController) {
+//            //setPageIndexSelection(indexPage: index)
+//            if index < controllers.count - 1 {
+//                return controllers[index + 1]
+//            } else {
+//                return nil
+//            }
+//        }
+//        return nil
+//    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            if let currentViewController = pageViewController.viewControllers?.first,
+               let index = controllers.firstIndex(of: currentViewController) {
+                currentIndex = index
+                setPageIndexSelection(direction: .forward)
+            }
+        }
+    }
+}
 
+extension LoginAndSignUpViewController: BISignupViewControllerDelegate {
+    func didTapSignupVCNext() {
+        currentIndex = 1
+        setPageIndexSelection(direction: .forward)
+    }
+    
+    func didTapSignupVCBack() {
+        currentIndex = 0
+        setPageIndexSelection(direction: .reverse)
+        
+        dismissView()
+    }
+}
+
+extension LoginAndSignUpViewController: BISignupPhoneNumberViewControllerDelegate {
+    func didTapSignupPhoneVCNext(phone: String) {
+        model.phone = phone
+        
+        currentIndex = 2
+        setPageIndexSelection(direction: .forward)
+        
+        verifyVC.model = model
+    }
+    
+    func didTapSignupPhoneVCBack() {
+        currentIndex = 0
+        setPageIndexSelection(direction: .reverse)
+    }
+}
+
+extension LoginAndSignUpViewController: BISignupVerifyPhoneViewConrollerDelegate {
+    func didTapSignupVerifyPhoneVCNext(object: BISignupModel?) {
+        if let model = object {
+            self.model = model
+        }
+        
+        if let name = model.name, !name.isEmpty, let gender = model.gender, let dob = model.dob {
+            dismissView()
+            sentToTrending()
+        } else {
+            currentIndex = 3
+            setPageIndexSelection(direction: .forward)
+            
+            detailsVC.model = model
+        }
+    }
+    
+    func didTapSignupVerifyPhoneVCBack() {
+        currentIndex = 1
+        setPageIndexSelection(direction: .reverse)
+    }
+}
+
+extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
+    func didTapSignupDetailsVCNext(model: BISignupModel?) {
+        if let model = model {
+            self.model = model
+        }
+        
+        dismissView()
+        sentToTrending()
+    }
+    
+    func didTapSignupDetailsVCBack(model: BISignupModel?) {
+        if let model = model {
+            self.model = model
+        }
+        
+        currentIndex = 2
+        setPageIndexSelection(direction: .reverse)
+    }
 }
 
 extension LoginAndSignUpViewController : GIDSignInDelegate {
@@ -276,12 +293,11 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
         }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        print("Login")
         Auth.auth().signIn(with: credential) { (authResult, error) in
             let user = Auth.auth().currentUser
             if let user = user {
                 let userid = user.uid
-                Branch.getInstance().setIdentity(userid)
+                BranchHelper().setId(userId: userid)
                 self.googleLogin(id: userid, profile_pic: "", name: user.displayName ?? "")
                 print(userid)
             }
@@ -324,47 +340,5 @@ extension LoginAndSignUpViewController : GIDSignInDelegate {
         ]
         
         setParam(url: PROFILE_URL , param: parameters, className: LoginUserInfo.self, resultCode: 2)
-        
     }
-    
-    @IBAction func verifyOTP(_ sender: UIButton) {
-        
-        self.mobile_no.resignFirstResponder()
-        self.otp.resignFirstResponder()
-        
-        let parameters: [String: Any] = [
-            "mobile_no": "\(mobile_no.text.unsafelyUnwrapped)",
-            "otp": "\(otp.text.unsafelyUnwrapped)",
-            "country_code": "+91",
-            "language": UserDefaults.standard.getValueForLanguageId() ?? "2" as String
-        ]
-        
-
-        let userid = String(UserDefaults.standard.getUserId() ?? 0)
-        Branch.getInstance().setIdentity(userid)
-        setParam(auth: false,url: OTP_VERIFY_URL, param: parameters, className: LoginUserInfo.self)
-    }
-    
- 
-    func sentToTrending() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false)
-    }
-
-    
-}
-
-extension LoginAndSignUpViewController : UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.mobile_no.resignFirstResponder()
-        self.otp.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
 }

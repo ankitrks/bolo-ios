@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 import YPImagePicker
 import SVProgressHUD
-import Branch
 import Kingfisher
 
 class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
@@ -812,7 +811,7 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
             dictionary.keys.forEach {key in
                 defaults.removeObject(forKey: key)
             }
-            Branch.getInstance().logout()
+            BranchHelper().logout()
             resetApp()
             break
         default:

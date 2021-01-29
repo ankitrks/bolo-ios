@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr.apps.googleusercontent.com</string>
+	<string>581293693346-8hrken7g5fs7tt19b9hh8h7h9lghq2a6.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.581293693346-tphkhhes9a84ohf929cqt1l5vaerm3rr</string>
+	<string>com.googleusercontent.apps.581293693346-8hrken7g5fs7tt19b9hh8h7h9lghq2a6</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>581293693346-rkt69rtqfnt57911vra2p3u0ub9qon9b.apps.googleusercontent.com</string>
+	<string>581293693346-346i5e5th7dobg1q602bn1s808ktq0to.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDJjwP_cgtlNNSni6YOaqcSRacDavrWvGo</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.boloindya.BoloIndya</string>
+	<string>com.boloindya.ios</string>
 	<key>PROJECT_ID</key>
 	<string>boloindya-1ec98</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:581293693346:ios:2c3fd605491640b209fafb</string>
+	<string>1:581293693346:ios:9881479a1fcd26f609fafb</string>
 	<key>DATABASE_URL</key>
 	<string>https://boloindya-1ec98.firebaseio.com</string>
 </dict>

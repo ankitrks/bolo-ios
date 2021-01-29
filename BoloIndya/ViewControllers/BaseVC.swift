@@ -64,18 +64,29 @@ class BaseVC: UIViewController {
         if let u = info.user {
             UserDefaults.standard.setUserId(value: u.id)
             
+            if let id = u.id {
+                BranchHelper().setId(userId: "\(id)")
+                CrashlyticsHelper().setUserId(id: "\(id)")
+            }
+            
             if let profile = u.userprofile {
                 UserDefaults.standard.setName(value: profile.name)
                 UserDefaults.standard.setCoverPic(value: profile.coverPic)
                 UserDefaults.standard.setProfilePic(value: profile.profilePic)
                 UserDefaults.standard.setBio(value: profile.bio)
                 UserDefaults.standard.setGuestLoggedIn(value: profile.isGuestUser)
+                UserDefaults.standard.setAbout(value: profile.about)
                 //  UserDefaults.standard.isg(value: profile.bio)
+                
+                UserDefaults.standard.setGender(value: profile.gender)
+                UserDefaults.standard.setDOB(value: profile.dOB)
                 
                 UserDefaults.standard.setIsSuperStar(value: profile.isSuperstar ?? false)
                 UserDefaults.standard.setIsExpert(value: profile.isExpert ?? false)
                 UserDefaults.standard.setIsBusiness(value: profile.isBusiness ?? false)
                 UserDefaults.standard.setIsPopular(value: profile.isPopular ?? false)
+                
+                CrashlyticsHelper().setUserName(name: profile.name)
             }
         }
         
@@ -83,15 +94,20 @@ class BaseVC: UIViewController {
     }
     
     func isLogin() -> Bool {
-        if let isLoggedIn = UserDefaults.standard.getGuestLoggedIn(), isLoggedIn {
+        var isLoggedin: Bool
+        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest, let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), let dob = UserDefaults.standard.getDOB() {
+            isLoggedin = true
+        } else {
+            isLoggedin = false
+        }
+        
+        if !isLoggedin {
             tabBarController?.tabBar.isHidden = true
             navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "LoginAndSignUpViewController", sender: self)
-            
-            return false
         }
         
-        return true
+        return isLoggedin
     }
     
     private func showPrograssBar(show: Bool) {

@@ -14,5 +14,6 @@ struct Constants {
     
     struct viewTags {
         static let updateView = 123
+        static let trendingPlayer = 124
     }
 }

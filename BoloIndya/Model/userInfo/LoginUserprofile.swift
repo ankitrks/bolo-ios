@@ -22,7 +22,7 @@ struct LoginUserprofile : Mappable {
     var commentCount : Int?
     var countryCode : AnyObject?
     var coverPic : String?
-    var dOB : AnyObject?
+    var dOB : String?
     var encashableBoloScore : Int?
     var followCount : Int?
     var followerCount : Int?

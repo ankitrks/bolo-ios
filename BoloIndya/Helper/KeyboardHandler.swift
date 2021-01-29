@@ -15,7 +15,7 @@ protocol KeyboardHandler: class {
 
 extension KeyboardHandler {
     
-    func addKeyboardObservers(to notificationCenter: NotificationCenter) {
+    func addKeyboardObservers(to notificationCenter: NotificationCenter = .default) {
         notificationCenter.addObserver(
             forName: UIResponder.keyboardWillShowNotification,
             object: nil,

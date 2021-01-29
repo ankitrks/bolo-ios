@@ -71,7 +71,7 @@ final class BICommentView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        addKeyboardObservers(to: .default)
+        addKeyboardObservers()
     }
     
     func config(topic: Topic, originalFrame: CGRect, viewController: UIViewController, delegate: BICommentViewDelegate, type: BICommentViewType) {

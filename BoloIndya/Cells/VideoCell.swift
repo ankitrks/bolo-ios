@@ -9,7 +9,7 @@
 import UIKit
 import MarqueeLabel
 
-protocol VideoCellDelegate {
+protocol VideoCellDelegate: class {
     func didTapOptions(with selected_postion: Int)
     func goToProfile(with selected_postion: Int)
     func goToSharing(with selected_postion: Int)

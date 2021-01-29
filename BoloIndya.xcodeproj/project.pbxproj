@@ -109,6 +109,13 @@
 		357B42152590820B009229D8 /* BICommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 357B42142590820B009229D8 /* BICommentView.xib */; };
 		357B4219259084D1009229D8 /* BICommentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B4218259084D1009229D8 /* BICommentTableCell.swift */; };
 		357B421B259084F5009229D8 /* BICommentTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 357B421A259084F5009229D8 /* BICommentTableCell.xib */; };
+		357D3E3D25C1A8A500A14705 /* BranchHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D3E3C25C1A8A500A14705 /* BranchHelper.swift */; };
+		357D3E6F25C1CFBD00A14705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 357D3E6E25C1CFBD00A14705 /* GoogleService-Info.plist */; };
+		357D3E7725C1D2AD00A14705 /* CrashlyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D3E7625C1D2AD00A14705 /* CrashlyticsHelper.swift */; };
+		357D3E9925C1DC8E00A14705 /* RemoteConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D3E9825C1DC8E00A14705 /* RemoteConfigHelper.swift */; };
+		357D3E9C25C27AEE00A14705 /* BISignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D3E9B25C27AEE00A14705 /* BISignupViewController.swift */; };
+		357D3E9F25C27B0500A14705 /* BISignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 357D3E9E25C27B0500A14705 /* BISignupViewController.xib */; };
+		357D3EA525C2953D00A14705 /* BIResultUserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D3EA425C2953D00A14705 /* BIResultUserProfileModel.swift */; };
 		35911729258A0502005ECF65 /* WebEngageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35911728258A0502005ECF65 /* WebEngageHelper.swift */; };
 		3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27825827FCE005B96DC /* VideoHelper.swift */; };
 		3594F27F2584A48E005B96DC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594F27E2584A48E005B96DC /* UIColor+Extension.swift */; };
@@ -122,6 +129,18 @@
 		359DEAD625821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEAD125821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift */; };
 		359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359DEAD225821B3C002B31A8 /* Orientation.swift */; };
 		35A2D8CE258DEB8F00DA85ED /* SelectedHastagCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A2D8CD258DEB8F00DA85ED /* SelectedHastagCollectionCell.swift */; };
+		35A5BCD825C152E400BA66D0 /* BIGradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BCD725C152E400BA66D0 /* BIGradientButton.swift */; };
+		35A5BCDB25C165B500BA66D0 /* BISignupPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BCDA25C165B500BA66D0 /* BISignupPhoneNumberViewController.swift */; };
+		35A5BCDE25C165CE00BA66D0 /* BISignupPhoneNumberViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35A5BCDD25C165CE00BA66D0 /* BISignupPhoneNumberViewController.xib */; };
+		35A5BCE325C171A800BA66D0 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BCE225C171A800BA66D0 /* UITextField+Extension.swift */; };
+		35A5BCE625C1739B00BA66D0 /* BISignupVerifyPhoneViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BCE525C1739B00BA66D0 /* BISignupVerifyPhoneViewConroller.swift */; };
+		35A5BCE925C173AC00BA66D0 /* BISignupVerifyPhoneViewConroller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35A5BCE825C173AC00BA66D0 /* BISignupVerifyPhoneViewConroller.xib */; };
+		35A5BD2125C17CA600BA66D0 /* BIOTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BD2025C17CA600BA66D0 /* BIOTPTextField.swift */; };
+		35A5BD2425C17FE700BA66D0 /* BISignupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BD2325C17FE700BA66D0 /* BISignupModel.swift */; };
+		35A5BD2725C1823E00BA66D0 /* BISignupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5BD2625C1823E00BA66D0 /* BISignupDetailsViewController.swift */; };
+		35A5BD2B25C1825600BA66D0 /* BISignupDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35A5BD2A25C1825600BA66D0 /* BISignupDetailsViewController.xib */; };
+		35C0C0BC25BAC62400248DD8 /* BIVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C0BB25BAC62400248DD8 /* BIVideoCell.swift */; };
+		35C0C0BF25BAC63B00248DD8 /* BIVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C0C0BE25BAC63B00248DD8 /* BIVideoCell.xib */; };
 		35C24FB425947A7300CF5200 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C24FB325947A7300CF5200 /* KeychainHelper.swift */; };
 		35E25C362590889A00F15EF3 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E25C352590889A00F15EF3 /* UICollectionView+Extension.swift */; };
 		35E25C38259088C800F15EF3 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E25C37259088C800F15EF3 /* NSObject+Extension.swift */; };
@@ -138,7 +157,6 @@
 		35E77176259B23C700BE4529 /* BIReportTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35E77175259B23C700BE4529 /* BIReportTableCell.xib */; };
 		35E77178259B587500BE4529 /* BIReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E77177259B587400BE4529 /* BIReportModel.swift */; };
 		6E8584442506859F00A0A7B2 /* ConstantsUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */; };
-		6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */; };
 		6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB4AED624FB99BC00C01D72 /* UserProfileStorybaord.storyboard */; };
 		6EB4AEDB24FBA60100C01D72 /* UserProfileEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4AEDA24FBA60100C01D72 /* UserProfileEditVC.swift */; };
 		6EB4AEDE24FBEF0000C01D72 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4AEDD24FBEF0000C01D72 /* UIImageView+Extension.swift */; };
@@ -149,7 +167,7 @@
 		6EEA92A4250A5B0900B1858B /* LoginUserprofile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */; };
 		6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A5250AAE0900B1858B /* ErrorCell.swift */; };
 		6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EEA92A6250AAE0900B1858B /* ErrorCell.xib */; };
-		6EEA92AA250ADED500B1858B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A9250ADED500B1858B /* Date.swift */; };
+		6EEA92AA250ADED500B1858B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92A9250ADED500B1858B /* Date+Extension.swift */; };
 		6EEA92AE250BDB3B00B1858B /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -261,6 +279,13 @@
 		357B42142590820B009229D8 /* BICommentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICommentView.xib; sourceTree = "<group>"; };
 		357B4218259084D1009229D8 /* BICommentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BICommentTableCell.swift; sourceTree = "<group>"; };
 		357B421A259084F5009229D8 /* BICommentTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BICommentTableCell.xib; sourceTree = "<group>"; };
+		357D3E3C25C1A8A500A14705 /* BranchHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchHelper.swift; sourceTree = "<group>"; };
+		357D3E6E25C1CFBD00A14705 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		357D3E7625C1D2AD00A14705 /* CrashlyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsHelper.swift; sourceTree = "<group>"; };
+		357D3E9825C1DC8E00A14705 /* RemoteConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigHelper.swift; sourceTree = "<group>"; };
+		357D3E9B25C27AEE00A14705 /* BISignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISignupViewController.swift; sourceTree = "<group>"; };
+		357D3E9E25C27B0500A14705 /* BISignupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BISignupViewController.xib; sourceTree = "<group>"; };
+		357D3EA425C2953D00A14705 /* BIResultUserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIResultUserProfileModel.swift; sourceTree = "<group>"; };
 		357DD52C258A41E300396775 /* WebEngage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebEngage.framework; path = ../../../Downloads/WebEngage.framework; sourceTree = "<group>"; };
 		359117252589F994005ECF65 /* BoloIndya-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BoloIndya-Bridging-Header.h"; sourceTree = "<group>"; };
 		35911728258A0502005ECF65 /* WebEngageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebEngageHelper.swift; sourceTree = "<group>"; };
@@ -276,6 +301,18 @@
 		359DEAD125821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
 		359DEAD225821B3C002B31A8 /* Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
 		35A2D8CD258DEB8F00DA85ED /* SelectedHastagCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedHastagCollectionCell.swift; sourceTree = "<group>"; };
+		35A5BCD725C152E400BA66D0 /* BIGradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIGradientButton.swift; sourceTree = "<group>"; };
+		35A5BCDA25C165B500BA66D0 /* BISignupPhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISignupPhoneNumberViewController.swift; sourceTree = "<group>"; };
+		35A5BCDD25C165CE00BA66D0 /* BISignupPhoneNumberViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BISignupPhoneNumberViewController.xib; sourceTree = "<group>"; };
+		35A5BCE225C171A800BA66D0 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		35A5BCE525C1739B00BA66D0 /* BISignupVerifyPhoneViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISignupVerifyPhoneViewConroller.swift; sourceTree = "<group>"; };
+		35A5BCE825C173AC00BA66D0 /* BISignupVerifyPhoneViewConroller.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BISignupVerifyPhoneViewConroller.xib; sourceTree = "<group>"; };
+		35A5BD2025C17CA600BA66D0 /* BIOTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIOTPTextField.swift; sourceTree = "<group>"; };
+		35A5BD2325C17FE700BA66D0 /* BISignupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISignupModel.swift; sourceTree = "<group>"; };
+		35A5BD2625C1823E00BA66D0 /* BISignupDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BISignupDetailsViewController.swift; sourceTree = "<group>"; };
+		35A5BD2A25C1825600BA66D0 /* BISignupDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BISignupDetailsViewController.xib; sourceTree = "<group>"; };
+		35C0C0BB25BAC62400248DD8 /* BIVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIVideoCell.swift; sourceTree = "<group>"; };
+		35C0C0BE25BAC63B00248DD8 /* BIVideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BIVideoCell.xib; sourceTree = "<group>"; };
 		35C24FB325947A7300CF5200 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		35E25C352590889A00F15EF3 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		35E25C37259088C800F15EF3 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
@@ -293,7 +330,6 @@
 		35E77177259B587400BE4529 /* BIReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIReportModel.swift; sourceTree = "<group>"; };
 		3DBFD7EC4C5C9240C19C4894 /* Pods-BoloIndya.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoloIndya.debug.xcconfig"; path = "Target Support Files/Pods-BoloIndya/Pods-BoloIndya.debug.xcconfig"; sourceTree = "<group>"; };
 		6E8584432506859F00A0A7B2 /* ConstantsUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsUrl.swift; sourceTree = "<group>"; };
-		6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6EB4AED624FB99BC00C01D72 /* UserProfileStorybaord.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfileStorybaord.storyboard; sourceTree = "<group>"; };
 		6EB4AEDA24FBA60100C01D72 /* UserProfileEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileEditVC.swift; sourceTree = "<group>"; };
 		6EB4AEDD24FBEF0000C01D72 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -304,7 +340,7 @@
 		6EEA92A1250A5B0900B1858B /* LoginUserprofile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginUserprofile.swift; sourceTree = "<group>"; };
 		6EEA92A5250AAE0900B1858B /* ErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCell.swift; sourceTree = "<group>"; };
 		6EEA92A6250AAE0900B1858B /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
-		6EEA92A9250ADED500B1858B /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		6EEA92A9250ADED500B1858B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		6EEA92AD250BDB3B00B1858B /* SelfSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedTableView.swift; sourceTree = "<group>"; };
 		7D2EE1296C237146CDA81176 /* Pods_BoloIndya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoloIndya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -331,6 +367,7 @@
 				3507398225B96C7700D0A542 /* BIAppVersionNestedModel.swift */,
 				183B4BAB24B86DE4003EC6D7 /* User.swift */,
 				3507387A25AEEED200D0A542 /* Music.swift */,
+				357D3EA425C2953D00A14705 /* BIResultUserProfileModel.swift */,
 				3507386925ADE3FE00D0A542 /* BIUserModel.swift */,
 				3507386C25ADE41300D0A542 /* BIUserProfileModel.swift */,
 				3507387D25AEFB5300D0A542 /* BIMusicResultNextCountModel.swift */,
@@ -415,7 +452,7 @@
 				6E8584422506854900A0A7B2 /* utility */,
 				35E25C3C2590891C00F15EF3 /* Helper */,
 				18A4566224E3FAF500F20D17 /* Assets.xcassets */,
-				6EB4AED424FB8CE700C01D72 /* GoogleService-Info.plist */,
+				357D3E6E25C1CFBD00A14705 /* GoogleService-Info.plist */,
 				18F93B3A24B71D21006621DB /* Info.plist */,
 			);
 			path = BoloIndya;
@@ -426,7 +463,8 @@
 			children = (
 				18F93B4124B72147006621DB /* ChooseLanguageController.swift */,
 				18F93B3024B71D1C006621DB /* ViewController.swift */,
-				183BDCC024B79C6D00ACF912 /* TrendingAndFollowingViewController.swift */,
+				35A5BCED25C173D000BA66D0 /* BISignup */,
+				35C0C0B825BAC61100248DD8 /* TrendingAndFollowingViewController */,
 				183BDCC524B7BA4000ACF912 /* CurrentUserViewController.swift */,
 				183BDCC724B7BD8400ACF912 /* NotificationViewController.swift */,
 				35067C6925A59E5700E7AF5B /* DiscoverViewController */,
@@ -537,6 +575,15 @@
 			path = TrackCell;
 			sourceTree = "<group>";
 		};
+		35397B2E25C182E50033A45E /* BISignupDetailsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				35A5BD2625C1823E00BA66D0 /* BISignupDetailsViewController.swift */,
+				35A5BD2A25C1825600BA66D0 /* BISignupDetailsViewController.xib */,
+			);
+			path = BISignupDetailsViewController;
+			sourceTree = "<group>";
+		};
 		3563E52A25A479BB009A8F77 /* BIBannerLandingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,6 +653,15 @@
 			path = BICommentTableCell;
 			sourceTree = "<group>";
 		};
+		357D3EA125C27C1800A14705 /* BISignupViewController */ = {
+			isa = PBXGroup;
+			children = (
+				357D3E9B25C27AEE00A14705 /* BISignupViewController.swift */,
+				357D3E9E25C27B0500A14705 /* BISignupViewController.xib */,
+			);
+			path = BISignupViewController;
+			sourceTree = "<group>";
+		};
 		359DEACD25821B3C002B31A8 /* SwiftyCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -616,6 +672,54 @@
 				359DEAD225821B3C002B31A8 /* Orientation.swift */,
 			);
 			path = SwiftyCam;
+			sourceTree = "<group>";
+		};
+		35A5BCE025C165D400BA66D0 /* BISignupPhoneNumberViewController */ = {
+			isa = PBXGroup;
+			children = (
+				35A5BCDA25C165B500BA66D0 /* BISignupPhoneNumberViewController.swift */,
+				35A5BCDD25C165CE00BA66D0 /* BISignupPhoneNumberViewController.xib */,
+			);
+			path = BISignupPhoneNumberViewController;
+			sourceTree = "<group>";
+		};
+		35A5BCEB25C173C200BA66D0 /* BISignupVerifyPhoneViewConroller */ = {
+			isa = PBXGroup;
+			children = (
+				35A5BCE525C1739B00BA66D0 /* BISignupVerifyPhoneViewConroller.swift */,
+				35A5BCE825C173AC00BA66D0 /* BISignupVerifyPhoneViewConroller.xib */,
+			);
+			path = BISignupVerifyPhoneViewConroller;
+			sourceTree = "<group>";
+		};
+		35A5BCED25C173D000BA66D0 /* BISignup */ = {
+			isa = PBXGroup;
+			children = (
+				35A5BD2325C17FE700BA66D0 /* BISignupModel.swift */,
+				357D3EA125C27C1800A14705 /* BISignupViewController */,
+				35A5BCE025C165D400BA66D0 /* BISignupPhoneNumberViewController */,
+				35A5BCEB25C173C200BA66D0 /* BISignupVerifyPhoneViewConroller */,
+				35397B2E25C182E50033A45E /* BISignupDetailsViewController */,
+			);
+			path = BISignup;
+			sourceTree = "<group>";
+		};
+		35C0C0B825BAC61100248DD8 /* TrendingAndFollowingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				183BDCC024B79C6D00ACF912 /* TrendingAndFollowingViewController.swift */,
+				35C0C0BA25BAC61600248DD8 /* BIVideoCell */,
+			);
+			path = TrendingAndFollowingViewController;
+			sourceTree = "<group>";
+		};
+		35C0C0BA25BAC61600248DD8 /* BIVideoCell */ = {
+			isa = PBXGroup;
+			children = (
+				35C0C0BB25BAC62400248DD8 /* BIVideoCell.swift */,
+				35C0C0BE25BAC63B00248DD8 /* BIVideoCell.xib */,
+			);
+			path = BIVideoCell;
 			sourceTree = "<group>";
 		};
 		35C24FB5259483C200CF5200 /* WebEngage */ = {
@@ -647,6 +751,11 @@
 				35067C7A25A5D81000E7AF5B /* BIDeeplinkHandler.swift */,
 				3507397C25B95F3C00D0A542 /* BIUtility.swift */,
 				183BDCC324B7A41200ACF912 /* UserDefaults.swift */,
+				35A5BCD725C152E400BA66D0 /* BIGradientButton.swift */,
+				35A5BD2025C17CA600BA66D0 /* BIOTPTextField.swift */,
+				357D3E3C25C1A8A500A14705 /* BranchHelper.swift */,
+				357D3E7625C1D2AD00A14705 /* CrashlyticsHelper.swift */,
+				357D3E9825C1DC8E00A14705 /* RemoteConfigHelper.swift */,
 				35C24FB5259483C200CF5200 /* WebEngage */,
 			);
 			path = Helper;
@@ -726,7 +835,8 @@
 				359DEA862581023D002B31A8 /* UITableViewCell+Extension.swift */,
 				6EB4AEDD24FBEF0000C01D72 /* UIImageView+Extension.swift */,
 				3594F28D2585601D005B96DC /* UIImage+Extension.swift */,
-				6EEA92A9250ADED500B1858B /* Date.swift */,
+				35A5BCE225C171A800BA66D0 /* UITextField+Extension.swift */,
+				6EEA92A9250ADED500B1858B /* Date+Extension.swift */,
 				3507392025B577FF00D0A542 /* Double+Extension.swift */,
 				35067C6E25A5A46A00E7AF5B /* String+Extension.swift */,
 				3594F27E2584A48E005B96DC /* UIColor+Extension.swift */,
@@ -766,6 +876,7 @@
 				18F93B2724B71D1C006621DB /* Resources */,
 				DAC90A7456BF40E68491B8FB /* [CP] Embed Pods Frameworks */,
 				34432DACCF742E9CED3D8B30 /* [CP] Copy Pods Resources */,
+				357D3E5C25C1C5C100A14705 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -821,20 +932,25 @@
 				35E77176259B23C700BE4529 /* BIReportTableCell.xib in Resources */,
 				187DA65224B8A36D005522FB /* Main.storyboard in Resources */,
 				350738B125B0363E00D0A542 /* BIAudioTrimmerView.xib in Resources */,
-				6EB4AED524FB8CE700C01D72 /* GoogleService-Info.plist in Resources */,
 				357B42152590820B009229D8 /* BICommentView.xib in Resources */,
 				3563E53A25A48736009A8F77 /* BIBannerWinnerViewController.xib in Resources */,
 				357B421B259084F5009229D8 /* BICommentTableCell.xib in Resources */,
 				35067C7925A5C61700E7AF5B /* BIBannerWinnerTableCell.xib in Resources */,
 				35E25C4525909A9000F15EF3 /* BICommentLoadingCell.xib in Resources */,
 				3507390C25B1FFA100D0A542 /* BIAudioGallerySelectorViewController.xib in Resources */,
+				357D3E6F25C1CFBD00A14705 /* GoogleService-Info.plist in Resources */,
+				35A5BCE925C173AC00BA66D0 /* BISignupVerifyPhoneViewConroller.xib in Resources */,
 				35E77171259B1D7A00BE4529 /* BIReportViewController.xib in Resources */,
 				18A4566324E3FAF500F20D17 /* Assets.xcassets in Resources */,
 				6EB4AED724FB99BC00C01D72 /* UserProfileStorybaord.storyboard in Resources */,
+				35C0C0BF25BAC63B00248DD8 /* BIVideoCell.xib in Resources */,
 				3563E54025A48AFE009A8F77 /* BIVideoCollectionCell.xib in Resources */,
+				35A5BCDE25C165CE00BA66D0 /* BISignupPhoneNumberViewController.xib in Resources */,
 				6EEA92A8250AAE0A00B1858B /* ErrorCell.xib in Resources */,
 				3507388A25AEFF6400D0A542 /* BIAudioSelectCell.xib in Resources */,
 				18F93B3924B71D21006621DB /* LaunchScreen.storyboard in Resources */,
+				35A5BD2B25C1825600BA66D0 /* BISignupDetailsViewController.xib in Resources */,
+				357D3E9F25C27B0500A14705 /* BISignupViewController.xib in Resources */,
 				3563E53125A48699009A8F77 /* BIHTMLViewController.xib in Resources */,
 				35067C7325A5B95E00E7AF5B /* BIBannerRulesViewController.xib in Resources */,
 				3563E53525A486ED009A8F77 /* BIVideoCollectionViewController.xib in Resources */,
@@ -860,6 +976,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BoloIndya/Pods-BoloIndya-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		357D3E5C25C1C5C100A14705 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/BoloIndya/GoogleService-Info.plist\" -p ios  \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 		391B8D06E2D9EC4925FB3880 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -916,7 +1050,9 @@
 				357B4219259084D1009229D8 /* BICommentTableCell.swift in Sources */,
 				18810FDB24DD3B4300AE93EE /* BannerCollectionViewCell.swift in Sources */,
 				6EEA92A7250AAE0A00B1858B /* ErrorCell.swift in Sources */,
+				357D3E9925C1DC8E00A14705 /* RemoteConfigHelper.swift in Sources */,
 				18CB49DB24BC6A6700212329 /* FeedBackViewController.swift in Sources */,
+				35A5BD2125C17CA600BA66D0 /* BIOTPTextField.swift in Sources */,
 				3507386A25ADE3FE00D0A542 /* BIUserModel.swift in Sources */,
 				184924E824BB9325007F731E /* MenuViewCell.swift in Sources */,
 				186234D724DF378D00A1AD74 /* HashSearchCollectionViewCell.swift in Sources */,
@@ -933,13 +1069,14 @@
 				3507388425AEFD1800D0A542 /* BIMusicResultModel.swift in Sources */,
 				18AE861224CC139E000A3AAA /* ChooseLanguageFirstViewController.swift in Sources */,
 				1856DDCA24BD014900DE8539 /* UserVideoCollectionViewCell.swift in Sources */,
+				35A5BCDB25C165B500BA66D0 /* BISignupPhoneNumberViewController.swift in Sources */,
 				18F93B3124B71D1C006621DB /* ViewController.swift in Sources */,
 				3563E53825A48723009A8F77 /* BIBannerWinnerViewController.swift in Sources */,
 				1869071A24E0073700F6B2D7 /* Search.swift in Sources */,
 				35E7716F259B1D6000BE4529 /* BIReportViewController.swift in Sources */,
 				359DEA872581023D002B31A8 /* UITableViewCell+Extension.swift in Sources */,
 				18C771B524CB2F20007E3AC2 /* Category.swift in Sources */,
-				6EEA92AA250ADED500B1858B /* Date.swift in Sources */,
+				6EEA92AA250ADED500B1858B /* Date+Extension.swift in Sources */,
 				183BDCC624B7BA4000ACF912 /* CurrentUserViewController.swift in Sources */,
 				35067C6D25A59EFA00E7AF5B /* BICamapignStatusMessageModel.swift in Sources */,
 				357B4213259081F3009229D8 /* BICommentView.swift in Sources */,
@@ -949,6 +1086,7 @@
 				35067C7125A5B93100E7AF5B /* BIBannerRulesViewController.swift in Sources */,
 				182D541924B9CAB000B33ACE /* CreateVideoViewController.swift in Sources */,
 				35E25C38259088C800F15EF3 /* NSObject+Extension.swift in Sources */,
+				357D3E3D25C1A8A500A14705 /* BranchHelper.swift in Sources */,
 				18708AAE24DA8EB20006F356 /* ThumbailViewController.swift in Sources */,
 				35067C7B25A5D81000E7AF5B /* BIDeeplinkHandler.swift in Sources */,
 				183BDCC824B7BD8400ACF912 /* NotificationViewController.swift in Sources */,
@@ -965,9 +1103,11 @@
 				183B4BB124B887B3003EC6D7 /* VideoCell.swift in Sources */,
 				18C771B124CAD3A8007E3AC2 /* HashTagViewController.swift in Sources */,
 				35E25C3B259088F800F15EF3 /* ClassNameProtocol.swift in Sources */,
+				35A5BD2425C17FE700BA66D0 /* BISignupModel.swift in Sources */,
 				350738B625B039F300D0A542 /* AudioContext.swift in Sources */,
 				1811310924D6C637009DDB54 /* LanguageCollectionViewCell.swift in Sources */,
 				359DEAD625821B3C002B31A8 /* SwiftyCamViewControllerDelegate.swift in Sources */,
+				35C0C0BC25BAC62400248DD8 /* BIVideoCell.swift in Sources */,
 				182D541D24B9CFF900B33ACE /* MainViewController.swift in Sources */,
 				6EB4AEDE24FBEF0000C01D72 /* UIImageView+Extension.swift in Sources */,
 				185CDBA224D9429700DCC756 /* FollowingFollowerViewController.swift in Sources */,
@@ -976,6 +1116,7 @@
 				183BDCC124B79C6D00ACF912 /* TrendingAndFollowingViewController.swift in Sources */,
 				3507390925B1FF8600D0A542 /* BIAudioGallerySelectorViewController.swift in Sources */,
 				3563E4E325A46713009A8F77 /* DiscoverBannerTableCell.swift in Sources */,
+				35A5BCD825C152E400BA66D0 /* BIGradientButton.swift in Sources */,
 				35E77178259B587500BE4529 /* BIReportModel.swift in Sources */,
 				18C771B724CB31FA007E3AC2 /* CategoryCollectionViewCell.swift in Sources */,
 				6E8584442506859F00A0A7B2 /* ConstantsUrl.swift in Sources */,
@@ -984,12 +1125,15 @@
 				3507388125AEFCAF00D0A542 /* BIMusicModel.swift in Sources */,
 				3507398325B96C7700D0A542 /* BIAppVersionNestedModel.swift in Sources */,
 				3507391125B200A400D0A542 /* TrackCell.swift in Sources */,
+				35A5BD2725C1823E00BA66D0 /* BISignupDetailsViewController.swift in Sources */,
 				18413AD624DF20E500F3E2A1 /* DiscoverCell.swift in Sources */,
 				3563E52925A479A6009A8F77 /* BIBannerLandingViewController.swift in Sources */,
 				35067C6B25A59E8000E7AF5B /* BICampaignModel.swift in Sources */,
+				35A5BCE325C171A800BA66D0 /* UITextField+Extension.swift in Sources */,
 				35C24FB425947A7300CF5200 /* KeychainHelper.swift in Sources */,
 				6EEA92A2250A5B0900B1858B /* LoginUser.swift in Sources */,
 				359DEAD425821B3C002B31A8 /* PreviewView.swift in Sources */,
+				357D3E7725C1D2AD00A14705 /* CrashlyticsHelper.swift in Sources */,
 				3507391925B2012300D0A542 /* BIMusicTrackModel.swift in Sources */,
 				18413AD824DF212300F3E2A1 /* SectionCell.swift in Sources */,
 				18CB49DD24BC6C8C00212329 /* UpdateIntersetViewController.swift in Sources */,
@@ -1011,10 +1155,12 @@
 				359DEAD725821B3C002B31A8 /* Orientation.swift in Sources */,
 				3507392125B577FF00D0A542 /* Double+Extension.swift in Sources */,
 				3594F28E2585601D005B96DC /* UIImage+Extension.swift in Sources */,
+				35A5BCE625C1739B00BA66D0 /* BISignupVerifyPhoneViewConroller.swift in Sources */,
 				3594F27925827FCE005B96DC /* VideoHelper.swift in Sources */,
 				359DEA8425810222002B31A8 /* UIView+Extension.swift in Sources */,
 				18413AD424DF1EB600F3E2A1 /* SearchViewController.swift in Sources */,
 				6EEA92A3250A5B0900B1858B /* LoginUserInfo.swift in Sources */,
+				357D3EA525C2953D00A14705 /* BIResultUserProfileModel.swift in Sources */,
 				18F93B2F24B71D1C006621DB /* SceneDelegate.swift in Sources */,
 				6EEA92A4250A5B0900B1858B /* LoginUserprofile.swift in Sources */,
 				6EEA92972509599200B1858B /* BaseVC.swift in Sources */,
@@ -1023,6 +1169,7 @@
 				3507386D25ADE41300D0A542 /* BIUserProfileModel.swift in Sources */,
 				350738AE25B0362A00D0A542 /* BIAudioTrimmerView.swift in Sources */,
 				183B4BAC24B86DE4003EC6D7 /* User.swift in Sources */,
+				357D3E9C25C27AEE00A14705 /* BISignupViewController.swift in Sources */,
 				359DEAD525821B3C002B31A8 /* SwiftyCamViewController.swift in Sources */,
 				35E7716C259A06AE00BE4529 /* UIApplication+Extension.swift in Sources */,
 			);
@@ -1175,6 +1322,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = G25XAGBSCB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1188,7 +1336,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1298,7 +1446,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

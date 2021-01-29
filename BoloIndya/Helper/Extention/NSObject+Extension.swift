@@ -20,6 +20,20 @@ extension NSObject {
         return dict
     }
     
+    var safeAreaBottom: CGFloat {
+         if #available(iOS 11, *), let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.bottom
+         }
+         return 0
+    }
+
+    var safeAreaTop: CGFloat {
+         if #available(iOS 11, *), let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.top
+         }
+         return 0
+    }
+    
     func getDictionary() -> NSMutableDictionary {
         return NSMutableDictionary(dictionary: asDictionary)
     }
@@ -28,7 +42,7 @@ extension NSObject {
         var statusBarHeight: CGFloat = 25
         if #available(iOS 13.0, *) {
             let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-            statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 25
+            statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 20
         } else {
             statusBarHeight = UIApplication.shared.statusBarFrame.height
         }

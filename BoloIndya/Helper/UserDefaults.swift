@@ -133,6 +133,10 @@ extension UserDefaults {
         return id
     }
     
+    func getUserId2() -> Int? {
+        return value(forKey: "user_id") as? Int
+    }
+    
     func setCoverPic(value: String?) {
         if value != nil {
             set(value, forKey: "cover_pic")
@@ -157,6 +161,45 @@ extension UserDefaults {
     
     func getProfilePic() -> String? {
         return value(forKey: "profile_pic") as? String ?? ""
+    }
+    
+    func setAbout(value: String?) {
+        if value != nil {
+            set(value, forKey: "about")
+        } else {
+            removeObject(forKey: "about")
+        }
+        synchronize()
+    }
+    
+    func getAbout() -> String? {
+        return value(forKey: "about") as? String
+    }
+    
+    func setGender(value: String?) {
+        if value != nil {
+            set(value, forKey: "gender")
+        } else {
+            removeObject(forKey: "gender")
+        }
+        synchronize()
+    }
+    
+    func getGender() -> String? {
+        return value(forKey: "gender") as? String
+    }
+    
+    func setDOB(value: String?) {
+        if value != nil {
+            set(value, forKey: "dob")
+        } else {
+            removeObject(forKey: "dob")
+        }
+        synchronize()
+    }
+    
+    func getDOB() -> String? {
+        return value(forKey: "dob") as? String
     }
     
     func setIsPopular(value: Bool?) {

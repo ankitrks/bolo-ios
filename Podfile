@@ -7,6 +7,8 @@ target 'BoloIndya' do
   use_frameworks!
   
   pod 'Firebase/Auth'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/RemoteConfig'
   pod 'GoogleSignIn'
   pod 'Alamofire'
   pod 'Kingfisher'

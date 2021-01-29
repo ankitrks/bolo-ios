@@ -19,7 +19,7 @@ extension UIViewController {
     
     func showToast(message: String) {
         let toastContainer = UIView(frame: CGRect())
-        toastContainer.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        toastContainer.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         toastContainer.alpha = 0
         toastContainer.layer.cornerRadius = 15
         toastContainer.clipsToBounds = true
@@ -49,10 +49,10 @@ extension UIViewController {
         let c3 = NSLayoutConstraint(item: toastContainer, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -125)
         self.view.addConstraints([c1, c2, c3])
         
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
             toastContainer.alpha = 1.0
         }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 3, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 2.5, options: .curveEaseOut, animations: {
                 toastContainer.alpha = 0.0
             }, completion: {_ in
                 toastContainer.removeFromSuperview()
