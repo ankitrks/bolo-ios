@@ -20,6 +20,7 @@ final class BISignupModel {
     var name: String?
     var gender: BIGender?
     var dob: Date?
+    var type: BISignupDetailsType?
     
     var enteredName: String?
     var enteredGender: BIGender?

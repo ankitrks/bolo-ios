@@ -12,7 +12,7 @@ struct BIAppVersionNestedModel: Codable {
     let id: Int?
     let createdAt, lastModified, appName, appVersion: String?
     let versionToBePushed: String?
-    let isHardPush: Bool?
+    var isHardPush: Bool?
     let changesTitle, changes: String?
 
     enum CodingKeys: String, CodingKey {

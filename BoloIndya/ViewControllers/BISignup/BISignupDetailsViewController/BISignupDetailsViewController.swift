@@ -10,6 +10,11 @@ import UIKit
 import Alamofire
 import SVProgressHUD
 
+enum BISignupDetailsType {
+    case signup
+    case login
+}
+
 protocol BISignupDetailsViewControllerDelegate: class {
     func didTapSignupDetailsVCNext(model: BISignupModel?)
     func didTapSignupDetailsVCBack(model: BISignupModel?)
@@ -98,6 +103,7 @@ final class BISignupDetailsViewController: BaseVC {
         }
     }
     weak var delegate: BISignupDetailsViewControllerDelegate?
+    var type: BISignupDetailsType = .login
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,15 +112,15 @@ final class BISignupDetailsViewController: BaseVC {
         let remSpace = width - (14 * 2) - 30
         genderMaleViewWidthConstraint.constant = remSpace/3
         
-        for (index, view) in [femaleView, maleView, othersView].enumerated() {
+        for (index, view) in [maleView, femaleView, othersView].enumerated() {
             view?.layer.cornerRadius = 5
             view?.layer.borderWidth = 1
             view?.layer.borderColor = (UIColor(hex: "5C5C5C") ?? UIColor.white).cgColor
             view?.clipsToBounds = true
             
             view?.isUserInteractionEnabled = true
-            let gesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapGenderView(_:)))
-            view?.tag = index
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapGenderView(_:)))
+            view?.tag = index+1
             view?.addGestureRecognizer(gesture)
         }
         
@@ -125,7 +131,7 @@ final class BISignupDetailsViewController: BaseVC {
             view?.clipsToBounds = true
             
             view?.isUserInteractionEnabled = true
-            let gesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapDateView(_:)))
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapDateView(_:)))
             view?.tag = index
             view?.addGestureRecognizer(gesture)
         }
@@ -140,14 +146,12 @@ final class BISignupDetailsViewController: BaseVC {
     }
     
     @objc private func didTapGenderView(_ sender: UITapGestureRecognizer) {
-        let views = [femaleView, maleView, othersView]
+        let views = [maleView, femaleView, othersView]
         
-        guard let tag = sender.view?.tag,
-              views.count > tag
-            else { return }
+        guard let tag = sender.view?.tag else { return }
         
         for (index, view) in views.enumerated() {
-            if index == tag {
+            if (index+1) == tag {
                 view?.layer.borderColor = (UIColor(hex: "10A5F9") ?? UIColor.blue).cgColor
                 view?.layer.borderWidth = 2
                 

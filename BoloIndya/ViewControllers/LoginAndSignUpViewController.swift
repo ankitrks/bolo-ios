@@ -54,7 +54,6 @@ final class LoginAndSignUpViewController: BaseVC {
     private var model = BISignupModel()
     
     var selected_tab = 1
-    var isPresented = false
     
     private var current_page = "terms_and_condition"
     
@@ -252,9 +251,7 @@ extension LoginAndSignUpViewController: BISignupVerifyPhoneViewConrollerDelegate
         if let name = model.name, !name.isEmpty, let gender = model.gender, let dob = model.dob {
             dismissView()
             
-            if !isPresented {
-                sentToTrending()
-            }
+            sentToTrending()
         } else {
             currentIndex = 3
             setPageIndexSelection(direction: .forward)
@@ -277,8 +274,10 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         
         dismissView()
         
-        if !isPresented {
-            sentToTrending()
+        sentToTrending()
+        
+        if model?.type == .signup {
+            NotificationCenter.default.post(name: .init("showGaanaOfferView"), object: nil)
         }
     }
     

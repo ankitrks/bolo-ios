@@ -68,6 +68,7 @@ class TrendingAndFollowingViewController: BaseVC {
     
     var commentsView: BICommentView?
     var reportViewController: BIReportViewController?
+    var gaanaOfferViewController: BIGaanaOfferViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +107,8 @@ class TrendingAndFollowingViewController: BaseVC {
         }
         
 //        tabBarController?.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showGaanaOfferView), name: .init("showGaanaOfferView"), object: nil)
     }
     
     
@@ -241,6 +244,50 @@ class TrendingAndFollowingViewController: BaseVC {
                     hitEvent(eventName: EventName.videoPlayed, object: videos[selected_position])
                 }
             }
+        }
+    }
+    
+    @objc private func showGaanaOfferView() {
+        var headers: HTTPHeaders? = nil
+        
+        if let token = UserDefaults.standard.getAuthToken(), !token.isEmpty {
+            headers = ["Authorization": "Bearer \(token)"]
+        }
+        
+        let url = "https://www.boloindya.com/api/v1/marketing/brand-partner/gaana/coupon/"
+        AF.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: headers)
+            .responseString { [weak self] (responseData) in
+                switch responseData.result {
+                case.success(let data):
+                    if let json_data = data.data(using: .utf8) {
+                        
+                        do {
+                            let object = try JSONDecoder().decode(BIGaanaOfferModel.self, from: json_data)
+                            print(object)
+                            
+                            let vc = BIGaanaOfferViewController.loadFromNib()
+                            vc.config(model: object)
+                            vc.delegate = self
+                            vc.modalPresentationStyle = .overCurrentContext
+                            vc.modalTransitionStyle = .crossDissolve
+                            self?.present(vc, animated: true, completion: nil)
+                            
+                            self?.gaanaOfferViewController = vc
+                            
+                            if let cells = self?.tableView.visibleCells {
+                                for cell in cells {
+                                    (cell as? BIVideoCell)?.pause()
+                                }
+                            }
+                            
+                            self?.current_video_cell?.pause()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                case.failure(let error):
+                    print(error)
+                }
         }
     }
     
@@ -1117,5 +1164,24 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
                 
                 self?.showToast(message: "Something went wrong. Please try again.")
             }
+    }
+}
+
+extension TrendingAndFollowingViewController: BIGaanaOfferViewControllerDelegate {
+    func didTapGaanaOfferCloseButton() {
+        gaanaOfferViewController?.dismiss(animated: true, completion: nil)
+        gaanaOfferViewController = nil
+        
+        for cell in tableView.visibleCells {
+            (cell as? BIVideoCell)?.play()
+        }
+    }
+    
+    func didTapGaanaOfferCopyCodeButton(model: BIGaanaOfferModel?) {
+        guard let coupon = model?.coupon, !coupon.isEmpty else { return }
+        
+        UIPasteboard.general.string = coupon
+        
+        showToast(message: "Copied to clipboard")
     }
 }

@@ -50,8 +50,8 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
-    let menuArray = ["Edit Profile","Update Interests", "Choose Language", "Send Feedback", "Terms and Conditions", "Log Out"]
-    let iconArray = ["user","update_interest", "language", "feedback", "terms", "logout"]
+    let menuArray = ["Edit Profile", "Update Interests", "Choose Language", "All Redemptions", "Send Feedback", "Terms and Conditions", "Log Out"]
+    let iconArray = ["user", "update_interest", "language", "ticket_white", "feedback", "terms", "logout"]
     
     let height = CGFloat(300)
     var topic_liked: [Int] = []
@@ -786,25 +786,23 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
         self.onClickTransparentView()
         switch indexPath.row {
         case 0:
-            self.moveEditProfile()
-            break
+            moveEditProfile()
         case 1:
-            self.tabBarController?.tabBar.isHidden = true
+            tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "updateInterset", sender: self)
-            break
         case 2:
-            self.tabBarController?.tabBar.isHidden = true
+            tabBarController?.tabBar.isHidden = true
             performSegue(withIdentifier: "chooseLanguage", sender: self)
-            break
         case 3:
-            self.tabBarController?.tabBar.isHidden = true
-            performSegue(withIdentifier: "feedbackUser", sender: self)
-            break
+            let vc = BICouponRedemptionViewController.loadFromNib()
+            navigationController?.pushViewController(vc, animated: true)
         case 4:
-            self.tabBarController?.tabBar.isHidden = true
-            performSegue(withIdentifier: "termsPages", sender: self)
-            break
+            tabBarController?.tabBar.isHidden = true
+            performSegue(withIdentifier: "feedbackUser", sender: self)
         case 5:
+            tabBarController?.tabBar.isHidden = true
+            performSegue(withIdentifier: "termsPages", sender: self)
+        case 6:
             let defaults = UserDefaults.standard
 //            let language_id = defaults.getValueForLanguageId()
             let dictionary = defaults.dictionaryRepresentation()
@@ -813,7 +811,6 @@ extension CurrentUserViewController : UITableViewDelegate, UITableViewDataSource
             }
             BranchHelper().logout()
             resetApp()
-            break
         default:
             break
         }

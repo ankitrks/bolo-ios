@@ -394,6 +394,7 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DiscoverBannerTableCell") as! DiscoverBannerTableCell
             cell.configure(banner: banners)
             cell.delegate = self
+            
             return cell
         }
         
@@ -401,6 +402,13 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
         video_cell.setVideo(hash_tag: hash_tag[indexPath.row])
         video_cell.delegate = self
         return video_cell
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            (cell as? DiscoverBannerTableCell)?.bannerTimer?.invalidate()
+            (cell as? DiscoverBannerTableCell)?.bannerTimer = nil
+        }
     }
 }
 

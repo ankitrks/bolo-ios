@@ -16,6 +16,9 @@ protocol DiscoverBannerTableCellDelegate: class {
 final class DiscoverBannerTableCell: UITableViewCell {
     var banner = [BICampaignModel]()
     var userVideoView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    var bannerTimer: Timer?
+    private var selectedBannerTimerIndex = 0
 
     weak var delegate: DiscoverBannerTableCellDelegate?
     
@@ -63,6 +66,33 @@ final class DiscoverBannerTableCell: UITableViewCell {
         }
         
         userVideoView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
+        
+        bannerTimer?.invalidate()
+        bannerTimer = nil
+        
+        selectedBannerTimerIndex = 0
+        
+        if banner.count > 1 {
+            bannerTimer = Timer.scheduledTimer(withTimeInterval: 4, repeats: true, block: { (_) in
+                if banner.count > self.selectedBannerTimerIndex + 1 {
+                    self.selectedBannerTimerIndex += 1
+                } else {
+                    self.selectedBannerTimerIndex = 0
+                }
+                
+                if self.userVideoView.numberOfItems(inSection: 0) > self.selectedBannerTimerIndex {
+                    self.userVideoView.scrollToItem(at: IndexPath(item: self.selectedBannerTimerIndex, section: 0), at: .top, animated: true)
+                }
+            })
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if banner.count > selectedBannerTimerIndex + 1 {
+            selectedBannerTimerIndex += 1
+        } else {
+            selectedBannerTimerIndex = 0
+        }
     }
 }
 

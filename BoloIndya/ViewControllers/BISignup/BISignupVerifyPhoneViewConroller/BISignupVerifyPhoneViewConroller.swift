@@ -192,9 +192,12 @@ final class BISignupVerifyPhoneViewConroller: BaseVC {
                                     self?.model?.dob = dateFormatter.date(from: dob)
                                 }
                                 
+                                let isSignup = loginObject.message?.lowercased() == "user created"
+                                
+                                self?.model?.type = isSignup ? .signup : .login
+                                
                                 self?.delegate?.didTapSignupVerifyPhoneVCNext(object: self?.model)
                                 
-                                let isSignup = loginObject.message?.lowercased() == "user created"
                                 let eventName = isSignup ? EventName.signUp : EventName.login
                                 let values = ["mobile": mobile,
                                               "mode": "mobile"]

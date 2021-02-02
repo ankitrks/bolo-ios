@@ -139,7 +139,15 @@ class ChooseLanguageFirstViewController: BaseVC {
           default:
             break
           }
-      }    
+      }
+    
+    override func onFailResponse(response: Error) {
+        print(response)
+    }
+    
+    override func onFailResponse(response: Error, resultCode: Int = 0) {
+        print(response)
+    }
 }
 
 extension ChooseLanguageFirstViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

@@ -247,48 +247,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "39DC870A-5937-4655-B192-004FD75EF461"
+            uuid = "2D877EE4-CA8D-496D-87A7-3A442C308952"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController/TrendingAndFollowingViewController.swift"
+            filePath = "BoloIndya/SceneDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
-            landmarkName = "fetchFollowingData()"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "fetchUpdateDetails(activity:didBecomeActive:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EF75F98C-2031-4A4A-9A26-17B30AAF29DC"
-            shouldBeEnabled = "Yes"
+            uuid = "1EC3914A-58F6-45D5-A031-05E0545C4094"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController/TrendingAndFollowingViewController.swift"
+            filePath = "BoloIndya/SceneDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "changeToFollowing(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B17DC282-5A1F-496C-AEF2-F2F549F4C472"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BoloIndya/ViewControllers/TrendingAndFollowingViewController/TrendingAndFollowingViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "prepare(for:sender:)"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "isShowUpdatePopup(object:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
