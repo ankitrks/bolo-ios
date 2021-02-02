@@ -253,7 +253,7 @@ extension LoginAndSignUpViewController: BISignupVerifyPhoneViewConrollerDelegate
             
             sentToTrending()
             
-            UserDefaults.standard.setGuestLoggedIn(value: true)
+            UserDefaults.standard.setLoggedIn(value: true)
         } else {
             currentIndex = 3
             setPageIndexSelection(direction: .forward)
@@ -278,7 +278,7 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         
         sentToTrending()
         
-        UserDefaults.standard.setGuestLoggedIn(value: true)
+        UserDefaults.standard.setLoggedIn(value: true)
         
         if model?.type == .signup, RemoteConfigHelper.shared.isShowGaanaSignup() {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {

@@ -51,9 +51,9 @@ extension NSObject {
     
     func isLoggedIn() -> Bool {
         var isLoggedin: Bool
-        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest {
+        if let isLoggedIn = UserDefaults.standard.isLoggedIn(), isLoggedIn {
             isLoggedin = true
-        } else if let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), !gender.isEmpty, let dob = UserDefaults.standard.getDOB(), !dob.isEmpty {
+        } else if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest, let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), !gender.isEmpty, let dob = UserDefaults.standard.getDOB(), !dob.isEmpty {
             isLoggedin = true
         } else {
             isLoggedin = false

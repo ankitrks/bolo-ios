@@ -377,7 +377,7 @@ class TrendingAndFollowingViewController: BaseVC {
         print("url \(url)")
         
         AF.request(url, method: .get, parameters: nil, headers: headers, interceptor: nil)
-            .responseString  { (responseData) in
+            .responseString { (responseData) in
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
@@ -402,6 +402,14 @@ class TrendingAndFollowingViewController: BaseVC {
                             
                             if self.page == 2, let object = self.trendingTopics.first {
                                 self.hitEvent(eventName: EventName.videoPlayed, object: object)
+                            }
+                            
+                            if self.tabBarController?.tabBar.isHidden == false, self.tabBarController?.selectedIndex == 0 {
+                                
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                                    self.current_video_cell.player.pauseVideo()
+                                }
                             }
                         }
                         catch {
