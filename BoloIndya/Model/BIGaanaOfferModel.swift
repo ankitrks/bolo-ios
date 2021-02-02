@@ -11,4 +11,7 @@ import Foundation
 struct BIGaanaOfferModel: Codable {
 //    let status: Int?
     let coupon: String?
+    let validity: String?
+    let text: String?
+    let message: String?
 }

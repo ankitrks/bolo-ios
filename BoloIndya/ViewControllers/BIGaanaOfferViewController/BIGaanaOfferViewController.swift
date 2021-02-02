@@ -33,7 +33,7 @@ final class BIGaanaOfferViewController: UIViewController {
             couponView.clipsToBounds = true
         }
     }
-    @IBOutlet private weak var couponLabel: UILabel!
+    @IBOutlet private weak var offerCouponLabel: UILabel!
     @IBOutlet private weak var copyButton: BIGradientButton! {
         didSet {
             copyButton.layer.cornerRadius = 3
@@ -46,13 +46,16 @@ final class BIGaanaOfferViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     func config(model: BIGaanaOfferModel) {
         self.model = model
         
-        couponLabel.text = model.coupon
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.offerCouponLabel?.text = model.coupon
+            self.timeLabel?.text = model.validity
+            self.offerLabel?.text = model.text
+        }
     }
     
     @IBAction private func didTapClose(_ sender: UIButton) {

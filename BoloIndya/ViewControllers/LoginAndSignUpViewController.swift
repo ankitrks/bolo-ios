@@ -276,7 +276,7 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         
         sentToTrending()
         
-        if model?.type == .signup {
+        if model?.type == .signup, RemoteConfigHelper.shared.isShowGaanaSignup() {
             NotificationCenter.default.post(name: .init("showGaanaOfferView"), object: nil)
         }
     }

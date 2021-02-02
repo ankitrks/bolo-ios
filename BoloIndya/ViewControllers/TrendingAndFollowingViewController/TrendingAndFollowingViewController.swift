@@ -263,7 +263,8 @@ class TrendingAndFollowingViewController: BaseVC {
                         
                         do {
                             let object = try JSONDecoder().decode(BIGaanaOfferModel.self, from: json_data)
-                            print(object)
+                            
+                            guard let coupon = object.coupon, !coupon.isEmpty else { return }
                             
                             let vc = BIGaanaOfferViewController.loadFromNib()
                             vc.config(model: object)

@@ -11,9 +11,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BIGaanaOfferViewController" customModule="BoloIndya" customModuleProvider="target">
             <connections>
                 <outlet property="copyButton" destination="YwD-4U-4I9" id="RMz-sB-gYY"/>
-                <outlet property="couponLabel" destination="a7Z-Tl-8fr" id="RP0-Ee-dzV"/>
                 <outlet property="couponView" destination="BjD-xe-L3Y" id="C1F-cA-VLs"/>
                 <outlet property="mainContentView" destination="wcQ-kP-Bub" id="Amy-6J-HBf"/>
+                <outlet property="offerCouponLabel" destination="a7Z-Tl-8fr" id="0FJ-g6-ub9"/>
                 <outlet property="offerLabel" destination="IIR-TR-7ls" id="CEL-e5-9S4"/>
                 <outlet property="timeLabel" destination="2Cz-6b-xP4" id="dYw-RR-N81"/>
                 <outlet property="view" destination="iN0-l3-epB" id="iXB-cE-cy2"/>
