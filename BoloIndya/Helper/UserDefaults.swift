@@ -66,7 +66,7 @@ extension UserDefaults {
     }
     
     func getGuestLoggedIn() -> Bool? {
-        return value(forKey: "is_guest_logged_in") as? Bool ?? false
+        return value(forKey: "is_guest_logged_in") as? Bool
     }
     
     func setGuestLoggedIn(value: Bool?) {

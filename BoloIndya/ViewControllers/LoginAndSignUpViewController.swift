@@ -252,6 +252,8 @@ extension LoginAndSignUpViewController: BISignupVerifyPhoneViewConrollerDelegate
             dismissView()
             
             sentToTrending()
+            
+            UserDefaults.standard.setGuestLoggedIn(value: true)
         } else {
             currentIndex = 3
             setPageIndexSelection(direction: .forward)
@@ -275,6 +277,8 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         dismissView()
         
         sentToTrending()
+        
+        UserDefaults.standard.setGuestLoggedIn(value: true)
         
         if model?.type == .signup, RemoteConfigHelper.shared.isShowGaanaSignup() {
             NotificationCenter.default.post(name: .init("showGaanaOfferView"), object: nil)

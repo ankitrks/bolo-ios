@@ -675,12 +675,20 @@ class CurrentUserViewController: BaseVC, UserProfileEdittProtocal {
     }
     
     func dismissPopAllViewViewControllers() {
-        let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChooseLanguageFirstViewController")
-        let rootNC = UINavigationController(rootViewController: rootVC)
+//        let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChooseLanguageFirstViewController")
+//        let rootNC = UINavigationController(rootViewController: rootVC)
+//
+//        let window = (UIApplication.shared.delegate as? AppDelegate)?.window
+//        window?.rootViewController = rootNC
+//        window?.makeKeyAndVisible()
         
-        let window = (UIApplication.shared.delegate as? AppDelegate)?.window
-        window?.rootViewController = rootNC
-        window?.makeKeyAndVisible()
+        guard let rootVC = storyboard?.instantiateViewController(withIdentifier: "MainViewController") else { return }
+        
+        UIApplication.shared.currentWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+        
+        let rootNC = UINavigationController(rootViewController: rootVC)
+        UIApplication.shared.currentWindow?.rootViewController = rootNC
+        UIApplication.shared.currentWindow?.makeKeyAndVisible()
     }
     
     func moveEditProfile() {

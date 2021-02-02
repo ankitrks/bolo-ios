@@ -74,7 +74,7 @@ class BaseVC: UIViewController {
                 UserDefaults.standard.setCoverPic(value: profile.coverPic)
                 UserDefaults.standard.setProfilePic(value: profile.profilePic)
                 UserDefaults.standard.setBio(value: profile.bio)
-                UserDefaults.standard.setGuestLoggedIn(value: profile.isGuestUser)
+//                UserDefaults.standard.setGuestLoggedIn(value: profile.isGuestUser)
                 UserDefaults.standard.setAbout(value: profile.about)
                 //  UserDefaults.standard.isg(value: profile.bio)
                 
@@ -95,7 +95,9 @@ class BaseVC: UIViewController {
     
     func isLogin() -> Bool {
         var isLoggedin: Bool
-        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest, let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), !gender.isEmpty, let dob = UserDefaults.standard.getDOB(), !dob.isEmpty {
+        if let guest = UserDefaults.standard.getGuestLoggedIn(), !guest {
+            isLoggedin = true
+        } else if let name = UserDefaults.standard.getName(), !name.isEmpty, let gender = UserDefaults.standard.getGender(), !gender.isEmpty, let dob = UserDefaults.standard.getDOB(), !dob.isEmpty {
             isLoggedin = true
         } else {
             isLoggedin = false

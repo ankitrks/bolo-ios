@@ -108,6 +108,10 @@ final class BISignupDetailsViewController: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
+        view.addGestureRecognizer(gesture)
+        
         let width = UIScreen.main.bounds.width
         let remSpace = width - (14 * 2) - 30
         genderMaleViewWidthConstraint.constant = remSpace/3
@@ -145,7 +149,13 @@ final class BISignupDetailsViewController: BaseVC {
         SVProgressHUD.dismiss()
     }
     
+    @objc private func didTapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
     @objc private func didTapGenderView(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+        
         let views = [maleView, femaleView, othersView]
         
         guard let tag = sender.view?.tag else { return }
@@ -164,6 +174,8 @@ final class BISignupDetailsViewController: BaseVC {
     }
     
     @objc private func didTapDateView(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+        
         let minDate = Calendar.current.date(byAdding: .year, value: -12, to: Date()) ?? Date()
         
         monthLabel.text = minDate.month()
