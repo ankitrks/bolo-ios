@@ -281,7 +281,9 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         UserDefaults.standard.setGuestLoggedIn(value: true)
         
         if model?.type == .signup, RemoteConfigHelper.shared.isShowGaanaSignup() {
-            NotificationCenter.default.post(name: .init("showGaanaOfferView"), object: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                NotificationCenter.default.post(name: .init("showGaanaOfferView"), object: nil)
+            }
         }
     }
     

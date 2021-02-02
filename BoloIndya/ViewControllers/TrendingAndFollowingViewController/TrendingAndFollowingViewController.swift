@@ -14,37 +14,7 @@ import SVProgressHUD
 
 class TrendingAndFollowingViewController: BaseVC {
     
-    @IBOutlet private weak var tableView: UITableView! {
-        didSet {
-            tableView.showsVerticalScrollIndicator = false
-            tableView.isPagingEnabled = true
-            tableView.separatorStyle = .none
-            
-            tableView.register(cellType: BIVideoCell.self)
-            tableView.delegate = self
-            tableView.dataSource = self
-            tableView.prefetchDataSource = self
-        }
-    }
-    
-    @IBOutlet private weak var trendingFollowingView: UIView!
-    @IBOutlet private weak var trendingFollowingStackView: UIStackView!
-    @IBOutlet private weak var trendingLabel: UILabel! {
-        didSet {
-            trendingLabel.textColor = UIColor(hex: "10A5F9")
-            
-            trendingLabel.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeToTrending(_:)))
-            trendingLabel.addGestureRecognizer(tapGesture)
-        }
-    }
-    @IBOutlet private weak var followingLabel: UILabel! {
-        didSet {
-            followingLabel.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeToFollowing(_:)))
-            followingLabel.addGestureRecognizer(tapGesture)
-        }
-    }
+    var trendingView = SelfSizedTableView()
     
     var videos: [Topic] = []
     var trendingTopics: [Topic] = []
@@ -55,6 +25,8 @@ class TrendingAndFollowingViewController: BaseVC {
     var isTrending: Bool = true
     var selected_position = 0
     var label = UILabel()
+    var trending = UILabel()
+    var following = UILabel()
     var progress = UIActivityIndicatorView()
     var transparentView = UIView()
     
@@ -62,9 +34,11 @@ class TrendingAndFollowingViewController: BaseVC {
     var topic_liked: [Int] = []
     var comment_like: [Int] = []
     
-    var current_video_cell: BIVideoCell!
+    var current_video_cell: VideoCell!
     let screenSize = UIScreen.main.bounds
     var deviceHeight:CGFloat = 100.0
+    
+    var avPlayer = AVPlayer()
     
     var commentsView: BICommentView?
     var reportViewController: BIReportViewController?
@@ -85,27 +59,6 @@ class TrendingAndFollowingViewController: BaseVC {
         fetcUserDetails()
         fetchData()
         
-        
-        trendingFollowingView.translatesAutoresizingMaskIntoConstraints = false
-        trendingFollowingView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 0).isActive = true
-        trendingFollowingView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        trendingFollowingView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        trendingFollowingView.heightAnchor.constraint(equalToConstant: safeAreaTop+50).isActive = true
-        
-        trendingFollowingStackView.translatesAutoresizingMaskIntoConstraints = false
-        trendingFollowingStackView.bottomAnchor.constraint(equalTo: trendingFollowingView.bottomAnchor, constant: 10).isActive = true
-//        trendingFollowingStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        trendingFollowingStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            let gradient = CAGradientLayer()
-            gradient.colors = [UIColor.black.withAlphaComponent(0.8).cgColor,
-                               UIColor.clear.cgColor]
-            gradient.locations = [0.0, 1.0]
-            gradient.frame = self.trendingFollowingView.bounds
-            self.trendingFollowingView.layer.insertSublayer(gradient, at: 0)
-        }
-        
 //        tabBarController?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(showGaanaOfferView), name: .init("showGaanaOfferView"), object: nil)
@@ -114,7 +67,6 @@ class TrendingAndFollowingViewController: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = false
         print("DEVICE ID ",UIDevice.current.identifierForVendor?.uuidString ?? "")
@@ -123,24 +75,15 @@ class TrendingAndFollowingViewController: BaseVC {
       //  self.showToast(message: "DEVICE ID \(UIDevice.current.identifierForVendor?.uuidString ?? "")")
         if current_video_cell != nil {
 
-//            current_video_cell.player.player?.play()
-//            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
-        }
-        
-        for cell in tableView.visibleCells {
-            (cell as? BIVideoCell)?.play()
+            current_video_cell.player.player?.play()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         if current_video_cell != nil {
-            current_video_cell.pause()
-        }
-        
-        for cell in tableView.visibleCells {
-            (cell as? BIVideoCell)?.pause()
+            current_video_cell.player.player?.pause()
         }
     }
     
@@ -186,64 +129,106 @@ class TrendingAndFollowingViewController: BaseVC {
     }
     
     func setTrendingViewDelegate() {
+        trendingView.isScrollEnabled = true
+        trendingView.isPagingEnabled = true
+        trendingView.delegate = self
+        trendingView.dataSource = self
+       // trendingView.intrinsicContentSize
+        trendingView.register(VideoCell.self, forCellReuseIdentifier: "Cell")
+        trendingView.showsVerticalScrollIndicator = false
+        
         view.addSubview(progress)
+        view.addSubview(trendingView)
+        view.addSubview(trending)
+        view.addSubview(following)
+        view.addSubview(label)
+        
+        trending.translatesAutoresizingMaskIntoConstraints = false
+        trending.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        trending.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 0).isActive = true
+        trending.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
+        
+        trending.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.widthAnchor.constraint(equalToConstant: 0).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
         
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         progress.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
         progress.color = UIColor.white
+        
+        following.translatesAutoresizingMaskIntoConstraints = false
+        following.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        following.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 0).isActive = true
+        following.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()+10).isActive = true
+        
+        following.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        
+        trending.text = "Trending"
+        label.text = ""
+        following.text = "Following"
+        
+        trending.textColor = UIColor(hex: "10A5F9")
+        following.textColor = UIColor.white
+        
+        following.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeToFollowing(_:)))
+        following.addGestureRecognizer(tapGesture)
+        
+        
+        trending.isUserInteractionEnabled = true
+        
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(changeToTrending(_:)))
+        trending.addGestureRecognizer(tapGesture1)
+        
+
+        
+        trendingView.translatesAutoresizingMaskIntoConstraints = false
+        trendingView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
+        trendingView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        trendingView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: getStatusBarHeight()).isActive = true
+        trendingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.tabBarController?.tabBar.frame.size.height ?? 49.0)).isActive = true
+        trendingView.separatorStyle = .none
     }
     
     @objc func changeToFollowing(_ sender: UITapGestureRecognizer) {
         if isLogin() {
             if (isTrending) {
-                followingLabel.textColor = UIColor(hex: "10A5F9")
-                trendingLabel.textColor = UIColor.white
+                following.textColor = UIColor(hex: "10A5F9")
+                trending.textColor = UIColor.white
                 if current_video_cell != nil {
-                    current_video_cell.pause()
+                    current_video_cell.player.player?.pause()
                 }
                 self.videos = self.followingTopics
-                self.tableView.backgroundColor = UIColor.black
+                self.trendingView.backgroundColor = UIColor.black
                 //                self.trendingView.isUserInteractionEnabled = true
-                self.tableView.reloadData()
+                self.trendingView.reloadData()
                 if (self.videos.count == 0) {
                     self.fetchFollowingData()
-                }
-                
-                if !self.videos.isEmpty {
-                    let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? BIVideoCell
-                    cell?.play()
-                    self.topicSeen()
-                    
-                    if videos.count > selected_position {
-                        hitEvent(eventName: EventName.videoPlayed, object: videos[selected_position])
-                    }
                 }
                 isTrending = false
             }
         }
+
+
+
     }
     
     @objc func changeToTrending(_ sender: UITapGestureRecognizer) {
         if (!isTrending) {
-            trendingLabel.textColor = UIColor(hex: "10A5F9")
-            followingLabel.textColor = UIColor.white
+            trending.textColor = UIColor(hex: "10A5F9")
+            following.textColor = UIColor.white
             if current_video_cell != nil {
-                current_video_cell.pause()
+                current_video_cell.player.player?.pause()
             }
             self.videos = self.trendingTopics
-            self.tableView.reloadData()
+            self.trendingView.reloadData()
             isTrending = true
-            
-            if !self.videos.isEmpty {
-                let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? BIVideoCell
-                cell?.play()
-                self.topicSeen()
-                
-                if videos.count > selected_position {
-                    hitEvent(eventName: EventName.videoPlayed, object: videos[selected_position])
-                }
-            }
         }
     }
     
@@ -266,22 +251,19 @@ class TrendingAndFollowingViewController: BaseVC {
                             
                             guard let coupon = object.coupon, !coupon.isEmpty else { return }
                             
-                            let vc = BIGaanaOfferViewController.loadFromNib()
-                            vc.config(model: object)
-                            vc.delegate = self
-                            vc.modalPresentationStyle = .overCurrentContext
-                            vc.modalTransitionStyle = .crossDissolve
-                            self?.present(vc, animated: true, completion: nil)
-                            
-                            self?.gaanaOfferViewController = vc
-                            
-                            if let cells = self?.tableView.visibleCells {
-                                for cell in cells {
-                                    (cell as? BIVideoCell)?.pause()
-                                }
+                            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                                let vc = BIGaanaOfferViewController.loadFromNib()
+                                vc.config(model: object)
+                                vc.delegate = self
+                                vc.modalPresentationStyle = .overCurrentContext
+                                vc.modalTransitionStyle = .crossDissolve
+                                self?.present(vc, animated: true, completion: nil)
+                                
+                                self?.gaanaOfferViewController = vc
+                                
+                                self?.current_video_cell.player.player?.pause()
                             }
                             
-                            self?.current_video_cell?.pause()
                         } catch {
                             print(error)
                         }
@@ -299,7 +281,7 @@ class TrendingAndFollowingViewController: BaseVC {
         }
         
         if (following_page == 1) {
-            tableView.isHidden = true
+            trendingView.isHidden = true
             progress.isHidden = false
             progress.startAnimating()
         }
@@ -327,22 +309,16 @@ class TrendingAndFollowingViewController: BaseVC {
                                 for each in content {
                                     self.followingTopics.append(getTopicFromJson(each: each))
                                 }
-                                self.tableView.isHidden = false
+                                self.trendingView.isHidden = false
                                 self.progress.stopAnimating()
                                 self.progress.isHidden = true
                                 self.videos = self.followingTopics
                                 self.isLoading = false
                                 self.following_page += 1
-                                self.tableView.reloadData()
+                                self.trendingView.reloadData()
                                 
                                 if self.page == 2, let object = self.followingTopics.first {
                                     self.hitEvent(eventName: EventName.videoPlayed, object: object)
-                                }
-                                
-                                if self.page == 2, !self.videos.isEmpty {
-                                    let cell = self.tableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? BIVideoCell
-                                    cell?.play()
-                                    self.topicSeen()
                                 }
                             }
                         }
@@ -373,7 +349,7 @@ class TrendingAndFollowingViewController: BaseVC {
         }
         
         if (page == 1) {
-            tableView.isHidden = true
+            trendingView.isHidden = true
             progress.isHidden = false
         }
         
@@ -401,56 +377,44 @@ class TrendingAndFollowingViewController: BaseVC {
         print("url \(url)")
         
         AF.request(url, method: .get, parameters: nil, headers: headers, interceptor: nil)
-            .responseString { [weak self] (responseData) in
+            .responseString  { (responseData) in
                 switch responseData.result {
                 case.success(let data):
                     if let json_data = data.data(using: .utf8) {
                         
                         do {
                             let json_object = try JSONSerialization.jsonObject(with: json_data, options: []) as? [String: AnyObject]
-                            
-                            var topics = [Topic]()
-                            
+                        //    print(" response \(json_object?["topics"])")
                             if let content = json_object?["topics"] as? [[String:Any]] {
+                                
                                 for each in content {
-                                    topics.append(getTopicFromJson(each: each))
+                                    self.trendingTopics.append(getTopicFromJson(each: each))
                                 }
                             }
-                            self?.trendingTopics = topics
-                            self?.progress.stopAnimating()
-                            self?.tableView.isHidden = false
-                            self?.progress.isHidden = true
-                            self?.videos.append(contentsOf: topics)
-                            self?.isLoading = false
-                            self?.page += 1
-                            self?.tableView.reloadData()
+                            self.progress.stopAnimating()
+                            self.trendingView.isHidden = false
+                            self.progress.isHidden = true
+                            self.videos = self.trendingTopics
+                            self.isLoading = false
+                            self.page += 1
+                            self.trendingView.reloadData()
                             UserDefaults.standard.setLastUpdateTime(value: "\(Date().currentTimeMillis())")
                             
-                            if self?.page == 2, let object = self?.trendingTopics.first {
-                                self?.hitEvent(eventName: EventName.videoPlayed, object: object)
+                            if self.page == 2, let object = self.trendingTopics.first {
+                                self.hitEvent(eventName: EventName.videoPlayed, object: object)
                             }
-                            
-                            if self?.page == 2, self?.videos.isEmpty == false {
-                                if let statusBarHeight = self?.getStatusBarHeight() {
-                                    self?.tableView.contentInset = UIEdgeInsets.init(top: -statusBarHeight, left: 0, bottom: 0, right: 0)
-                                }
-                                
-                                let ip = IndexPath(row: 0, section: 0)
-                                let cell = self?.tableView.cellForRow(at: ip) as? BIVideoCell
-                                cell?.play()
-                                self?.topicSeen()
-                            }
-                        } catch {
-                            self?.isLoading = false
-                            self?.progress.stopAnimating()
-                            self?.progress.isHidden = true
-                            print(error)
+                        }
+                        catch {
+                            self.isLoading = false
+                            self.progress.stopAnimating()
+                            self.progress.isHidden = true
+                            print(error.localizedDescription)
                         }
                     }
                 case.failure(let error):
-                    self?.isLoading = false
-                    self?.progress.stopAnimating()
-                    self?.progress.isHidden = true
+                    self.isLoading = false
+                    self.progress.stopAnimating()
+                    self.progress.isHidden = true
                     print(error)
                 }
         }
@@ -481,7 +445,7 @@ class TrendingAndFollowingViewController: BaseVC {
             self.commentsView = nil
         })
         
-        current_video_cell.play()
+        current_video_cell.player.player?.play()
     }
     
     func fetcUserDetails() {
@@ -616,24 +580,175 @@ class TrendingAndFollowingViewController: BaseVC {
         return .lightContent
     }
     
+    func playVideo(url: String) {
+        
+        guard let videoUrl = URL(string: url) else { return }
+        
+        let mimeType = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
+        let asset = AVURLAsset(url: videoUrl, options:["AVURLAssetOutOfBandMIMETypeKey": mimeType])
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.avPlayer = AVPlayer(playerItem: playerItem)
+            
+            //avPlayer = AVPlayer(url: videoUrl! as URL)
+            self.avPlayer.addObserver(self, forKeyPath: "status", options: [.old, .new], context: nil)
+            if #available(iOS 10.0, *) {
+                self.avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+            } else {
+                self.avPlayer.addObserver(self, forKeyPath: "rate", options: [.old, .new], context: nil)
+            }
+            if self.current_video_cell != nil {
+                self.current_video_cell.player.playerLayer.player = self.avPlayer
+                self.current_video_cell.player.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                // current_video_cell.backgroundColor = UIColVor.black.cgColor
+                
+            }
+            
+            self.avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (CMTime) -> Void in
+                let time: Float64 = CMTimeGetSeconds(self.avPlayer.currentTime())
+                
+                if self.current_video_cell != nil {
+                    self.current_video_cell.playerSlider.value = Float(time)
+                    self.current_video_cell.playerSlider.minimumValue = 0
+                    self.current_video_cell.playerSlider.maximumValue = Float(CMTimeGetSeconds( (self.avPlayer.currentItem?.asset.duration)!))
+                    let durationTime = Int(time)
+                    self.current_video_cell.duration.text = String(format: "%02d:%02d", durationTime/60 , durationTime % 60)
+                }
+            })
+            self.topicSeen()
+        }
+
+    }
+    func playingVideo() {
+        if #available(iOS 10.0, *) {
+            avPlayer.automaticallyWaitsToMinimizeStalling = false
+            avPlayer.playImmediately(atRate: 1.0)
+        } else {
+            avPlayer.play()
+        }
+    }
+    
+    @objc func playerSlider() {
+        if current_video_cell != nil {
+            let seekTime = CMTime(value: Int64(current_video_cell.playerSlider.value), timescale: 1)
+            avPlayer.seek(to: seekTime)
+            print("time \(seekTime)")
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if object as AnyObject? === avPlayer {
+            if keyPath == "status" {
+                if avPlayer.status == .readyToPlay {
+                    playingVideo()
+                }
+            } else if keyPath == "timeControlStatus" {
+                if #available(iOS 10.0, *) {
+                    if avPlayer.timeControlStatus == .playing {
+                        current_video_cell.playerSlider.addTarget(self, action: #selector(playerSlider), for: .valueChanged)
+                        if current_video_cell != nil {
+                            current_video_cell.video_image.isHidden = true
+                            current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                        }
+                    } else {
+                        if current_video_cell != nil {
+                            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                        }
+                    }
+                }
+            } else if keyPath == "rate" {
+                if avPlayer.rate > 0 {
+                    if current_video_cell != nil {
+                        current_video_cell.video_image.isHidden = true
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "pause")
+                    }
+                } else {
+                    if current_video_cell != nil {
+                        current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videos.count
+        if (tableView == self.trendingView) {
+            return videos.count
+        } else{
+            return 0
+        }
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (tableView == self.trendingView) {
+            let video_cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoCell
+            
+            if !self.topic_liked.isEmpty {
+                if self.topic_liked.contains(Int(videos[indexPath.row].id)!) {
+                    videos[indexPath.row].isLiked = true
+                }
+            }
+            video_cell.sizeFrame =  screenSize.size
+            if selected_position == indexPath.row {
+                if current_video_cell != nil {
+                    current_video_cell.player.player?.pause()
+                }else{
+                    current_video_cell = video_cell
+                    
+                }
+                
+                let object = videos[indexPath.row]
+                self.playVideo(url: object.video_url)
+            }else{
+                video_cell.selected_postion = indexPath.row
+                video_cell.tag = indexPath.row
+            }
+            video_cell.configure(with: videos[indexPath.row])
+            
+            video_cell.delegate = self
+            
+            return video_cell
+        } else {
+            let menucell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CommentViewCell
+            menucell.selected_postion = indexPath.row
+            return menucell
+        }
+    }
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let video_cell = trendingView.visibleCells.first as? VideoCell, selected_position != video_cell.tag {
+            if current_video_cell != nil {
+                current_video_cell.player.player?.pause()
+                
+            }
+            current_video_cell = video_cell
+            selected_position = video_cell.tag
+            
+            guard videos.count > selected_position else { return }
+            
+            let object = videos[selected_position]
+            self.playVideo(url: object.video_url)
+            
+            hitEvent(eventName: EventName.videoPlayed, object: object)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height
+        return  tableView.frame.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        
+//        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+//            self.fetchData()
+//        }
         
         if lastRowIndex > 5, indexPath.row > (lastRowIndex - 5) {
             self.fetchData()
@@ -642,69 +757,8 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let video_cell = tableView.dequeueReusableCell(with: BIVideoCell.self, for: indexPath)
-        
-        if videos.count > indexPath.row {
-            if !topic_liked.isEmpty, let id = Int(videos[indexPath.row].id), topic_liked.contains(id) {
-                videos[indexPath.row].isLiked = true
-            }
-            
-            video_cell.configure(topic: videos[indexPath.row])
-            video_cell.selected_postion = indexPath.row
-            video_cell.tag = indexPath.row
-            video_cell.delegate = self
-            
-            selected_position = indexPath.row
-            
-            current_video_cell = video_cell
-        }
-
-        return video_cell
-    }
-    
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? BIVideoCell)?.pause()
-        (cell as? BIVideoCell)?.playerView?.removeFromSuperview()
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        for cell in tableView.visibleCells {
-            guard let videoCell = (cell as? BIVideoCell) else { continue }
-
-            videoCell.pause()
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        for cell in tableView.visibleCells {
-            guard let videoCell = (cell as? BIVideoCell) else { continue }
-
-            if let indexPath = tableView.indexPath(for: videoCell) {
-                let cellRect = tableView.rectForRow(at: indexPath)
-                let superview = tableView.superview
-
-                let convertedRect = tableView.convert(cellRect, to: superview)
-                let intersect = tableView.frame.intersection(convertedRect)
-                let visibleHeight = intersect.height
-
-                if visibleHeight > 400 {
-                    videoCell.play()
-                    topicSeen()
-                    
-                    if videos.count > selected_position {
-                        hitEvent(eventName: EventName.videoPlayed, object: videos[selected_position])
-                    }
-                    
-                } else {
-                    videoCell.pause()
-                }
-            }
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (tableView == self.tableView) {
+        if (tableView == self.trendingView) {
             selected_position = indexPath.row
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
@@ -714,30 +768,11 @@ extension TrendingAndFollowingViewController : UITableViewDelegate, UITableViewD
     }
 }
 
-extension TrendingAndFollowingViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        var urls = [URL]()
-        for indexpath in indexPaths {
-            guard videos.count > indexpath.row else { continue }
-            
-            if let urlString = videos[indexpath.row].user?.profile_pic, let url = URL(string: urlString) {
-                urls.append(url)
-            }
-            
-            if let url = URL(string: videos[indexpath.row].thumbnail) {
-                urls.append(url)
-            }
-        }
-        
-        ImagePrefetcher(urls: urls).start()
-    }
-}
-
 extension TrendingAndFollowingViewController: VideoCellDelegate {
     func goToAudioSelect(with selected_postion: Int) {
         guard videos.count > selected_postion else { return }
         
-        current_video_cell.pause()
+        current_video_cell.player.player?.pause()
         
         let vc = BIAudioSelectViewController.loadFromNib()
         vc.music = videos[selected_postion].music
@@ -745,7 +780,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
     
     func didTapOptions(with selected_postion: Int) {
-        current_video_cell.pause()
+        current_video_cell.player.player?.pause()
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
@@ -793,7 +828,7 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
             }
         }))
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
-            self.current_video_cell.play()
+            self.current_video_cell.player.player?.play()
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -803,13 +838,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
 
     func renderComments(with selected_postion: Int) {
-        current_video_cell?.pause()
-        
         if isLogin() {
             self.selected_position = selected_postion
             if current_video_cell != nil {
-                current_video_cell.pause()
-//                current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+                current_video_cell.player.player?.pause()
+                current_video_cell.play_and_pause_image.image = UIImage(named: "play")
             }
             
             commentsView = BICommentView.fromNib()
@@ -840,8 +873,6 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
 
     func shareAndDownload(with selected_postion: Int) {
         guard videos.count > selected_postion else { return }
-        
-        current_video_cell?.pause()
         
         var isDownloadUrlAvailable = true
         
@@ -876,8 +907,6 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                 } else {
                     print("error")
                 }
-                
-                self.current_video_cell.play()
             }
             present(activityController, animated: true)
         } else if !videoUrl.isEmpty {
@@ -908,8 +937,6 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                     } else {
                                         print("error")
                                     }
-                                    
-                                    self.current_video_cell.play()
                                 }
                                 
                                 self.present(activityController, animated: true)
@@ -938,8 +965,6 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
                                     } else {
                                         print("error")
                                     }
-                                    
-                                    self.current_video_cell.play()
                                 }
                                 
                                 self.present(activityController, animated: true)
@@ -976,6 +1001,11 @@ extension TrendingAndFollowingViewController: VideoCellDelegate {
     }
     
     func downloadAndShareVideoWhatsapp(with selected_postion: Int) {
+        if current_video_cell != nil {
+            current_video_cell.player.player?.pause()
+            current_video_cell.play_and_pause_image.image = UIImage(named: "play")
+        }
+        
         shareAndDownload(with: selected_postion)
     }
     
@@ -1046,8 +1076,8 @@ extension TrendingAndFollowingViewController: BICommentViewDelegate {
                                     self?.commentsView?.commentTable.removeMessage()
                                     self?.commentsView?.commentTable.reloadData()
                                     
-                                    if let cell = self?.tableView.visibleCells.first as? BIVideoCell, let commentString = cell.commentLabel.text, let comment = Int(commentString) {
-                                        cell.commentLabel.text = "\(comment+1)"
+                                    if let cell = self?.trendingView.visibleCells.first as? VideoCell, let commentString = cell.comment_count.text, let comment = Int(commentString) {
+                                        cell.comment_count.text = "\(comment+1)"
                                     }
                                 }
                             }
@@ -1117,7 +1147,7 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
         reportViewController?.dismiss(animated: true, completion: {
             self.reportViewController = nil
         })
-        current_video_cell.play()
+        current_video_cell.player.player?.play()
     }
     
     func didTapSubmit(text: String, object: BIReportResult, video: Topic?) {
@@ -1151,7 +1181,7 @@ extension TrendingAndFollowingViewController: BIReportViewControllerDelegate {
                             self?.reportViewController?.dismiss(animated: true, completion: {
                                 self?.reportViewController = nil
                             })
-                            self?.current_video_cell.play()
+                            self?.current_video_cell.player.player?.play()
                             
                             self?.showToast(message: "Video Reported Successfully")
                             return
@@ -1173,9 +1203,7 @@ extension TrendingAndFollowingViewController: BIGaanaOfferViewControllerDelegate
         gaanaOfferViewController?.dismiss(animated: true, completion: nil)
         gaanaOfferViewController = nil
         
-        for cell in tableView.visibleCells {
-            (cell as? BIVideoCell)?.play()
-        }
+        current_video_cell.player.player?.play()
     }
     
     func didTapGaanaOfferCopyCodeButton(model: BIGaanaOfferModel?) {

@@ -64,7 +64,7 @@ class CreateVideoViewController: SwiftyCamViewController, SwiftyCamViewControlle
             isLoggedin = false
         }
         
-        if (isLoggedin) {
+        if !isLoggedin {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.isNavigationBarHidden = true
             performSegue(withIdentifier: "LoginAndSignUpViewController", sender: self)
