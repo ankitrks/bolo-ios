@@ -12,8 +12,10 @@ struct BIAppVersionNestedModel: Codable {
     let id: Int?
     let createdAt, lastModified, appName, appVersion: String?
     let versionToBePushed: String?
-    var isHardPush: Bool?
+    let isHardPush: Bool?
     let changesTitle, changes: String?
+    let iosVersionToBePushed: String?
+    let isIosHardPush: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -25,5 +27,7 @@ struct BIAppVersionNestedModel: Codable {
         case isHardPush = "is_hard_push"
         case changesTitle = "changes_title"
         case changes
+        case iosVersionToBePushed = "ios_version_to_be_pushed"
+        case isIosHardPush = "is_ios_hard_push"
     }
 }

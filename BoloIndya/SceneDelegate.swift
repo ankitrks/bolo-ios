@@ -108,11 +108,11 @@ extension SceneDelegate {
     
     private func isShowUpdatePopup(object: BIAppVersionNestedModel?) -> AppUpdatePopupType? {
         if let object = object,
-           let remoteVersion = object.versionToBePushed,
+           let remoteVersion = object.iosVersionToBePushed,
            let currentVersion = BIUtility.getAppVersion(),
            "\(remoteVersion)" > currentVersion {
             
-            if let hardPush = object.isHardPush, hardPush {
+            if let hardPush = object.isIosHardPush, hardPush {
                 return .forced
             } else {
                 return .optional
