@@ -389,11 +389,58 @@
                     <view key="view" contentMode="scaleToFill" id="G2w-77-kNn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JbG-67-Ec6">
+                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                             </tableView>
+                             <view contentMode="scaleToFill" id="yya-2J-PxP">
+                                 <rect key="frame" x="0.0" y="1" width="414" height="121"/>
+                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                 <subviews>
+                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ld7-rI-SJV">
+                                         <rect key="frame" x="107" y="15" width="200" height="76"/>
+                                         <subviews>
+                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TBg-mS-qIH">
+                                                 <rect key="frame" x="0.0" y="25.5" width="95" height="25"/>
+                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                 <nil key="highlightedColor"/>
+                                             </label>
+                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M2d-gO-44v">
+                                                 <rect key="frame" x="105" y="25.5" width="95" height="25"/>
+                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                 <nil key="highlightedColor"/>
+                                             </label>
+                                         </subviews>
+                                     </stackView>
+                                 </subviews>
+                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                 <constraints>
+                                     <constraint firstItem="ld7-rI-SJV" firstAttribute="centerX" secondItem="yya-2J-PxP" secondAttribute="centerX" id="6cr-ZK-dqB"/>
+                                     <constraint firstItem="ld7-rI-SJV" firstAttribute="top" secondItem="yya-2J-PxP" secondAttribute="top" constant="15" id="Yyi-eH-s4V"/>
+                                 </constraints>
+                             </view>
+                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lEr-WQ-j3o"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                             <constraint firstItem="JbG-67-Ec6" firstAttribute="leading" secondItem="lEr-WQ-j3o" secondAttribute="leading" id="PfX-sd-v8h"/>
+                             <constraint firstItem="lEr-WQ-j3o" firstAttribute="trailing" secondItem="JbG-67-Ec6" secondAttribute="trailing" id="dW3-x8-xT1"/>
+                             <constraint firstItem="JbG-67-Ec6" firstAttribute="top" secondItem="G2w-77-kNn" secondAttribute="top" id="lM1-r4-ads"/>
+                             <constraint firstItem="lEr-WQ-j3o" firstAttribute="bottom" secondItem="JbG-67-Ec6" secondAttribute="bottom" id="vCE-1I-R9h"/>
+                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HOM-my-uQ2"/>
                     <connections>
+                        <outlet property="followingLabel" destination="M2d-gO-44v" id="eCJ-H8-jLz"/>
+                         <outlet property="tableView" destination="JbG-67-Ec6" id="l3s-1l-5dO"/>
+                         <outlet property="trendingFollowingStackView" destination="ld7-rI-SJV" id="lKw-21-HOe"/>
+                         <outlet property="trendingFollowingView" destination="yya-2J-PxP" id="rUd-rM-tgT"/>
+                         <outlet property="trendingLabel" destination="TBg-mS-qIH" id="QcB-fJ-WVl"/>
                         <segue destination="MZO-Yo-i62" kind="show" identifier="ProfileView" id="Xyc-tg-wB7"/>
                         <segue destination="ItB-2c-c5G" kind="show" identifier="LoginAndSignUpViewController" id="MBI-fN-aqE"/>
                         <segue destination="6Kv-Ge-xNS" kind="show" identifier="thumbnailVideo" id="qqs-qN-J1N"/>
@@ -527,7 +574,7 @@
             <objects>
                 <viewController id="hN7-E0-O0O" customClass="FollowingFollowerViewController" customModule="BoloIndya" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n2L-ip-Drd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Du6-NI-uOB"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
