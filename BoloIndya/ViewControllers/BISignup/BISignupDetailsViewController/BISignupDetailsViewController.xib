@@ -15,6 +15,7 @@
                 <outlet property="dayLabel" destination="a4c-Lf-qkC" id="Z9B-sz-lBv"/>
                 <outlet property="dayView" destination="Dot-NE-kyG" id="b6W-d5-X69"/>
                 <outlet property="dobStackView" destination="Wlc-GN-fct" id="Hgy-Gc-dga"/>
+                <outlet property="earnMoneyButton" destination="jjc-9a-BXD" id="Cl1-iE-ffK"/>
                 <outlet property="femaleView" destination="8rO-Ev-UUl" id="rdS-tl-YdP"/>
                 <outlet property="genderMaleViewWidthConstraint" destination="lLH-Ye-ONF" id="bsy-17-qMW"/>
                 <outlet property="genderStackView" destination="oxe-lS-02b" id="DqE-Wg-eBj"/>
@@ -24,6 +25,8 @@
                 <outlet property="nameStackView" destination="BcE-Nw-AWa" id="ewX-Vq-NSc"/>
                 <outlet property="nameTextfield" destination="Mxv-Zf-jFa" id="A9r-Oq-7z5"/>
                 <outlet property="othersView" destination="9C9-qi-wEv" id="JcM-iK-k1i"/>
+                <outlet property="privacyPolicyButton" destination="aMh-fQ-fDu" id="Z0m-bV-OCI"/>
+                <outlet property="termsButon" destination="NMf-Ow-E6h" id="Y6z-37-BgO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="ef8-mV-57J"/>
                 <outlet property="yearLabel" destination="hy8-bq-ApR" id="E6N-1K-4IM"/>
                 <outlet property="yearView" destination="PkF-Ig-qFV" id="6CA-BE-r1d"/>
@@ -304,14 +307,57 @@
                         </button>
                     </subviews>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jjc-9a-BXD">
+                    <rect key="frame" x="134" y="830" width="146" height="28"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="11"/>
+                    <state key="normal" title="Earn money with Video bytes">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapMoney:" destination="-1" eventType="touchUpInside" id="dER-BT-ZLv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-fQ-fDu">
+                    <rect key="frame" x="173" y="802" width="68" height="28"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="11"/>
+                    <state key="normal" title="Privacy Policy">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapPrivacy:" destination="-1" eventType="touchUpInside" id="kCe-rW-lF6"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NMf-Ow-E6h">
+                    <rect key="frame" x="50" y="683.5" width="314" height="27"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="By creating an account, you agree to our Terms and Conditions">
+                                <attributes>
+                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" size="11" name="Avenir-Medium"/>
+                                    <integer key="NSUnderline" value="1"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                    <connections>
+                        <action selector="didTapTerms:" destination="-1" eventType="touchUpInside" id="BMe-S6-UyH"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="sqk-cd-UoS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8V8-vV-0Su"/>
+                <constraint firstItem="aMh-fQ-fDu" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9o1-PK-5R2"/>
+                <constraint firstItem="jjc-9a-BXD" firstAttribute="top" secondItem="aMh-fQ-fDu" secondAttribute="bottom" id="Owx-If-bdw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="sqk-cd-UoS" secondAttribute="trailing" id="RxX-ez-Oag"/>
                 <constraint firstItem="pvQ-Dj-lnu" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="a4D-lX-Q8u"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="jjc-9a-BXD" secondAttribute="bottom" constant="4" id="aIm-ci-AJa"/>
+                <constraint firstItem="NMf-Ow-E6h" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dRi-uO-gPW"/>
+                <constraint firstItem="NMf-Ow-E6h" firstAttribute="top" secondItem="sqk-cd-UoS" secondAttribute="bottom" id="fsh-Vy-NyD"/>
                 <constraint firstItem="pvQ-Dj-lnu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="hu3-lg-IHI"/>
+                <constraint firstItem="jjc-9a-BXD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="uim-xg-Dri"/>
                 <constraint firstItem="sqk-cd-UoS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="yyP-xR-HRj"/>
             </constraints>
             <point key="canvasLocation" x="120" y="67"/>

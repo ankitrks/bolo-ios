@@ -18,6 +18,9 @@ enum BISignupDetailsType {
 protocol BISignupDetailsViewControllerDelegate: class {
     func didTapSignupDetailsVCNext(model: BISignupModel?)
     func didTapSignupDetailsVCBack(model: BISignupModel?)
+    func didTapSignupDetailsTermsConditions()
+    func didTapSignupDetailsPrivacyPolicy()
+    func didTapSignupDetailsEarnMoney()
 }
 
 final class BISignupDetailsViewController: BaseVC {
@@ -56,6 +59,10 @@ final class BISignupDetailsViewController: BaseVC {
     @IBOutlet private weak var dayLabel: UILabel!
     @IBOutlet private weak var yearView: UIView!
     @IBOutlet private weak var yearLabel: UILabel!
+    
+    @IBOutlet private weak var privacyPolicyButton: UIButton!
+    @IBOutlet private weak var termsButon: UIButton!
+    @IBOutlet private weak var earnMoneyButton: UIButton!
     
     private var datePicker: UIDatePicker?
     
@@ -99,6 +106,16 @@ final class BISignupDetailsViewController: BaseVC {
                 yearLabel.text = dob.year()
             } else {
                 dobStackView.isHidden = false
+            }
+            
+            if model?.type == .signup {
+                privacyPolicyButton.isHidden = false
+                termsButon.isHidden = false
+                earnMoneyButton.isHidden = false
+            } else {
+                privacyPolicyButton.isHidden = true
+                termsButon.isHidden = true
+                earnMoneyButton.isHidden = true
             }
         }
     }
@@ -422,6 +439,18 @@ final class BISignupDetailsViewController: BaseVC {
                     completion(nil, error)
                 }
             }
+    }
+    
+    @IBAction func didTapPrivacy(_ sender: UIButton) {
+        delegate?.didTapSignupDetailsPrivacyPolicy()
+    }
+    
+    @IBAction func didTapMoney(_ sender: UIButton) {
+        delegate?.didTapSignupDetailsEarnMoney()
+    }
+    
+    @IBAction func didTapTerms(_ sender: UIButton) {
+        delegate?.didTapSignupDetailsTermsConditions()
     }
 }
 

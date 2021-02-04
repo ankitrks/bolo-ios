@@ -28,7 +28,7 @@
                     </connections>
                 </button>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="A9M-DF-nQX">
-                    <rect key="frame" x="0.0" y="255" width="414" height="386"/>
+                    <rect key="frame" x="0.0" y="241.5" width="414" height="413"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_lock" translatesAutoresizingMaskIntoConstraints="NO" id="vjn-dM-8Sj">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="281.5"/>
@@ -36,42 +36,90 @@
                                 <constraint firstAttribute="width" secondItem="vjn-dM-8Sj" secondAttribute="height" multiplier="1:0.68" id="QCh-SW-RgK"/>
                             </constraints>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLc-oT-blN" customClass="BIGradientButton" customModule="BoloIndya" customModuleProvider="target">
-                            <rect key="frame" x="107" y="301.5" width="200" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="2nt-6E-Z0o"/>
-                                <constraint firstAttribute="height" constant="44" id="a0Y-7t-A2T"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
-                            <state key="normal" title="Login/Sign up" image="phone.fill" catalog="system">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="E4q-1c-heh"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="roh-69-cug">
+                            <rect key="frame" x="50" y="301.5" width="314" height="71"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLc-oT-blN" customClass="BIGradientButton" customModule="BoloIndya" customModuleProvider="target">
+                                    <rect key="frame" x="57" y="0.0" width="200" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="200" id="2nt-6E-Z0o"/>
+                                        <constraint firstAttribute="height" constant="44" id="a0Y-7t-A2T"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                                    <state key="normal" title="Login/Sign up" image="phone.fill" catalog="system">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="E4q-1c-heh"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mW5-DF-yWj">
+                                    <rect key="frame" x="0.0" y="44" width="314" height="27"/>
+                                    <state key="normal">
+                                        <attributedString key="attributedTitle">
+                                            <fragment content="By creating an account, you agree to our Terms and Conditions">
+                                                <attributes>
+                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="11" name="Avenir-Medium"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                    <integer key="NSUnderline" value="1"/>
+                                                    <color key="NSUnderlineColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                    </state>
+                                    <connections>
+                                        <action selector="didTapTerms:" destination="-1" eventType="touchUpInside" id="oQS-AB-6Ah"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pom-WP-Unl">
-                            <rect key="frame" x="188" y="365.5" width="38" height="20.5"/>
+                            <rect key="frame" x="188" y="392.5" width="38" height="20.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F95-t4-9Im">
+                    <rect key="frame" x="127.5" y="829" width="159" height="29"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
+                    <state key="normal" title="Earn money with Video bytes">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapMoney:" destination="-1" eventType="touchUpInside" id="Uzk-5o-DoW"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTR-Bb-g0W">
+                    <rect key="frame" x="170" y="800" width="74" height="29"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
+                    <state key="normal" title="Privacy Policy">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapPrivacy:" destination="-1" eventType="touchUpInside" id="A6h-AW-tBy"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="A9M-DF-nQX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0Am-k9-LV2"/>
+                <constraint firstItem="F95-t4-9Im" firstAttribute="top" secondItem="nTR-Bb-g0W" secondAttribute="bottom" id="Evt-H4-zgG"/>
                 <constraint firstItem="A9M-DF-nQX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="GIz-gB-nb9"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="F95-t4-9Im" secondAttribute="bottom" constant="4" id="JzD-g4-DXz"/>
+                <constraint firstItem="nTR-Bb-g0W" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Ppa-d9-D9Y"/>
                 <constraint firstAttribute="trailing" secondItem="A9M-DF-nQX" secondAttribute="trailing" id="Ree-3G-juX"/>
+                <constraint firstItem="F95-t4-9Im" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="gYp-r2-3Ii"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7Gl-qM-8lI" secondAttribute="trailing" constant="5" id="u8m-P1-x1e"/>
                 <constraint firstItem="7Gl-qM-8lI" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="zlF-ck-HWG"/>
             </constraints>

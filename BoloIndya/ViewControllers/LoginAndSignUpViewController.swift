@@ -136,17 +136,17 @@ final class LoginAndSignUpViewController: BaseVC {
         GIDSignIn.sharedInstance().signIn()
     }
     
-    @objc func termpages(_ sender: UITapGestureRecognizer) {
+    @objc func termpages() {
        current_page = "terms_and_condition"
        performSegue(withIdentifier: "contentpages", sender: self)
     }
     
-    @objc func earnpages(_ sender: UITapGestureRecognizer) {
+    @objc func earnpages() {
        current_page = "bolo_action"
        performSegue(withIdentifier: "contentpages", sender: self)
     }
     
-    @objc func privacypages(_ sender: UITapGestureRecognizer) {
+    @objc func privacypages() {
        current_page = "privacy_poilcy"
        performSegue(withIdentifier: "contentpages", sender: self)
     }
@@ -224,6 +224,18 @@ extension LoginAndSignUpViewController: BISignupViewControllerDelegate {
         
         dismissView()
     }
+    
+    func didTapSignupViewTermsConditions() {
+        termpages()
+    }
+    
+    func didTapSignupViewPrivacyPolicy() {
+        privacypages()
+    }
+    
+    func didTapSignupViewEarnMoney() {
+        earnpages()
+    }
 }
 
 extension LoginAndSignUpViewController: BISignupPhoneNumberViewControllerDelegate {
@@ -294,6 +306,18 @@ extension LoginAndSignUpViewController: BISignupDetailsViewControllerDelegate {
         
         currentIndex = 2
         setPageIndexSelection(direction: .reverse)
+    }
+    
+    func didTapSignupDetailsTermsConditions() {
+        termpages()
+    }
+    
+    func didTapSignupDetailsPrivacyPolicy() {
+        privacypages()
+    }
+    
+    func didTapSignupDetailsEarnMoney() {
+        privacypages()
     }
 }
 

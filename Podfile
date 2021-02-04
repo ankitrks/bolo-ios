@@ -21,4 +21,5 @@ target 'BoloIndya' do
   
   pod 'MarqueeLabel'
   pod 'ZHWaveform', '~> 1.0.2'
+  
 end

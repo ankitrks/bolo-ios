@@ -11,6 +11,9 @@ import UIKit
 protocol BISignupViewControllerDelegate: class {
     func didTapSignupVCNext()
     func didTapSignupVCBack()
+    func didTapSignupViewTermsConditions()
+    func didTapSignupViewPrivacyPolicy()
+    func didTapSignupViewEarnMoney()
 }
 
 final class BISignupViewController: UIViewController {
@@ -47,5 +50,17 @@ final class BISignupViewController: UIViewController {
     
     @IBAction func didTapBack(_ sender: UIButton) {
         delegate?.didTapSignupVCBack()
+    }
+    
+    @IBAction func didTapPrivacy(_ sender: UIButton) {
+        delegate?.didTapSignupViewPrivacyPolicy()
+    }
+    
+    @IBAction func didTapMoney(_ sender: UIButton) {
+        delegate?.didTapSignupViewEarnMoney()
+    }
+    
+    @IBAction func didTapTerms(_ sender: UIButton) {
+        delegate?.didTapSignupViewTermsConditions()
     }
 }
